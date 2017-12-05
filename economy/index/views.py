@@ -35,4 +35,8 @@ def project():
 @index.route('/projectData/')
 def projectData():
 	result = project_detail('project_detail',field)
+<<<<<<< HEAD
 	return json.dumps(result,ensure_ascii=False)
+=======
+	return json.dumps(result,ensure_ascii=False)
+>>>>>>> 842ec185dcc37ef6cbdfe36e32996ecdd520a8b5

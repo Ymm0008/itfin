@@ -210,6 +210,7 @@ require(
 //宣传行为
 // var risk_url='///';
 // public_ajax.call_request('get',risk_url,riskValue);
+<<<<<<< HEAD
 console.log(1111111111111111111)
 var objData=[{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},
     {'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},
@@ -220,6 +221,12 @@ function riskValue(data) {
     // console.log(data)
     data = data.slice(0,6)//先取6条数据
     console.log(data)
+=======
+var objData=[{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},
+    {'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},
+    {'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''}]
+function riskValue(data) {
+>>>>>>> 842ec185dcc37ef6cbdfe36e32996ecdd520a8b5
     $('#riskValueTable').bootstrapTable('load', data);
     $('#riskValueTable').bootstrapTable({
         data:data,
@@ -241,11 +248,16 @@ function riskValue(data) {
         columns: [
             {
                 title: "时间",//标题
+<<<<<<< HEAD
                 field: "date",//键名
+=======
+                field: "a",//键名
+>>>>>>> 842ec185dcc37ef6cbdfe36e32996ecdd520a8b5
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+<<<<<<< HEAD
                 formatter: function (value, row, index) {
                     if (row.date==''||row.date=='null'||row.date=='unknown'||!row.date){
                         return '未知';
@@ -257,10 +269,24 @@ function riskValue(data) {
             {
                 title: "预警内容",//标题
                 field: "bg",//键名
+=======
+                // formatter: function (value, row, index) {
+                //     if (row.user_name==''||row.user_name=='null'||row.user_name=='unknown'||!row.user_name){
+                //         return '未知';
+                //     }else {
+                //         return row.user_name;
+                //     };
+                // }
+            },
+            {
+                title: "预警内容",//标题
+                field: "b",//键名
+>>>>>>> 842ec185dcc37ef6cbdfe36e32996ecdd520a8b5
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+<<<<<<< HEAD
                 formatter: function (value, row, index) {
                     if (row.bg==''||row.bg=='null'||row.bg=='unknown'||!row.bg){
                         return '未知';
@@ -268,6 +294,8 @@ function riskValue(data) {
                         return row.bg;
                     };
                 }
+=======
+>>>>>>> 842ec185dcc37ef6cbdfe36e32996ecdd520a8b5
             },
             {
                 title: "查看详情",//标题
@@ -283,7 +311,11 @@ function riskValue(data) {
         ],
     });
 };
+<<<<<<< HEAD
 // riskValue(objData);
+=======
+riskValue(objData);
+>>>>>>> 842ec185dcc37ef6cbdfe36e32996ecdd520a8b5
 function line_1() {
     var myChart = echarts.init(document.getElementById('incomeTable'));
     var option = {
