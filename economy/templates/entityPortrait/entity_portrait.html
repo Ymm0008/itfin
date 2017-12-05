@@ -1,0 +1,267 @@
+{% extends "publicNav.html" %}
+{% block title %}<title>实体画像</title>{% endblock %}
+{% block my_css %}
+<link rel="stylesheet" href="/static/css/jquery.fullPage.css">
+<link rel="stylesheet" href="/static/css/entity_portrait.css">
+<style>
+    #nav {top:0;}
+    #fullPage-nav li .active span, .fullPage-slidesNav .active span {background: transparent;}
+    #fullPage-nav span, .fullPage-slidesNav span {
+        width: 10px;
+        height: 10px;
+        border: 1px solid #fcf8e3;
+    }
+    #fullPage-nav li, .fullPage-slidesNav li {margin: 12px 7px;}
+    #nav {background: rgba(60, 118, 130, 0.52)}
+    #nav .nav_middle, #nav .nav_right {display: block;}
+    /**/
+    .timeDate {
+        display:none;
+        margin: 10px 0!important;
+    }
+    #sureTime {
+        padding:1px 6px;
+        color: white;
+        font-size: 12px;
+        border: 1px solid silver;
+        border-radius: 5px;
+        background:transparent;
+        cursor: pointer;
+    }
+    #sureTime:hover {background: rgba(8,23,44,0.65)}
+    .contentTable .fixed-table-toolbar,.contentTable .fixed-table-pagination .page-list {
+        display: none;
+    }
+
+    .bootstrap-table .table>thead>tr>th{
+        width: 5%;
+    }
+
+</style>
+{% endblock %}
+{% block main %}
+<div id="container" class="fullpage">
+    <div class="section firstScreen" style="padding-top:80px;">
+        <div class="topTitle" style="margin: 10px auto;">
+            <dl>
+                <dd>当前监测实体</dd>
+                <dt class="com-1">213</dt>
+            </dl>
+            <dl>
+                <dd>今日新增实体</dd>
+                <dt class="com-2">22</dt>
+            </dl>
+        </div>
+        <div style="color: white;font-weight:700;font-size: 24px;position: relative;">
+            <img src="/static/images/picture-1.png" alt="">&nbsp;画像搜索
+            <div class="search">
+                <input size="30" type="text" placeholder="请输入查询内容" class="searchWord"/>
+                <button type="button" class="btn btn-primary btn-sm moreSitu" title="显示更多筛选条件"><i class="icon icon-plus"></i></button>
+                <button type="button" class="btn btn-primary btn-sm">确定</button>
+            </div>
+        </div>
+
+        <div class="content" style="display: none;margin-left: 40px;">
+            <div class="content-1 conLeft" style="margin-top:20px;">
+                <span class="ct-tit">预警时间：</span>
+                <select id="select-1" class="selectLab">
+                    <option value="近一周">近一周</option>
+                    <option value="近一个月">近一个月</option>
+                    <option value="近三个月">近三个月</option>
+                    <option value="近一年">近一年</option>
+                </select>
+            </div>
+            <div class="content-2 conLeft">
+                <span class="ct-tit">运营模式：</span>
+                <select id="select-2" class="selectLab">
+                    <option value="P2P理财">P2P理财</option>
+                    <option value="投资项目">投资项目</option>
+                    <option value="游戏">游戏</option>
+                    <option value="任务奖励">任务奖励</option>
+                    <option value="股权私募基金">股权私募基金</option>
+                </select>
+            </div>
+            <div class="content-3 conLeft">
+                <span class="ct-tit">预警类型：</span>
+                <select id="select-3" class="selectLab">
+                    <option value="舆情预警">舆情预警</option>
+                    <option value="模型预警">模型预警</option>
+                    <option value="指标预警">指标预警</option>
+                </select>
+            </div>
+            <div class="content-4 conLeft">
+                <span class="ct-tit">实体类型：</span>
+                <select id="select-4" class="selectLab">
+                    <option value="公司">公司</option>
+                    <option value="平台">平台</option>
+                    <option value="项目">项目</option>
+                </select>
+            </div>
+            <div class="content-5 conLeft">
+                <span style="display: inline-block;" class="ct-tit">预警分布：</span>
+                <select id="city34" class="selectLab">
+                    <option value='北京'>北京</option>
+                    <option value='天津'>天津</option>
+                    <option value='安徽'>安徽</option>
+                    <option value='澳门'>澳门</option>
+                    <option value='福建'>福建</option>
+                    <option value='甘肃'>甘肃</option>
+                    <option value='广东'>广东</option>
+                    <option value='广西'>广西</option>
+                    <option value='贵州'>贵州</option>
+                    <option value='海南'>海南</option>
+                    <option value='河北'>河北</option>
+                    <option value='河南'>河南</option>
+                    <option value='黑龙江'>黑龙江</option>
+                    <option value='湖北'>湖北</option>
+                    <option value='湖南'>湖南</option>
+                    <option value='吉林'>吉林</option>
+                    <option value='江苏'>江苏</option>
+                    <option value='江西'>江西</option>
+                    <option value='辽宁'>辽宁</option>
+                    <option value='内蒙古'>内蒙古</option>
+                    <option value='青海'>青海</option>
+                    <option value='山东'>山东</option>
+                    <option value='山西'>山西</option>
+                    <option value='陕西'>陕西</option>
+                    <option value='上海'>上海</option>
+                    <option value='四川'>四川</option>
+                    <option value='台湾'>台湾</option>
+                    <option value='西藏'>西藏</option>
+                    <option value='香港'>香港</option>
+                    <option value='新疆'>新疆</option>
+                    <option value='云南'>云南</option>
+                    <option value='浙江'>浙江</option>
+                    <option value='重庆'>重庆</option>
+                    <option value='宁夏'>宁夏</option>
+                </select>
+            </div>
+        </div>
+        <div class="initials" style="margin: 10px 0 0 40px;">
+            <span style="display: inline-block;" class="ct-tit">索引：</span>
+            <div class="words">
+                <b>A</b><b>B</b><b>C</b><b>D</b><b>E</b><b>F</b><b>G</b><b>H</b><b>I</b><b>J</b><!--
+                --><b>K</b><b>L</b><b>M</b><b>N</b><b>O</b><b>P</b><b>Q</b><b>R</b><b>S</b><b>T</b><!--
+                --><b>U</b><b>V</b><b>W</b><b>X</b><b>Y</b><b>Z</b><b>#</b>
+            </div>
+        </div>
+        <div class="contentTable">
+            <div id="contentTable"></div>
+        </div>
+    </div>
+    <div class="section secondScreen">
+        <h1 style="width: 100%;text-align: center;color: white;font-weight: 900;margin:100px 0 30px;">
+            <i class="icon icon-rss"></i>&nbsp;预警信息
+        </h1>
+        <div class="hadMonitor-1 hadMonitor">
+            <h3 style="width: 100%;text-align: center;color: white;"><i class="icon icon-inbox"></i>&nbsp;已预警公司</h3>
+            <div class="box">
+                <div class="scroll-box scroll-1">
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                    <p><span>湖北嘟嘟有限公司</span><span>舆情预警</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="hadMonitor-2 hadMonitor">
+            <h3 style="width: 100%;text-align: center;color: white;"><i class="icon icon-hdd"></i>&nbsp;已预警平台</h3>
+            <div class="box">
+                <div class="scroll-box scroll-2">
+         <!--            <p><span>优易网</span><span>模型预警</span></p>
+                    <p><span>优易网</span><span>模型预警</span></p>
+                    <p><span>优易网</span><span>模型预警</span></p>
+                    <p><span>优易网</span><span>模型预警</span></p>
+                    <p><span>优易网</span><span>模型预警</span></p>
+                    <p><span>优易网</span><span>模型预警</span></p>
+                    <p><span>优易网</span><span>模型预警</span></p>
+                    <p><span>优易网</span><span>模型预警</span></p>
+                    <p><span>优易网</span><span>模型预警</span></p> -->
+                    <center>正在加载，请稍后....</center>
+                </div>
+            </div>
+        </div>
+        <div class="hadMonitor-3 hadMonitor">
+            <h3 style="width: 100%;text-align: center;color: white;"><i class="icon icon-legal"></i>&nbsp;已预警项目</h3>
+            <div class="box">
+                <div class="scroll-box scroll-3">
+                    <p><span>青云门</span><span>指标预警</span></p>
+                    <p><span>青云门</span><span>指标预警</span></p>
+                    <p><span>青云门</span><span>指标预警</span></p>
+                    <p><span>青云门</span><span>指标预警</span></p>
+                    <p><span>青云门</span><span>指标预警</span></p>
+                    <p><span>青云门</span><span>指标预警</span></p>
+                    <p><span>青云门</span><span>指标预警</span></p>
+                    <p><span>青云门</span><span>指标预警</span></p>
+                    <p><span>青云门</span><span>指标预警</span></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="promptInfor" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="coverbody">
+                    <p style="text-align: center;font-size: 18px;color: #fff;font-weight: 900;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block my_js %}
+<script src="/static/js/jquery.fullPage.min.js"></script>
+<script>
+    $('.fullpage').fullpage({
+        'verticalCentered': false,
+        'css3': true,
+        'anchors': ['page1', 'page2'],
+        'navigation': 'true',
+        'loopBottom':'true',
+        'navigationPosition': 'right',
+        'navigationTooltips': ['画像搜索','预警信息'],
+        'fixedElements':'#nav'
+    });
+    var show=0;
+    $('.firstScreen .search .moreSitu').on('click',function () {
+        // if (show==0){
+        //     $('#container .content').slideDown(130);
+        //     show=1;
+        // }else {
+        //     $('#container .content').slideUp(60);
+        //     show=0;
+        // }
+        $('#container .content').slideToggle(130);
+    });
+
+</script>
+<script src="/static/js/entity_portrait-1.js"></script>
+
+{% endblock %}

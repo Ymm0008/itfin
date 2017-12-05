@@ -1,0 +1,38 @@
+* {margin: 0;padding: 0;}
+#container {
+    position: relative;
+    z-index: 999;
+    width: 100%;
+    background: url("../images/bodyPic.png") no-repeat rgb(41, 31, 85);
+    background-size:100% 100%;
+}
+#container .firstScreen {
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 100px;
+}
+#container .firstScreen .userGroup {
+    margin-top: 30px;
+}
+#userModal .example {
+    margin-top: 20px;
+    text-align: center;
+}
+#userModal .example span {
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+}
+#userModal .example input,#userModal .user-4 .u4_Val{
+    width: 250px;
+    background: transparent;
+    border: 1px solid silver;
+    border-radius: 5px;
+    padding: 3px 7px;
+    color: white;
+    text-align: center;
+}
+#userModal .example input:focus,#userModal .user-4 .u4_Val:focus {
+    color:black;
+    background: #FFFFFF;
+}

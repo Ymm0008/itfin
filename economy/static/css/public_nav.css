@@ -1,0 +1,111 @@
+/*清除默认样式*/
+html,body,div,img,h1,h2,h3,h4,h5,h6,input,button,span,p,b,strong,em,li,ul,ol,dl,dt,dd,
+th,tr,td,textarea,select,table,form {
+    margin: 0;
+    padding: 0;
+    font-family: '微软雅黑';
+}
+ul,li,ol {
+    list-style: none;
+}
+img {
+    border:none;
+}
+input,select,textarea,button {
+    outline: none;
+    border: none;
+}
+a,a:link,a:hover,a:visited,a:active {
+    text-decoration: none;
+}
+/**/
+body {
+    width: 100%;
+    height: 100%;
+}
+/*内容样式*/
+#nav {
+    position: fixed;
+    z-index: 9999999;
+    width: 100%;
+    padding: 20px;
+    color: #fff;
+    overflow: hidden;
+    /*background: rgba(8,23,44,0.25);*/
+    /*border-bottom: 1px solid rgba(255,255,255,0.1);*/
+}
+/*#nav:hover {*/
+    /*background:rgba(19, 18, 18, 0.67);*/
+/*}*/
+#nav .nav_left {
+    margin:0 auto;
+}
+#nav .nav_left,#nav .nav_middle {
+    float: left;
+}
+#nav .nav_middle .main_li .line {
+    position: relative;
+    left: -100%;
+    top: 5px;
+    height: 2px;
+    background-color:#ff9645;
+    transition: all linear 0.2s;
+}
+/**/
+#nav .nav_left h3 {
+    font-size: 30px;
+}
+/*---------*/
+#nav .nav_middle {
+    width: 50%;
+    margin: 15px 0 0 1%;
+}
+#nav .nav_middle,#nav .nav_right {
+    display: none;
+}
+#nav .nav_middle .main_li {
+    float: left;
+    text-align: center;
+    font-size: 16px;
+    margin-left:5%;
+    overflow: hidden;
+    padding-bottom: 10px;
+}
+#nav .nav_middle .main_li .li_a {
+    color: white;
+    cursor: pointer;
+}
+#nav .nav_middle .main_li:hover a,
+#nav .nav_middle .main_li:hover i {
+    /*color: #fae703;*/
+    color:#ff9645;
+    /*font-weight: 800;*/
+}
+/**/
+#nav .nav_right {
+    float: right;
+    margin-top: 10px;
+}
+#nav .nav_right span {
+    display: inline-block;
+    color: white;
+    padding: 5px 10px;
+    font-size: 14px;
+    border: 1px solid seashell;
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+#nav .nav_right span:hover {
+    background: white;
+    color: black;
+}
+
+/**/
+#fullPage-nav span, .fullPage-slidesNav span {
+    width: 15px;
+    height: 15px;
+}
+#fullPage-nav li .active span, .fullPage-slidesNav .active span {
+    background: #fff!important;
+}

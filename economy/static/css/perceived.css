@@ -1,0 +1,105 @@
+* {margin: 0;padding: 0;}
+#container {
+    position: relative;
+    z-index: 999;
+    width: 100%;
+    background: url("../images/bodyPic.png") no-repeat rgb(41, 31, 85);
+    background-size:100% 100%;
+}
+#container .section {
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 100px;
+}
+#container .firstScreen .topTitle {
+    text-align: center;
+}
+#container .firstScreen .topTitle dl{
+    display: inline-block;
+    margin: 10px 35px 0;
+    font-size: 22px;
+    color: white;
+}
+#container .firstScreen .topTitle dl dd{
+    font-size: 30px;
+}
+#container .firstScreen .topTitle dl dt {
+    font-size: 26px;
+    font-weight: 800;
+    color: #ff9645;
+}
+#container .felling {
+    color: white;
+    font-weight: 600;
+}
+#container .secondScreen #addClub {
+    color: white;
+    font-weight: 600;
+    width: 100%;
+    /*border: 3px solid #c0c0c0;*/
+}
+#container .secondScreen #addClub thead th {
+    width: 14%;
+    text-align: center;
+    padding:15px 8px ;
+}
+#container .secondScreen #addClub thead th:nth-child(1){
+    width: 2%;
+}
+#container .secondScreen #addClub thead th:last-child{
+    width: 14%;
+}
+#container .secondScreen #addClub td {
+    text-align: center;
+    padding: 15px 8px;
+}
+#container .secondScreen #addClub td input.editing {
+    background: transparent;
+    color: #FFFFFF;
+    border:1px solid #777777;
+    text-align: center;
+}
+/**/
+#container .secondScreen .newAdd {
+    width: 100%;
+    text-align: center;
+    margin: 15px 0;
+}
+#container .secondScreen .newAdd input {
+    background: transparent;
+    border: 1px solid seashell;
+    border-radius: 5px;
+    padding: 4px 6px;
+    width: 14%;
+    margin-right:13px;
+    text-align: center;
+    color: white;
+}
+#container .secondScreen .newAdd input:focus {
+    background: #f8f8f8;
+    color: #3c3c3c;
+}
+/**/
+#editRow .example {
+    margin-top: 20px;
+    text-align: center;
+}
+#editRow .example span {
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+}
+#editRow .example input,#editRow .user-3 .u3_Val{
+    width: 250px;
+    background: transparent;
+    border: 1px solid silver;
+    border-radius: 5px;
+    padding: 3px 7px;
+    color: white;
+    text-align: center;
+}
+#editRow .example input:focus,#editRow .user-3 .u3_Val:focus {
+    color:black;
+    background: #FFFFFF;
+}
+

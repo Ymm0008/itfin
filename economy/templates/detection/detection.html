@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>监测预警</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="../static/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="../static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/css/jquery.fullPage.css">
+    <link rel="stylesheet" href="../static/css/public_nav.css">
+    <link rel="stylesheet" href="../static/css/modalANDtable.css">
+    <link rel="stylesheet" href="../static/css/detection.css">
+    <style>
+        #fullPage-nav li .active span, .fullPage-slidesNav .active span {background: transparent;}
+        #fullPage-nav span, .fullPage-slidesNav span {
+            width: 10px;
+            height: 10px;
+            border: 1px solid #fcf8e3;
+        }
+        #fullPage-nav li .active span, .fullPage-slidesNav .active span {
+            background: #dff0d8;
+        }
+        #fullPage-nav li, .fullPage-slidesNav li {margin: 12px 7px;}
+        .recordingTable .fixed-table-toolbar,.recordingTable .fixed-table-pagination .page-list,
+        .placeRank .fixed-table-toolbar,.placeRank .fixed-table-pagination .page-list {
+            display: none;
+        }
+        #nav {background: rgba(60, 118, 130, 0.52)}
+        #nav .nav_middle, #nav .nav_right {display: block;}
+        /*======*/
+        .timeDate,.timeDate2,.timeDate3,.timeDate4 {
+            display:none;
+        }
+        #sureTime,#sureTime2,#sureTime3,#sureTime4 {
+            padding:1px 6px;
+            color: white;
+            font-size: 12px;
+            border: 1px solid silver;
+            border-radius: 5px;
+            background:transparent;
+            cursor: pointer;
+        }
+        #sureTime:hover,#sureTime2:hover,
+        #sureTime3:hover,#sureTime4:hover {background: rgba(8,23,44,0.65)}
+    </style>
+</head>
+<body>
+<div id="nav">
+    <div class="nav_left">
+        <h3 style="color:#fff;">
+            <img src="../static/images/logo.png">&nbsp;&nbsp;互联网金融违规取证保全系统
+        </h3>
+    </div>
+    <ul class="nav_middle">
+        <li class="main_li">
+            <a class="list_one li_a" href="homePage.html">
+                <i class="icon icon-home"></i>&nbsp;首页
+            </a>
+            <p class="line"></p>
+        </li>
+        <li class="main_li">
+            <a class="list_two li_a" href="detection.html">
+                <i class="icon icon-warning-sign"></i>&nbsp;监测预警
+            </a>
+            <p class="line"></p>
+        </li>
+        <li class="main_li">
+            <a class="list_three li_a" href="entity_portrait.html">
+                <i class="icon icon-group"></i>&nbsp;实体画像
+            </a>
+            <p class="line"></p>
+        </li>
+        <li class="main_li">
+            <a class="list_four li_a" href="perceived.html">
+                <i class="icon icon-cloud-upload"></i>&nbsp;感知入库
+            </a>
+            <p class="line"></p>
+        </li>
+        <li class="main_li">
+            <a class="list_four li_a" href="userManage.html">
+                <i class="icon icon-user-md"></i>&nbsp;用户管理
+            </a>
+            <p class="line"></p>
+        </li>
+    </ul>
+    <div class="nav_right">
+        <span class="login">登录</span>
+        <span class="registered">注册</span>
+    </div>
+</div>
+<div id="container" class="fullpage">
+    <div class="section firstScreen">
+        <div class="topTitle" style="margin: 10px auto;">
+            <dl>
+                <dd>本周预警数</dd>
+                <dt class="com-3">22</dt>
+            </dl>
+            <dl>
+                <dd>本月预警数</dd>
+                <dt class="com-2">43</dt>
+            </dl>
+            <dl>
+                <dd>本季预警数</dd>
+                <dt class="com-1">213</dt>
+            </dl>
+        </div>
+        <div style="color: white;font-weight:700;font-size: 24px;position: relative;">
+            <h3 style="color: white;display: inline-block;"><i class="icon icon-eye-open"></i>&nbsp;预警记录</h3>
+            <div class="search">
+                <input size="30" type="text" placeholder="请输入查询内容" class="searchWord"/>
+                <button type="button" class="btn btn-primary btn-sm moreSitu" title="显示更多筛选条件"><i class="icon icon-plus"></i></button>
+                <button type="button" class="btn btn-primary btn-sm">确定</button>
+            </div>
+        </div>
+        <div class="content" style="display: none;margin:5px 0 0 40px;">
+            <div class="content-1 conLeft" style="margin-top:20px;">
+                <span class="ct-tit">预警时间：</span>
+                <select id="select-1" class="selectLab">
+                    <option value="近一周">近一周</option>
+                    <option value="近一个月">近一个月</option>
+                    <option value="近三个月">近三个月</option>
+                    <option value="近一年">近一年</option>
+                </select>
+            </div>
+            <div class="content-2 conLeft">
+                <span class="ct-tit">运营模式：</span>
+                <select id="select-2" class="selectLab">
+                    <option value="P2P理财">P2P理财</option>
+                    <option value="投资项目">投资项目</option>
+                    <option value="游戏">游戏</option>
+                    <option value="任务奖励">任务奖励</option>
+                    <option value="股权私募基金">股权私募基金</option>
+                </select>
+            </div>
+            <div class="content-3 conLeft">
+                <span class="ct-tit">预警类型：</span>
+                <select id="select-3" class="selectLab">
+                    <option value="舆情预警">舆情预警</option>
+                    <option value="模型预警">模型预警</option>
+                    <option value="指标预警">指标预警</option>
+                </select>
+            </div>
+            <div class="content-4 conLeft">
+                <span class="ct-tit">实体类型：</span>
+                <select id="select-4" class="selectLab">
+                    <option value="公司">公司</option>
+                    <option value="平台">平台</option>
+                    <option value="项目">项目</option>
+                </select>
+            </div>
+            <div class="content-5 conLeft">
+                <span style="display: inline-block;" class="ct-tit">预警分布：</span>
+                <select id="city34" class="selectLab">
+                    <option value='北京'>北京</option>
+                    <option value='天津'>天津</option>
+                    <option value='安徽'>安徽</option>
+                    <option value='澳门'>澳门</option>
+                    <option value='福建'>福建</option>
+                    <option value='甘肃'>甘肃</option>
+                    <option value='广东'>广东</option>
+                    <option value='广西'>广西</option>
+                    <option value='贵州'>贵州</option>
+                    <option value='海南'>海南</option>
+                    <option value='河北'>河北</option>
+                    <option value='河南'>河南</option>
+                    <option value='黑龙江'>黑龙江</option>
+                    <option value='湖北'>湖北</option>
+                    <option value='湖南'>湖南</option>
+                    <option value='吉林'>吉林</option>
+                    <option value='江苏'>江苏</option>
+                    <option value='江西'>江西</option>
+                    <option value='辽宁'>辽宁</option>
+                    <option value='内蒙古'>内蒙古</option>
+                    <option value='青海'>青海</option>
+                    <option value='山东'>山东</option>
+                    <option value='山西'>山西</option>
+                    <option value='陕西'>陕西</option>
+                    <option value='上海'>上海</option>
+                    <option value='四川'>四川</option>
+                    <option value='台湾'>台湾</option>
+                    <option value='西藏'>西藏</option>
+                    <option value='香港'>香港</option>
+                    <option value='新疆'>新疆</option>
+                    <option value='云南'>云南</option>
+                    <option value='浙江'>浙江</option>
+                    <option value='重庆'>重庆</option>
+                    <option value='宁夏'>宁夏</option>
+                </select>
+            </div>
+        </div>
+        <div class="recordingTable" style="margin-top: 10px;">
+            <div id="recordingTable"></div>
+        </div>
+    </div>
+
+    <div class="section secondScreen" style="overflow:hidden;">
+        <div class="trend" style="float: left;width:48%;">
+            <div style="color: white;font-weight:700;font-size: 24px;position: relative;">
+                <h3 style="color: white;display: inline-block;"><i class="icon icon-dashboard"></i>&nbsp;预警态势</h3>
+                <div class="search-2">
+                    <!--<input size="30" type="text" placeholder="请输入查询内容" class="searchWord-2"/>-->
+                    <button type="button" class="btn btn-primary btn-sm moreSitu-2" title="显示更多筛选条件"><i class="icon icon-plus"></i></button>
+                </div>
+            </div>
+            <div class="content-2" style="display: none;margin:5px 0 0 40px;">
+                <div class="content-3 conLeft">
+                    <span class="ct-tit">预警类型：</span>
+                    <select id="second_select-3" class="selectLab">
+                        <option value="舆情预警">舆情预警</option>
+                        <option value="模型预警">模型预警</option>
+                        <option value="指标预警">指标预警</option>
+                    </select>
+                </div>
+                <div class="content-4 conLeft">
+                    <span class="ct-tit">实体类型：</span>
+                    <select id="second_select-4" class="selectLab">
+                        <option value="公司">公司</option>
+                        <option value="平台">平台</option>
+                        <option value="项目">项目</option>
+                    </select>
+                </div>
+                <div class="content-5 conLeft">
+                    <span style="display: inline-block;" class="ct-tit">预警分布：</span>
+                    <select id="second_city34" class="selectLab">
+                        <option value='北京'>北京</option>
+                        <option value='天津'>天津</option>
+                        <option value='安徽'>安徽</option>
+                        <option value='澳门'>澳门</option>
+                        <option value='福建'>福建</option>
+                        <option value='甘肃'>甘肃</option>
+                        <option value='广东'>广东</option>
+                        <option value='广西'>广西</option>
+                        <option value='贵州'>贵州</option>
+                        <option value='海南'>海南</option>
+                        <option value='河北'>河北</option>
+                        <option value='河南'>河南</option>
+                        <option value='黑龙江'>黑龙江</option>
+                        <option value='湖北'>湖北</option>
+                        <option value='湖南'>湖南</option>
+                        <option value='吉林'>吉林</option>
+                        <option value='江苏'>江苏</option>
+                        <option value='江西'>江西</option>
+                        <option value='辽宁'>辽宁</option>
+                        <option value='内蒙古'>内蒙古</option>
+                        <option value='青海'>青海</option>
+                        <option value='山东'>山东</option>
+                        <option value='山西'>山西</option>
+                        <option value='陕西'>陕西</option>
+                        <option value='上海'>上海</option>
+                        <option value='四川'>四川</option>
+                        <option value='台湾'>台湾</option>
+                        <option value='西藏'>西藏</option>
+                        <option value='香港'>香港</option>
+                        <option value='新疆'>新疆</option>
+                        <option value='云南'>云南</option>
+                        <option value='浙江'>浙江</option>
+                        <option value='重庆'>重庆</option>
+                        <option value='宁夏'>宁夏</option>
+                    </select>
+                </div>
+                <div class="content-1 conLeft" style="margin-top:20px;">
+                    <span class="ct-tit">预警时间：</span>
+                    <select id="second_select-1" class="selectLab">
+                        <option value="近一周">近一周</option>
+                        <option value="近一个月">近一个月</option>
+                        <option value="近三个月">近三个月</option>
+                        <option value="近一年">近一年</option>
+                    </select>
+                </div>
+                <div class="content-2 conLeft">
+                    <span class="ct-tit">运营模式：</span>
+                    <select id="second_select-2" class="selectLab">
+                        <option value="P2P理财">P2P理财</option>
+                        <option value="投资项目">投资项目</option>
+                        <option value="游戏">游戏</option>
+                        <option value="任务奖励">任务奖励</option>
+                        <option value="股权私募基金">股权私募基金</option>
+                    </select>
+                </div>
+                <button type="button" class="btn btn-primary btn-sm" style="margin-left: 10px;">确定</button>
+            </div>
+            <div id="trendLine" style="width:100%;height:450px;margin-top:30px;"></div>
+        </div>
+        <div class="type" style="float:right;width:48%;">
+            <h3 style="color: white;text-align: left;"><i class="icon icon-stethoscope"></i>&nbsp;预警类型</h3>
+            <div id="warningType" style="width: 100%;height: 450px;margin-top: 30px;"></div>
+        </div>
+    </div>
+
+    <div class="section thirdScreen" style="overflow: hidden;">
+        <div class="place" style="margin-top:30px;width:60%;height: 450px;float: left;">
+            <h3 style="color: white;display: inline-block;vertical-align:top;margin-right: 20px;">
+                <i class="icon icon-map-marker"></i>&nbsp;&nbsp;预警分布
+            </h3>
+            <select class="_time">
+                <option value="近一周">近一周</option>
+                <option value="近一个月">近一个月</option>
+                <option value="近三个月">近三个月</option>
+                <option value="近一年">近一年</option>
+            </select>
+            <div id="map" style="width:100%;height:100%;"></div>
+        </div>
+        <div class="rank" style="margin-top:30px;width:38%;height:450px;float: right;">
+            <h3 style="color: white;"><i class="icon icon-flag"></i>&nbsp;&nbsp;疑似非法集资省份排行</h3>
+            <div class="placeRank" style="margin-top: 20px;">
+                <div id="placeRank">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section fiveScreen" style="overflow: hidden;">
+        <h3 style="color: white;text-align: left;"><i class="icon icon-dashboard"></i>&nbsp;运营模式</h3>
+        <div class="pieContent" style="width:100%;margin-top:50px;">
+            <div id="pie-1" style="width:45%;height:450px;display: inline-block;"></div>
+            <div id="pie-2" style="width:45%;height:450px;display: inline-block;margin-left:5%;"></div>
+        </div>
+    </div>
+
+    <div class="section sixScreen">
+        <h3 style="color: white;text-align: left;display: inline-block;vertical-align:top;margin-right: 20px;">
+            <i class="icon icon-laptop"></i>&nbsp;预警排名
+        </h3>
+        <select class="_time2">
+            <option value="近一周">近一周</option>
+            <option value="近一个月">近一个月</option>
+            <option value="近三个月">近三个月</option>
+            <option value="近一年">近一年</option>
+        </select>
+        <div id="warningNum" style="width: 100%;height: 450px;margin-top: 30px;"></div>
+    </div>
+
+</div>
+<script src="../static/js/jquery-3.1.1.min.js"></script>
+<script src="../static/js/bootstrap.min.js"></script>
+<script src="../static/js/bootstrap-table.min.js"></script>
+<script src="../static/js/bootstrap-table-zh-CN.min.js"></script>
+<script src="../static/js/bootstrap-datetimepicker.min.js"></script>
+<script src="../static/js/moment.min.js"></script>
+<script src="../static/echarts/echarts.min.js"></script>
+<script src="../static/echarts/china.js"></script>
+<script src="../static/js/chalk.js"></script>
+<script src="../static/js/echarts-2/build/dist/echarts.js"></script>
+<script src="../static/js/jquery.fullPage.min.js"></script>
+<script src="../static/js/detection-1.js"></script>
+<script>
+    <!---->
+    $('.fullpage').fullpage({
+        'verticalCentered': false,
+        'css3': true,
+        'anchors': ['page1', 'page2','page3','page4','page5'],
+        'navigation': 'true',
+        'loopBottom':'true',
+        'navigationPosition': 'right',
+        'navigationTooltips': ['预警记录','预警态势及类型','预警分布','运营模式','预警排名']
+    });
+    var show=0,show_2=0;
+    $('.firstScreen .search .moreSitu').on('click',function () {
+        if (show==0){
+            $('#container .content').slideDown(130);
+            show=1;
+        }else {
+            $('#container .content').slideUp(60);
+            show=0;
+        }
+    });
+    $('.secondScreen .search-2 .moreSitu-2').on('click',function () {
+        if (show_2==0){
+            $('#container .content-2').slideDown(130);
+            show_2=1;
+        }else {
+            $('#container .content-2').slideUp(60);
+            show_2=0;
+        }
+    });
+    <!---->
+    $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
+        $(this).siblings('.line').css({left:'0%'});
+    }).on('mouseout',function () {
+        $(this).siblings('.line').css({left:'-100%'});
+    });
+</script>
+</body>
+</html>
