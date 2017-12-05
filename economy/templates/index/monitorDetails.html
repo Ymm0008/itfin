@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>预警监测详情页</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="../static/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="../static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/css/public_nav.css">
+    <link rel="stylesheet" href="../static/css/monitorDetails.css">
+    <style>
+        <!---->
+        #nav {background: #fff;box-shadow: 0 2px 5px rgba(41,46,51,0.15);color: #0e0e0e;}
+        #nav .nav_middle .main_li .li_a,#nav .nav_right span {color: #0e0e0e;}
+        #nav .nav_middle .main_li .line {background-color: #08F;}
+        #nav .nav_right span {border: 1px solid #787878;}
+        #nav .nav_middle, #nav .nav_right {display: block;}
+        #nav .nav_right span:hover {
+            background: #2ad1ff !important;
+            color: white!important;
+        }
+        <!---->
+        .riskValueTable .fixed-table-toolbar .search,.publicityTable .fixed-table-toolbar .search {
+            display: none;
+        }
+        .riskValueTable .bootstrap-table .table thead>tr>th,.publicityTable .bootstrap-table .table thead>tr>th{
+            width: 5%;
+        }
+    </style>
+</head>
+<body>
+<div id="nav">
+    <div class="nav_left">
+        <h3>
+            <img src="../static/images/scroll_logo.png">&nbsp;&nbsp;互联网金融违规取证保全系统
+        </h3>
+    </div>
+    <ul class="nav_middle">
+        <li class="main_li">
+            <a class="list_one li_a" href="homePage.html">
+                <i class="icon icon-home"></i>&nbsp;首页
+            </a>
+            <p class="line"></p>
+        </li>
+        <li class="main_li">
+            <a class="list_two li_a" href="detection.html">
+                <i class="icon icon-warning-sign"></i>&nbsp;监测预警
+            </a>
+            <p class="line"></p>
+        </li>
+        <li class="main_li">
+            <a class="list_three li_a" href="entity_portrait.html">
+                <i class="icon icon-group"></i>&nbsp;实体画像
+            </a>
+            <p class="line"></p>
+        </li>
+        <li class="main_li">
+            <a class="list_four li_a" href="perceived.html">
+                <i class="icon icon-cloud-upload"></i>&nbsp;感知入库
+            </a>
+            <p class="line"></p>
+        </li>
+        <li class="main_li">
+            <a class="list_four li_a" href="userManage.html">
+                <i class="icon icon-user-md"></i>&nbsp;用户管理
+            </a>
+            <p class="line"></p>
+        </li>
+    </ul>
+    <div class="nav_right">
+        <span class="login">登录</span>
+        <span class="registered">注册</span>
+    </div>
+</div>
+<div id="container">
+    <div style="text-align: right;">
+        <span class="top-1 btn btn-primary">一键取证</span>
+        <span class="top-2 btn btn-primary">一键报告</span>
+    </div>
+    <div style="text-align: center;margin-bottom: 20px;">
+        <p style="font-size: 36px;display: inline-block;"><span class="tit">青云门</span>预警报告</p>
+    </div>
+    <script>
+
+    </script>
+    <div id="card">
+        <div class="infor">
+            <h3>
+                <b class="name">青云门</b>&nbsp;<i class="icon icon-edit comBisic" title="编辑"></i>
+                <span class="nameStatus" style="font-size: 12px;color: #ff761f;">已停止监测</span>
+                <span class="status-1 status btn-primary"><i class="icon icon-retweet"></i>&nbsp;恢复监测</span>
+                <span class="status-2 status btn-primary"><i class="icon icon-sitemap"></i>&nbsp;查看网络图</span>
+            </h3>
+            <p class="infor-1 inforLine">
+                <span>注册地：</span>&nbsp;<b class="location">北京</b>
+            </p>
+            <p class="infor-2 inforLine">
+                <span>运营模式：</span>&nbsp;<b class="type1">互联网金融-P2P理财</b>
+            </p>
+            <p class="infor-3 inforLine">
+                <span>实体类型：</span>&nbsp;<b class="type2">项目</b>
+            </p>
+            <p class="infor-4 inforLine">
+                <span>发展阶段：</span>&nbsp;<b class="type3">成立于2006年</b>
+            </p>
+        </div>
+    </div>
+    <div class="opinionWarning-1">
+        <h3><i class="icon icon-asterisk"></i>&nbsp;舆情文本</h3>
+        <div class="warningContent">
+            <div class="inforContent">
+                <div class="main">
+                    <img src="../static/images/textIcon.png" class="textFlag" style="top: 8px;">
+                    <p class="option">
+                        <span>涉及产品：<b style="color: #ff6d70">优易网</b></span>
+                        <span>相关企业：<b style="color: #ff6d70">湖北嘟嘟网络技术有限公司</b></span>
+                        <button class="original btn-primary btn-xs">查看原文</button>
+                    </p>
+                    <p class="context">
+                        <b style="color: #ff6d70">木瓜人</b>：该平台信誉极差，提现不能实现，且采用拖延战术与玩家周旋
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="opinionWarning-2">
+        <h3><i class="icon icon-warning-sign"></i>&nbsp;收益率异常</h3>
+        <div id="income" style="width: 100%;height: 450px;"></div>
+    </div>
+    <div class="opinionWarning-3">
+        <div class="modal-1">
+            <h3><i class="icon icon-warning-sign"></i>&nbsp;收益率异常</h3>
+            <div id="modal-1" style="width: 100%;height: 450px;"></div>
+        </div>
+        <div class="modal-2" style="margin: 20px 0;">
+            <h3><i class="icon icon-warning-sign"></i>&nbsp;经营异常</h3>
+            <div id="modal-2">
+                <div class="warningContent">
+                    <div class="inforContent">
+                        <div class="main">
+                            <img src="../static/images/textIcon.png" class="textFlag" style="top: 8px;">
+                            <p class="context">
+                                2015年7月13日，被武汉市江汉区工商列入异常经营1次。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-3">
+            <h3><i class="icon icon-warning-sign"></i>&nbsp;注册、投资信息变动异常</h3>
+            <div id="modal-3">
+                <div class="warningContent">
+                    <div class="inforContent">
+                        <div class="main">
+                            <img src="../static/images/textIcon.png" class="textFlag" style="top: 8px;">
+                            <p class="context">
+                                注册资金200万，2005年追加投资100万元
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../static/js/jquery-3.1.1.min.js"></script>
+<script src="../static/js/bootstrap.min.js"></script>
+<script src="../static/js/bootstrap-table.min.js"></script>
+<script src="../static/js/bootstrap-table-zh-CN.min.js"></script>
+<script src="../static/js/bootstrap-datetimepicker.min.js"></script>
+<script src="../static/js/moment.min.js"></script>
+<script src="../static/echarts/echarts.min.js"></script>
+<script src="../static/echarts/china.js"></script>
+<script src="../static/js/echarts-2/build/dist/echarts.js"></script>
+<script src="../static/js/monitorDetails-1.js"></script>
+<script>
+    var monitorType=window.localStorage.getItem('monitorFlag');
+    if (monitorType=='舆情预警'){
+        $('.opinionWarning-2').hide();
+        $('.opinionWarning-3').hide();
+        $('.tit').text('湖北嘟嘟');
+        $('.name').text('湖北嘟嘟');
+        $('.type2').text('公司');
+    }else if (monitorType=='指标预警'){
+        $('.opinionWarning-1').hide();
+        $('.opinionWarning-3').hide();
+        $('.tit').text('优易网');
+        $('.name').text('优易网');
+        $('.type2').text('平台');
+        line_1();
+    }else if (monitorType=='模型预警'){
+        $('.opinionWarning-1').hide();
+        $('.opinionWarning-2').hide();
+        $('.tit').text('青云门');
+        $('.name').text('青云门');
+        $('.type2').text('项目');
+        line_2();
+    }
+    $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
+        $(this).siblings('.line').css({left:'0%'});
+        if ($(document).scrollTop()!=0){
+            $(this).css({color:'#ff9645'});
+            $(this).find('i').css({color:'#ff9645'});
+        }else {
+            $(this).css({color:'#08F'});
+            $(this).find('i').css({color:'#08F'});
+        }
+    }).on('mouseout',function () {
+        $(this).siblings('.line').css({left:'-100%'});
+        if ($(document).scrollTop()!=0){
+            $(this).css({color:'#fff'});
+            $(this).find('i').css({color:'#fff'});
+        }else {
+            $(this).css({color:'#000'});
+            $(this).find('i').css({color:'#000'});
+        }
+    });
+    window.onscroll=function () {
+        $('#nav').css({backgroundColor:'#777'});
+        $('#nav .nav_left h3').css({color:'white'});
+        $('#nav .nav_left img').attr('src','../static/images/logo.png');
+        $('#nav .nav_middle .main_li .line').css({backgroundColor:'#ff9645'});
+        $('#nav .nav_middle .main_li .li_a').css({color:'white'});
+        $('#nav .nav_middle .main_li .li_a i').css({color:'white'});
+        $('#nav .nav_right span').css({color:'#fff',background:'#35baee'});
+        if ($(document).scrollTop()==0){
+            $('#nav').css({backgroundColor:'#fff'});
+            $('#nav .nav_left h3').css({color:'black'});
+            $('#nav .nav_left img').attr('src','../static/images/scroll_logo.png');
+            $('#nav .nav_middle .main_li .line').css({backgroundColor:'#08F'});
+            $('#nav .nav_middle .main_li .li_a').css({color:'black'});
+            $('#nav .nav_middle .main_li .li_a i').css({color:'black'});
+            $('#nav .nav_right span').css({color:'#0e0e0e',background:'white'});
+        }
+    };
+</script>
+</body>
+</html>

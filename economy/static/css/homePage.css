@@ -1,0 +1,115 @@
+* {margin: 0;padding: 0;}
+#container {
+    position: relative;
+    z-index: 999;
+    width: 100%;
+    background: url("../images/bodyPic.png") no-repeat rgba(19, 18, 18, 0.67);
+    background-size:100% 100%;
+}
+#container #picChart-1 {
+    width: 100%;
+    height: 100%;
+}
+#container .left_top,#container .top_mid,
+#container .top_right {
+    padding: 10px;
+    position: absolute;
+    top: 90px;
+}
+#container .bottom_left,#container .bottom_right {
+    position: absolute;
+    bottom: 10px;
+}
+#container .left_top,#container .bottom_left {
+    left: 20px;
+}
+#container .top_mid {
+    left: 43%;
+    transition: all linear 0.3s;
+}
+#container .top_right,#container .bottom_right {
+    right: 20px;
+}
+#container .title span {
+    color: #f5f5f5;
+    font-size: 14px;
+    font-weight: 600;
+}
+#container .picChart-2,#container .picChart-4,
+#container .picChart-5,#container .picChart-6 {
+    width: 400px;
+    height: 200px;
+    background: url("../images/chartBG.png") no-repeat rgba(9, 36, 49, 0.65);
+    background-size: 100% 100%;
+}
+#container #picChart-2, #container #picChart-5,
+#container #picChart-4,#container #picChart-6 {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+}
+#container #picChart-4,#container #picChart-6 {
+    background: url("../images/chartBG_2.png") no-repeat rgba(9, 36, 49, 0.65);
+    background-size: 100% 100%;
+}
+#container .picChart-4 img {
+    vertical-align: middle;
+}
+#container #picChart-4 p {
+    margin-bottom: 5px;
+    padding-left: 10%;
+    text-align: left;
+}
+#container #picChart-4-4 {
+    width: 100%;
+    height: 50%;
+}
+#container #picChart-4 p {
+    margin: 10px 0;
+    color: white;
+}
+#container #picChart-3 {
+    margin: 0 auto;
+    text-align: center;
+    transition: all linear 0.3s;
+}
+#container #picChart-3 dl {
+    display: inline-block;
+    color: white;
+    font-size:18px;
+    margin:0 10px;
+}
+#container #picChart-3 dl dd{
+    font-size: 16px;
+    color: #ff9645;
+}
+#container #picChart-5 p {
+    font-size: 14px;
+    margin-top: 10px;
+}
+#container #picChart-5 p span {
+    color: white;
+    display: inline-block;
+    width: 30%;
+    text-align: center;
+}
+#container #picChart-5 #proRank p {
+    position: relative;
+    z-index: 1;
+}
+#container #picChart-6,#container #picChart-5{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transition: all linear 1s;
+}
+#container #picChart-6 p {
+    color: white;
+    padding:2px 5px;
+    margin: 10px auto 0;
+    max-width:80%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
