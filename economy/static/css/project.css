@@ -1,0 +1,207 @@
+* {margin: 0;padding: 0;}
+#container {
+    padding: 120px 0 50px;
+    position: relative;
+    z-index: 999;
+    overflow: hidden;
+    width: 80%;
+    margin: 0 auto;
+    /*background: url("../images/bodyPic.png") no-repeat rgb(41, 31, 85);*/
+    /*background-size:100% 100%;*/
+}
+#container .top-1,#container .top-2 {
+    display: inline-block;
+}
+#container #card {
+    margin-top: 20px;
+    /*position: absolute;*/
+    /*top:15%;*/
+    /*right:0;*/
+    padding: 20px;
+    /*border: 2px solid #5f5c59;*/
+    /*border-radius:10px;*/
+    font-size: 14px;
+    background: rgba(245, 243, 243, 0.71);
+}
+#container .infor h3 {
+    padding: 0 14px;
+    margin-bottom: 5px;
+}
+#container .infor h3 i {
+    font-size: 10px;
+}
+#container .infor .status {
+    display: inline-block;
+    font-size: 14px;
+    padding: 4px 7px;
+    margin: 20px 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#container .infor .inforLine {
+    display: inline-block;
+    max-width: 24%;
+    min-width: 24%;
+    margin-right: 0.5%;
+}
+#container .infor .inforLine b {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#container .infor p {
+    font-size: 14px;
+    margin: 8px 0;
+    text-align: left;
+}
+#container .infor p.infor-5 {
+    padding: 0 14px;
+}
+#container .infor p span {
+    display: inline-block;
+    width: 70px;
+    text-align: right;
+}
+#container .infor p b {
+    position: relative;
+    top: 3px;
+    display: inline-block;
+    max-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+#container .infor .comBisic,#container .icon-edit {
+    cursor: pointer;
+}
+/**/
+#container .riskValue {
+    margin: 2px auto 0;
+    overflow: hidden;
+    width: 100%;
+    padding: 20px;
+    background: rgba(245, 243, 243, 0.71);
+}
+#container .riskValue .riskLeft {
+    float: left;
+    width: 45%;
+}
+#container .riskValue .riskRight {
+    float: right;
+    width: 40%;
+}
+#container .riskValue .riskRight .time {
+    display: inline-block;
+    padding: 1px 4px;
+    border: 1px solid silver;
+    border-radius: 5px;
+    font-size: 12px;
+    margin: 10px 0;
+}
+#container .riskValue .riskRight .monitor span {
+    display: inline-block;
+    max-width: 32%;
+    min-width: 32%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#container .riskValue .comRisk {
+    font-size: 14px;
+    cursor: pointer;
+}
+#container .riskValue p {
+    font-size: 16px;
+    margin:30px 0 0 40px;
+    max-width:100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 700;
+}
+/**/
+#container .income {
+    margin: 2px auto 0;
+    overflow: hidden;
+    width: 100%;
+    padding: 20px;
+    background: rgba(245, 243, 243, 0.71);
+}
+/**/
+#container .promise,#container .register,#container .litigation,
+#container .publicity{
+    width: 100%;
+    padding: 20px;
+    margin: 2px auto 0;
+    overflow: hidden;
+    background: rgba(245, 243, 243, 0.71);
+}
+/**/
+#container .promise .pro {
+    width: 48%;
+    float: left;
+    padding: 5px 10px;
+}
+#container .promise .promise-2 {
+    float: right;
+}
+/**/
+#container .advertising,#container .internet {
+    width: 100%;
+    padding: 20px;
+    margin: 2px auto 0;
+    overflow: hidden;
+    background: rgba(245, 243, 243, 0.71);
+}
+#container .inforContent .main {
+    position: relative;
+    padding: 5px 5px 5px 30px;
+    background: rgba(88, 88, 88, 0.1);
+    margin: 20px auto 0;
+}
+#container .inforContent .main .textFlag {
+    position: absolute;
+    top: 17px;
+    left:8px;
+}
+#container .inforContent .main .option span {
+    display: inline-block;
+    margin-right: 20px;
+}
+#container .inforContent .main .context {
+    margin:10px 0;
+}
+/**/
+#container .commentInfor {
+    width: 100%;
+    padding: 20px;
+    margin: 2px auto 0;
+    overflow: hidden;
+    background: rgba(245, 243, 243, 0.71);
+}
+/**/
+#container .related {
+    width: 100%;
+    margin: 20px auto 0;
+    text-align: center;
+    overflow: hidden;
+}
+#container .pro {
+    width: 47%;
+    display:inline-block;
+}
+#container .related h4 {
+    text-align: center;
+    margin: 10px 0;
+}
+#container .related #product,#container .related #company {
+    padding: 10px;
+    border: 1px solid seashell;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    height: 300px;
+    background: rgba(150, 150, 150, 0.25);
+}
