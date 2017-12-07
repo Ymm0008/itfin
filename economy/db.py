@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # coding:utf-8
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 import pymysql as mysql
 
@@ -42,7 +45,7 @@ def get_project(table):
 
 
 def platform_detail(table,field):
-	sql = "select * from %s" % table
+	sql = "select * from %s where id=1" % table
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]

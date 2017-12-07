@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>用户管理</title>
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/css/bootstrap-table.min.css">
-    <link rel="stylesheet" href="../static/css/bootstrap-datetimepicker.min.css">
-    <link rel="stylesheet" href="../static/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../static/css/public_nav.css">
-    <link rel="stylesheet" href="../static/css/modalANDtable.css">
+{% extends "publicNav.html" %}
+{% block title %}<title>用户管理</title>{% endblock %}
+{% block my_css %}
+    <link rel="stylesheet" href="/static/css/modalANDtable.css">
     <link rel="stylesheet" href="../static/css/userManage.css">
     <style>
         #fullPage-nav li .active span, .fullPage-slidesNav .active span {background: transparent;}
@@ -27,51 +20,9 @@
         /*.userGroup .fixed-table-container .bs-checkbox {vertical-align: middle;}*/
         /*.fixed-table-container tbody .selected td {background-color: #2a556f!important;}*/
     </style>
-</head>
-<body>
-<div id="nav">
-    <div class="nav_left">
-        <h3 style="color:#fff;">
-            <img src="../static/images/logo.png">&nbsp;&nbsp;互联网金融违规取证保全系统
-        </h3>
-    </div>
-    <ul class="nav_middle">
-        <li class="main_li">
-            <a class="list_one li_a" href="homePage.html">
-                <i class="icon icon-home"></i>&nbsp;首页
-            </a>
-            <p class="line"></p>
-        </li>
-        <li class="main_li">
-            <a class="list_two li_a" href="detection.html">
-                <i class="icon icon-warning-sign"></i>&nbsp;监测预警
-            </a>
-            <p class="line"></p>
-        </li>
-        <li class="main_li">
-            <a class="list_three li_a" href="entity_portrait.html">
-                <i class="icon icon-group"></i>&nbsp;实体画像
-            </a>
-            <p class="line"></p>
-        </li>
-        <li class="main_li">
-            <a class="list_four li_a" href="perceived.html">
-                <i class="icon icon-cloud-upload"></i>&nbsp;感知入库
-            </a>
-            <p class="line"></p>
-        </li>
-        <li class="main_li">
-            <a class="list_four li_a" href="userManage.html">
-                <i class="icon icon-user-md"></i>&nbsp;用户管理
-            </a>
-            <p class="line"></p>
-        </li>
-    </ul>
-    <div class="nav_right">
-        <span class="login">登录</span>
-        <span class="registered">注册</span>
-    </div>
-</div>
+{% endblock %}
+
+{% block main %}
 <div id="container">
     <div class="firstScreen">
         <h3 style="color: white;margin-top: 30px;">
@@ -117,6 +68,9 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block my_js %}
 <script src="../static/js/jquery-3.1.1.min.js"></script>
 <!--<script src="/static/js/jquery.cookie.js"></script>-->
 <script src="../static/js/bootstrap.min.js"></script>
@@ -148,5 +102,4 @@
         $(this).siblings('.line').css({left:'-100%'});
     });
 </script>
-</body>
-</html>
+{% endblock %}
