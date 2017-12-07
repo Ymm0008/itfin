@@ -643,7 +643,7 @@ require(
                         },
                         data:[]
                     },
-                
+
                     geoCoord : {
                         '北京':[116.4,39.9],
                         '天津':[117.2,39.12],
@@ -1928,9 +1928,17 @@ require(
                     ]
                 }
                 // 点击返回全国后适配分辨率
-                if ((screen.width == 1440) && (screen.height == 900)){
+                if ((screen.width == 1920) && (screen.height == 1080)){
                     option.series[0].mapLocation = {
                         x:'20%',
+                        y:'100px',
+                        width:'85%',
+                        height:'85%'
+                    }
+                }
+                if ((screen.width == 1440) && (screen.height == 900)){
+                    option.series[0].mapLocation = {
+                        x:'19%',
                         y:'100px',
                         width:'100%',
                         height:'80%'
@@ -1942,14 +1950,6 @@ require(
                         y:'100px',
                         width:'100%',
                         height:'80%'
-                    }
-                }
-                if ((screen.width == 1920) && (screen.height == 1080)){
-                    option.series[0].mapLocation = {
-                        x:'20%',
-                        y:'80px',
-                        width:'90%',
-                        height:'90%'
                     }
                 }
             }
@@ -1972,7 +1972,7 @@ require(
                 x:'right',
                 data:['随机数据']
             },
-        
+
             dataRange: {
                 show:true,
                 x: '27%',
@@ -2017,8 +2017,8 @@ require(
                     mapLocation:{
                         x:'20%',
                         y:'80px',
-                        width:'90%',
-                        height:'90%'
+                        width:'85%',
+                        height:'85%'
                     },
                     itemStyle: {
                         normal: {
@@ -2089,15 +2089,24 @@ require(
             ]
         };
         // 首次画地图之前判断分辨率
-        if ((screen.width == 1440) && (screen.height == 900)){
+        if ((screen.width == 1920) && (screen.height == 1080)){
             option.series[0].mapLocation = {
                 x:'20%',
                 y:'100px',
-                width:'100%',
+                width:'85%',
+                height:'85%'
+            }
+        }
+        if ((screen.width == 1440) && (screen.height == 900)){
+            option.series[0].mapLocation = {
+                x:'19%',
+                y:'100px',
+                width:'90%',
                 height:'80%'
             }
         }
         if ((screen.width == 1366) && (screen.height == 768)){
+            alert(1)
             option.series[0].mapLocation = {
                 x:'center',
                 y:'100px',

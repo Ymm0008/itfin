@@ -1,3 +1,13 @@
+if ((screen.width == 1440) && (screen.height == 900)){
+    $('#container .secondScreen .box').css({'max-height':'308px','min-height':'308px'})
+}
+if ((screen.width == 1366) && (screen.height == 768)){
+    $('#container .secondScreen .box').css({'max-height':'308px','min-height':'308px'})
+}
+if ((screen.width == 1920) && (screen.height == 1080)){
+    $('#container .secondScreen .box').css({'max-height':'510px','min-height':'510px'})
+}
+
 // var peoPicture_url='/system_manage/show_users_account/';
 var peoPicture_url='/portraite/portrait/';
 public_ajax.call_request('get',peoPicture_url,peoPicture);

@@ -1,11 +1,7 @@
 {% extends "publicNav.html" %}
 {% block title %}<title>项目画像</title>{% endblock %}
 {% block my_css %}
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/bootstrap-table.min.css">
-    <link rel="stylesheet" href="/static/css/bootstrap-datetimepicker.min.css">
-    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/static/css/public_nav.css">
+
     <link rel="stylesheet" href="/static/css/project.css">
     <style>
         <!---->
@@ -79,7 +75,7 @@
             <div class="monitor">
                 <span>指标预警：<b class="mon-1">22</b></span>
                 <span>模型预警：<b class="mon-2">321</b></span>
-                <span>舆情预警：<b class="mon-3">54</b></span>
+                <!-- <span>舆情预警：<b class="mon-3">54</b></span> -->
             </div>
             <div class="riskValueTable" style="margin-top: 10px;">
                 <div id="riskValueTable"></div>
@@ -207,15 +203,7 @@
 {% endblock %}
 
 {% block my_js %}
-<script src="/static/js/jquery-3.1.1.min.js"></script>
-<!--<script src="/static/js/jquery.cookie.js"></script>-->
-<script src="/static/js/bootstrap.min.js"></script>
-<script src="/static/js/bootstrap-table.min.js"></script>
-<script src="/static/js/bootstrap-table-zh-CN.min.js"></script>
-<script src="/static/js/bootstrap-datetimepicker.min.js"></script>
-<script src="/static/js/moment.min.js"></script>
-<script src="/static/echarts/echarts.min.js"></script>
-<script src="/static/echarts/china.js"></script>
+
 <script src="/static/js/echarts-2/build/dist/echarts.js"></script>
 <script src="/static/js/platform-1.js"></script>
 <script>
