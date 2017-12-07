@@ -2106,7 +2106,6 @@ require(
             }
         }
         if ((screen.width == 1366) && (screen.height == 768)){
-            alert(1)
             option.series[0].mapLocation = {
                 x:'center',
                 y:'100px',
@@ -2117,6 +2116,25 @@ require(
         myChart.setOption(option);
     }
 );
+//一个月时间
+function get7DaysBefore(date,m){
+    var date = date || new Date(),
+        timestamp, newDate;
+    if(!(date instanceof Date)){
+        date = new Date(date);
+    }
+    timestamp = date.getTime();
+    newDate = new Date(timestamp - m * 24 * 3600 * 1000);
+    return [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()].join('-');
+};
+var day30=[];
+for (var a=0;a < 30;a++){
+    day30.push(get7DaysBefore(new Date(),a));
+}
+var day30Data=[];
+for (var b=0;b< 30;b++){
+    day30Data.push(Math.round(Math.random()*(20-5)+5));
+}
 
 // 左上角折线面积图
 var option_1 = {
@@ -2128,19 +2146,6 @@ var option_1 = {
             }
         }
     },
-    // legend: {
-    //     icon: 'rect',
-    //     itemWidth: 14,
-    //     itemHeight: 5,
-    //     itemGap: 13,
-    //     data: ['移动', '电信', '联通'],
-    //     right: '4%',
-    //     y:'5%',
-    //     textStyle: {
-    //         fontSize: 12,
-    //         color: '#F1F1F3'
-    //     }
-    // },
     grid: {
         left: '4%',
         right: '7%',
@@ -2161,7 +2166,7 @@ var option_1 = {
                 color: '#fff',
             }
         },
-        data: ['周一','周二','周三','周四','周五','周六','周日'],
+        data: day30.reverse(),
     }],
     yAxis: [{
         type: 'value',
@@ -2219,7 +2224,7 @@ var option_1 = {
                     borderWidth: 12
                 }
             },
-            data: [11, 11, 15, 13, 12, 13, 10],
+            data: day30Data,
         }
     ]
 };
