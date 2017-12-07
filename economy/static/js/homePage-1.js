@@ -2106,7 +2106,6 @@ require(
             }
         }
         if ((screen.width == 1366) && (screen.height == 768)){
-            alert(1)
             option.series[0].mapLocation = {
                 x:'center',
                 y:'100px',
