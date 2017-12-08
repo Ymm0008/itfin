@@ -1,9 +1,9 @@
-
 {% extends "publicNav.html" %}
 {% block title %}<title>感知推荐</title>{% endblock %}
 {% block my_css %}
+    <link rel="stylesheet" href="/static/css/jquery.fullPage.css">
     <link rel="stylesheet" href="/static/css/modalANDtable.css">
-    <link rel="stylesheet" href="../static/css/perceived.css">
+    <link rel="stylesheet" href="/static/css/perceived.css">
     <style>
         #nav {top:0;}
         #fullPage-nav li .active span, .fullPage-slidesNav .active span {background: transparent;}
@@ -45,7 +45,7 @@
     <div class="section firstScreen">
         <div>
             <div class="title" style="text-align: center;color: white;">
-                <img src="../static/images/chart-2.png" style="width: 40px;height: 40px;">
+                <img src="/static/images/chart-2.png" style="width: 40px;height: 40px;">
                 <span style="font-size:32px;vertical-align: middle;">当天预警数</span>
             </div>
             <div class="topTitle" style="margin: 0 auto;">
@@ -141,19 +141,11 @@
 {% endblock %}
 
 {% block my_js %}
-<script src="../static/js/jquery-3.1.1.min.js"></script>
-<script src="../static/js/pager.js"></script>
-<script src="../static/js/bootstrap.min.js"></script>
-<script src="../static/js/bootstrap-table.min.js"></script>
-<script src="../static/js/bootstrap-table-zh-CN.min.js"></script>
-<script src="../static/js/bootstrap-datetimepicker.min.js"></script>
-<script src="../static/js/moment.min.js"></script>
-<script src="../static/echarts/echarts.min.js"></script>
-<script src="../static/echarts/china.js"></script>
-<script src="../static/js/echarts-2/build/dist/echarts.js"></script>
-<script src="../static/js/chalk.js"></script>
-<script src="../static/js/jquery.fullPage.min.js"></script>
-<script src="../static/js/perceived-1.js"></script>
+<script src="/static/js/pager.js"></script>
+<script src="/static/js/echarts-2/build/dist/echarts.js"></script>
+<script src="/static/js/chalk.js"></script>
+<script src="/static/js/jquery.fullPage.min.js"></script>
+<script src="/static/js/perceived-1.js"></script>
 <script>
     <!---->
     $('.fullpage').fullpage({
@@ -165,11 +157,6 @@
         'navigationPosition': 'right',
         'navigationTooltips': ['预警记录','预警态势'],
         'fixedElements':'#nav'
-    });
-    $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
-        $(this).siblings('.line').css({left:'0%'});
-    }).on('mouseout',function () {
-        $(this).siblings('.line').css({left:'-100%'});
     });
 
 </script>

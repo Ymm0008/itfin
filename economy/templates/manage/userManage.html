@@ -2,7 +2,7 @@
 {% block title %}<title>用户管理</title>{% endblock %}
 {% block my_css %}
     <link rel="stylesheet" href="/static/css/modalANDtable.css">
-    <link rel="stylesheet" href="../static/css/userManage.css">
+    <link rel="stylesheet" href="/static/css/userManage.css">
     <style>
         #fullPage-nav li .active span, .fullPage-slidesNav .active span {background: transparent;}
         #fullPage-nav span, .fullPage-slidesNav span {
@@ -71,18 +71,8 @@
 {% endblock %}
 
 {% block my_js %}
-<script src="../static/js/jquery-3.1.1.min.js"></script>
-<!--<script src="/static/js/jquery.cookie.js"></script>-->
-<script src="../static/js/bootstrap.min.js"></script>
-<script src="../static/js/bootstrap-table.min.js"></script>
-<script src="../static/js/bootstrap-table-zh-CN.min.js"></script>
-<script src="../static/js/bootstrap-datetimepicker.min.js"></script>
-<script src="../static/js/moment.min.js"></script>
-<script src="../static/echarts/echarts.min.js"></script>
-<script src="../static/echarts/china.js"></script>
-<script src="../static/js/echarts-2/build/dist/echarts.js"></script>
-<script src="../static/js/dark.js"></script>
-<script src="../static/js/userManage-1.js"></script>
+<script src="/static/js/echarts-2/build/dist/echarts.js"></script>
+<script src="/static/js/userManage-1.js"></script>
 <script>
     $(document).ready(function() {
         // 通过该方法来为每次弹出的模态框设置最新的zIndex值，从而使最新的modal显示在最前面
@@ -95,11 +85,6 @@
     });
     });
     $('#container').height($(window).height());
-    <!---->
-    $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
-        $(this).siblings('.line').css({left:'0%'});
-    }).on('mouseout',function () {
-        $(this).siblings('.line').css({left:'-100%'});
-    });
+
 </script>
 {% endblock %}

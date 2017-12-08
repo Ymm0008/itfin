@@ -1,4 +1,16 @@
-// 适配苹果分辨率
+// 适配分辨率
+if (screen.width <=1440) {
+	// 上下左右四个盒子宽高
+	$('#container .picChart-2, #container .picChart-4, #container .picChart-5, #container .picChart-6').css({'width':'300px','height':'150px'});
+	// 左下角盒子
+    $('#container #picChart-5 .outSide').css({'height':'76%'})
+    // 右下角盒子
+    $('#container #picChart-6 .rightoutSide').css({'height':'108%'})
+    $('#container #picChart-6 p span').css({'margin-left':'0','margin-right':'10px'})
+} else {
+	$('#container #picChart-4 p').css('padding-left','20%')
+}
+/*
 if ((screen.width == 1440) && (screen.height == 900)){
     // 上下左右四个盒子宽高
     $('#container .picChart-2, #container .picChart-4, #container .picChart-5, #container .picChart-6').css({'width':'300px','height':'150px'});
@@ -24,6 +36,8 @@ if ((screen.width == 1920) && (screen.height == 1080)){
     // 右上角字符云
     $('#container #picChart-4 p').css('padding-left','20%')
 }
+*/
+
 // 页面初始  左下角省份数据
 $('#container .bottom_left #picChart-5 #proRank').empty();
 var provinceData = ['广东', '青海', '四川', '海南', '陕西','甘肃', '云南', '湖南', '湖北', '黑龙江','贵州', '山东', '江西', '河南', '河北','山西', '安徽', '福建', '浙江', '江苏','吉林', '辽宁', '台湾','新疆', '广西', '宁夏', '内蒙古', '西藏','北京', '天津', '上海', '重庆','香港', '澳门'];
@@ -31,7 +45,7 @@ for (var i=0;i<provinceData.length;i++){
     var str = '<p><span>'+provinceData[i]+'</span><span>'+Math.round(Math.random()*10)+'</span><span>'+Math.round(Math.random()*100)+'</span></p>';
     $('#container .bottom_left #picChart-5 #proRank').append(str)
 }
-//
+// 地图
 require.config({
     paths: {
         echarts: '../static/js/echarts-2/build/dist',
@@ -2091,7 +2105,7 @@ require(
         // 首次画地图之前判断分辨率
         if ((screen.width == 1920) && (screen.height == 1080)){
             option.series[0].mapLocation = {
-                x:'20%',
+                x:'center',
                 y:'100px',
                 width:'85%',
                 height:'85%'
@@ -2234,7 +2248,7 @@ function line_1() {
 }
 line_1();
 
-//
+// 字符云
 function createRandomItemStyle() {
     return {
         normal: {
