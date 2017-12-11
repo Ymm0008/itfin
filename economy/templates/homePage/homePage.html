@@ -127,11 +127,7 @@
 <script src="/static/js/homePage-1.js"></script>
 <script>
     $('#container').height($(window).height());
-    $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
-        $(this).siblings('.line').css({left:'0%'});
-    }).on('mouseout',function () {
-        $(this).siblings('.line').css({left:'-100%'});
-    });
+
     $('#nav').hover(function () {
         $('#nav .nav_middle').slideDown(300);
         $('#nav .nav_right').slideDown(300);

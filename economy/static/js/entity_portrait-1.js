@@ -8,7 +8,7 @@ if (screen.width <= 1440){
 }
 var peoPicture_url='/portraite/portrait/';
 public_ajax.call_request('get',peoPicture_url,peoPicture);
-// 假数据
+
 function peoPicture(data) {
     $('#contentTable').bootstrapTable('load', data);
     $('#contentTable').bootstrapTable({
@@ -134,6 +134,7 @@ function jumpFrame_1(flag) {
     }else if(flag=='青云门'){
         html='../templates/project.html';
     }else{
+        // 页面展示出来 先
         // html = '/index/company';
         html = '/index/platform';
         // html = '/index/project';

@@ -1,8 +1,9 @@
 {% extends "publicNav.html" %}
 {% block title %}<title>监测预警</title>{% endblock %}
 {% block my_css %}
+    <link rel="stylesheet" href="/static/css/jquery.fullPage.css">
     <link rel="stylesheet" href="/static/css/modalANDtable.css">
-    <link rel="stylesheet" href="../static/css/detection.css">
+    <link rel="stylesheet" href="/static/css/detection.css">
     <style>
         #fullPage-nav li .active span, .fullPage-slidesNav .active span {background: transparent;}
         #fullPage-nav span, .fullPage-slidesNav span {
@@ -291,18 +292,18 @@
 {% endblock %}
 
 {% block my_js %}
-<script src="../static/js/jquery-3.1.1.min.js"></script>
-<script src="../static/js/bootstrap.min.js"></script>
-<script src="../static/js/bootstrap-table.min.js"></script>
-<script src="../static/js/bootstrap-table-zh-CN.min.js"></script>
-<script src="../static/js/bootstrap-datetimepicker.min.js"></script>
-<script src="../static/js/moment.min.js"></script>
-<script src="../static/echarts/echarts.min.js"></script>
-<script src="../static/echarts/china.js"></script>
-<script src="../static/js/chalk.js"></script>
-<script src="../static/js/echarts-2/build/dist/echarts.js"></script>
-<script src="../static/js/jquery.fullPage.min.js"></script>
-<script src="../static/js/detection-1.js"></script>
+<script src="/static/js/jquery-3.1.1.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/bootstrap-table.min.js"></script>
+<script src="/static/js/bootstrap-table-zh-CN.min.js"></script>
+<script src="/static/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/static/js/moment.min.js"></script>
+<script src="/static/echarts/echarts.min.js"></script>
+<script src="/static/echarts/china.js"></script>
+<script src="/static/js/chalk.js"></script>
+<script src="/static/js/echarts-2/build/dist/echarts.js"></script>
+<script src="/static/js/jquery.fullPage.min.js"></script>
+<script src="/static/js/detection-1.js"></script>
 <script>
     <!---->
     $('.fullpage').fullpage({
@@ -333,11 +334,6 @@
             show_2=0;
         }
     });
-    <!---->
-    $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
-        $(this).siblings('.line').css({left:'0%'});
-    }).on('mouseout',function () {
-        $(this).siblings('.line').css({left:'-100%'});
-    });
+
 </script>
 {% endblock %}
