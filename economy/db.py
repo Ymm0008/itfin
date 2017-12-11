@@ -42,7 +42,7 @@ def get_project(table):
 
 
 def platform_detail(table,field):
-	sql = "select * from %s" % table
+	sql = "select * from %s where bg=民营系" % table
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
