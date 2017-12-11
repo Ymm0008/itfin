@@ -1,3 +1,14 @@
+//一个月时间
+function get7DaysBefore(date,m){
+    var date = date || new Date(),
+        timestamp, newDate;
+    if(!(date instanceof Date)){
+        date = new Date(date);
+    }
+    timestamp = date.getTime();
+    newDate = new Date(timestamp - m * 24 * 3600 * 1000);
+    return [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()].join('-');
+};
 var risk_url='///';
 // public_ajax.call_request('get',risk_url,riskValue);
 var objData=[{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},
@@ -267,6 +278,63 @@ function table_1(){
 }
 table_1();
 
+//收益率
+function line_1() {
+    var day30=[];
+    for (var a=0;a < 30;a++){
+        day30.push(get7DaysBefore(new Date(),a));
+    }
+    var day30Data=[];
+    for (var b=0;b< 30;b++){
+        day30Data.push(Math.round(Math.random()*(20-5)+5));
+    }
+    var myChart = echarts.init(document.getElementById('incomeTable'));
+    var option = {
+        title: {
+            text: '',
+            subtext: ''
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['']
+        },
+        xAxis:  {
+            type: 'category',
+            boundaryGap: false,
+            data:day30
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel: {
+                formatter: '{value}'
+            }
+        },
+        series: [
+            {
+                name:'数量',
+                type:'line',
+                smooth:true,
+                data:day30Data.reverse(),
+                itemStyle:{normal:{areaStyle:{type:'default'}}},
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
+            },
+        ]
+    };
+    myChart.setOption(option);
+}
+line_1();
 
 //宣传行为
 var boas=[{'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},{'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},
@@ -334,7 +402,15 @@ function publicityTable(data) {
     });
 };
 publicityTable(boas)
-function line_1() {
+function line_2() {
+    var day30=[];
+    for (var a=0;a < 30;a++){
+        day30.push(get7DaysBefore(new Date(),a));
+    }
+    var day30Data=[];
+    for (var b=0;b< 30;b++){
+        day30Data.push(Math.round(Math.random()*(20-5)+5));
+    }
     var myChart = echarts.init(document.getElementById('opinion'));
     var option = {
         title: {
@@ -350,7 +426,7 @@ function line_1() {
         xAxis:  {
             type: 'category',
             boundaryGap: false,
-            data: ['周一','周二','周三','周四','周五','周六','周日']
+            data: day30
         },
         yAxis: {
             type: 'value',
@@ -363,7 +439,7 @@ function line_1() {
                 name:'数量',
                 type:'line',
                 smooth:true,
-                data:[11, 11, 15, 13, 12, 13, 10],
+                data:day30Data.reverse(),
                 itemStyle:{normal:{areaStyle:{type:'default'}}},
                 markPoint: {
                     data: [
@@ -382,7 +458,7 @@ function line_1() {
     myChart.setOption(option);
     _myChart2 = myChart;
 }
-line_1();
+line_2();
 
 // 使用jsFiddle生成Word
     var result = document.getElementById('LL');
