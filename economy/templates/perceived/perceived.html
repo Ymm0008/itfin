@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>感知推荐</title>
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/css/bootstrap-table.min.css">
-    <link rel="stylesheet" href="../static/css/bootstrap-datetimepicker.min.css">
-    <link rel="stylesheet" href="../static/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../static/css/jquery.fullPage.css">
-    <link rel="stylesheet" href="../static/css/public_nav.css">
-    <link rel="stylesheet" href="../static/css/modalANDtable.css">
-    <link rel="stylesheet" href="../static/css/perceived.css">
+{% extends "publicNav.html" %}
+{% block title %}<title>感知推荐</title>{% endblock %}
+{% block my_css %}
+    <link rel="stylesheet" href="/static/css/jquery.fullPage.css">
+    <link rel="stylesheet" href="/static/css/modalANDtable.css">
+    <link rel="stylesheet" href="/static/css/perceived.css">
     <style>
         #nav {top:0;}
         #fullPage-nav li .active span, .fullPage-slidesNav .active span {background: transparent;}
@@ -45,56 +38,14 @@
         #sureTime:hover,#sureTime2:hover,
         #sureTime3:hover,#sureTime4:hover {background: rgba(8,23,44,0.65)}
     </style>
-</head>
-<body>
-<div id="nav">
-    <div class="nav_left">
-        <h3 style="color:#fff;">
-            <img src="../static/images/logo.png">&nbsp;&nbsp;互联网金融违规取证保全系统
-        </h3>
-    </div>
-    <ul class="nav_middle">
-        <li class="main_li">
-            <a class="list_one li_a" href="homePage.html">
-                <i class="icon icon-home"></i>&nbsp;首页
-            </a>
-            <p class="line"></p>
-        </li>
-        <li class="main_li">
-            <a class="list_two li_a" href="detection.html">
-                <i class="icon icon-warning-sign"></i>&nbsp;监测预警
-            </a>
-            <p class="line"></p>
-        </li>
-        <li class="main_li">
-            <a class="list_three li_a" href="entity_portrait.html">
-                <i class="icon icon-group"></i>&nbsp;实体画像
-            </a>
-            <p class="line"></p>
-        </li>
-        <li class="main_li">
-            <a class="list_four li_a" href="perceived.html">
-                <i class="icon icon-cloud-upload"></i>&nbsp;感知入库
-            </a>
-            <p class="line"></p>
-        </li>
-        <li class="main_li">
-            <a class="list_four li_a" href="userManage.html">
-                <i class="icon icon-user-md"></i>&nbsp;用户管理
-            </a>
-            <p class="line"></p>
-        </li>
-    </ul>
-    <div class="nav_right">
-        <span class="login">登录</span>
-        <span class="registered">注册</span>
-    </div>
-</div>
+{% endblock %}
+
+{% block main %}
 <div id="container" class="fullpage">
     <div class="section firstScreen">
         <div>
             <div class="title" style="text-align: center;color: white;">
-                <img src="../static/images/chart-2.png" style="width: 40px;height: 40px;">
+                <img src="/static/images/chart-2.png" style="width: 40px;height: 40px;">
                 <span style="font-size:32px;vertical-align: middle;">当天预警数</span>
             </div>
             <div class="topTitle" style="margin: 0 auto;">
@@ -187,19 +138,14 @@
         </div>
     </div>
 </div>
-<script src="../static/js/jquery-3.1.1.min.js"></script>
-<script src="../static/js/pager.js"></script>
-<script src="../static/js/bootstrap.min.js"></script>
-<script src="../static/js/bootstrap-table.min.js"></script>
-<script src="../static/js/bootstrap-table-zh-CN.min.js"></script>
-<script src="../static/js/bootstrap-datetimepicker.min.js"></script>
-<script src="../static/js/moment.min.js"></script>
-<script src="../static/echarts/echarts.min.js"></script>
-<script src="../static/echarts/china.js"></script>
-<script src="../static/js/echarts-2/build/dist/echarts.js"></script>
-<script src="../static/js/chalk.js"></script>
-<script src="../static/js/jquery.fullPage.min.js"></script>
-<script src="../static/js/perceived-1.js"></script>
+{% endblock %}
+
+{% block my_js %}
+<script src="/static/js/pager.js"></script>
+<script src="/static/js/echarts-2/build/dist/echarts.js"></script>
+<script src="/static/js/chalk.js"></script>
+<script src="/static/js/jquery.fullPage.min.js"></script>
+<script src="/static/js/perceived-1.js"></script>
 <script>
     <!---->
     $('.fullpage').fullpage({
@@ -212,12 +158,6 @@
         'navigationTooltips': ['预警记录','预警态势'],
         'fixedElements':'#nav'
     });
-    $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
-        $(this).siblings('.line').css({left:'0%'});
-    }).on('mouseout',function () {
-        $(this).siblings('.line').css({left:'-100%'});
-    });
 
 </script>
-</body>
-</html>
+{% endblock %}

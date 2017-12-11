@@ -1,30 +1,21 @@
-// var peoPicture_url='/system_manage/show_users_account/';
+var pageData=6;
+if (screen.width <= 1440){
+    $('#container .secondScreen .box').css({'max-height':'308px','min-height':'308px'})
+    pageData=6;
+}else {
+    $('#container .secondScreen .box').css({'max-height':'510px','min-height':'510px'})
+    pageData=10;
+}
 var peoPicture_url='/portraite/portrait/';
 public_ajax.call_request('get',peoPicture_url,peoPicture);
-// 假数据
-var objData=[
-    {'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'舆情预警','e':'集资'},
-    {'a':'优易网','b':'北京','c':'2016-11-24','d':'指标预警','e':'集资'},
-    {'a':'青云门','b':'北京','c':'2016-11-24','d':'模型预警','e':'集资'},
-    {'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'},
-    {'a':'优易网','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'},
-    {'a':'青云门','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'},
-    {'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'},
-    {'a':'优易网','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'},
-    {'a':'青云门','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'},{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'},{'a':'优易网','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'},
-    {'a':'青云门','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'},{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'},{'a':'优易网','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'},
-    {'a':'青云门','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'},{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'},{'a':'优易网','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'},
-    {'a':'青云门','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'},{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'},{'a':'优易网','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'},
-    {'a':'青云门','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'},{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'},{'a':'优易网','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'},
-    {'a':'青云门','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资'}]
+
 function peoPicture(data) {
-    console.log(data)
     $('#contentTable').bootstrapTable('load', data);
     $('#contentTable').bootstrapTable({
         data:data,
         search: true,//是否搜索
         pagination: true,//是否分页
-        pageSize: 8,//单页记录数
+        pageSize:pageData ,//单页记录数
         pageList: [15,20,25],//分页步进值
         sidePagination: "client",//服务端分页
         searchAlign: "left",
@@ -143,6 +134,7 @@ function jumpFrame_1(flag) {
     }else if(flag=='青云门'){
         html='../templates/project.html';
     }else{
+        // 页面展示出来 先
         // html = '/index/company';
         html = '/index/platform';
         // html = '/index/project';

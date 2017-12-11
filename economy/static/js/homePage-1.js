@@ -1,4 +1,16 @@
-// 适配苹果分辨率
+// 适配分辨率
+if (screen.width <=1440) {
+	// 上下左右四个盒子宽高
+	$('#container .picChart-2, #container .picChart-4, #container .picChart-5, #container .picChart-6').css({'width':'300px','height':'150px'});
+	// 左下角盒子
+    $('#container #picChart-5 .outSide').css({'height':'76%'})
+    // 右下角盒子
+    $('#container #picChart-6 .rightoutSide').css({'height':'108%'})
+    $('#container #picChart-6 p span').css({'margin-left':'0','margin-right':'10px'})
+} else {
+	$('#container #picChart-4 p').css('padding-left','20%')
+}
+/*
 if ((screen.width == 1440) && (screen.height == 900)){
     // 上下左右四个盒子宽高
     $('#container .picChart-2, #container .picChart-4, #container .picChart-5, #container .picChart-6').css({'width':'300px','height':'150px'});
@@ -24,6 +36,8 @@ if ((screen.width == 1920) && (screen.height == 1080)){
     // 右上角字符云
     $('#container #picChart-4 p').css('padding-left','20%')
 }
+*/
+
 // 页面初始  左下角省份数据
 $('#container .bottom_left #picChart-5 #proRank').empty();
 var provinceData = ['广东', '青海', '四川', '海南', '陕西','甘肃', '云南', '湖南', '湖北', '黑龙江','贵州', '山东', '江西', '河南', '河北','山西', '安徽', '福建', '浙江', '江苏','吉林', '辽宁', '台湾','新疆', '广西', '宁夏', '内蒙古', '西藏','北京', '天津', '上海', '重庆','香港', '澳门'];
@@ -31,7 +45,7 @@ for (var i=0;i<provinceData.length;i++){
     var str = '<p><span>'+provinceData[i]+'</span><span>'+Math.round(Math.random()*10)+'</span><span>'+Math.round(Math.random()*100)+'</span></p>';
     $('#container .bottom_left #picChart-5 #proRank').append(str)
 }
-//
+// 地图
 require.config({
     paths: {
         echarts: '../static/js/echarts-2/build/dist',
@@ -643,7 +657,7 @@ require(
                         },
                         data:[]
                     },
-                
+
                     geoCoord : {
                         '北京':[116.4,39.9],
                         '天津':[117.2,39.12],
@@ -1928,9 +1942,17 @@ require(
                     ]
                 }
                 // 点击返回全国后适配分辨率
-                if ((screen.width == 1440) && (screen.height == 900)){
+                if ((screen.width == 1920) && (screen.height == 1080)){
                     option.series[0].mapLocation = {
                         x:'20%',
+                        y:'100px',
+                        width:'85%',
+                        height:'85%'
+                    }
+                }
+                if ((screen.width == 1440) && (screen.height == 900)){
+                    option.series[0].mapLocation = {
+                        x:'19%',
                         y:'100px',
                         width:'100%',
                         height:'80%'
@@ -1942,14 +1964,6 @@ require(
                         y:'100px',
                         width:'100%',
                         height:'80%'
-                    }
-                }
-                if ((screen.width == 1920) && (screen.height == 1080)){
-                    option.series[0].mapLocation = {
-                        x:'20%',
-                        y:'80px',
-                        width:'90%',
-                        height:'90%'
                     }
                 }
             }
@@ -1972,7 +1986,7 @@ require(
                 x:'right',
                 data:['随机数据']
             },
-        
+
             dataRange: {
                 show:true,
                 x: '27%',
@@ -2017,8 +2031,8 @@ require(
                     mapLocation:{
                         x:'20%',
                         y:'80px',
-                        width:'90%',
-                        height:'90%'
+                        width:'85%',
+                        height:'85%'
                     },
                     itemStyle: {
                         normal: {
@@ -2089,11 +2103,19 @@ require(
             ]
         };
         // 首次画地图之前判断分辨率
+        if ((screen.width == 1920) && (screen.height == 1080)){
+            option.series[0].mapLocation = {
+                x:'center',
+                y:'100px',
+                width:'85%',
+                height:'85%'
+            }
+        }
         if ((screen.width == 1440) && (screen.height == 900)){
             option.series[0].mapLocation = {
-                x:'20%',
+                x:'19%',
                 y:'100px',
-                width:'100%',
+                width:'90%',
                 height:'80%'
             }
         }
@@ -2108,6 +2130,25 @@ require(
         myChart.setOption(option);
     }
 );
+//一个月时间
+function get7DaysBefore(date,m){
+    var date = date || new Date(),
+        timestamp, newDate;
+    if(!(date instanceof Date)){
+        date = new Date(date);
+    }
+    timestamp = date.getTime();
+    newDate = new Date(timestamp - m * 24 * 3600 * 1000);
+    return [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()].join('-');
+};
+var day30=[];
+for (var a=0;a < 30;a++){
+    day30.push(get7DaysBefore(new Date(),a));
+}
+var day30Data=[];
+for (var b=0;b< 30;b++){
+    day30Data.push(Math.round(Math.random()*(20-5)+5));
+}
 
 // 左上角折线面积图
 var option_1 = {
@@ -2119,19 +2160,6 @@ var option_1 = {
             }
         }
     },
-    // legend: {
-    //     icon: 'rect',
-    //     itemWidth: 14,
-    //     itemHeight: 5,
-    //     itemGap: 13,
-    //     data: ['移动', '电信', '联通'],
-    //     right: '4%',
-    //     y:'5%',
-    //     textStyle: {
-    //         fontSize: 12,
-    //         color: '#F1F1F3'
-    //     }
-    // },
     grid: {
         left: '4%',
         right: '7%',
@@ -2152,7 +2180,7 @@ var option_1 = {
                 color: '#fff',
             }
         },
-        data: ['周一','周二','周三','周四','周五','周六','周日'],
+        data: day30.reverse(),
     }],
     yAxis: [{
         type: 'value',
@@ -2210,7 +2238,7 @@ var option_1 = {
                     borderWidth: 12
                 }
             },
-            data: [11, 11, 15, 13, 12, 13, 10],
+            data: day30Data,
         }
     ]
 };
@@ -2220,7 +2248,7 @@ function line_1() {
 }
 line_1();
 
-//
+// 字符云
 function createRandomItemStyle() {
     return {
         normal: {

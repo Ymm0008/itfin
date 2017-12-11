@@ -1,5 +1,5 @@
 //预警记录
-var earlyWarningdata=[{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'舆情预警','e':'集资','f':'heiha'},{'a':'优易网','b':'北京','c':'2016-11-24','d':'指标预警','e':'集资','f':'heiha'},
+var earlyWarningdata=[{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'指标预警','e':'集资','f':'heiha'},{'a':'优易网','b':'北京','c':'2016-11-24','d':'指标预警','e':'集资','f':'heiha'},
     {'a':'青云门','b':'北京','c':'2016-11-24','d':'模型预警','e':'集资','f':'heiha'},{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},{'a':'优易网','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},
     {'a':'青云门','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},{'a':'优易网','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},
     {'a':'青云门','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},{'a':'优易网','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},
@@ -105,12 +105,19 @@ function earlyWarning(data) {
 earlyWarning(earlyWarningdata);
 function jumpFrame_1(flag) {
     var html='';
+    // 页面展示出来 先
     if (flag=='湖北嘟嘟'){
-        html='../templates/company.html';
+        html = '/index/company';
     }else if(flag=='优易网'){
-        html='../templates/platform.html';
+        // html='../templates/platform.html';
+        html = '/index/platform';
     }else if(flag=='青云门'){
-        html='../templates/project.html';
+        html = '/index/project';
+    }else {
+        // 页面展示出来 先
+        html = '/index/company';
+        // html = '/index/platform';
+        // html = '/index/project';
     }
     window.location.href=html;
 }
@@ -307,7 +314,7 @@ line_2();
 //预警分布
 require.config({
     paths: {
-        echarts: '../static/js/echarts-2/build/dist',
+        echarts: '/static/js/echarts-2/build/dist',
     }
 });
 require(
@@ -875,7 +882,8 @@ function placeRank(data) {
                 valign: "middle",//垂直
             },
             {
-                title: "舆情预警",//标题
+                // title: "舆情预警",//标题
+                title: "指标预警",//标题
                 field: "d",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
