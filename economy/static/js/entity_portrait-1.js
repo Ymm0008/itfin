@@ -42,7 +42,7 @@ function peoPicture(data) {
                     if (row.entity_name==''||row.entity_name=='null'||row.entity_name=='unknown'||!row.entity_name){
                         return '未知';
                     }else {
-                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.entity_name+'\')" title="进入画像">'+row.entity_name+'</span>';
+                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.entity_name+'\',\''+row.entity_type+'\')" title="进入画像">'+row.entity_name+'</span>';
                     };
                 }
             },
@@ -129,17 +129,11 @@ function peoPicture(data) {
 
 function jumpFrame_1(flag) {
     var html='';
-    if (flag=='湖北嘟嘟'){
-        html='../templates/company.html';
-    }else if(flag=='优易网'){
-        html='../templates/platform.html';
-    }else if(flag=='青云门'){
-        html='../templates/project.html';
-    }else{
-        // 页面展示出来 先
-        // html = '/index/company';
-        html = '/index/platform';
-        // html = '/index/project';
+    name=escape(name);
+    if (type=='1'||type=='2'){
+        html='/index/company/?name='+name+'&flag='+type;
+    }else {
+        html='/index/project/?name='+name+'&flag='+type;
     }
     window.location.href=html;
 }

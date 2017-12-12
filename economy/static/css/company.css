@@ -52,8 +52,8 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    position: relative;
-    top: 4px;
+    /*position: relative;*/
+    /*top: 4px;*/
 }
 #container .infor p {
     font-size: 14px;
@@ -66,17 +66,28 @@
 #container .infor p span {
     display: inline-block;
     width: 70px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     text-align: right;
 }
 #container .infor p b {
-    position: relative;
-    top: 3px;
+    /*position: relative;*/
+    /*top: 3px;*/
     display: inline-block;
     max-width: 180px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
+}
+#container .infor .isPlatform {
+    width: auto;
+    margin-left: 1.2%;
+}
+#container .infor .isPlatform span,
+#container .infor .isPlatform b {
+    width: auto;
 }
 #container .infor .comBisic,#container .icon-edit {
     cursor: pointer;
@@ -155,8 +166,25 @@
     background: rgba(150, 150, 150, 0.25);
 }
 /**/
-#container .operating,#container .register,#container .litigation,
-#container .publicity{
+#container .income {
+    margin: 2px auto 0;
+    overflow: hidden;
+    width: 100%;
+    padding: 20px;
+    background: rgba(245, 243, 243, 0.71);
+}
+/**/
+#container .promise .pro {
+    width: 48%;
+    float: left;
+    padding: 5px 10px;
+}
+#container .promise .promise-2 {
+    float: right;
+}
+/**/
+#container .promise,#container .operating,#container .register,#container .litigation,
+#container .publicity,#container .advertising{
     width: 100%;
     padding: 20px;
     margin: 2px auto 0;
@@ -166,10 +194,10 @@
     background: rgba(245, 243, 243, 0.71);
 }
 /**/
-#container .advertising {
-    width: 80%;
-    margin:20px auto 0;
-}
+/*#container .advertising {*/
+    /*width: 80%;*/
+    /*margin:20px auto 0;*/
+/*}*/
 #container .inforContent .main {
     position: relative;
     padding: 5px 5px 5px 30px;
