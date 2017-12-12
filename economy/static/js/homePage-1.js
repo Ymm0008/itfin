@@ -10,33 +10,7 @@ if (screen.width <=1440) {
 } else {
 	$('#container #picChart-4 p').css('padding-left','20%')
 }
-/*
-if ((screen.width == 1440) && (screen.height == 900)){
-    // 上下左右四个盒子宽高
-    $('#container .picChart-2, #container .picChart-4, #container .picChart-5, #container .picChart-6').css({'width':'300px','height':'150px'});
-    // 左下角盒子
-    $('#container #picChart-5 .outSide').css({'height':'76%'})
-    // 右下角盒子
-    $('#container #picChart-6 .rightoutSide').css({'height':'108%'})
-    $('#container #picChart-6 p span').css({'margin-left':'0','margin-right':'10px'})
-    // 右上角字符云
-    // $('#container #picChart-4 p').css('padding-left','0')
-}
-if ((screen.width == 1366) && (screen.height == 768)){
-    $('#container .picChart-2, #container .picChart-4, #container .picChart-5, #container .picChart-6').css({'width':'300px','height':'150px'});
-    // 左下角盒子
-    $('#container #picChart-5 .outSide').css({'height':'76%'})
-    // 右下角盒子
-    $('#container #picChart-6 .rightoutSide').css({'height':'108%'})
-    $('#container #picChart-6 p span').css({'margin-left':'0','margin-right':'10px'})
-    // 右上角字符云
-    // $('#container #picChart-4 p').css('padding-left','0')
-}
-if ((screen.width == 1920) && (screen.height == 1080)){
-    // 右上角字符云
-    $('#container #picChart-4 p').css('padding-left','20%')
-}
-*/
+
 
 // 页面初始  左下角省份数据
 $('#container .bottom_left #picChart-5 #proRank').empty();
@@ -1200,7 +1174,22 @@ require(
                 }
                 // 点击进入省级后适配分辨率
                 if(target){
-                    if ((screen.width == 1440) && (screen.height == 900)){
+                    if (screen.width <= 1440) {
+                        option.series[0].mapLocation = {
+                            x:'center',
+                            y:'220px',
+                            width:'100%',
+                            height:'65%'
+                        }
+                    } else {
+                        option.series[0].mapLocation = {
+                            x:'center',
+                            y:'250px',
+                            width:'100%',
+                            height:'70%'
+                        }
+                    }
+                    /*if ((screen.width == 1440) && (screen.height == 900)){
                         option.series[0].mapLocation = {
                             x:'center',
                             y:'220px',
@@ -1223,7 +1212,7 @@ require(
                             width:'100%',
                             height:'70%'
                         }
-                    }
+                    }*/
                 }
                 // 23个省 ---加标注气泡
                     // '广东', '青海', '四川', '海南', '陕西',
@@ -1944,7 +1933,7 @@ require(
                 // 点击返回全国后适配分辨率
                 if ((screen.width == 1920) && (screen.height == 1080)){
                     option.series[0].mapLocation = {
-                        x:'20%',
+                        x:'center',
                         y:'100px',
                         width:'85%',
                         height:'85%'
@@ -2028,12 +2017,12 @@ require(
                     selectedMode : 'single',
                     // 地图位置设置，默认只适应上下左右居中可配x，y，width，height，任意参数为空都将根据其他参数自适应
                     // 默认1920*1080分辨率
-                    mapLocation:{
-                        x:'20%',
-                        y:'80px',
-                        width:'85%',
-                        height:'85%'
-                    },
+                    // mapLocation:{
+                    //     x:'20%',
+                    //     y:'80px',
+                    //     width:'85%',
+                    //     height:'85%'
+                    // },
                     itemStyle: {
                         normal: {
                             borderWidth:2,
