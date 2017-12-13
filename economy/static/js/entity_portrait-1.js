@@ -127,7 +127,8 @@ function peoPicture(data) {
     });
 };
 
-function jumpFrame_1(flag) {
+// function jumpFrame_1(flag) {
+function jumpFrame_1(name,type) {
     var html='';
     name=escape(name);
     if (type=='1'||type=='2'){

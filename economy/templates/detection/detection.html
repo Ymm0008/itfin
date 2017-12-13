@@ -36,6 +36,10 @@
         }
         #sureTime:hover,#sureTime2:hover,
         #sureTime3:hover,#sureTime4:hover {background: rgba(8,23,44,0.65)}
+
+        #nav {
+            top:0;
+        }
     </style>
 {% endblock %}
 
@@ -313,7 +317,8 @@
         'navigation': 'true',
         'loopBottom':'true',
         'navigationPosition': 'right',
-        'navigationTooltips': ['预警记录','预警态势及类型','预警分布','运营模式','预警排名']
+        'navigationTooltips': ['预警记录','预警态势及类型','预警分布','运营模式','预警排名'],
+        'fixedElements':'#nav'
     });
     var show=0,show_2=0;
     $('.firstScreen .search .moreSitu').on('click',function () {
