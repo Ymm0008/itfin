@@ -1,7 +1,6 @@
 {% extends "publicNav.html" %}
 {% block title %}<title>公司画像</title>{% endblock %}
 {% block my_css %}
-
     <link rel="stylesheet" href="/static/css/company.css">
     <style>
         <!---->
@@ -46,16 +45,16 @@
     <div style="text-align: right;">
         <span class="top-1 btn btn-primary">一键取证</span>
         <span class="top-2 btn btn-primary">一键报告</span>
-        <span id="LL" class="top-2 btn btn-primary">导出word</span>
+        <!--<span id="LL" class="top-2 btn btn-primary">导出word</span>-->
         <span id="LL-PDF" class="top-2 btn btn-primary">导出PDF</span>
     </div>
     <div style="text-align: center;margin-bottom: 20px;">
-        <span id="title" style="font-size: 36px;"><span id="title-1">湖北嘟嘟网络技术有限公司</span>画像报告</span>
+        <span id="title" style="font-size: 36px;"><span id="title-1"></span>画像报告</span>
     </div>
     <div id="card">
         <div class="infor">
             <h3>
-                <b class="name">湖北嘟嘟网络技术有限公司</b>&nbsp;<i class="icon icon-edit comBisic" title="编辑"></i>
+                <b class="name"></b>&nbsp;<i class="icon icon-edit comBisic" title="编辑"></i>
                 <span class="nameStatus" style="font-size: 12px;color: #ff761f;">正在监测</span>
                 <span class="status-1 status btn-primary"><i class="icon icon-retweet"></i>&nbsp;停止监测</span>
                 <span class="status-2 status btn-primary"><i class="icon icon-sitemap"></i>&nbsp;查看网络图</span>
@@ -73,7 +72,7 @@
                 <span>发展阶段：</span>&nbsp;<b class="type">成立于2006年</b>
             </p>
             <p class="isPlatform" style="display: none;">
-                <span>工商注册公司名称：</span>&nbsp;<b class="isPlatformName">湖北嘟嘟网络技术有限公司</b>
+                <span>工商注册公司名称：</span>&nbsp;<b class="isPlatformName"></b>
             </p>
             <p class="infor-5">
                 <span>旗下产品：</span>&nbsp;<b class="type">优易网、理财网</b>
@@ -112,94 +111,132 @@
         <h3><i class="icon icon-fire"></i>&nbsp;子公司、分公司情况</h3>
         <div style="width: 100%;text-align: center;">
             <div id="table-1"></div>
-            <div id="table-2">
-                法人代表陈艺光，同时是武汉有戏网络科技有限公司和深圳市嘟网科技有限公司的法人代表，
-                是北京沧澜信息科技有限公司的股东（已被注销），监事张宗为也是鄂州市触点网吧的法人兼股东（已注销）。
-            </div>
+            <table id="table-2" cellpadding="0" cellspacing="0" border="1">
+                <thead>
+                    <td colspan="2" id="tableName"></td>
+                    <td>一层</td>
+                    <td>二层</td>
+                    <td>三层</td>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="2">股东数量</td>
+                        <td>上</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>下</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>法人代表</td>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr>
+                        <td>注册资本</td>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr>
+                        <td>股东信息</td>
+                        <td colspan="4"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <div class="operating">
         <h3><i class="icon icon-warning-sign"></i>&nbsp;经营异常&nbsp;&nbsp;<i class="icon icon-edit operating-1" title="编辑"></i></h3>
-        <div class="inforContent">
-            <div class="main">
-                <img src="/static/images/textIcon.png" class="textFlag">
-                <p class="context">
-                    2015年7月13日，被武汉市江汉区工商列入异常经营1次。
-                </p>
-            </div>
+        <div class="business">
+            <div id="business"></div>
         </div>
+        <!--<div class="inforContent">-->
+            <!--<div class="main">-->
+                <!--<img src="/static/images/textIcon.png" class="textFlag">-->
+                <!--<p class="context">-->
+                    <!--2015年7月13日，被武汉市江汉区工商列入异常经营1次。-->
+                <!--</p>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
     <div class="register">
-        <h3><i class="icon icon-bell-alt"></i>&nbsp;注册投资信息变动&nbsp;&nbsp;<i class="icon icon-edit register-1" title="编辑"></i></h3>
-        <div class="inforContent">
-            <div class="main">
-                <img src="/static/images/textIcon.png" class="textFlag">
-                <p class="context">
-                    2015年7月13日，被武汉市江汉区工商列入异常经营1次。
-                </p>
-            </div>
+        <h3><i class="icon icon-bell-alt"></i>&nbsp;信息变更&nbsp;&nbsp;<i class="icon icon-edit register-1" title="编辑"></i></h3>
+        <!--<div class="inforContent">-->
+            <!--<div class="main">-->
+                <!--<img src="/static/images/textIcon.png" class="textFlag">-->
+                <!--<p class="context">-->
+                    <!--2015年7月13日，被武汉市江汉区工商列入异常经营1次。-->
+                <!--</p>-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="inforChange">
+            <div id="inforChange"></div>
         </div>
     </div>
     <div class="litigation">
         <h3><i class="icon icon-envelope-alt"></i>&nbsp;诉讼记录&nbsp;&nbsp;<i class="icon icon-edit inter-1" title="编辑"></i></h3>
-        <div class="inforContent">
-            <div class="main">
-                <img src="/static/images/textIcon.png" class="textFlag">
-                <p class="context">
-                    因著作权权属、侵权纠纷和侵害商标纠纷引起的法律诉讼共2起
-                </p>
-            </div>
+        <!--<div class="inforContent">-->
+            <!--<div class="main">-->
+                <!--<img src="/static/images/textIcon.png" class="textFlag">-->
+                <!--<p class="context">-->
+                    <!--因著作权权属、侵权纠纷和侵害商标纠纷引起的法律诉讼共2起-->
+                <!--</p>-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="lawsuit">
+            <div id="lawsuit"></div>
         </div>
     </div>
 
     <div class="income">
         <h3><i class="icon icon-money"></i>&nbsp;收益率及其分布</h3>
-        <div id="incomeTable" style="width: 100%;height: 450px;"></div>
+        <!--<div id="incomeTable" style="width: 100%;height: 450px;"></div>-->
+        <div class="incomeTable">
+            <div id="incomeTable"></div>
+        </div>
     </div>
     <div class="promise">
-        <div class="pro promise-1">
-            <h3><i class="icon icon-gift"></i>&nbsp;收益承诺&nbsp;&nbsp;<i class="icon icon-edit comPro-1" title="编辑"></i></h3>
-            <div id="promise-1">
-                <div class="inforContent">
-                    <div class="main">
-                        <img src="/static/images/textIcon.png" class="textFlag">
-                        <p class="context">
-                            新手注册免费领取30800u币约30.8元；充值返利；邀请用户返利；累计奖励30次、60次
-                        </p>
-                    </div>
-                </div>
-            </div>
+        <h3><i class="icon icon-gift"></i>&nbsp;收益/保本/担保承诺&nbsp;&nbsp;<i class="icon icon-edit comPro-1" title="编辑"></i></h3>
+        <div class="guarantee">
+            <div id="guarantee"></div>
         </div>
-        <div class="pro promise-2">
-            <h3><i class="icon icon-inbox"></i>&nbsp;保本/担保承诺&nbsp;&nbsp;<i class="icon icon-edit comPro-2" title="编辑"></i></h3>
-            <div id="promise-2">
-                <div class="inforContent">
-                    <div class="main">
-                        <img src="/static/images/textIcon.png" class="textFlag">
-                        <p class="context">
-                            节日有“发2万元红包”“省钱30%”福利；任务简单、高额返利；每款游戏试玩20分钟可提现。
-                        </p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        <!--<div class="promiseCon">-->
+            <!--<div class="inforContent">-->
+                <!--<div class="main">-->
+                    <!--<img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">-->
+                    <!--<p class="option">-->
+                        <!--<span>承诺类型：<b style="color: #ff6d70">担保</b></span>-->
+                        <!--<button class="original btn-primary btn-xs">查看全文</button>-->
+                    <!--</p>-->
+                    <!--<p class="context">-->
+                        <!--新手注册免费领取30800u币约30.8元；充值返利；邀请用户返利；累计奖励30次、60次-->
+                    <!--</p>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
     <div class="advertising">
         <h3><i class="icon icon-bullhorn"></i>&nbsp;广告内容&nbsp;&nbsp;<i class="icon icon-edit advert-1" title="编辑"></i></h3>
-        <div class="inforContent">
-            <div class="main">
-                <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">
-                <p class="option">
-                    <span>煽动性：<b style="color: #ff6d70">强</b></span>
-                    <span>广告渠道：<b style="color: #ff6d70">百度贴吧</b></span>
-                    <button class="original btn-primary btn-xs">查看原文</button>
-                </p>
-                <p class="context">
-                    广告内容：放款快，审核简单，赶快注册！
-                </p>
-            </div>
+        <div class="billing">
+            <div id="billing"></div>
         </div>
+        <!--<div class="inforContent">-->
+            <!--<div class="main">-->
+                <!--<img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">-->
+                <!--<p class="option">-->
+                    <!--<span>煽动性：<b style="color: #ff6d70">强</b></span>-->
+                    <!--<span>广告渠道：<b style="color: #ff6d70">百度贴吧</b></span>-->
+                    <!--<span>发布时间：<b style="color: #ff6d70">2017-11-22</b></span>-->
+                    <!--<button class="original btn-primary btn-xs">查看全文</button>-->
+                <!--</p>-->
+                <!--<p class="context">-->
+                    <!--广告内容：放款快，审核简单，赶快注册！-->
+                <!--</p>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 
     <div class="publicity">
@@ -209,16 +246,14 @@
         </h3>
         <div class="publicityTable">
             <!-- <div id="publicityTable"></div> -->
-            <table id="pubTable">
+            <table id="pubTable" border="1">
                 <thead>
-                    <tr>
-                        <th></th>
-                        <th>微博</th>
-                        <th>贴吧</th>
-                        <th>论坛</th>
-                        <th>微信</th>
-                        <th>知乎</th>
-                    </tr>
+                    <th></th>
+                    <th>微博</th>
+                    <th>贴吧</th>
+                    <th>论坛</th>
+                    <th>微信</th>
+                    <th>知乎</th>
                 </thead>
                 <tbody>
                     <tr>
@@ -264,20 +299,23 @@
         </h3>
         <div>
             <h4><i class="icon icon-comment"></i>&nbsp;评论信息</h4>
-            <div class="inforContent" id="commentinforContent">
-                <div class="main">
-                    <img src="/static/images/textIcon.png" class="textFlag" style="top:8px;">
-                    <p class="option">
-                        <span>评论倾向：<b style="color: #ff6d70">积极</b></span>
-                        <span>评论来源：<b style="color: #ff6d70">百度贴吧</b></span>
-                        <span>发布时间：<b style="color: #ff6d70">2017-12</b></span>
-                        <button class="originalbtn btn-primary btn-xs">查看全文</button>
-                    </p>
-                    <p class="context">
-                        评论内容：放款快，审核简单，赶快注册！
-                    </p>
-                </div>
+            <div class="commentinforContent">
+                <div id="commentinforContent"></div>
             </div>
+            <!--<div class="inforContent" id="commentinforContent">-->
+                <!--<div class="main">-->
+                    <!--<img src="/static/images/textIcon.png" class="textFlag" style="top:8px;">-->
+                    <!--<p class="option">-->
+                        <!--<span>评论倾向：<b style="color: #ff6d70">积极</b></span>-->
+                        <!--<span>评论来源：<b style="color: #ff6d70">百度贴吧</b></span>-->
+                        <!--<span>发布时间：<b style="color: #ff6d70">2017-12-11</b></span>-->
+                        <!--<button class="originalbtn btn-primary btn-xs">查看全文</button>-->
+                    <!--</p>-->
+                    <!--<p class="context">-->
+                        <!--评论内容：放款快，审核简单，赶快注册！-->
+                    <!--</p>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
         <div style="margin-top: 20px;">
             <h4><i class="icon icon-signal"></i>&nbsp;趋势统计</h4>
@@ -325,6 +363,7 @@
     }
     $('#title-1').text(unescape(name));
     $('.name').text(unescape(name));
+    $('#tableName').text(unescape(name));
     $('.isPlatformName').text(unescape(name));
 
     //导出PDF
