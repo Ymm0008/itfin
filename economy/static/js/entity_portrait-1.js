@@ -10,6 +10,8 @@ var peoPicture_url='/portraite/portrait/';
 public_ajax.call_request('get',peoPicture_url,peoPicture);
 
 function peoPicture(data) {
+    console.log(data);
+    $('#contentTable').empty();
     $('#contentTable').bootstrapTable('load', data);
     $('#contentTable').bootstrapTable({
         data:data,
@@ -85,7 +87,7 @@ function peoPicture(data) {
             },
             {
                 title: "实体类型",//标题
-                field: "d",//键名
+                field: "entity_type",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
@@ -124,7 +126,8 @@ function peoPicture(data) {
         ],
     });
 };
-// peoPicture(objData)
+
+// function jumpFrame_1(flag) {
 function jumpFrame_1(name,type) {
     var html='';
     name=escape(name);

@@ -61,6 +61,19 @@ function commentTable(data) {
 };
 commentTable(commentData)
 
+// 12个月
+var last_year_month = function() {
+    var d = new Date();
+    var result = [];
+    for(var i = 0; i < 12; i++) {
+        d.setMonth(d.getMonth() - 1);
+        var m = d.getMonth() + 1;
+        m = m < 10 ? "0" + m : m;
+        //在这里可以自定义输出的日期格式
+        result.push(d.getFullYear() + "年" + m + '月');
+    }
+    return result;
+}
 
 // var risk_url='///';
 // public_ajax.call_request('get',risk_url,riskValue);
@@ -530,6 +543,7 @@ function inforChange(data) {
         ],
     });
 };
+<<<<<<< HEAD
 inforChange(indsa);
 //诉讼记录
 var kajsdj=[{'a':'2017-11-11','b':'testtesttesttesttesttesttesttest'},]
@@ -584,14 +598,29 @@ lawsuit(kajsdj);
 //收益率及其分布
 function line_1() {
     var day30=[];
-    for (var a=0;a < 30;a++){
-        day30.push(get7DaysBefore(new Date(),a));
-    }
+    // for (var a=0;a < 12;a++){
+    //     day30.push(get12MonthBefore(new Date(),a));
+    // }
+    day30 = last_year_month().reverse();
+    // console.log(day30)
+
+
     var day30Data=[];
-    for (var b=0;b< 30;b++){
+    for (var b=0;b< 12;b++){
         day30Data.push(Math.round(Math.random()*(20-5)+5));
     }
-    var myChart = echarts.init(document.getElementById('incomeTable'));
+
+    var day30Data_2=[];
+    for (var c=0;c< 12;c++){
+        day30Data_2.push(Math.round(Math.random()*(20-3)+5));
+    }
+
+    var day30Data_3=[];
+    for (var d=0;d< 12;d++){
+        day30Data_3.push(Math.round(Math.random()*(20-8)+5));
+    }
+
+    var myChart = echarts.init(document.getElementById('opinion'));
     var option = {
         title: {
             text: '',
@@ -616,10 +645,46 @@ function line_1() {
         },
         series: [
             {
-                name:'数量',
+                name:'消极评论',
                 type:'line',
                 smooth:true,
                 data:day30Data.reverse(),
+                itemStyle:{normal:{areaStyle:{type:'default'}}},
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
+            },
+            {
+                name:'中性评论',
+                type:'line',
+                smooth:true,
+                data:day30Data_2,
+                itemStyle:{normal:{areaStyle:{type:'default'}}},
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
+            },
+            {
+                name:'积极评论',
+                type:'line',
+                smooth:true,
+                data:day30Data_3,
                 itemStyle:{normal:{areaStyle:{type:'default'}}},
                 markPoint: {
                     data: [

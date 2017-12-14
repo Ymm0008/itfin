@@ -28,16 +28,16 @@ function riskValue(data) {
         columns: [
             {
                 title: "时间",//标题
-                field: "date",//键名
+                field: "operation_mode",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-                    if (row.date==''||row.date=='null'||row.date=='unknown'||!row.date){
+                    if (row.operation_mode==''||row.operation_mode=='null'||row.operation_mode=='unknown'||!row.operation_mode){
                         return '未知';
                     }else {
-                        return row.date;
+                        return row.operation_mode;
                     };
                 }
             },
