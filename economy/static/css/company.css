@@ -162,8 +162,12 @@
     font-weight: 600;
     width: 40%;
     font-size: 14px;
-    text-align: left;
-    background: rgba(150, 150, 150, 0.25);
+    /*text-align: left;*/
+    /*background: rgba(150, 150, 150, 0.25);*/
+}
+#container .downCompany #table-2 td {
+    padding: 5px 0;
+    text-align: center;
 }
 /**/
 #container .income {
@@ -199,6 +203,7 @@
     /*margin:20px auto 0;*/
 /*}*/
 #container .inforContent .main {
+    text-align: left;
     position: relative;
     padding: 5px 5px 5px 30px;
     background: rgba(88, 88, 88, 0.1);
