@@ -1199,30 +1199,6 @@ require(
                             height:'70%'
                         }
                     }
-                    /*if ((screen.width == 1440) && (screen.height == 900)){
-                        option.series[0].mapLocation = {
-                            x:'center',
-                            y:'220px',
-                            width:'100%',
-                            height:'65%'
-                        }
-                    }
-                    if ((screen.width == 1366) && (screen.height == 768)){
-                        option.series[0].mapLocation = {
-                            x:'center',
-                            y:'220px',
-                            width:'100%',
-                            height:'65%'
-                        }
-                    }
-                    if ((screen.width == 1920) && (screen.height == 1080)){
-                        option.series[0].mapLocation = {
-                            x:'center',
-                            y:'250px',
-                            width:'100%',
-                            height:'70%'
-                        }
-                    }*/
                 }
                 // 23个省 ---加标注气泡
                     // '广东', '青海', '四川', '海南', '陕西',
@@ -1832,7 +1808,7 @@ require(
                     }
             }
             else {
-                // 更新数据
+                // 返回全国更新数据
                 // 左下角数据
                 $('#container .bottom_left .title span').text('疑似非法集资省份排行')
                 $('#container .bottom_left #picChart-5>p').children('span:first-child').text('省份')
