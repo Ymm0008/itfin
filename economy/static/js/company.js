@@ -19,7 +19,6 @@ var commentData = [
     {'a':'积极5','b':'百度贴吧5','c':'2017-12','d':'5放款快，审核简单，赶快注册！'},
 ]
 function commentTable(data) {
-    console.log(data)
     $('#business').bootstrapTable('load', data);
     $('#business').bootstrapTable({
         data:data,
@@ -143,8 +142,8 @@ function table_1(){
     var myChart = echarts.init(document.getElementById('table-1'));
     var option = {
         title : {
-            text: '手机品牌',
-            subtext: '线、节点样式'
+            text: '',
+            subtext: ''
         },
         tooltip : {
             trigger: 'item',
@@ -163,7 +162,7 @@ function table_1(){
 
         series : [
             {
-                name:'树图',
+                name:'',
                 type:'tree',
                 orient: 'horizontal',  // vertical horizontal
                 rootLocation: {x: 100, y: '60%'}, // 根节点位置  {x: 'center',y: 10}
@@ -195,11 +194,11 @@ function table_1(){
                 },
                 data: [
                     {
-                        name: '手机',
+                        name: 'A',
                         value: 6,
                         symbolSize: [90, 70],
                         // symbol: 'image://http://www.iconpng.com/png/ecommerce-business/iphone.png',
-                        symbol: '手机',
+                        symbol: 'A',
                         itemStyle: {
                             normal: {
                                 label: {
@@ -209,10 +208,10 @@ function table_1(){
                         },
                         children: [
                             {
-                                name: '小米',
+                                name: 'B',
                                 value: 4,
                                 // symbol: 'image://http://pic.58pic.com/58pic/12/36/51/66d58PICMUV.jpg',
-                                symbol: '小米',
+                                symbol: 'B',
                                 itemStyle: {
                                     normal: {
                                         label: {
@@ -223,7 +222,7 @@ function table_1(){
                                 symbolSize: [60, 60],
                                 children: [
                                     {
-                                        name: '小米1',
+                                        name: 'C',
                                         symbol: 'circle',
                                         symbolSize: 20,
                                         value: 4,
@@ -245,7 +244,7 @@ function table_1(){
                                         }
                                     },
                                     {
-                                        name: '小米2',
+                                        name: 'D',
                                         value: 4,
                                         symbol: 'circle',
                                         symbolSize: 20,
@@ -267,7 +266,7 @@ function table_1(){
                                         }
                                     },
                                     {
-                                        name: '小米3',
+                                        name: 'E',
                                         value: 2,
                                         symbol: 'circle',
                                         symbolSize: 20,
@@ -289,9 +288,9 @@ function table_1(){
                                 ]
                             },
                             {
-                                name: '苹果',
+                                name: 'F',
                                 // symbol: 'image://http://www.viastreaming.com/images/apple_logo2.png',
-                                symbol: '苹果',
+                                symbol: 'F',
                                 symbolSize: [60, 60],
                                 itemStyle: {
                                     normal: {
@@ -304,9 +303,9 @@ function table_1(){
                                 value: 4
                             },
                             {
-                                name: '华为',
+                                name: 'G',
                                 // symbol: 'image://http://market.huawei.com/hwgg/logo_cn/download/logo.jpg',
-                                symbol: '华为',
+                                symbol: 'G',
                                 symbolSize: [60, 60],
                                 itemStyle: {
                                     normal: {
@@ -319,9 +318,9 @@ function table_1(){
                                 value: 2
                             },
                             {
-                                name: '联想',
+                                name: 'H',
                                 // symbol: 'image://http://www.lenovo.com.cn/HomeUpload/Home001/6d94ee9a20140714.jpg',
-                                symbol: '华为',
+                                symbol: 'H',
                                 symbolSize: [100, 40],
                                 itemStyle: {
                                     normal: {
@@ -351,7 +350,6 @@ var boas=[{'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},{'
 // var publicityTable_url='/system_manage/show_users_account/';
 // public_ajax.call_request('get',publicityTable_url,publicityTable);
 function publicityTable(data) {
-    console.log(data)
     $('#publicityTable').bootstrapTable('load', data);
     $('#publicityTable').bootstrapTable({
         data:data,
@@ -409,63 +407,6 @@ function publicityTable(data) {
     });
 };
 publicityTable(boas)
-function line_2() {
-    var day30=[];
-    for (var a=0;a < 30;a++){
-        day30.push(get7DaysBefore(new Date(),a));
-    }
-    var day30Data=[];
-    for (var b=0;b< 30;b++){
-        day30Data.push(Math.round(Math.random()*(20-5)+5));
-    }
-    var myChart = echarts.init(document.getElementById('opinion'));
-    var option = {
-        title: {
-            text: '',
-            subtext: ''
-        },
-        tooltip: {
-            trigger: 'axis'
-        },
-        legend: {
-            data:['']
-        },
-        xAxis:  {
-            type: 'category',
-            boundaryGap: false,
-            data: day30
-        },
-        yAxis: {
-            type: 'value',
-            axisLabel: {
-                formatter: '{value}'
-            }
-        },
-        series: [
-            {
-                name:'数量',
-                type:'line',
-                smooth:true,
-                data:day30Data.reverse(),
-                itemStyle:{normal:{areaStyle:{type:'default'}}},
-                markPoint: {
-                    data: [
-                        {type: 'max', name: '最大值'},
-                        {type: 'min', name: '最小值'}
-                    ]
-                },
-                markLine: {
-                    data: [
-                        {type: 'average', name: '平均值'}
-                    ]
-                }
-            },
-        ]
-    };
-    myChart.setOption(option);
-    _myChart2 = myChart;
-}
-line_2();
 //信息变更
 var indsa=[{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},
     {'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},
@@ -543,7 +484,6 @@ function inforChange(data) {
         ],
     });
 };
-<<<<<<< HEAD
 inforChange(indsa);
 //诉讼记录
 var kajsdj=[{'a':'2017-11-11','b':'testtesttesttesttesttesttesttest'},]
@@ -850,6 +790,158 @@ function billing(data) {
     });
 };
 billing(serds);
+
+// 趋势分析
+function line_2() {
+    var day30=[];
+    day30 = last_year_month().reverse();
+    var day30Data=[];
+    for (var b=0;b< 12;b++){
+        day30Data.push(Math.round(Math.random()*(20-5)+5));
+    }
+
+    var day30Data_2=[];
+    for (var c=0;c< 12;c++){
+        day30Data_2.push(Math.round(Math.random()*(20-3)+5));
+    }
+
+    var day30Data_3=[];
+    for (var d=0;d< 12;d++){
+        day30Data_3.push(Math.round(Math.random()*(20-8)+5));
+    }
+
+    var myChart = echarts.init(document.getElementById('opinion'));
+    var option = {
+        title: {
+            text: '',
+            subtext: ''
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['']
+        },
+        xAxis:  {
+            type: 'category',
+            boundaryGap: false,
+            data: day30
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel: {
+                formatter: '{value}'
+            }
+        },
+        series: [
+            {
+                name:'消极评论',
+                type:'line',
+                smooth:true,
+                data:day30Data.reverse(),
+                itemStyle:{normal:{areaStyle:{type:'default'}}},
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
+            },
+            {
+                name:'中性评论',
+                type:'line',
+                smooth:true,
+                data:day30Data_2,
+                itemStyle:{normal:{areaStyle:{type:'default'}}},
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
+            },
+            {
+                name:'积极评论',
+                type:'line',
+                smooth:true,
+                data:day30Data_3,
+                itemStyle:{normal:{areaStyle:{type:'default'}}},
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
+            },
+        ]
+    };
+    myChart.setOption(option);
+    _myChart2 = myChart;
+}
+line_2();
+
+//评论信息
+function commentinforContent(data) {
+    $('#commentinforContent').bootstrapTable('load', data);
+    $('#commentinforContent').bootstrapTable({
+        data:data,
+        search: true,//是否搜索
+        pagination: true,//是否分页
+        pageSize: 5,//单页记录数
+        pageList: [15,20,25],//分页步进值
+        sidePagination: "client",//服务端分页
+        searchAlign: "left",
+        searchOnEnterKey: false,//回车搜索
+        showRefresh: false,//刷新按钮
+        showColumns: false,//列选择按钮
+        buttonsAlign: "right",//按钮对齐方式
+        locale: "zh-CN",//中文支持
+        detailView: false,
+        showToggle:false,
+        sortName:'bci',
+        sortOrder:"desc",
+        columns: [
+            {
+                title: "",//标题
+                field: "",//键名
+                sortable: true,//是否可排序
+                order: "desc",//默认排序方式
+                align: "center",//水平
+                valign: "middle",//垂直
+                formatter: function (value, row, index) {
+                    return '<div class="inforContent" id="commentinforContent">'+
+                        '                <div class="main">'+
+                        '                    <img src="/static/images/textIcon.png" class="textFlag" style="top:8px;">'+
+                        '                    <p class="option">'+
+                        '                        <span>评论倾向：<b style="color: #ff6d70">积极</b></span>'+
+                        '                        <span>评论来源：<b style="color: #ff6d70">百度贴吧</b></span>'+
+                        '                        <span>发布时间：<b style="color: #ff6d70">2017-12-11</b></span>'+
+                        '                        <button class="originalbtn btn-primary btn-xs">查看全文</button>'+
+                        '                    </p>'+
+                        '                    <p class="context">'+row.d+'</p>'+
+                        '                </div>'+
+                        '            </div>';
+                }
+            },
+        ],
+    });
+};
+commentinforContent(serds);
 
 // 使用jsFiddle生成Word
 //     var result = document.getElementById('LL');

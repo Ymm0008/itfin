@@ -3,28 +3,6 @@
 {% block my_css %}
     <link rel="stylesheet" href="/static/css/company.css">
     <style>
-        .bootstrap-table .table>thead>tr>th {width: 5%;}
-        .fixed-table-toolbar .search {width: 100%;}
-        .fixed-table-toolbar .search .form-control {text-align: center;}
-        .business .fixed-table-container,.business .bootstrap-table .table>thead>tr>th,
-        .business .table>tbody>tr>td,.business .bootstrap-table .table,
-        .incomeTable .fixed-table-container,.incomeTable .bootstrap-table .table>thead>tr>th,
-        .incomeTable .table>tbody>tr>td,.incomeTable .bootstrap-table .table,
-        .guarantee .fixed-table-container,.guarantee .bootstrap-table .table>thead>tr>th,
-        .guarantee .table>tbody>tr>td,.guarantee .bootstrap-table .table,
-        .billing .fixed-table-container,.billing .bootstrap-table .table>thead>tr>th,
-        .billing .table>tbody>tr>td,.billing .bootstrap-table .table
-        {border: none;}
-        .business .fixed-table-container thead th .both,.incomeTable .fixed-table-container thead th .both,
-        .guarantee .fixed-table-container thead th .both,.billing .fixed-table-container thead th .both {background-image: none;}
-        .business .fixed-table-container thead th .th-inner,
-        .business .table>tbody>tr>td,.business .bootstrap-table .table:not(.table-condensed)>tbody>tr>td,
-        .incomeTable .fixed-table-container thead th .th-inner,
-        .incomeTable .table>tbody>tr>td,.incomeTable .bootstrap-table .table:not(.table-condensed)>tbody>tr>td,
-        .guarantee .fixed-table-container thead th .th-inner,
-        .guarantee .table>tbody>tr>td,.guarantee .bootstrap-table .table:not(.table-condensed)>tbody>tr>td,
-        .billing .fixed-table-container thead th .th-inner,
-        .billing .table>tbody>tr>td,.billing .bootstrap-table .table:not(.table-condensed)>tbody>tr>td{padding: 0;}
         <!---->
         #nav {background: #fff;box-shadow: 0 2px 5px rgba(41,46,51,0.15);color: #0e0e0e;}
         #nav .nav_middle .main_li .li_a,#nav .nav_right span {color: #0e0e0e;}
@@ -268,16 +246,14 @@
         </h3>
         <div class="publicityTable">
             <!-- <div id="publicityTable"></div> -->
-            <table id="pubTable">
+            <table id="pubTable" border="1">
                 <thead>
-                    <tr>
-                        <th></th>
-                        <th>微博</th>
-                        <th>贴吧</th>
-                        <th>论坛</th>
-                        <th>微信</th>
-                        <th>知乎</th>
-                    </tr>
+                    <th></th>
+                    <th>微博</th>
+                    <th>贴吧</th>
+                    <th>论坛</th>
+                    <th>微信</th>
+                    <th>知乎</th>
                 </thead>
                 <tbody>
                     <tr>
@@ -323,20 +299,23 @@
         </h3>
         <div>
             <h4><i class="icon icon-comment"></i>&nbsp;评论信息</h4>
-            <div class="inforContent" id="commentinforContent">
-                <div class="main">
-                    <img src="/static/images/textIcon.png" class="textFlag" style="top:8px;">
-                    <p class="option">
-                        <span>评论倾向：<b style="color: #ff6d70">积极</b></span>
-                        <span>评论来源：<b style="color: #ff6d70">百度贴吧</b></span>
-                        <span>发布时间：<b style="color: #ff6d70">2017-12</b></span>
-                        <button class="originalbtn btn-primary btn-xs">查看全文</button>
-                    </p>
-                    <p class="context">
-                        评论内容：放款快，审核简单，赶快注册！
-                    </p>
-                </div>
+            <div class="commentinforContent">
+                <div id="commentinforContent"></div>
             </div>
+            <!--<div class="inforContent" id="commentinforContent">-->
+                <!--<div class="main">-->
+                    <!--<img src="/static/images/textIcon.png" class="textFlag" style="top:8px;">-->
+                    <!--<p class="option">-->
+                        <!--<span>评论倾向：<b style="color: #ff6d70">积极</b></span>-->
+                        <!--<span>评论来源：<b style="color: #ff6d70">百度贴吧</b></span>-->
+                        <!--<span>发布时间：<b style="color: #ff6d70">2017-12-11</b></span>-->
+                        <!--<button class="originalbtn btn-primary btn-xs">查看全文</button>-->
+                    <!--</p>-->
+                    <!--<p class="context">-->
+                        <!--评论内容：放款快，审核简单，赶快注册！-->
+                    <!--</p>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
         <div style="margin-top: 20px;">
             <h4><i class="icon icon-signal"></i>&nbsp;趋势统计</h4>
