@@ -21,6 +21,23 @@
         .riskValueTable .bootstrap-table .table thead>tr>th,.publicityTable .bootstrap-table .table thead>tr>th{
             width: 5%;
         }
+
+
+        #commentinforContent tbody,#commentinforContent tr,#commentinforContent td {
+            display:block;
+            width:100%;
+        }
+        /* 宣传行为 */
+        #pubTable {
+            border-collapse:collapse;
+            width:100%;
+            border: 1px solid #ddd;
+            border-radius:1px;
+            padding:8px;
+        }
+        .publicityTable table>thead>tr>th{
+            border-bottom:1px solid #ddd;
+        }
     </style>
 {% endblock %}
 {% block main %}
@@ -191,7 +208,53 @@
             <button type="button" class="btn btn-info" style="position: relative;top: -3px;left: 20px;">存档取证</button>
         </h3>
         <div class="publicityTable">
-            <div id="publicityTable"></div>
+            <!-- <div id="publicityTable"></div> -->
+            <table id="pubTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>微博</th>
+                        <th>贴吧</th>
+                        <th>论坛</th>
+                        <th>微信</th>
+                        <th>知乎</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>强煽动性广告</td>
+                        <td>1111</td>
+                        <td>1111</td>
+                        <td>1111</td>
+                        <td>1111</td>
+                        <td>1111</td>
+                    </tr>
+                    <tr>
+                        <td>一般煽动性广告</td>
+                        <td>2222</td>
+                        <td>2222</td>
+                        <td>2222</td>
+                        <td>2222</td>
+                        <td>2222</td>
+                    </tr>
+                    <tr>
+                        <td>无煽动性广告</td>
+                        <td>333</td>
+                        <td>333</td>
+                        <td>333</td>
+                        <td>333</td>
+                        <td>333</td>
+                    </tr>
+                    <tr>
+                        <td>非广告</td>
+                        <td>444</td>
+                        <td>444</td>
+                        <td>444</td>
+                        <td>444</td>
+                        <td>444</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <div class="commentInfor">
@@ -201,14 +264,14 @@
         </h3>
         <div>
             <h4><i class="icon icon-comment"></i>&nbsp;评论信息</h4>
-            <div class="inforContent">
+            <div class="inforContent" id="commentinforContent">
                 <div class="main">
                     <img src="/static/images/textIcon.png" class="textFlag" style="top:8px;">
                     <p class="option">
                         <span>评论倾向：<b style="color: #ff6d70">积极</b></span>
                         <span>评论来源：<b style="color: #ff6d70">百度贴吧</b></span>
-                        <span>用户昵称：<b style="color: #ff6d70">小飞侠</b></span>
-                        <button class="originalbtn btn-primary btn-xs">查看原文</button>
+                        <span>发布时间：<b style="color: #ff6d70">2017-12</b></span>
+                        <button class="originalbtn btn-primary btn-xs">查看全文</button>
                     </p>
                     <p class="context">
                         评论内容：放款快，审核简单，赶快注册！

@@ -9,6 +9,23 @@ function get7DaysBefore(date,m){
     newDate = new Date(timestamp - m * 24 * 3600 * 1000);
     return [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()].join('-');
 };
+// 12个月
+var last_year_month = function() {
+    var d = new Date();
+    var result = [];
+    for(var i = 0; i < 12; i++) {
+        d.setMonth(d.getMonth() - 1);
+        var m = d.getMonth() + 1;
+        m = m < 10 ? "0" + m : m;
+        //在这里可以自定义输出的日期格式
+//                  result.push(d.getFullYear() + "-" + m);
+        result.push(d.getFullYear() + "年" + m + '月');
+    }
+    return result;
+}
+
+
+
 var risk_url='///';
 // public_ajax.call_request('get',risk_url,riskValue);
 var objData=[{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},
@@ -402,15 +419,89 @@ function publicityTable(data) {
     });
 };
 publicityTable(boas)
+
+
+// 舆情分析-评论信息
+var commentData = [
+    {'a':'积极','b':'百度贴吧','c':'2017-12','d':'放款快，审核简单，赶快注册！'},
+    {'a':'积极2','b':'百度贴吧2','c':'2017-12','d':'2放款快，审核简单，赶快注册！'},
+    {'a':'积极3','b':'百度贴吧3','c':'2017-12','d':'3放款快，审核简单，赶快注册！'},
+    {'a':'积极4','b':'百度贴吧4','c':'2017-12','d':'4放款快，审核简单，赶快注册！'},
+    {'a':'积极5','b':'百度贴吧5','c':'2017-12','d':'5放款快，审核简单，赶快注册！'},
+]
+function commentTable(data) {
+    console.log(data)
+    $('#commentinforContent').bootstrapTable('load', data);
+    $('#commentinforContent').bootstrapTable({
+        data:data,
+        search: true,//是否搜索
+        pagination: true,//是否分页
+        pageSize: 5,//单页记录数
+        pageList: [15,20,25],//分页步进值
+        sidePagination: "client",//服务端分页
+        searchAlign: "left",
+        searchOnEnterKey: false,//回车搜索
+        showRefresh: false,//刷新按钮
+        showColumns: false,//列选择按钮
+        buttonsAlign: "right",//按钮对齐方式
+        locale: "zh-CN",//中文支持
+        detailView: false,
+        showToggle:false,
+        sortName:'bci',
+        sortOrder:"desc",
+        columns: [
+            {
+                title: "",//标题
+                field: "",//键名
+                sortable: true,//是否可排序
+                order: "desc",//默认排序方式
+                align: "left",//水平
+                valign: "middle",//垂直
+                formatter: function (value, row, index) {
+                    return '<div class="main">'+
+                        '<img src="/static/images/textIcon.png" class="textFlag" style="top:8px;">'+
+                        '<p class="option">'+
+                            '<span>评论倾向：<b style="color: #ff6d70">'+row.a+'</b></span>'+
+                            '<span>评论来源：<b style="color: #ff6d70">'+row.b+'</b></span>'+
+                            '<span>发布时间：<b style="color: #ff6d70">'+row.c+'</b></span>'+
+                            '<button class="originalbtn btn-primary btn-xs">查看全文</button>'+
+                        '</p>'+
+                        '<p class="context">'+
+                            '评论内容：'+row.d+
+                        '</p>'+
+                    '</div>';
+                }
+            },
+        ],
+    });
+};
+commentTable(commentData)
+
+// 趋势分析
 function line_2() {
     var day30=[];
-    for (var a=0;a < 30;a++){
-        day30.push(get7DaysBefore(new Date(),a));
-    }
+    // for (var a=0;a < 12;a++){
+    //     day30.push(get12MonthBefore(new Date(),a));
+    // }
+    day30 = last_year_month().reverse();
+    // console.log(day30)
+
+
     var day30Data=[];
-    for (var b=0;b< 30;b++){
+    for (var b=0;b< 12;b++){
         day30Data.push(Math.round(Math.random()*(20-5)+5));
     }
+
+    var day30Data_2=[];
+    for (var c=0;c< 12;c++){
+        day30Data_2.push(Math.round(Math.random()*(20-3)+5));
+    }
+
+    var day30Data_3=[];
+    for (var d=0;d< 12;d++){
+        day30Data_3.push(Math.round(Math.random()*(20-8)+5));
+    }
+
     var myChart = echarts.init(document.getElementById('opinion'));
     var option = {
         title: {
@@ -436,10 +527,46 @@ function line_2() {
         },
         series: [
             {
-                name:'数量',
+                name:'消极评论',
                 type:'line',
                 smooth:true,
                 data:day30Data.reverse(),
+                itemStyle:{normal:{areaStyle:{type:'default'}}},
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
+            },
+            {
+                name:'中性评论',
+                type:'line',
+                smooth:true,
+                data:day30Data_2,
+                itemStyle:{normal:{areaStyle:{type:'default'}}},
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
+            },
+            {
+                name:'积极评论',
+                type:'line',
+                smooth:true,
+                data:day30Data_3,
                 itemStyle:{normal:{areaStyle:{type:'default'}}},
                 markPoint: {
                     data: [
