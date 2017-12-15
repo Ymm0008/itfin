@@ -112,6 +112,17 @@ function peoPicture(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                formatter: function (value, row, index) {
+                    if (row.operation_mode==''||row.operation_mode=='null'||row.operation_mode=='unknown'||!row.operation_mode){
+                        return '未知';
+                    }else if(row.operation_mode == 1){
+                        return '互联网金融';
+                    }else if(row.operation_mode == 2){
+                        return '2';
+                    }else if(row.operation_mode == 3){
+                        return '3';
+                    }
+                }
             },
             {
                 title: "监测详情",//标题
@@ -128,7 +139,6 @@ function peoPicture(data) {
     });
 };
 
-// function jumpFrame_1(flag) {
 function jumpFrame_1(name,type,id) {
     var html='';
     name=escape(name);
@@ -139,6 +149,7 @@ function jumpFrame_1(name,type,id) {
     }
     window.location.href=html;
 }
+
 function jumpFrame_2(monitorFlag) {
     window.localStorage.setItem('monitorFlag',monitorFlag);
     window.location.href='../templates/monitorDetails.html';
@@ -156,7 +167,7 @@ function allMonitor(data) {
         phonehtml.push(
             '<p class="phone" type="button" data-toggle="modal" ' +
             'onclick="show(this)" onmousemove="chgecol(this)" onmouseout="back(this)">'+
-            '<span class="iphone zjnum">'+line[i]+'</span>'+
+            '<span class="iphone zjnum">'+line[i].entity_name+'</span>'+
             // '<span class="iphone bjnum">'+line[i]+'</span>'+
             '<span class="iphone bjnum">模型预警</span>'+
             '</p>'
