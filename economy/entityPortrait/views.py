@@ -6,7 +6,10 @@ from economy.db import *
 from . import entityPortrait
 import json
 
-field = ['id','entity_type','entity_name','location','start_time']
+field = ['id','entity_name','entity_type','location','operation_mode']
+plat_field = ['id','entity_name']
+company_field = ['id','entity_name']
+project_field = ['id','entity_name']
 
 @entityPortrait.route('/entityPortrait/')
 def entityportrait():
@@ -14,24 +17,24 @@ def entityportrait():
 
 @entityPortrait.route('/portrait/',methods=['POST','GET'])
 def portrait():
-	result = get('entity_list',field)
+	result = get('entity_list','plat_detail','company_detail','project_detail',field)
 	if result['status'] == 1:
 		return json.dumps(result['data'],ensure_ascii=False)
 
 @entityPortrait.route('/platform/',methods=['POST','GET'])
 def platform():
-	result = get_platform('entity_list')
+	result = get_platform('entity_list',plat_field)
 	print(result)
 	return json.dumps(result,ensure_ascii=False)
 
 @entityPortrait.route('/company/',methods=['POST','GET'])
 def company():
-	result = get_company('entity_list')
+	result = get_company('entity_list',company_field)
 	print(result)
 	return json.dumps(result,ensure_ascii=False)
 
 @entityPortrait.route('/project/',methods=['POST','GET'])
 def project():
-	result = get_project('entity_list')
+	result = get_project('entity_list',project_field)
 	print(result)
 	return json.dumps(result,ensure_ascii=False)
