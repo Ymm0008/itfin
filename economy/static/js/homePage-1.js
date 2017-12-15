@@ -10,33 +10,6 @@ if (screen.width <=1440) {
 } else {
 	$('#container #picChart-4 p').css('padding-left','20%')
 }
-/*
-if ((screen.width == 1440) && (screen.height == 900)){
-    // 上下左右四个盒子宽高
-    $('#container .picChart-2, #container .picChart-4, #container .picChart-5, #container .picChart-6').css({'width':'300px','height':'150px'});
-    // 左下角盒子
-    $('#container #picChart-5 .outSide').css({'height':'76%'})
-    // 右下角盒子
-    $('#container #picChart-6 .rightoutSide').css({'height':'108%'})
-    $('#container #picChart-6 p span').css({'margin-left':'0','margin-right':'10px'})
-    // 右上角字符云
-    // $('#container #picChart-4 p').css('padding-left','0')
-}
-if ((screen.width == 1366) && (screen.height == 768)){
-    $('#container .picChart-2, #container .picChart-4, #container .picChart-5, #container .picChart-6').css({'width':'300px','height':'150px'});
-    // 左下角盒子
-    $('#container #picChart-5 .outSide').css({'height':'76%'})
-    // 右下角盒子
-    $('#container #picChart-6 .rightoutSide').css({'height':'108%'})
-    $('#container #picChart-6 p span').css({'margin-left':'0','margin-right':'10px'})
-    // 右上角字符云
-    // $('#container #picChart-4 p').css('padding-left','0')
-}
-if ((screen.width == 1920) && (screen.height == 1080)){
-    // 右上角字符云
-    $('#container #picChart-4 p').css('padding-left','20%')
-}
-*/
 
 // 页面初始  左下角省份数据
 $('#container .bottom_left #picChart-5 #proRank').empty();
@@ -109,11 +82,22 @@ require(
                     show:true,
                     min : 0,
                     max : 1000,
-                    calculable : true,
+                    // calculable : true,
+                    itemGap:2,
+                    splitList: [
+                        {start: 800},
+                        // {start: 700, end: 999},
+                        {start: 600, end: 800},
+                        {start: 400, end: 600},
+                        {start: 150, end: 400, label: '100 到 300（自定义label）'},
+                        // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
+                        {end: 150}
+                    ],
                     x:'27%',
                     textStyle:{
                         color:'white'
-                    }
+                    },
+                    color: ['#cf181d','#fee9b4'],
                     // color: ['maroon','purple','red','orange','yellow','lightgreen']
                     // color: ['#ccc97a','#264861','#b3c587']
                 }
@@ -1200,23 +1184,14 @@ require(
                 }
                 // 点击进入省级后适配分辨率
                 if(target){
-                    if ((screen.width == 1440) && (screen.height == 900)){
+                    if (screen.width <= 1440) {
                         option.series[0].mapLocation = {
                             x:'center',
                             y:'220px',
                             width:'100%',
                             height:'65%'
                         }
-                    }
-                    if ((screen.width == 1366) && (screen.height == 768)){
-                        option.series[0].mapLocation = {
-                            x:'center',
-                            y:'220px',
-                            width:'100%',
-                            height:'65%'
-                        }
-                    }
-                    if ((screen.width == 1920) && (screen.height == 1080)){
+                    } else {
                         option.series[0].mapLocation = {
                             x:'center',
                             y:'250px',
@@ -1833,7 +1808,7 @@ require(
                     }
             }
             else {
-                // 更新数据
+                // 返回全国更新数据
                 // 左下角数据
                 $('#container .bottom_left .title span').text('疑似非法集资省份排行')
                 $('#container .bottom_left #picChart-5>p').children('span:first-child').text('省份')
@@ -1857,10 +1832,21 @@ require(
                     x: '27%',
                     y: 'bottom',
                     //text:['2500','0'],           // 文本，默认为数值文本
-                    calculable : true,
+                    // calculable : true,
+                    itemGap:2,
+                    splitList: [
+                        {start: 800},
+                        // {start: 700, end: 999},
+                        {start: 600, end: 800},
+                        {start: 400, end: 600},
+                        {start: 150, end: 400, label: '100 到 300（自定义label）'},
+                        // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
+                        {end: 150}
+                    ],
                     textStyle:{
                         color:'white'
-                    }
+                    },
+                    color: ['#cf181d','#fee9b4'],
                     // color:['#8a7ca8','#e098c7','#8fd3e8','#71669e','#cc70af','#7cb4cc']
                     // color: ['#ccc97a','#264861','#b3c587']
                 }
@@ -1944,7 +1930,7 @@ require(
                 // 点击返回全国后适配分辨率
                 if ((screen.width == 1920) && (screen.height == 1080)){
                     option.series[0].mapLocation = {
-                        x:'20%',
+                        x:'center',
                         y:'100px',
                         width:'85%',
                         height:'85%'
@@ -2028,12 +2014,12 @@ require(
                     selectedMode : 'single',
                     // 地图位置设置，默认只适应上下左右居中可配x，y，width，height，任意参数为空都将根据其他参数自适应
                     // 默认1920*1080分辨率
-                    mapLocation:{
-                        x:'20%',
-                        y:'80px',
-                        width:'85%',
-                        height:'85%'
-                    },
+                    // mapLocation:{
+                    //     x:'20%',
+                    //     y:'80px',
+                    //     width:'85%',
+                    //     height:'85%'
+                    // },
                     itemStyle: {
                         normal: {
                             borderWidth:2,
@@ -2193,6 +2179,7 @@ var option_1 = {
             }
         },
         axisLabel: {
+            show:false,
             margin: 10,
             textStyle: {
                 fontSize: 14,

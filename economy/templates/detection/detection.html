@@ -36,6 +36,10 @@
         }
         #sureTime:hover,#sureTime2:hover,
         #sureTime3:hover,#sureTime4:hover {background: rgba(8,23,44,0.65)}
+
+        #nav {
+            top:0;
+        }
     </style>
 {% endblock %}
 
@@ -274,6 +278,11 @@
         <h3 style="color: white;text-align: left;display: inline-block;vertical-align:top;margin-right: 20px;">
             <i class="icon icon-laptop"></i>&nbsp;预警排名
         </h3>
+        <select class="_time1">
+            <option value="公司">公司</option>
+            <option value="平台">平台</option>
+            <option value="项目">项目</option>
+        </select>
         <select class="_time2">
             <option value="近一周">近一周</option>
             <option value="近一个月">近一个月</option>
@@ -308,7 +317,8 @@
         'navigation': 'true',
         'loopBottom':'true',
         'navigationPosition': 'right',
-        'navigationTooltips': ['预警记录','预警态势及类型','预警分布','运营模式','预警排名']
+        'navigationTooltips': ['预警记录','预警态势及类型','预警分布','运营模式','预警排名'],
+        'fixedElements':'#nav'
     });
     var show=0,show_2=0;
     $('.firstScreen .search .moreSitu').on('click',function () {

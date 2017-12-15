@@ -52,8 +52,8 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    position: relative;
-    top: 4px;
+    /*position: relative;*/
+    /*top: 4px;*/
 }
 #container .infor p {
     font-size: 14px;
@@ -66,17 +66,28 @@
 #container .infor p span {
     display: inline-block;
     width: 70px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     text-align: right;
 }
 #container .infor p b {
-    position: relative;
-    top: 3px;
+    /*position: relative;*/
+    /*top: 3px;*/
     display: inline-block;
     max-width: 180px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
+}
+#container .infor .isPlatform {
+    width: auto;
+    margin-left: 1.2%;
+}
+#container .infor .isPlatform span,
+#container .infor .isPlatform b {
+    width: auto;
 }
 #container .infor .comBisic,#container .icon-edit {
     cursor: pointer;
@@ -151,12 +162,39 @@
     font-weight: 600;
     width: 40%;
     font-size: 14px;
-    text-align: left;
-    background: rgba(150, 150, 150, 0.25);
+    /*text-align: left;*/
+    /*background: rgba(150, 150, 150, 0.25);*/
+}
+#container .publicityTable #pubTable {
+    font-size: 14px;
+    padding: 20px;
+}
+#container .downCompany #table-2 td,
+#container .publicityTable #pubTable th,
+#container .publicityTable #pubTable td {
+    padding: 5px 0;
+    text-align: center;
 }
 /**/
-#container .operating,#container .register,#container .litigation,
-#container .publicity{
+#container .income {
+    margin: 2px auto 0;
+    overflow: hidden;
+    width: 100%;
+    padding: 20px;
+    background: rgba(245, 243, 243, 0.71);
+}
+/**/
+#container .promise .pro {
+    width: 48%;
+    float: left;
+    padding: 5px 10px;
+}
+#container .promise .promise-2 {
+    float: right;
+}
+/**/
+#container .promise,#container .operating,#container .register,#container .litigation,
+#container .publicity,#container .advertising{
     width: 100%;
     padding: 20px;
     margin: 2px auto 0;
@@ -166,11 +204,12 @@
     background: rgba(245, 243, 243, 0.71);
 }
 /**/
-#container .advertising {
-    width: 80%;
-    margin:20px auto 0;
-}
+/*#container .advertising {*/
+    /*width: 80%;*/
+    /*margin:20px auto 0;*/
+/*}*/
 #container .inforContent .main {
+    text-align: left;
     position: relative;
     padding: 5px 5px 5px 30px;
     background: rgba(88, 88, 88, 0.1);
@@ -236,3 +275,33 @@
     height: 300px;
     background: rgba(150, 150, 150, 0.25);
 }
+
+/*表格样式*/
+.bootstrap-table .table>thead>tr>th {width: 5%;}
+.fixed-table-toolbar .search {width: 100%;}
+.fixed-table-toolbar .search .form-control {text-align: center;}
+.business .fixed-table-container,.business .bootstrap-table .table>thead>tr>th,
+.business .table>tbody>tr>td,.business .bootstrap-table .table,
+.incomeTable .fixed-table-container,.incomeTable .bootstrap-table .table>thead>tr>th,
+.incomeTable .table>tbody>tr>td,.incomeTable .bootstrap-table .table,
+.guarantee .fixed-table-container,.guarantee .bootstrap-table .table>thead>tr>th,
+.guarantee .table>tbody>tr>td,.guarantee .bootstrap-table .table,
+.billing .fixed-table-container,.billing .bootstrap-table .table>thead>tr>th,
+.billing .table>tbody>tr>td,.billing .bootstrap-table .table,
+.commentinforContent .fixed-table-container,.commentinforContent .bootstrap-table .table>thead>tr>th,
+.commentinforContent .table>tbody>tr>td,.commentinforContent .bootstrap-table .table
+{border: none;}
+.business .fixed-table-container thead th .both,.incomeTable .fixed-table-container thead th .both,
+.guarantee .fixed-table-container thead th .both,.billing .fixed-table-container thead th .both,
+.commentinforContent .fixed-table-container thead th .both {background-image: none;}
+.business .fixed-table-container thead th .th-inner,
+.business .table>tbody>tr>td,.business .bootstrap-table .table:not(.table-condensed)>tbody>tr>td,
+.incomeTable .fixed-table-container thead th .th-inner,
+.incomeTable .table>tbody>tr>td,.incomeTable .bootstrap-table .table:not(.table-condensed)>tbody>tr>td,
+.guarantee .fixed-table-container thead th .th-inner,
+.guarantee .table>tbody>tr>td,.guarantee .bootstrap-table .table:not(.table-condensed)>tbody>tr>td,
+.billing .fixed-table-container thead th .th-inner,
+.billing .table>tbody>tr>td,.billing .bootstrap-table .table:not(.table-condensed)>tbody>tr>td,
+.commentinforContent .fixed-table-container thead th .th-inner,
+.commentinforContent .table>tbody>tr>td,.commentinforContent .bootstrap-table .table:not(.table-condensed)>tbody>tr>td
+{padding: 0;}

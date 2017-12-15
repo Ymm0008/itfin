@@ -10,6 +10,8 @@ var peoPicture_url='/portraite/portrait/';
 public_ajax.call_request('get',peoPicture_url,peoPicture);
 
 function peoPicture(data) {
+    console.log(data);
+    $('#contentTable').empty();
     $('#contentTable').bootstrapTable('load', data);
     $('#contentTable').bootstrapTable({
         data:data,
@@ -40,7 +42,7 @@ function peoPicture(data) {
                     if (row.entity_name==''||row.entity_name=='null'||row.entity_name=='unknown'||!row.entity_name){
                         return '未知';
                     }else {
-                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.entity_name+'\')" title="进入画像">'+row.entity_name+'</span>';
+                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.entity_name+'\',\''+row.entity_type+'\')" title="进入画像">'+row.entity_name+'</span>';
                     };
                 }
             },
@@ -85,7 +87,7 @@ function peoPicture(data) {
             },
             {
                 title: "实体类型",//标题
-                field: "d",//键名
+                field: "entity_type",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
@@ -124,20 +126,15 @@ function peoPicture(data) {
         ],
     });
 };
-// peoPicture(objData)
-function jumpFrame_1(flag) {
+
+// function jumpFrame_1(flag) {
+function jumpFrame_1(name,type) {
     var html='';
-    if (flag=='湖北嘟嘟'){
-        html='../templates/company.html';
-    }else if(flag=='优易网'){
-        html='../templates/platform.html';
-    }else if(flag=='青云门'){
-        html='../templates/project.html';
-    }else{
-        // 页面展示出来 先
-        // html = '/index/company';
-        html = '/index/platform';
-        // html = '/index/project';
+    name=escape(name);
+    if (type=='1'||type=='2'){
+        html='/index/company/?name='+name+'&flag='+type;
+    }else {
+        html='/index/project/?name='+name+'&flag='+type;
     }
     window.location.href=html;
 }

@@ -30,7 +30,9 @@ def platformData():
 
 @index.route('/company/')
 def company():
-	return render_template('index/company.html')
+	name = request.args.get('name','')
+	flag = request.args.get('flag','')
+	return render_template('index/company.html',name=name,flag=flag)
 
 '''
 @index.route('/companyData/')
@@ -42,7 +44,9 @@ def companyData():
 
 @index.route('/project/')
 def project():
-	return render_template('index/project.html')
+	name = request.args.get('name','')
+	flag = request.args.get('flag','')
+	return render_template('index/project.html',name=name,flag=flag)
 
 '''
 @index.route('/projectData/')
