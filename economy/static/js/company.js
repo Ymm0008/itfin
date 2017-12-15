@@ -35,6 +35,13 @@ function master(data) {
     $('.mid-1').text();
     $('.mid-2').text();
     $('.mid-3').text();
+=======
+
+var top_url='/index/entityType/?id='+pid+'&type='+type;
+public_ajax.call_request('get',top_url,topF);
+function topF(data){
+    console.log(data);
+>>>>>>> 49801861a17fce05fc5987c6c599e74d7e862b46
 }
 
 
@@ -384,14 +391,34 @@ var boas=[{'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},{'
     {'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},{'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},
     {'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},{'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},
     {'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},{'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''}]
-// var publicityTable_url='/system_manage/show_users_account/';
-// var publicityTable_url='/index/ad/?id='+id;
-var publicityTable_url='/index/ad/?id='+235;
+var publicityTable_url='/index/ad/?id='+pid;
 console.log(publicityTable_url)
 public_ajax.call_request('get',publicityTable_url,publicityTable);
 function publicityTable(data) {
-    console.log(data[0])
-    $('#pubTable tbody tr:eq(4) td:eq(1)').text(data.ad0_webo)
+    console.log(data)
+    $('#pubTable tbody tr').eq(3).find('td').eq(1).html(data[0].ad0_webo)
+    $('#pubTable tbody tr').eq(3).find('td').eq(2).html(data[0].ad0_forum)
+    $('#pubTable tbody tr').eq(3).find('td').eq(3).html(data[0].ad0_bbs)
+    $('#pubTable tbody tr').eq(3).find('td').eq(4).html(data[0].ad0_wechat)
+    $('#pubTable tbody tr').eq(3).find('td').eq(5).html(data[0].ad0_zhihu)
+
+    $('#pubTable tbody tr').eq(2).find('td').eq(1).html(data[0].inf1_webo)
+    $('#pubTable tbody tr').eq(2).find('td').eq(2).html(data[0].inf1_forum)
+    $('#pubTable tbody tr').eq(2).find('td').eq(3).html(data[0].inf1_bbs)
+    $('#pubTable tbody tr').eq(2).find('td').eq(4).html(data[0].inf1_wechat)
+    $('#pubTable tbody tr').eq(2).find('td').eq(5).html(data[0].inf1_zhihu)
+
+    $('#pubTable tbody tr').eq(1).find('td').eq(1).html(data[0].inf2_webo)
+    $('#pubTable tbody tr').eq(1).find('td').eq(2).html(data[0].inf2_forum)
+    $('#pubTable tbody tr').eq(1).find('td').eq(3).html(data[0].inf2_bbs)
+    $('#pubTable tbody tr').eq(1).find('td').eq(4).html(data[0].inf2_wechat)
+    $('#pubTable tbody tr').eq(1).find('td').eq(5).html(data[0].inf2_zhihu)
+
+    $('#pubTable tbody tr').eq(0).find('td').eq(1).html(data[0].inf3_webo)
+    $('#pubTable tbody tr').eq(0).find('td').eq(2).html(data[0].inf3_forum)
+    $('#pubTable tbody tr').eq(0).find('td').eq(3).html(data[0].inf3_bbs)
+    $('#pubTable tbody tr').eq(0).find('td').eq(4).html(data[0].inf3_wechat)
+    $('#pubTable tbody tr').eq(0).find('td').eq(5).html(data[0].inf3_zhihu)
 }
 /*function publicityTable(data) {
     $('#publicityTable').bootstrapTable('load', data);
@@ -688,10 +715,14 @@ function line_1() {
     myChart.setOption(option);
 }
 // line_1();
+
 var serds = [
     {'a':'积极','b':'百度贴吧','c':'2017-12','d':'放款快，审核简单，赶快注册！'},
 ]
+var incomeTable_url='/index/returnRate/?id='+pid;
+public_ajax.call_request('get',incomeTable_url,incomeTable);
 function incomeTable(data) {
+    console.log(data)
     $('#incomeTable').bootstrapTable('load', data);
     $('#incomeTable').bootstrapTable({
         data:data,
@@ -723,10 +754,10 @@ function incomeTable(data) {
                         '                <div class="main">'+
                         '                    <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
                         '                    <p class="option">'+
-                        '                        <span>收益率：<b style="color: #ff6d70">33%</b></span>'+
+                        '                        <span>收益率：<b style="color: #ff6d70">'+row.return_rate+'%</b></span>'+
                         '                        <button class="original btn-primary btn-xs">查看全文</button>'+
                         '                    </p>'+
-                        '                    <p class="context">'+row.d+'</p>'+
+                        '                    <p class="context">'+row.related_text+'</p>'+
                         '                </div>'+
                         '            </div>';
                 }
@@ -734,9 +765,11 @@ function incomeTable(data) {
         ],
     });
 };
-incomeTable(serds);
+// incomeTable(serds);
 
 //收益/保本/担保承诺
+var guarantee_url='/index/guarantee/?id='+pid;
+public_ajax.call_request('get',guarantee_url,guarantee);
 function guarantee(data) {
     $('#guarantee').bootstrapTable('load', data);
     $('#guarantee').bootstrapTable({
@@ -765,15 +798,23 @@ function guarantee(data) {
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
+                    var promiseType;
+                    if(row.promise_type == 1){
+                        promiseType = '本息类担保'
+                    }else if(row.promise_type == 2){
+                        promiseType = '非本息类担保'
+                    }else {
+                        promiseType = '无匹配结果'
+                    }
                     return '<div class="promiseCon">'+
                         '            <div class="inforContent">'+
                         '                <div class="main">'+
                         '                    <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
                         '                    <p class="option">'+
-                        '                        <span>承诺类型：<b style="color: #ff6d70">担保</b></span>'+
+                        '                        <span>承诺类型：<b style="color: #ff6d70">'+promiseType+'</b></span>'+
                         '                        <button class="original btn-primary btn-xs">查看全文</button>'+
                         '                    </p>'+
-                        '                    <p class="context">'+row.d+'</p>'+
+                        '                    <p class="context">'+row.related_text+'</p>'+
                         '                </div>'+
                         '            </div>'+
                         '        </div>';
