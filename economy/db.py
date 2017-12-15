@@ -27,24 +27,24 @@ def get(table1,table2,table3,table4,field):
 		result = {'status':1,'data':data}
 	else:
 		result = {'status':0,'data':'null'}
-	return result 
+	return result
 
 def get_platform(table,field):
-	sql = "select id,entity_name from %s where entity_type=1 and date='2017-11-27'" % table
+	sql = "select id,entity_name from %s where entity_type=1" % table
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return data
 
 def get_company(table,field):
-	sql = "select id,entity_name from %s where entity_type=2 and date='2017-11-27'" % table
+	sql = "select id,entity_name from %s where entity_type=2" % table
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return data
 
 def get_project(table,field):
-	sql = "select id,entity_name from %s where entity_type=3 and date='2017-11-27'" % table
+	sql = "select id,entity_name from %s where entity_type=3" % table
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
@@ -52,21 +52,21 @@ def get_project(table,field):
 
 
 def platform_detail(table1,table2,id,field):
-	sql = "select el.id,pd.entity_id,el.entity_name,el.location,pd.operation_mode,el.entity_type,el.start_time,pd.illegal_type,pd.risk_level,pd.impact_level,pd.penalty_status from %s as el inner join %s as pd on el.entity_name=pd.entity_name where pd.entity_id=id and pd.date='2017-11-27" % (table1,table2)
+	sql = "select el.id,pd.entity_id,el.entity_name,el.location,pd.operation_mode,el.entity_type,el.start_time,pd.illegal_type,pd.risk_level,pd.impact_level,pd.penalty_status from %s as el inner join %s as pd on el.id=pd.entity_id where el.id=%d and pd.date='2017-11-27'" % (table1,table2,id)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return data
 
 def company_detail(table1,table2,id,field):
-	sql = "select el.id,cd.entity_id,el.entity_name,el.location,cd.operation_mode,el.entity_type,el.start_time,cd.illegal_type,cd.risk_level,cd.impact_level,cd.penalty_status from %s as el inner join %s as cd on el.entity_name=cd.entity_name where cd.entity_id=id and cd.date='2017-11-27'" % (table1,table2)
+	sql = "select el.id,cd.entity_id,el.entity_name,el.location,cd.operation_mode,el.entity_type,el.start_time,cd.illegal_type,cd.risk_level,cd.impact_level,cd.penalty_status from %s as el inner join %s as cd on el.id=cd.entity_id where el.id=%d and cd.date='2017-11-27'" % (table1,table2,id)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return data
 
 def project_detail(table1,table2,id,field):
-	sql = "select el.id,p.entity_id,el.entity_name,el.location,p.operation_mode,el.entity_type,el.start_time,p.illegal_type,p.risk_level,p.impact_level,p.penalty_status from %s as el inner join %s as p on el.entity_name=p.entity_name where p.entity_id=id and p.date='2017-11-27'" % (table1,table2)
+	sql = "select el.id,p.entity_id,el.entity_name,el.location,p.operation_mode,el.entity_type,el.start_time,p.illegal_type,p.risk_level,p.impact_level,p.penalty_status from %s as el inner join %s as p on el.id=p.entity_id where el.id=%d and p.date='2017-11-27'" % (table1,table2,id)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
@@ -74,35 +74,35 @@ def project_detail(table1,table2,id,field):
 
 
 def get_ad(table,id,field):
-	sql = "select * from %s where entity_id=id and date='2017-11-27'" % table
+	sql = "select * from %s where entity_id=%d and date='2017-11-27'" % (table,id)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return data
 
 def get_comment(table,id,field):
-	sql = "select * from %s where entity_id=id and date='2017-11-27'" % table
+	sql = "select * from %s where entity_id=%d and date='2017-11-27'" % (table,id)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return data
 
 def get_gongshang(table,id,field):
-	sql = "select * from %s where entity_id=id and date='2017-11-27'" % table
+	sql = "select * from %s where entity_id=%d and date='2017-11-27'" % (table,id)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return data
 
 def get_guarantee(table,id,field):
-	sql = "select * from %s where entity_id=id and date='2017-11-27'" % table
+	sql = "select * from %s where entity_id=%d and date='2017-11-27'" % (table,id)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return data
 
 def get_return_rate(table,id,field):
-	sql = "select * from %s where entity_id=id and date='2017-11-27'" % table
+	sql = "select * from %s where entity_id=%d and date='2017-11-27'" % (table,id)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
