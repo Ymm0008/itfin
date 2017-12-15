@@ -1,8 +1,47 @@
+// 基本信息
+var basicInfor_url='/index/entityType/?id='+pid+'&type='+type;
+public_ajax.call_request('get',basicInfor_url,basicInfor);
+function basicInfor(data){
+    var item=data[0];
+    var t1='',t2='',t3='否',t4='0级',t5='0级',t6='否';
+    if (item.entity_type==1){t1='平台';}else if (item.entity_type==2){t1='公司';}else if (item.entity_type==1){t1='项目';}else {t1=''}
+    if (item.start_time){t2=item.start_time;}
+    $('.location').text(item.location||'');
+    if (item.operation_mode==1){item.operation_mode=='互联网金融'}
+    $('.type-1').text(item.operation_mode||'');
+    $('.type-2').text(t1);
+    $('.type-3').text(t2);
+    if (item.illegal_type==1){t3='是';}
+    $('.val-1').text(t3);
+    if (item.risk_level){t4=item.risk_level+'级';}
+    $('.val-2').text(t4);
+    if (item.impact_level){t5=item.impact_level+'级';}
+    $('.val-3').text(t5);
+    $('.val-4').text(item.operation_mode||'');
+    if (item.penalty_status==1){t6='是';}
+    $('.val-5').text(t6);
+}
+//股东
+var master_url='/index/gongshang/?id='+pid;
+public_ajax.call_request('get',master_url,master);
+function master(data) {
+    var item=data[0];
+    $('.up-1').text(item.up1_level_num);
+    $('.up-2').text(item.up2_level_num);
+    $('.up-3').text(item.up3_level_num);
+    $('.down-1').text(item.up1_level_num);
+    $('.down-2').text(item.up2_level_num);
+    $('.down-3').text(item.up3_level_num);
+    $('.mid-1').text();
+    $('.mid-2').text();
+    $('.mid-3').text();
+=======
 
 var top_url='/index/entityType/?id='+pid+'&type='+type;
 public_ajax.call_request('get',top_url,topF);
 function topF(data){
     console.log(data);
+>>>>>>> 49801861a17fce05fc5987c6c599e74d7e862b46
 }
 
 
@@ -21,10 +60,6 @@ function get7DaysBefore(date,m){
 //经营异常
 var commentData = [
     {'a':'积极','b':'百度贴吧','c':'2017-12','d':'放款快，审核简单，赶快注册！'},
-    {'a':'积极2','b':'百度贴吧2','c':'2017-12','d':'2放款快，审核简单，赶快注册！'},
-    {'a':'积极3','b':'百度贴吧3','c':'2017-12','d':'3放款快，审核简单，赶快注册！'},
-    {'a':'积极4','b':'百度贴吧4','c':'2017-12','d':'4放款快，审核简单，赶快注册！'},
-    {'a':'积极5','b':'百度贴吧5','c':'2017-12','d':'5放款快，审核简单，赶快注册！'},
 ]
 function commentTable(data) {
     $('#business').bootstrapTable('load', data);
@@ -450,7 +485,7 @@ var indsa=[{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},{'a':'2017-11-1
     {'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},
     {'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},
     {'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},
-    {'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},]
+    {'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'}]
 // var publicityTable_url='/system_manage/show_users_account/';
 // public_ajax.call_request('get',publicityTable_url,publicityTable);
 function inforChange(data) {
@@ -683,10 +718,6 @@ function line_1() {
 
 var serds = [
     {'a':'积极','b':'百度贴吧','c':'2017-12','d':'放款快，审核简单，赶快注册！'},
-    {'a':'积极2','b':'百度贴吧2','c':'2017-12','d':'2放款快，审核简单，赶快注册！'},
-    {'a':'积极3','b':'百度贴吧3','c':'2017-12','d':'3放款快，审核简单，赶快注册！'},
-    {'a':'积极4','b':'百度贴吧4','c':'2017-12','d':'4放款快，审核简单，赶快注册！'},
-    {'a':'积极5','b':'百度贴吧5','c':'2017-12','d':'5放款快，审核简单，赶快注册！'},
 ]
 var incomeTable_url='/index/returnRate/?id='+pid;
 public_ajax.call_request('get',incomeTable_url,incomeTable);
@@ -947,6 +978,8 @@ function line_2() {
 line_2();
 
 //评论信息
+// var comment_url='/index/comment/?id='+pid;
+// public_ajax.call_request('get',comment_url,commentinforContent);
 function commentinforContent(data) {
     $('#commentinforContent').bootstrapTable('load', data);
     $('#commentinforContent').bootstrapTable({
@@ -981,7 +1014,7 @@ function commentinforContent(data) {
                         '                    <p class="option">'+
                         '                        <span>评论倾向：<b style="color: #ff6d70">积极</b></span>'+
                         '                        <span>评论来源：<b style="color: #ff6d70">百度贴吧</b></span>'+
-                        '                        <span>发布时间：<b style="color: #ff6d70">2017-12-11</b></span>'+
+                        '                        <span>发布时间：<b style="color: #ff6d70">2017-11-22 12:23</b></span>'+
                         '                        <button class="originalbtn btn-primary btn-xs">查看全文</button>'+
                         '                    </p>'+
                         '                    <p class="context">'+row.d+'</p>'+

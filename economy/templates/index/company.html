@@ -60,16 +60,16 @@
                 <span class="status-2 status btn-primary"><i class="icon icon-sitemap"></i>&nbsp;查看网络图</span>
             </h3>
             <p class="infor-1 inforLine">
-                <span>注册地：</span>&nbsp;<b class="location">北京</b>
+                <span>注册地：</span>&nbsp;<b class="location"></b>
             </p>
             <p class="infor-2 inforLine">
-                <span>运营模式：</span>&nbsp;<b class="type">互联网金融-P2P理财</b>
+                <span>运营模式：</span>&nbsp;<b class="type-1"></b>
             </p>
             <p class="infor-3 inforLine">
-                <span>实体类型：</span>&nbsp;<b class="type">平台</b>
+                <span>实体类型：</span>&nbsp;<b class="type-2"></b>
             </p>
             <p class="infor-4 inforLine">
-                <span>发展阶段：</span>&nbsp;<b class="type">成立于2006年</b>
+                <span>发展阶段：</span>&nbsp;<b class="type-3"></b>
             </p>
             <p class="isPlatform" style="display: none;">
                 <span>工商注册公司名称：</span>&nbsp;<b class="isPlatformName"></b>
@@ -83,11 +83,11 @@
     <div class="riskValue">
         <h3><i class="icon icon-signal"></i>&nbsp;风险评价&nbsp;&nbsp;<i class="icon icon-edit comRisk" title="编辑"></i></h3>
         <div class="riskLeft">
-            <p><span>是否疑似非法集资：</span>&nbsp;<b class="val-1" style="color: #ff9645;">是</b></p>
-            <p><span>风险等级：</span>&nbsp;<b class="val-2" style="color: #ff9645;">1级</b></p>
-            <p><span>影响等级：</span>&nbsp;<b class="val-3" style="color: #ff9645;">1级</b></p>
-            <p><span>集资模式：</span>&nbsp;<b class="val-4" style="color: #ff9645;">P2P</b></p>
-            <p><span>是否已判罚：</span>&nbsp;<b class="val-5" style="color: #ff9645;">是</b></p>
+            <p><span>是否疑似非法集资：</span>&nbsp;<b class="val-1" style="color: #ff9645;"></b></p>
+            <p><span>风险等级：</span>&nbsp;<b class="val-2" style="color: #ff9645;"></b></p>
+            <p><span>影响等级：</span>&nbsp;<b class="val-3" style="color: #ff9645;"></b></p>
+            <p><span>集资模式：</span>&nbsp;<b class="val-4" style="color: #ff9645;"></b></p>
+            <p><span>是否已判罚：</span>&nbsp;<b class="val-5" style="color: #ff9645;"></b></p>
         </div>
         <div class="riskRight">
             <span>时间：</span>
@@ -122,27 +122,27 @@
                     <tr>
                         <td rowspan="2">股东数量</td>
                         <td>上</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="up-1"></td>
+                        <td class="up-2"></td>
+                        <td class="up-3"></td>
                     </tr>
                     <tr>
                         <td>下</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="down-1"></td>
+                        <td class="down-2"></td>
+                        <td class="down-3"></td>
                     </tr>
                     <tr>
                         <td>法人代表</td>
-                        <td colspan="4"></td>
+                        <td colspan="4" class="mid-1"></td>
                     </tr>
                     <tr>
                         <td>注册资本</td>
-                        <td colspan="4"></td>
+                        <td colspan="4" class="mid-2"></td>
                     </tr>
                     <tr>
                         <td>股东信息</td>
-                        <td colspan="4"></td>
+                        <td colspan="4" class="mid-3"></td>
                     </tr>
                 </tbody>
             </table>
@@ -359,7 +359,6 @@
     var name='{{name}}';
     var type='{{flag}}';
     var pid='{{pid}}';
-
     if (type=='1'){
         $('.isPlatform').show();
     }
