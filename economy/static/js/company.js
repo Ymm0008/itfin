@@ -1,3 +1,11 @@
+
+var top_url='/index/entityType/?id='+id+'&type='+type;
+public_ajax.call_request('get',top_url,topF);
+function topF(data){
+    console.log(data);
+}
+
+
 //一个月时间
 function get7DaysBefore(date,m){
     var date = date || new Date(),
@@ -342,14 +350,22 @@ function table_1(){
     _myChart1 = myChart;
 }
 table_1();
+
 //宣传行为
 var boas=[{'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},{'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},
     {'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},{'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},
     {'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},{'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},
     {'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},{'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''}]
 // var publicityTable_url='/system_manage/show_users_account/';
-// public_ajax.call_request('get',publicityTable_url,publicityTable);
+// var publicityTable_url='/index/ad/?id='+id;
+var publicityTable_url='/index/ad/?id='+235;
+console.log(publicityTable_url)
+public_ajax.call_request('get',publicityTable_url,publicityTable);
 function publicityTable(data) {
+    console.log(data[0])
+    $('#pubTable tbody tr:eq(4) td:eq(1)').text(data.ad0_webo)
+}
+/*function publicityTable(data) {
     $('#publicityTable').bootstrapTable('load', data);
     $('#publicityTable').bootstrapTable({
         data:data,
@@ -406,7 +422,8 @@ function publicityTable(data) {
         ],
     });
 };
-publicityTable(boas)
+publicityTable(boas)*/
+
 //信息变更
 var indsa=[{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},
     {'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},

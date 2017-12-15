@@ -42,7 +42,8 @@ function peoPicture(data) {
                     if (row.entity_name==''||row.entity_name=='null'||row.entity_name=='unknown'||!row.entity_name){
                         return '未知';
                     }else {
-                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.entity_name+'\',\''+row.entity_type+'\')" title="进入画像">'+row.entity_name+'</span>';
+                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.entity_name+'\',\''+row.entity_type+'\',\''+row.id+'\')" title="进入画像">'+row.entity_name+'</span>';
+                        // return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.id+'\',\''+row.entity_type+'\')" title="进入画像">'+row.entity_name+'</span>';
                     };
                 }
             },
@@ -111,6 +112,17 @@ function peoPicture(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                formatter: function (value, row, index) {
+                    if (row.operation_mode==''||row.operation_mode=='null'||row.operation_mode=='unknown'||!row.operation_mode){
+                        return '未知';
+                    }else if(row.operation_mode == 1){
+                        return '互联网金融';
+                    }else if(row.operation_mode == 2){
+                        return '2';
+                    }else if(row.operation_mode == 3){
+                        return '3';
+                    }
+                }
             },
             {
                 title: "监测详情",//标题
@@ -127,17 +139,18 @@ function peoPicture(data) {
     });
 };
 
-// function jumpFrame_1(flag) {
-function jumpFrame_1(name,type) {
+function jumpFrame_1(name,type,id) {
     var html='';
     name=escape(name);
     if (type=='1'||type=='2'){
-        html='/index/company/?name='+name+'&flag='+type;
+        html='/index/company/?name='+name+'&flag='+type+'&id='+id;
+        // html='/index/entityType/?id='+id+'&type='+type
     }else {
         html='/index/project/?name='+name+'&flag='+type;
     }
     window.location.href=html;
 }
+
 function jumpFrame_2(monitorFlag) {
     window.localStorage.setItem('monitorFlag',monitorFlag);
     window.location.href='../templates/monitorDetails.html';
@@ -155,7 +168,7 @@ function allMonitor(data) {
         phonehtml.push(
             '<p class="phone" type="button" data-toggle="modal" ' +
             'onclick="show(this)" onmousemove="chgecol(this)" onmouseout="back(this)">'+
-            '<span class="iphone zjnum">'+line[i]+'</span>'+
+            '<span class="iphone zjnum">'+line[i].entity_name+'</span>'+
             // '<span class="iphone bjnum">'+line[i]+'</span>'+
             '<span class="iphone bjnum">模型预警</span>'+
             '</p>'

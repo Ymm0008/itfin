@@ -1938,7 +1938,7 @@ require(
                 }
                 if ((screen.width == 1440) && (screen.height == 900)){
                     option.series[0].mapLocation = {
-                        x:'19%',
+                        x:'center',
                         y:'100px',
                         width:'100%',
                         height:'80%'
@@ -2099,7 +2099,7 @@ require(
         }
         if ((screen.width == 1440) && (screen.height == 900)){
             option.series[0].mapLocation = {
-                x:'19%',
+                x:'center',
                 y:'100px',
                 width:'90%',
                 height:'80%'
