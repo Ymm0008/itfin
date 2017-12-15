@@ -143,7 +143,7 @@ function jumpFrame_1(name,type,id) {
     var html='';
     name=escape(name);
     if (type=='1'||type=='2'){
-        html='/index/company/?name='+name+'&flag='+type+'&id='+id;
+        html='/index/company/?name='+name+'&flag='+type+'&pid='+id;
         // html='/index/entityType/?id='+id+'&type='+type
     }else {
         html='/index/project/?name='+name+'&flag='+type;

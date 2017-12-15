@@ -358,16 +358,7 @@
 <script>
     var name='{{name}}';
     var type='{{flag}}';
-
-    //js获取url参数
-    function GetQueryString(name){
-         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-         var r = window.location.search.substr(1).match(reg);
-         if(r!=null)return  unescape(r[2]); return null;
-    }
-    // console.log(GetQueryString('id'))
-    var id=GetQueryString('id');
-
+    var pid='{{pid}}';
 
     if (type=='1'){
         $('.isPlatform').show();
