@@ -368,6 +368,12 @@
     $('#tableName').text(unescape(name));
     $('.isPlatformName').text(unescape(name));
 
+    var infor_url='/index/entityType/?id='+pid+'&type='+type;
+    public_ajax.call_request('get',infor_url,inforContent);
+    function inforContent(data) {
+        console.log(data)
+    }
+
     //导出PDF
     var downPdf = document.getElementById("LL-PDF");
     downPdf.onclick = function() {

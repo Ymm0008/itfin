@@ -1985,7 +1985,7 @@ require(
                     // {start: 700, end: 999},
                     {start: 600, end: 800},
                     {start: 400, end: 600},
-                    {start: 150, end: 400, label: '100 到 300（自定义label）'},
+                    {start: 150, end: 400, label: '100 到 300'},
                     // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
                     {end: 150}
                 ],
