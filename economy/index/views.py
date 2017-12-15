@@ -32,7 +32,8 @@ def platformData():
 def company():
 	name = request.args.get('name','')
 	flag = request.args.get('flag','')
-	return render_template('index/company.html',name=name,flag=flag)
+	pid = request.args.get('pid','')
+	return render_template('index/company.html',name=name,flag=flag,pid=pid)
 
 '''
 @index.route('/companyData/')

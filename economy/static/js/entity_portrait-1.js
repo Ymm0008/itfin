@@ -10,7 +10,7 @@ var peoPicture_url='/portraite/portrait/';
 public_ajax.call_request('get',peoPicture_url,peoPicture);
 
 function peoPicture(data) {
-    console.log(data);
+    console.log(data)
     $('#contentTable').empty();
     $('#contentTable').bootstrapTable('load', data);
     $('#contentTable').bootstrapTable({
@@ -42,7 +42,8 @@ function peoPicture(data) {
                     if (row.entity_name==''||row.entity_name=='null'||row.entity_name=='unknown'||!row.entity_name){
                         return '未知';
                     }else {
-                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.entity_name+'\',\''+row.entity_type+'\')" title="进入画像">'+row.entity_name+'</span>';
+                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.entity_name+
+                            '\',\''+row.entity_type+'\',\''+row.id+'\')" title="进入画像">'+row.entity_name+'</span>';
                     };
                 }
             },
@@ -128,13 +129,13 @@ function peoPicture(data) {
 };
 
 // function jumpFrame_1(flag) {
-function jumpFrame_1(name,type) {
+function jumpFrame_1(name,type,id) {
     var html='';
     name=escape(name);
     if (type=='1'||type=='2'){
-        html='/index/company/?name='+name+'&flag='+type;
+        html='/index/company/?name='+name+'&flag='+type+'&pid='+id;
     }else {
-        html='/index/project/?name='+name+'&flag='+type;
+        html='/index/project/?name='+name+'&flag='+type+'&pid='+id;
     }
     window.location.href=html;
 }
