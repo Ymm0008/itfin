@@ -52,33 +52,21 @@ def get_project(table,field):
 
 
 def platform_detail(table1,table2,id,field):
-<<<<<<< HEAD
-	sql = "select el.id,pd.entity_id,el.entity_name,el.location,pd.operation_mode,el.entity_type,el.start_time,pd.illegal_type,pd.risk_level,pd.impact_level,pd.penalty_status from %s as el inner join %s as pd on el.entity_name=pd.entity_name where pd.entity_id=el.id and pd.date='2017-11-27'" % (table1,table2)
-=======
 	sql = "select el.id,pd.entity_id,el.entity_name,el.location,pd.operation_mode,el.entity_type,el.start_time,pd.illegal_type,pd.risk_level,pd.impact_level,pd.penalty_status from %s as el inner join %s as pd on el.id=pd.entity_id where el.id=%d and pd.date='2017-11-27'" % (table1,table2,id)
->>>>>>> ea566be6f8a712437f9d410f7124bbd17511d81b
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return data
 
 def company_detail(table1,table2,id,field):
-<<<<<<< HEAD
-	sql = "select el.id,cd.entity_id,el.entity_name,el.location,cd.operation_mode,el.entity_type,el.start_time,cd.illegal_type,cd.risk_level,cd.impact_level,cd.penalty_status from %s as el inner join %s as cd on el.entity_name=cd.entity_name where cd.entity_id=el.id and cd.date='2017-11-27'" % (table1,table2)
-=======
 	sql = "select el.id,cd.entity_id,el.entity_name,el.location,cd.operation_mode,el.entity_type,el.start_time,cd.illegal_type,cd.risk_level,cd.impact_level,cd.penalty_status from %s as el inner join %s as cd on el.id=cd.entity_id where el.id=%d and cd.date='2017-11-27'" % (table1,table2,id)
->>>>>>> ea566be6f8a712437f9d410f7124bbd17511d81b
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return data
 
 def project_detail(table1,table2,id,field):
-<<<<<<< HEAD
-	sql = "select el.id,p.entity_id,el.entity_name,el.location,p.operation_mode,el.entity_type,el.start_time,p.illegal_type,p.risk_level,p.impact_level,p.penalty_status from %s as el inner join %s as p on el.entity_name=p.entity_name where p.entity_id=el.id and p.date='2017-11-27'" % (table1,table2)
-=======
 	sql = "select el.id,p.entity_id,el.entity_name,el.location,p.operation_mode,el.entity_type,el.start_time,p.illegal_type,p.risk_level,p.impact_level,p.penalty_status from %s as el inner join %s as p on el.id=p.entity_id where el.id=%d and p.date='2017-11-27'" % (table1,table2,id)
->>>>>>> ea566be6f8a712437f9d410f7124bbd17511d81b
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]

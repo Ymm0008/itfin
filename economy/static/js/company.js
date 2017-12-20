@@ -41,7 +41,6 @@ var top_url='/index/entityType/?id='+pid+'&type='+type;
 public_ajax.call_request('get',top_url,topF);
 function topF(data){
     console.log(data);
->>>>>>> 49801861a17fce05fc5987c6c599e74d7e862b46
 }
 
 
