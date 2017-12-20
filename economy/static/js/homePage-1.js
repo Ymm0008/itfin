@@ -89,7 +89,7 @@ require(
                         // {start: 700, end: 999},
                         {start: 600, end: 800},
                         {start: 400, end: 600},
-                        {start: 150, end: 400, label: '100 到 300（自定义label）'},
+                        {start: 150, end: 400, label: '100 到 300'},
                         // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
                         {end: 150}
                     ],
@@ -102,7 +102,7 @@ require(
                     // color: ['#ccc97a','#264861','#b3c587']
                 }
                 option.series[0] = {
-                    name: '随机数据',
+                    name: '',
                     type: 'map',
                     roam: true,
                     scaleLimit:{
@@ -1839,7 +1839,7 @@ require(
                         // {start: 700, end: 999},
                         {start: 600, end: 800},
                         {start: 400, end: 600},
-                        {start: 150, end: 400, label: '100 到 300（自定义label）'},
+                        {start: 150, end: 400, label: '100 到 300'},
                         // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
                         {end: 150}
                     ],
@@ -1938,7 +1938,7 @@ require(
                 }
                 if ((screen.width == 1440) && (screen.height == 900)){
                     option.series[0].mapLocation = {
-                        x:'19%',
+                        x:'center',
                         y:'100px',
                         width:'100%',
                         height:'80%'
@@ -1985,7 +1985,7 @@ require(
                     // {start: 700, end: 999},
                     {start: 600, end: 800},
                     {start: 400, end: 600},
-                    {start: 150, end: 400, label: '100 到 300（自定义label）'},
+                    {start: 150, end: 400, label: '100 到 300'},
                     // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
                     {end: 150}
                 ],
@@ -2099,7 +2099,7 @@ require(
         }
         if ((screen.width == 1440) && (screen.height == 900)){
             option.series[0].mapLocation = {
-                x:'19%',
+                x:'center',
                 y:'100px',
                 width:'90%',
                 height:'80%'
@@ -2274,73 +2274,91 @@ function keywords() {
                         // minSize: 18
                     },
                     data: [
-                        // {
-                        //     name: "项目",
-                        //     value: 4386,
-                        //     itemStyle: createRandomItemStyle()
-                        // },
-                        // {
-                        //     name: "公司",
-                        //     value: 4055,
-                        //     itemStyle: createRandomItemStyle()
-                        // },
-                        // {
-                        //     name: "机构",
-                        //     value: 2467,
-                        //     itemStyle: createRandomItemStyle()
-                        // },
-                        // {
-                        //     name: "平台",
-                        //     value: 2244,
-                        //     itemStyle: createRandomItemStyle()
-                        // },
-                        // {
-                        //     name: "集资",
-                        //     value: 1898,
-                        //     itemStyle: createRandomItemStyle()
-                        // },
-                        // 大一点：善心汇，IGOFX，皮皮果，青云门，五行币
-                        // 小一点：一元云购，快乐花园，千年果
                         {
-                            name: "善心汇",
-                            value: 9999,
+                            name: "我要金蛋",
+                            value: 999,
                             itemStyle: createRandomItemStyle()
                         },
                         {
-                            name: "IGOFX",
-                            value: 9999,
+                            name: "屹农金服",
+                            value: 999,
                             itemStyle: createRandomItemStyle()
                         },
                         {
-                            name: "皮皮果",
-                            value: 9999,
+                            name: "理财去",
+                            value: 999,
                             itemStyle: createRandomItemStyle()
                         },
                         {
-                            name: "青云门",
-                            value: 9999,
+                            name: "联投银帮",
+                            value: 999,
                             itemStyle: createRandomItemStyle()
                         },
                         {
-                            name: "五行币",
-                            value: 9999,
+                            name: "弘信宝",
+                            value: 999,
                             itemStyle: createRandomItemStyle()
                         },
                         {
-                            name: "一元云购",
-                            value: 1000,
+                            name: "网惠金融",
+                            value: 999,
                             itemStyle: createRandomItemStyle()
                         },
                         {
-                            name: "快乐花园",
-                            value: 1000,
+                            name: "晶行财富",
+                            value: 999,
                             itemStyle: createRandomItemStyle()
                         },
                         {
-                            name: "千年果",
-                            value: 1000,
+                            name: "孺牛金服",
+                            value: 999,
                             itemStyle: createRandomItemStyle()
-                        }
+                        },
+                        {
+                            name: "摩根浦捷贷",
+                            value: 999,
+                            itemStyle: createRandomItemStyle()
+                        },
+                        {
+                            name: "知屋理财",
+                            value: 999,
+                            itemStyle: createRandomItemStyle()
+                        },
+                        {
+                            name: "沪臣地方金融",
+                            value: 999,
+                            itemStyle: createRandomItemStyle()
+                        },
+                        {
+                            name: "升隆财富",
+                            value: 999,
+                            itemStyle: createRandomItemStyle()
+                        },
+                        {
+                            name: "冰融贷",
+                            value: 999,
+                            itemStyle: createRandomItemStyle()
+                        },
+                        {
+                            name: "靠谱鸟",
+                            value: 999,
+                            itemStyle: createRandomItemStyle()
+                        },
+                        {
+                            name: "速溶360",
+                            value: 999,
+                            itemStyle: createRandomItemStyle()
+                        },
+                        {
+                            name: "存米网",
+                            value: 999,
+                            itemStyle: createRandomItemStyle()
+                        },
+                        {
+                            name: "太保金服",
+                            value: 999,
+                            itemStyle: createRandomItemStyle()
+                        },
                     ]
                 }]
             };
