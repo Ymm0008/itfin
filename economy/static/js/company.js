@@ -35,12 +35,6 @@ function master(data) {
     $('.mid-1').text();
     $('.mid-2').text();
     $('.mid-3').text();
-=======
-
-var top_url='/index/entityType/?id='+pid+'&type='+type;
-public_ajax.call_request('get',top_url,topF);
-function topF(data){
-    console.log(data);
 }
 
 
