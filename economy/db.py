@@ -6,12 +6,15 @@ sys.setdefaultencoding('utf-8')
 
 import pymysql as mysql
 
-conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 #conn = mysql.connect(host="0.0.0.0",user="root",password="root",db="db",charset='utf8')
+conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 conn.autocommit(True)
 cur = conn.cursor()
 
 def get(table1,table2,table3,table4,field):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
 	sql1 = "select el.id,el.entity_name,el.entity_type,el.location,pd.operation_mode from %s as el inner join %s as pd on el.id=pd.entity_id and pd.date='2017-11-27'" % (table1,table2)
 	cur.execute(sql1)
 	res1 = cur.fetchall()
@@ -30,6 +33,9 @@ def get(table1,table2,table3,table4,field):
 	return result
 
 def get_platform(table,field):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
 	sql = "select id,entity_name from %s where entity_type=1" % table
 	cur.execute(sql)
 	res = cur.fetchall()
@@ -37,6 +43,9 @@ def get_platform(table,field):
 	return data
 
 def get_company(table,field):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
 	sql = "select id,entity_name from %s where entity_type=2" % table
 	cur.execute(sql)
 	res = cur.fetchall()
@@ -44,6 +53,9 @@ def get_company(table,field):
 	return data
 
 def get_project(table,field):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
 	sql = "select id,entity_name from %s where entity_type=3" % table
 	cur.execute(sql)
 	res = cur.fetchall()
@@ -52,6 +64,9 @@ def get_project(table,field):
 
 
 def platform_detail(table1,table2,id,field):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
 	sql = "select el.id,pd.entity_id,el.entity_name,el.location,pd.operation_mode,el.entity_type,el.start_time,pd.illegal_type,pd.risk_level,pd.impact_level,pd.penalty_status from %s as el inner join %s as pd on el.id=pd.entity_id where el.id=%d and pd.date='2017-11-27'" % (table1,table2,id)
 	cur.execute(sql)
 	res = cur.fetchall()
@@ -59,6 +74,9 @@ def platform_detail(table1,table2,id,field):
 	return data
 
 def company_detail(table1,table2,id,field):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
 	sql = "select el.id,cd.entity_id,el.entity_name,el.location,cd.operation_mode,el.entity_type,el.start_time,cd.illegal_type,cd.risk_level,cd.impact_level,cd.penalty_status from %s as el inner join %s as cd on el.id=cd.entity_id where el.id=%d and cd.date='2017-11-27'" % (table1,table2,id)
 	cur.execute(sql)
 	res = cur.fetchall()
@@ -66,6 +84,9 @@ def company_detail(table1,table2,id,field):
 	return data
 
 def project_detail(table1,table2,id,field):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
 	sql = "select el.id,p.entity_id,el.entity_name,el.location,p.operation_mode,el.entity_type,el.start_time,p.illegal_type,p.risk_level,p.impact_level,p.penalty_status from %s as el inner join %s as p on el.id=p.entity_id where el.id=%d and p.date='2017-11-27'" % (table1,table2,id)
 	cur.execute(sql)
 	res = cur.fetchall()
@@ -74,6 +95,9 @@ def project_detail(table1,table2,id,field):
 
 
 def get_ad(table,id,field):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
 	sql = "select * from %s where entity_id=%d and date='2017-11-27'" % (table,id)
 	cur.execute(sql)
 	res = cur.fetchall()
@@ -81,6 +105,9 @@ def get_ad(table,id,field):
 	return data
 
 def get_comment(table,id,field):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
 	sql = "select * from %s where entity_id=%d and date='2017-11-27'" % (table,id)
 	cur.execute(sql)
 	res = cur.fetchall()
@@ -88,6 +115,9 @@ def get_comment(table,id,field):
 	return data
 
 def get_gongshang(table,id,field):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
 	sql = "select * from %s where entity_id=%d and date='2017-11-27'" % (table,id)
 	cur.execute(sql)
 	res = cur.fetchall()
@@ -95,6 +125,9 @@ def get_gongshang(table,id,field):
 	return data
 
 def get_guarantee(table,id,field):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
 	sql = "select * from %s where entity_id=%d and date='2017-11-27'" % (table,id)
 	cur.execute(sql)
 	res = cur.fetchall()
@@ -102,6 +135,9 @@ def get_guarantee(table,id,field):
 	return data
 
 def get_return_rate(table,id,field):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
 	sql = "select * from %s where entity_id=%d and date='2017-11-27'" % (table,id)
 	cur.execute(sql)
 	res = cur.fetchall()
