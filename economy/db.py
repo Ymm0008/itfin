@@ -120,4 +120,3 @@ def get_return_rate(table,id,field):
 
 
 
-
