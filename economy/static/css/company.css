@@ -1,4 +1,3 @@
-* {margin: 0;padding: 0;}
 #container {
     padding: 120px 0 50px;
     position: relative;
@@ -60,9 +59,6 @@
     margin: 8px 0;
     text-align: left;
 }
-#container .infor p.infor-5 {
-    padding: 0 14px;
-}
 #container .infor p span {
     display: inline-block;
     width: 70px;
@@ -81,13 +77,12 @@
     text-overflow: ellipsis;
     text-align: left;
 }
-#container .infor .isPlatform {
-    width: auto;
-    margin-left: 1.2%;
+#container .infor .isPlatform span{
+    width: auto!important;
 }
-#container .infor .isPlatform span,
+#container .infor .isPlatform,
 #container .infor .isPlatform b {
-    width: auto;
+    max-width: 100%!important;
 }
 #container .infor .comBisic,#container .icon-edit {
     cursor: pointer;
