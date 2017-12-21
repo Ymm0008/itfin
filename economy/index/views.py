@@ -102,6 +102,20 @@ def returnRateData():
 	return json.dumps(result,ensure_ascii=False)
 
 
+@index.route('/returnRate_content/')
+def returnrateContent():
+	index_name = request.args.get('index_name','')
+	text_id = int(request.args.get('text_id',''))
+	result = get_returnrate_content(index_name,text_id)
+	return json.dumps(result,ensure_ascii=False)
+
+@index.route('/promise_content/')
+def promiseContent():
+	index_name = request.args.get('index_name','')
+	text_id = int(request.args.get('text_id',''))
+	result = get_promise_content(index_name,text_id)
+	return json.dumps(result,ensure_ascii=False)
+
 
 
 

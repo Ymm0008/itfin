@@ -3,12 +3,16 @@ var basicInfor_url='/index/entityType/?id='+pid+'&type='+type;
 public_ajax.call_request('get',basicInfor_url,basicInfor);
 function basicInfor(data){
     var item=data[0];
-    var t1='',t2='',t3='否',t4='0级',t5='0级',t6='否';
+    var t1='',t2='',t3='否',t4='0级',t5='0级',t6='否',operationMode;
     if (item.entity_type==1){t1='平台';}else if (item.entity_type==2){t1='公司';}else if (item.entity_type==1){t1='项目';}else {t1=''}
     if (item.start_time){t2=item.start_time;}
     $('.location').text(item.location||'');
-    if (item.operation_mode==1){item.operation_mode=='互联网金融'}
-    $('.type-1').text(item.operation_mode||'');
+    if (item.operation_mode==1){
+        operationMode = '互联网金融';
+    }else{
+        operationMode = item.operation_mode;
+    }
+    $('.type-1').text(operationMode);
     $('.type-2').text(t1);
     $('.type-3').text(t2);
     if (item.illegal_type==1){t3='是';}
@@ -35,13 +39,6 @@ function master(data) {
     $('.mid-1').text();
     $('.mid-2').text();
     $('.mid-3').text();
-=======
-
-var top_url='/index/entityType/?id='+pid+'&type='+type;
-public_ajax.call_request('get',top_url,topF);
-function topF(data){
-    console.log(data);
->>>>>>> 49801861a17fce05fc5987c6c599e74d7e862b46
 }
 
 
@@ -387,97 +384,35 @@ function table_1(){
 table_1();
 
 //宣传行为
-var boas=[{'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},{'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},
-    {'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},{'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},
-    {'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},{'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},
-    {'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''},{'a':'百度','b':'23','c':''},{'a':'新浪微博','b':'11','c':''}]
 var publicityTable_url='/index/ad/?id='+pid;
-console.log(publicityTable_url)
 public_ajax.call_request('get',publicityTable_url,publicityTable);
 function publicityTable(data) {
-    console.log(data)
-    $('#pubTable tbody tr').eq(3).find('td').eq(1).html(data[0].ad0_webo)
-    $('#pubTable tbody tr').eq(3).find('td').eq(2).html(data[0].ad0_forum)
-    $('#pubTable tbody tr').eq(3).find('td').eq(3).html(data[0].ad0_bbs)
-    $('#pubTable tbody tr').eq(3).find('td').eq(4).html(data[0].ad0_wechat)
-    $('#pubTable tbody tr').eq(3).find('td').eq(5).html(data[0].ad0_zhihu)
+    var item = data[0];
+    // 非广告
+    $('#pubTable .ad0_webo').text(item.ad0_webo);
+    $('#pubTable .ad0_forum').text(item.ad0_forum);
+    $('#pubTable .ad0_bbs').text(item.ad0_bbs);
+    $('#pubTable .ad0_wechat').text(item.ad0_wechat);
+    $('#pubTable .ad0_zhihu').text(item.ad0_zhihu);
+    // 无煽动性广告
+    $('#pubTable .inf1_webo').text(item.inf1_webo);
+    $('#pubTable .inf1_forum').text(item.inf1_forum);
+    $('#pubTable .inf1_bbs').text(item.inf1_bbs);
+    $('#pubTable .inf1_wechat').text(item.inf1_wechat);
+    $('#pubTable .inf1_zhihu').text(item.inf1_zhihu);
 
-    $('#pubTable tbody tr').eq(2).find('td').eq(1).html(data[0].inf1_webo)
-    $('#pubTable tbody tr').eq(2).find('td').eq(2).html(data[0].inf1_forum)
-    $('#pubTable tbody tr').eq(2).find('td').eq(3).html(data[0].inf1_bbs)
-    $('#pubTable tbody tr').eq(2).find('td').eq(4).html(data[0].inf1_wechat)
-    $('#pubTable tbody tr').eq(2).find('td').eq(5).html(data[0].inf1_zhihu)
+    $('#pubTable .inf2_webo').text(item.inf2_webo);
+    $('#pubTable .inf2_forum').text(item.inf2_forum);
+    $('#pubTable .inf2_bbs').text(item.inf2_bbs);
+    $('#pubTable .inf2_wechat').text(item.inf2_wechat);
+    $('#pubTable .inf2_zhihu').text(item.inf2_zhihu);
 
-    $('#pubTable tbody tr').eq(1).find('td').eq(1).html(data[0].inf2_webo)
-    $('#pubTable tbody tr').eq(1).find('td').eq(2).html(data[0].inf2_forum)
-    $('#pubTable tbody tr').eq(1).find('td').eq(3).html(data[0].inf2_bbs)
-    $('#pubTable tbody tr').eq(1).find('td').eq(4).html(data[0].inf2_wechat)
-    $('#pubTable tbody tr').eq(1).find('td').eq(5).html(data[0].inf2_zhihu)
-
-    $('#pubTable tbody tr').eq(0).find('td').eq(1).html(data[0].inf3_webo)
-    $('#pubTable tbody tr').eq(0).find('td').eq(2).html(data[0].inf3_forum)
-    $('#pubTable tbody tr').eq(0).find('td').eq(3).html(data[0].inf3_bbs)
-    $('#pubTable tbody tr').eq(0).find('td').eq(4).html(data[0].inf3_wechat)
-    $('#pubTable tbody tr').eq(0).find('td').eq(5).html(data[0].inf3_zhihu)
+    $('#pubTable .inf3_webo').text(item.inf3_webo);
+    $('#pubTable .inf3_forum').text(item.inf3_forum);
+    $('#pubTable .inf3_bbs').text(item.inf3_bbs);
+    $('#pubTable .inf3_wechat').text(item.inf3_wechat);
+    $('#pubTable .inf3_zhihu').text(item.inf3_zhihu);
 }
-/*function publicityTable(data) {
-    $('#publicityTable').bootstrapTable('load', data);
-    $('#publicityTable').bootstrapTable({
-        data:data,
-        search: true,//是否搜索
-        pagination: true,//是否分页
-        pageSize: 5,//单页记录数
-        pageList: [15,20,25],//分页步进值
-        sidePagination: "client",//服务端分页
-        searchAlign: "left",
-        searchOnEnterKey: false,//回车搜索
-        showRefresh: false,//刷新按钮
-        showColumns: false,//列选择按钮
-        buttonsAlign: "right",//按钮对齐方式
-        locale: "zh-CN",//中文支持
-        detailView: false,
-        showToggle:false,
-        sortName:'bci',
-        sortOrder:"desc",
-        columns: [
-            {
-                title: "宣传渠道",//标题
-                field: "a",//键名
-                sortable: true,//是否可排序
-                order: "desc",//默认排序方式
-                align: "center",//水平
-                valign: "middle",//垂直
-                // formatter: function (value, row, index) {
-                //     if (row.user_name==''||row.user_name=='null'||row.user_name=='unknown'||!row.user_name){
-                //         return '未知';
-                //     }else {
-                //         return row.user_name;
-                //     };
-                // }
-            },
-            {
-                title: "相关文本数",//标题
-                field: "b",//键名
-                sortable: true,//是否可排序
-                order: "desc",//默认排序方式
-                align: "center",//水平
-                valign: "middle",//垂直
-            },
-            {
-                title: "查看文本",//标题
-                field: "",//键名
-                sortable: true,//是否可排序
-                order: "desc",//默认排序方式
-                align: "center",//水平
-                valign: "middle",//垂直
-                formatter: function (value, row, index) {
-                    return '<span style="cursor:pointer;" onclick="" title="查看详情"><i class="icon icon-edit"></i></span>';
-                }
-            },
-        ],
-    });
-};
-publicityTable(boas)*/
 
 //信息变更
 var indsa=[{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},
@@ -755,7 +690,7 @@ function incomeTable(data) {
                         '                    <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
                         '                    <p class="option">'+
                         '                        <span>收益率：<b style="color: #ff6d70">'+row.return_rate+'%</b></span>'+
-                        '                        <button class="original btn-primary btn-xs">查看全文</button>'+
+                        '                        <button class="original btn-primary btn-xs" onclick="incomeTable_more(\''+row.index_name+'\',\''+row.text_id+'\')">查看全文</button>'+
                         '                    </p>'+
                         '                    <p class="context">'+row.related_text+'</p>'+
                         '                </div>'+
@@ -766,6 +701,17 @@ function incomeTable(data) {
     });
 };
 // incomeTable(serds);
+// 收益率点击查看全文(==未完成===)
+
+function incomeTable_more(index_name,text_id){
+    var incomeTable_more_url = '/index/returnRate_content/?index_name='+index_name+'&text_id='+text_id;
+    console.log(incomeTable_more_url);
+    public_ajax.call_request('get',incomeTable_more_url,incomeTablemore);
+}
+function incomeTablemore(data){
+    console.log(data)
+}
+
 
 //收益/保本/担保承诺
 var guarantee_url='/index/guarantee/?id='+pid;
