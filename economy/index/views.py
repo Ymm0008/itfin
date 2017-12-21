@@ -5,6 +5,11 @@ from flask import Flask, render_template, request, jsonify, Blueprint, send_from
 from economy.db import *
 from . import index
 import json
+from economy.es import *
+from economy.config import *
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 plat_field = ['id','entity_id','entity_name','location','operation_mode','entity_type','start_time','illegal_type','risk_level','impact_level','penalty_status']
 com_field = ['id','entity_id','entity_name','location','operation_mode','entity_type','start_time','illegal_type','risk_level','impact_level','penalty_status']
@@ -20,14 +25,6 @@ return_rate_field = ['id','entity_id','entity_name','date','return_type','return
 def platform():
 	return render_template('index/platform.html')
 
-'''
-@index.route('/platformData/')
-def platformData():
-	result = platform_detail('entity_list','plat_detail',plat_field)
-	return json.dumps(result,ensure_ascii=False)
-'''
-
-
 @index.route('/company/')
 def company():
 	name = request.args.get('name','')
@@ -35,28 +32,11 @@ def company():
 	pid = request.args.get('pid','')
 	return render_template('index/company.html',name=name,flag=flag,pid=pid)
 
-'''
-@index.route('/companyData/')
-def companyData():
-	result = company_detail('entity_list','company_detail',com_field)
-	return json.dumps(result,ensure_ascii=False)
-'''
-
-
 @index.route('/project/')
 def project():
 	name = request.args.get('name','')
 	flag = request.args.get('flag','')
 	return render_template('index/project.html',name=name,flag=flag)
-
-'''
-@index.route('/projectData/')
-def projectData():
-	result = project_detail('entity_list','project_detail',pro_field)
-	return json.dumps(result,ensure_ascii=False)
-'''
-
-
 
 @index.route('/entityType/')
 def entity_type():
@@ -102,10 +82,39 @@ def returnRateData():
 	return json.dumps(result,ensure_ascii=False)
 
 
+@index.route('/returnRate_content/')
+def returnrateContent():
+	index_name = request.args.get('index_name','')
+	text_id = request.args.get('text_id','')
+	result = get_returnrate_content(index_name,text_id)
+	return json.dumps(result,ensure_ascii=False)
 
+@index.route('/promise_content/')
+def promiseContent():
+	index_name = request.args.get('index_name','')
+	text_id = request.args.get('text_id','')
+	result = get_promise_content(index_name,text_id)
+	return json.dumps(result,ensure_ascii=False)
 
+@index.route('/ad_content/')
+def adContent():
+	results = []
+	entity_name = request.args.get('entity_name','')
+	for each in TYPE.items():
+		index_name = each[0]
+		type = each[1]
+		result = get_adContent(entity_name, 0.5, index_name, type)
+		results.append(result)
+	return json.dumps(results,ensure_ascii=False)
 
-
-
-
+@index.route('/comment_content/')
+def commentContent():
+	results = []
+	entity_name = request.args.get('entity_name','')
+	for each in TYPE.items():
+		index_name = each[0]
+		type = each[1]
+		result = get_commentContent(entity_name, 0.5, index_name, type)
+		results.append(result)
+	return json.dumps(results,ensure_ascii=False)
 
