@@ -43,12 +43,12 @@ def get_adContent(entity_name, score, index_name, type):
 	if(len(hits)):
 		for item in hits:
 			text_id = item['_id']
-			if(item['_score'] >= score):
+			# if(item['_score'] >= score):
 				#print item
-				if entity_name in item['_source']['content']:
-					res = item['_source']
-					res['text_id'] = text_id
-					results.append(res)
+				# if entity_name in item['_source']['content']:
+			ress = item['_source']
+			# res['text_id'] = text_id
+			results.append(ress)
 	return results
 
 def get_commentContent(entity_name, score, index_name, type):

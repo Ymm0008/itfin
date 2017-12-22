@@ -1,8 +1,13 @@
+var entity_name ;
+
 // 基本信息
 var basicInfor_url='/index/entityType/?id='+pid+'&type='+type;
 public_ajax.call_request('get',basicInfor_url,basicInfor);
 function basicInfor(data){
+    console.log(data);
     var item=data[0];
+    entity_name = item.entity_name;
+    console.log(entity_name)
     var t1='',t2='',t3='否',t4='0级',t5='0级',t6='否',operationMode;
     if (item.entity_type==1){t1='平台';}else if (item.entity_type==2){t1='公司';}else if (item.entity_type==1){t1='项目';}else {t1=''}
     if (item.start_time){t2=item.start_time;}
@@ -657,7 +662,7 @@ var serds = [
 var incomeTable_url='/index/returnRate/?id='+pid;
 public_ajax.call_request('get',incomeTable_url,incomeTable);
 function incomeTable(data) {
-    console.log(data)
+    // console.log(data)
     $('#incomeTable').bootstrapTable('load', data);
     $('#incomeTable').bootstrapTable({
         data:data,
@@ -701,15 +706,33 @@ function incomeTable(data) {
     });
 };
 // incomeTable(serds);
-// 收益率点击查看全文(==未完成===)
-
+// 收益率点击查看全文
 function incomeTable_more(index_name,text_id){
     var incomeTable_more_url = '/index/returnRate_content/?index_name='+index_name+'&text_id='+text_id;
-    console.log(incomeTable_more_url);
+    // console.log(incomeTable_more_url);
     public_ajax.call_request('get',incomeTable_more_url,incomeTablemore);
 }
 function incomeTablemore(data){
-    console.log(data)
+    if(data){
+        var channel = data.site_name || data.index_name;//渠道
+        var Release_time = getLocalTime(data.publish_time);//时间戳转时间
+        $('#moreInfo #channel').text(channel);
+        $('#moreInfo #Release_time').text(Release_time);
+        if(data.title){
+            $('#moreInfo #Advertising_Headlines').text(data.title);//标题
+        }else {
+            $('#moreInfo #Advertising_Headlines').text('无');//标题
+        }
+        if(data.author){
+            $('#moreInfo #author').text(data.author);//作者
+        }else{
+            $('#moreInfo #author').text('未知');//作者
+        }
+        $('#moreInfo #words').text(data.content);//内容
+        $('#moreInfo #url a').text(data.url).attr('href',data.url);//原文链接
+
+        $('#moreInfo').modal('show');
+    }
 }
 
 
@@ -717,6 +740,7 @@ function incomeTablemore(data){
 var guarantee_url='/index/guarantee/?id='+pid;
 public_ajax.call_request('get',guarantee_url,guarantee);
 function guarantee(data) {
+    // console.log(data)
     $('#guarantee').bootstrapTable('load', data);
     $('#guarantee').bootstrapTable({
         data:data,
@@ -758,7 +782,7 @@ function guarantee(data) {
                         '                    <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
                         '                    <p class="option">'+
                         '                        <span>承诺类型：<b style="color: #ff6d70">'+promiseType+'</b></span>'+
-                        '                        <button class="original btn-primary btn-xs">查看全文</button>'+
+                        '                        <button class="original btn-primary btn-xs" onclick="guarantee_more(\''+row.index_name+'\',\''+row.text_id+'\')">查看全文</button>'+
                         '                    </p>'+
                         '                    <p class="context">'+row.related_text+'</p>'+
                         '                </div>'+
@@ -769,12 +793,36 @@ function guarantee(data) {
         ],
     });
 };
-guarantee(serds);
+function guarantee_more (index_name,text_id){
+    var guarantee_more_url = '/index/promise_content/?index_name='+index_name+'&text_id='+text_id;
+    console.log(guarantee_more_url);
+    public_ajax.call_request('get',guarantee_more_url,guaranteeMore);
+}
+function guaranteeMore(data){
+    console.log(data)
+}
 
 //广告内容
-function billing(data) {
-    $('#billing').bootstrapTable('load', data);
-    $('#billing').bootstrapTable({
+setTimeout(function(){
+    var billing_url = '/index/ad_content/?entity_name='+entity_name;
+    // console.log(billing_url);
+    public_ajax.call_request('get',billing_url,billing_1);
+},1000);
+var data_0,data_1,data_2,data_3,data_4;
+function billing_1(data){
+    console.log(data)
+    data_0 = data[0];
+    data_1 = data[1];
+    data_2 = data[2];
+    data_3 = data[3];
+    data_4 = data[4];
+
+    billing(data_0,'#billing')
+}
+function billing(data,el) {
+    console.log(data);
+    $(el).bootstrapTable('load', data);
+    $(el).bootstrapTable({
         data:data,
         search: true,//是否搜索
         pagination: true,//是否分页
@@ -800,6 +848,13 @@ function billing(data) {
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
+                    var contentClip;
+                    if(row.content.length >= 400){
+                        contentClip = row.content.slice(0,400).concat('...');
+                    }else{
+                        contentClip = row.content;
+                    }
+
                     return '<div class="inforContent">'+
                         '            <div class="main">'+
                         '                <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
@@ -809,7 +864,7 @@ function billing(data) {
                         '                    <span>发布时间：<b style="color: #ff6d70">2017-11-22</b></span>'+
                         '                    <button class="original btn-primary btn-xs">查看全文</button>'+
                         '                </p>'+
-                        '                <p class="context">'+row.d+'</p>'+
+                        '                <p class="context">'+contentClip+'</p>'+
                         '            </div>'+
                         '        </div>';
                 }
@@ -817,7 +872,11 @@ function billing(data) {
         ],
     });
 };
-billing(serds);
+
+
+
+
+// billing(serds);
 
 // 趋势分析
 function line_2() {
