@@ -96,6 +96,7 @@ def promiseContent():
 	result = get_promise_content(index_name,text_id)
 	return json.dumps(result,ensure_ascii=False)
 
+
 @index.route('/ad_content/')
 def adContent():
 	results = []
@@ -104,7 +105,8 @@ def adContent():
 		index_name = each[0]
 		type = each[1]
 		result = get_adContent(entity_name, 0.5, index_name, type)
-		results.append(result)
+		result.sort(key=lambda x:x['publish_time'],reverse=True)
+		results.append({index_name:result})
 	return json.dumps(results,ensure_ascii=False)
 
 @index.route('/comment_content/')
@@ -115,6 +117,33 @@ def commentContent():
 		index_name = each[0]
 		type = each[1]
 		result = get_commentContent(entity_name, 0.5, index_name, type)
-		results.append(result)
+		result.sort(key=lambda x:x['publish_time'],reverse=True)
+		results.append({index_name:result})
 	return json.dumps(results,ensure_ascii=False)
+
+
+@index.route('/abnormal_info/')
+def abnormalInfo():
+	firm_name = request.args.get('firm_name','')
+	result = get_ab_info('gongshang','abnormal_info',firm_name)
+	return json.dumps(result,ensure_ascii=False)
+
+@index.route('/change_info/')
+def changelInfo():
+	firm_name = request.args.get('firm_name','')
+	result = get_ch_info('gongshang','change_info',firm_name)
+	return json.dumps(result,ensure_ascii=False)
+
+@index.route('/law_info/')
+def lawInfo():
+	firm_name = request.args.get('firm_name','')
+	result = get_law_info('gongshang','law_info',firm_name)
+	return json.dumps(result,ensure_ascii=False)
+
+
+
+
+
+
+
 

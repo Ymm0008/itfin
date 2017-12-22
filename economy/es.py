@@ -26,7 +26,7 @@ def get_promise_content(index_name, text_id):
 
 
 def get_adContent(entity_name, score, index_name, type):
-	query_body = {"sort":{"publish_time":{"order":"desc"}},
+	query_body = {
 					"query":{
 						"bool":{
 							"must":[
@@ -39,20 +39,21 @@ def get_adContent(entity_name, score, index_name, type):
 	res = es.search(index=index_name, doc_type=type, body=query_body, request_timeout=100)
 	#print(res)
 	hits = res['hits']['hits']
+	#print(hits)
 	results = []
 	if(len(hits)):
 		for item in hits:
 			text_id = item['_id']
-			# if(item['_score'] >= score):
-				#print item
-				# if entity_name in item['_source']['content']:
-			ress = item['_source']
-			# res['text_id'] = text_id
-			results.append(ress)
+			if(item['_score'] >= score):
+			#print item
+				if entity_name in item['_source']['content']:
+					result = item['_source']
+					#res['text_id'] = text_id
+					results.append(result)
 	return results
 
 def get_commentContent(entity_name, score, index_name, type):
-	query_body = {"sort":{"publish_time":{"order":"desc"}},
+	query_body = {
 					"query":{
 						"bool":{
 							"must":[
@@ -76,14 +77,42 @@ def get_commentContent(entity_name, score, index_name, type):
 			text_id = item['_id']
 			print item['_score']
 			if(item['_score'] >= score):
-				#print item
+				print item
 				if entity_name in item['_source']['content']:
-					res = item['_source']
-					res['text_id'] = text_id
-					results.append(res)
+					result = item['_source']
+					#res['text_id'] = text_id
+					results.append(result)
 	return results
 
 
+def get_ab_info(index_name,type,firm_name):
+	query_body = {"sort":{"in_date":{"order":"desc"}},"query":{"match":{"firm_name":firm_name}}}
+	res = es.search(index=index_name, doc_type=type, body=query_body, request_timeout=100)
+	hits = res['hits']['hits']
+	results = []
+	if(len(hits)):
+		for item in hits:
+			results.append(item['_source'])
+	return results
 
+def get_ch_info(index_name,type,firm_name):
+	query_body = {"sort":{"change_time":{"order":"desc"}},"query":{"match":{"firm_name":firm_name}}}
+	res = es.search(index=index_name, doc_type=type, body=query_body, request_timeout=100)
+	hits = res['hits']['hits']
+	results = []
+	if(len(hits)):
+		for item in hits:
+			results.append(item['_source'])
+	return results
+
+def get_law_info(index_name,type,firm_name):
+	query_body = {"sort":{"date":{"order":"desc"}},"query":{"match":{"firm_name":firm_name}}}
+	res = es.search(index=index_name, doc_type=type, body=query_body, request_timeout=100)
+	hits = res['hits']['hits']
+	results = []
+	if(len(hits)):
+		for item in hits:
+			results.append(item['_source'])
+	return results
 
 
