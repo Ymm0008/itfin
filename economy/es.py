@@ -115,10 +115,6 @@ def get_law_info(index_name,type,firm_name):
 			results.append(item['_source'])
 	return results
 
-
-<<<<<<< HEAD
-=======
-
 def get_subfirmContent(firm,index_name):
 	type_name = 'invest_info'
 	query_body = {
@@ -148,4 +144,3 @@ def get_subfirmContent(firm,index_name):
 		if item['_source'] not in unique_result:
 			unique_result.append(item['_source'])
 	return unique_result
->>>>>>> 121824333a7e05a89294f4cde2470ff560318be0

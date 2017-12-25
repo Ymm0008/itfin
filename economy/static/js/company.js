@@ -210,8 +210,13 @@ var last_year_month = function() {
     riskValue(objData)
 
 // 子公司分公司【未完成
+    // var table_1_url = '/index/sub_firm/?firm_name='+firm_name;
+    var table_1_url = '/index/sub_firm/?firm_name=广西联银投资有限公司';
+    public_ajax.call_request('get',table_1_url,table_1);
+
     var _myChart1,_myChart2;
-    function table_1(){
+    function table_1(data){
+        console.log(data)
         var myChart = echarts.init(document.getElementById('table-1'));
         var option = {
             title : {
@@ -316,48 +321,48 @@ var last_year_month = function() {
                                                 }
                                             }
                                         },
-                                        {
-                                            name: 'D',
-                                            value: 4,
-                                            symbol: 'circle',
-                                            symbolSize: 20,
-                                            itemStyle: {
-                                                normal: {
-                                                    label: {
-                                                        show: true,
-                                                        position: 'right',
-                                                        formatter: "{b}"
-                                                    },
-                                                    color: '#fa6900',
-                                                    borderWidth: 2,
-                                                    borderColor: '#cc66ff'
+                                        // {
+                                        //     name: 'D',
+                                        //     value: 4,
+                                        //     symbol: 'circle',
+                                        //     symbolSize: 20,
+                                        //     itemStyle: {
+                                        //         normal: {
+                                        //             label: {
+                                        //                 show: true,
+                                        //                 position: 'right',
+                                        //                 formatter: "{b}"
+                                        //             },
+                                        //             color: '#fa6900',
+                                        //             borderWidth: 2,
+                                        //             borderColor: '#cc66ff'
 
-                                                },
-                                                emphasis: {
-                                                    borderWidth: 0
-                                                }
-                                            }
-                                        },
-                                        {
-                                            name: 'E',
-                                            value: 2,
-                                            symbol: 'circle',
-                                            symbolSize: 20,
-                                            itemStyle: {
-                                                normal: {
-                                                    label: {
-                                                        position: 'right'
-                                                    },
-                                                    color: '#fa6900',
-                                                    brushType: 'stroke',
-                                                    borderWidth: 1,
-                                                    borderColor: '#999966',
-                                                },
-                                                emphasis: {
-                                                    borderWidth: 0
-                                                }
-                                            }
-                                        }
+                                        //         },
+                                        //         emphasis: {
+                                        //             borderWidth: 0
+                                        //         }
+                                        //     }
+                                        // },
+                                        // {
+                                        //     name: 'E',
+                                        //     value: 2,
+                                        //     symbol: 'circle',
+                                        //     symbolSize: 20,
+                                        //     itemStyle: {
+                                        //         normal: {
+                                        //             label: {
+                                        //                 position: 'right'
+                                        //             },
+                                        //             color: '#fa6900',
+                                        //             brushType: 'stroke',
+                                        //             borderWidth: 1,
+                                        //             borderColor: '#999966',
+                                        //         },
+                                        //         emphasis: {
+                                        //             borderWidth: 0
+                                        //         }
+                                        //     }
+                                        // }
                                     ]
                                 },
                                 {
@@ -390,31 +395,32 @@ var last_year_month = function() {
                                     },
                                     value: 2
                                 },
-                                {
-                                    name: 'H',
-                                    // symbol: 'image://http://www.lenovo.com.cn/HomeUpload/Home001/6d94ee9a20140714.jpg',
-                                    symbol: 'H',
-                                    symbolSize: [100, 40],
-                                    itemStyle: {
-                                        normal: {
-                                            label: {
-                                                show: false
-                                            }
-
-                                        }
-                                    },
-                                    value: 2
-                                }
                             ]
                         }
                     ]
                 }
             ]
         };
+
+        for(var i=0;i<data.length;i++){
+            // data[i]
+        }
+        option.series[0].data[0].name = data[0];//根公司
+        // option.series[0].data[0].symbol = data[0];
+
+        var comp = data[0];
+        // 一级子公司
+        option.series[0].data[0].children[0].name = data[1].广西联银投资有限公司[0];
+        option.series[0].data[0].children[1].name = data[1].广西联银投资有限公司[1];
+        option.series[0].data[0].children[2].name = data[1].广西联银投资有限公司[2];
+
+        // 二级子公司
+        option.series[0].data[0].children[0].children[0].name = data[2].广西金狐计算机科技有限公司[0]
+
         myChart.setOption(option);
         _myChart1 = myChart;
     }
-    table_1();
+    // table_1();
 
 //====宣传行为====
     var publicityTable_url='/index/ad/?id='+pid;
@@ -804,7 +810,7 @@ var last_year_month = function() {
     var guarantee_url='/index/guarantee/?id='+pid;
     public_ajax.call_request('get',guarantee_url,guarantee);
     function guarantee(data) {
-        console.log(data)
+        // console.log(data)
         $('#guarantee').bootstrapTable('load', data);
         $('#guarantee').bootstrapTable({
             data:data,
