@@ -141,7 +141,29 @@ def lawInfo():
 	return json.dumps(result,ensure_ascii=False)
 
 
+@index.route('/sub_firm/')
+def subfirmContent():
+	results = []
+	index_name = 'gongshang'
+	firm_name = request.args.get('firm_name', '')
+	# print firm_name
+	level1_subfirms = get_subfirmContent(firm_name,index_name)
 
+	results.append(firm_name)		#根节点
+	level1_temp = []
+	for item in level1_subfirms:
+		level1_temp.append(item['asset_name'])
+	results.append({firm_name:level1_temp})
+
+	level2_temp = {}
+	for sub_firm in level1_subfirms:
+		level2_subfirms = get_subfirmContent(sub_firm['asset_name'], index_name)
+		level2_temp[sub_firm['asset_name']] = [x['asset_name'] for x in level2_subfirms]
+	results.append(level2_temp)
+	# 返回的数据结构为
+	# [根公司，{根公司:[一级子公司A,B,C...]},{一级子公司A:[二级子公司A1,A2,A3],一级子公司B:[二级子公司B1,B2,B3]}]
+
+	return json.dumps(results, ensure_ascii=False)
 
 
 
