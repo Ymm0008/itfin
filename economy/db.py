@@ -70,7 +70,7 @@ def platform_detail(table1,table2,table3,id,field):
 	sql = "select * from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where el.id=%d and pd.date='2017-11-27'" % (table1,table2,table3,id)
 	cur.execute(sql)
 	res = cur.fetchall()
-	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
+	data = [{k:str(row[i]).replace('(','').replace(')','').replace('人民币','').replace('万','').replace('元','') for i,k in enumerate(field)} for row in res]
 	return data
 
 def company_detail(table1,table2,table3,id,field):
@@ -80,7 +80,7 @@ def company_detail(table1,table2,table3,id,field):
 	sql = "select * from %s as el inner join %s as cd on el.id=cd.entity_id inner join %s as gs on el.id=gs.entity_id where el.id=%d and cd.date='2017-11-27'" % (table1,table2,table3,id)
 	cur.execute(sql)
 	res = cur.fetchall()
-	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
+	data = [{k:str(row[i]).replace('(','').replace(')','').replace('人民币','').replace('万','').replace('元','') for i,k in enumerate(field)} for row in res]
 	return data
 
 def project_detail(table1,table2,table3,id,field):
@@ -90,7 +90,7 @@ def project_detail(table1,table2,table3,id,field):
 	sql = "select * from %s as el inner join %s as p on el.id=p.entity_id inner join %s as gs on el.id=gs.entity_id where el.id=%d and p.date='2017-11-27'" % (table1,table2,table3,id)
 	cur.execute(sql)
 	res = cur.fetchall()
-	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
+	data = [{k:str(row[i]).replace('(','').replace(')','').replace('人民币','').replace('万','').replace('元','') for i,k in enumerate(field)} for row in res]
 	return data
 
 
