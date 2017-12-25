@@ -212,7 +212,7 @@
 }
 #container .inforContent .main .textFlag {
     position: absolute;
-    top: 17px;
+    // top: 17px;
     left:8px;
 }
 #container .inforContent .main .option span {
