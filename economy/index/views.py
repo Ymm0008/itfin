@@ -11,9 +11,9 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-plat_field = ['id','entity_id','entity_name','location','operation_mode','entity_type','start_time','illegal_type','risk_level','impact_level','penalty_status']
-com_field = ['id','entity_id','entity_name','location','operation_mode','entity_type','start_time','illegal_type','risk_level','impact_level','penalty_status']
-pro_field = ['id','entity_id','entity_name','location','operation_mode','entity_type','start_time','illegal_type','risk_level','impact_level','penalty_status']
+plat_field = ['id','entity_type','pd_entity_name','location','start_time','entity_source','link_entity_id','in_type','in_time','monitor_status','pd.id','entity_id','entity_name','company','date','operation_mode','illegal_type','risk_level','impact_level','penalty_status','related_company','related_plat','related_person','follower','bg','avg_return','vol','investor','problem','debt_num','daily_input','daily_balance','inv_period','imprs']
+com_field = ['id','entity_type','cd_entity_name','location','start_time','entity_source','link_entity_id','in_type','in_time','monitor_status','cd.id','entity_id','entity_name','date','monitor_status','operation_mode','illegal_type','risk_level','impact_level','penalty_status','related_company','related_plat','related_person']
+pro_field = ['id','entity_type','p_entity_name','location','start_time','entity_source','link_entity_id','in_type','in_time','monitor_status','p.id','entity_id','entity_name','date','operation_mode','illegal_type','risk_level','impact_level','penalty_status','related_company','related_plat','related_person']
 
 ad_field = ['id','entity_id','entity_name','date','ad0_bbs','ad0_forum','ad0_webo','ad0_wechat','ad1_bbs','ad1_forum','ad1_webo','ad1_wechat','inf1_bbs','inf1_forum','inf1_webo','inf1_wechat','inf2_bbs','inf2_forum','inf2_webo','inf2_wechat','inf3_bbs','inf3_forum','inf3_webo','inf3_wechat','ad0_zhihu','ad1_zhihu','inf1_zhihu','inf2_zhihu','inf3_zhihu']
 comment_field = ['id','entity_id','entity_name','date','sent0_bbs','sent0_forum','sent0_webo','sent0_wechat','sent1_bbs','sent1_forum','sent1_webo','sent1_wechat','sent2_bbs','sent2_forum','sent2_webo','sent2_wechat','sent0_zhihu','sent1_zhihu','sent2_zhihu']
