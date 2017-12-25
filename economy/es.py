@@ -118,4 +118,32 @@ def get_law_info(index_name,type,firm_name):
 
 
 
+def get_subfirmContent(firm,index_name):
+	type_name = 'invest_info'
+	query_body = {
+		"query": {
+			"filtered": {
+				"filter": {
+					"bool": {
+						"must": [{"term": {"firm_name": firm}},
+								 # {"term": {"holder_type": u'公司'}}
+								 ]
+					}
 
+				}
+			}
+		}
+
+	}
+
+	try:
+		result = es.search(index=index_name, doc_type=type_name, body=query_body)['hits']['hits']
+	except Exception, e:
+		print e
+		return []
+	# 去掉重复文本
+	unique_result = []
+	for item in result:
+		if item['_source'] not in unique_result:
+			unique_result.append(item['_source'])
+	return unique_result
