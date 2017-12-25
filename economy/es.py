@@ -67,6 +67,7 @@ def get_commentContent(entity_name, score, index_name, type):
 								}
 							}
 				}
+	
 	res = es.search(index=index_name, doc_type=type, body=query_body, request_timeout=100)
 	#print(res)
 	hits = res['hits']['hits']

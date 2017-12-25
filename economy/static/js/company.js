@@ -1,4 +1,4 @@
-var entity_name ;
+var entity_name ,firm_name;
 
 // 基本信息
     var basicInfor_url='/index/entityType/?id='+pid+'&type='+type;
@@ -6,9 +6,8 @@ var entity_name ;
     function basicInfor(data){
         // console.log(data);
         var item=data[0];
-        entity_name = item.entity_name;
-        // console.log(entity_name)
-        var t1='',t2='',t3='否',t4='0级',t5='0级',t6='否',operationMode,legalPerson;
+
+        var t1='',t2='',t3='否',t4='0级',t5='0级',t6='否',operationMode,legalPerson,capital;
         if (item.entity_type==1){t1='平台';}else if (item.entity_type==2){t1='公司';}else if (item.entity_type==1){t1='项目';}else {t1=''}
         if (item.start_time){t2=item.start_time;}//发展阶段
         $('.location').text(item.location||''); //注册地
@@ -18,11 +17,12 @@ var entity_name ;
             operationMode = item.operation_mode;
         }
         if(item.legal_person){legalPerson = item.legal_person};
+        if(item.capital){capital = item.capital+'万元'}
         $('.type-1').text(operationMode);//运营模式
         $('.type-2').text(t1);
         $('.type-3').text(t2);//发展阶段
         $('.type-4').text(legalPerson);//法人代表
-
+        $('.type-5').text(capital);//注册资本
 
         if (item.illegal_type==1){t3='是';}
         $('.val-1').text(t3);
@@ -34,6 +34,9 @@ var entity_name ;
         if (item.penalty_status==1){t6='是';}
         $('.val-5').text(t6);
 
+        // 取出entity_name
+        entity_name = item.entity_name;
+        // console.log(entity_name)
         // 广告内容
         var billing_url = '/index/ad_content/?entity_name='+entity_name;
         // console.log(billing_url);
@@ -42,12 +45,20 @@ var entity_name ;
         var commentinforContent_url = '/index/comment_content/?entity_name='+entity_name;
         public_ajax.call_request('get',commentinforContent_url,commentinforContent_1);
 
+        // 取出公司名称
+         firm_name = item.firm_name;
+        // 经营异常
+        var comment_url = '/index/abnormal_info/?firm_name='+firm_name;
+        public_ajax.call_request('get',comment_url,commentTable);
+        // 信息变更
+        var inforChange_url='/index/change_info/?firm_name='+firm_name;
+        public_ajax.call_request('get',inforChange_url,inforChange);
+        // 诉讼记录
+        var lawsuit_url = '/index/law_info/?firm_name='+firm_name;
+        public_ajax.call_request('get',lawsuit_url,lawsuit);
     }
 
 //股东【未完成
-    // 取出公司名称
-    var firm_name;
-
     var master_url='/index/gongshang/?id='+pid;
     public_ajax.call_request('get',master_url,master);
     function master(data) {
@@ -62,8 +73,6 @@ var entity_name ;
         $('.mid-1').text();
         $('.mid-2').text();
         $('.mid-3').text();
-
-        firm_name = item.firm_name;
     }
 
 //一个月时间
@@ -84,53 +93,57 @@ function get7DaysBefore(date,m){
     ]
     // var comment_url = '/index/abnormal_info/?firm_name='+firm_name;
     // 暂用假的
-    var comment_url = '/index/abnormal_info/?firm_name=信和财富投资管理（北京）有限公司绍兴分公司';
-    setTimeout(function(){
-        public_ajax.call_request('get',comment_url,commentTable);
-    },1000)
-
+    // var comment_url = '/index/abnormal_info/?firm_name=信和财富投资管理（北京）有限公司绍兴分公司';
+    // setTimeout(function(){
+    //     public_ajax.call_request('get',comment_url,commentTable);
+    // },1000)
     function commentTable(data) {
         // console.log(data)
-        $('#business').bootstrapTable('load', data);
-        $('#business').bootstrapTable({
-            data:data,
-            search: true,//是否搜索
-            pagination: true,//是否分页
-            pageSize: 5,//单页记录数
-            pageList: [15,20,25],//分页步进值
-            sidePagination: "client",//服务端分页
-            searchAlign: "left",
-            searchOnEnterKey: false,//回车搜索
-            showRefresh: false,//刷新按钮
-            showColumns: false,//列选择按钮
-            buttonsAlign: "right",//按钮对齐方式
-            locale: "zh-CN",//中文支持
-            detailView: false,
-            showToggle:false,
-            sortName:'bci',
-            sortOrder:"desc",
-            columns: [
-                {
-                    title: "",//标题
-                    field: "",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        return '<div class="inforContent" style="text-align: left;">' +
-                            '            <div class="main">' +
-                            '                <span>异常类型：<b style="color: #ff6d70">'+row.abnormal_type+'</b></span>'+
-                            '                <img src="/static/images/textIcon.png" class="textFlag">' +
-                            '                <p class="context">' +row.in_reason+
-                            '                </p>' +
-                            '            </div>' +
-                            '        </div>';
-                    }
-                },
-            ],
-        });
-        $('#business p.load').hide();
+        if(data.length == 0){
+            $('#business p.load').text('暂无异常');
+        }else {
+            $('#business').bootstrapTable('load', data);
+            $('#business').bootstrapTable({
+                data:data,
+                search: true,//是否搜索
+                pagination: true,//是否分页
+                pageSize: 5,//单页记录数
+                pageList: [15,20,25],//分页步进值
+                sidePagination: "client",//服务端分页
+                searchAlign: "left",
+                searchOnEnterKey: false,//回车搜索
+                showRefresh: false,//刷新按钮
+                showColumns: false,//列选择按钮
+                buttonsAlign: "right",//按钮对齐方式
+                locale: "zh-CN",//中文支持
+                detailView: false,
+                showToggle:false,
+                sortName:'bci',
+                sortOrder:"desc",
+                columns: [
+                    {
+                        title: "",//标题
+                        field: "",//键名
+                        sortable: true,//是否可排序
+                        order: "desc",//默认排序方式
+                        align: "center",//水平
+                        valign: "middle",//垂直
+                        formatter: function (value, row, index) {
+                            return '<div class="inforContent" style="text-align: left;">' +
+                                '            <div class="main">' +
+                                '                <span>异常类型：<b style="color: #ff6d70">'+row.abnormal_type+'</b></span>'+
+                                '                <img src="/static/images/textIcon.png" class="textFlag">' +
+                                '                <p class="context">' +row.in_reason+
+                                '                </p>' +
+                                '            </div>' +
+                                '        </div>';
+                        }
+                    },
+                ],
+            });
+            $('#business p.load').hide();
+        }
+
     };
     // commentTable(commentData)
 
@@ -220,7 +233,7 @@ var last_year_month = function() {
 
     var _myChart1,_myChart2;
     function table_1(data){
-        // console.log(data)
+        console.log(data)
         var myChart = echarts.init(document.getElementById('table-1'));
         var option = {
             title : {
@@ -402,17 +415,19 @@ var last_year_month = function() {
                             ]
                         }
                     ]
+                    // data:data
                 }
             ]
         };
 
         for(var i=0;i<data.length;i++){
-            // data[i]
+            data[0]
         }
         option.series[0].data[0].name = data[0];//根公司
         // option.series[0].data[0].symbol = data[0];
 
-        var comp = data[0];
+        var comp;
+        if() = data[0];
         // 一级子公司
         option.series[0].data[0].children[0].name = data[1].广西联银投资有限公司[0];
         option.series[0].data[0].children[1].name = data[1].广西联银投资有限公司[1];
@@ -465,94 +480,99 @@ var last_year_month = function() {
         {'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},
         {'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'}]
     // var inforChange_url='/index/change_info/?firm_name='+firm_name;
-    var inforChange_url='/index/change_info/?firm_name=广西联银投资有限公司';
-    public_ajax.call_request('get',inforChange_url,inforChange);
+    // var inforChange_url='/index/change_info/?firm_name=广西联银投资有限公司';
+    // public_ajax.call_request('get',inforChange_url,inforChange);
     function inforChange(data) {
         // console.log(data)
-        $('#inforChange').bootstrapTable('load', data);
-        $('#inforChange').bootstrapTable({
-            data:data,
-            search: true,//是否搜索
-            pagination: true,//是否分页
-            pageSize: 3,//单页记录数
-            pageList: [3,8,14,20],//分页步进值
-            sidePagination: "client",//服务端分页
-            searchAlign: "left",
-            searchOnEnterKey: false,//回车搜索
-            showRefresh: false,//刷新按钮
-            showColumns: false,//列选择按钮
-            buttonsAlign: "right",//按钮对齐方式
-            locale: "zh-CN",//中文支持
-            detailView: false,
-            showToggle:false,
-            sortName:'bci',
-            sortOrder:"desc",
-            columns: [
-                {
-                    title: "时间",//标题
-                    field: "change_time",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        var change_time;
-                        if (row.change_time==''||row.change_time=='null'||row.change_time=='unknown'||!row.change_time){
-                            return '未知';
-                        }else {
-                            change_time = getLocalTime(row.change_time);
-                            return change_time;
-                        };
-                    }
-                },
-                {
-                    title: "变更项",//标题
-                    field: "change_item",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        if (row.change_item==''||row.change_item=='null'||row.change_item=='unknown'||!row.change_item){
-                            return '未知';
-                        }else {
-                            return row.change_item;
-                        };
-                    }
-                },
-                {
-                    title: "变更前",//标题
-                    field: "content_before",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        if (row.content_before==''||row.content_before=='null'||row.content_before=='unknown'||!row.content_before){
-                            return '未知';
-                        }else {
-                            return row.content_before;
-                        };
-                    }
-                },
-                {
-                    title: "变更后",//标题
-                    field: "content_after",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        if (row.content_after==''||row.content_after=='null'||row.content_after=='unknown'||!row.content_after){
-                            return '未知';
-                        }else {
-                            return row.content_after;
-                        };
-                    }
-                },
-            ],
-        });
-        $('#inforChange p.load').hide();
+        if(data.length == 0){
+            $('#inforChange p.load').text('暂无数据');
+        }else {
+            $('#inforChange').bootstrapTable('load', data);
+            $('#inforChange').bootstrapTable({
+                data:data,
+                search: true,//是否搜索
+                pagination: true,//是否分页
+                pageSize: 3,//单页记录数
+                pageList: [3,8,14,20],//分页步进值
+                sidePagination: "client",//服务端分页
+                searchAlign: "left",
+                searchOnEnterKey: false,//回车搜索
+                showRefresh: false,//刷新按钮
+                showColumns: false,//列选择按钮
+                buttonsAlign: "right",//按钮对齐方式
+                locale: "zh-CN",//中文支持
+                detailView: false,
+                showToggle:false,
+                sortName:'bci',
+                sortOrder:"desc",
+                columns: [
+                    {
+                        title: "时间",//标题
+                        field: "change_time",//键名
+                        sortable: true,//是否可排序
+                        order: "desc",//默认排序方式
+                        align: "center",//水平
+                        valign: "middle",//垂直
+                        formatter: function (value, row, index) {
+                            var change_time;
+                            if (row.change_time==''||row.change_time=='null'||row.change_time=='unknown'||!row.change_time){
+                                return '未知';
+                            }else {
+                                change_time = getLocalTime(row.change_time);
+                                return change_time;
+                            };
+                        }
+                    },
+                    {
+                        title: "变更项",//标题
+                        field: "change_item",//键名
+                        sortable: true,//是否可排序
+                        order: "desc",//默认排序方式
+                        align: "center",//水平
+                        valign: "middle",//垂直
+                        formatter: function (value, row, index) {
+                            if (row.change_item==''||row.change_item=='null'||row.change_item=='unknown'||!row.change_item){
+                                return '未知';
+                            }else {
+                                return row.change_item;
+                            };
+                        }
+                    },
+                    {
+                        title: "变更前",//标题
+                        field: "content_before",//键名
+                        sortable: true,//是否可排序
+                        order: "desc",//默认排序方式
+                        align: "center",//水平
+                        valign: "middle",//垂直
+                        formatter: function (value, row, index) {
+                            if (row.content_before==''||row.content_before=='null'||row.content_before=='unknown'||!row.content_before){
+                                return '未知';
+                            }else {
+                                return row.content_before;
+                            };
+                        }
+                    },
+                    {
+                        title: "变更后",//标题
+                        field: "content_after",//键名
+                        sortable: true,//是否可排序
+                        order: "desc",//默认排序方式
+                        align: "center",//水平
+                        valign: "middle",//垂直
+                        formatter: function (value, row, index) {
+                            if (row.content_after==''||row.content_after=='null'||row.content_after=='unknown'||!row.content_after){
+                                return '未知';
+                            }else {
+                                return row.content_after;
+                            };
+                        }
+                    },
+                ],
+            });
+            $('#inforChange p.load').hide();
+        }
+
     };
     // inforChange(indsa);
 
@@ -562,61 +582,66 @@ var last_year_month = function() {
     var lawsuit_url = '/index/law_info/?firm_name=中信银行股份有限公司';
     public_ajax.call_request('get',lawsuit_url,lawsuit);
     function lawsuit(data) {
-        $('#lawsuit').bootstrapTable('load', data);
-        $('#lawsuit').bootstrapTable({
-            data:data,
-            search: true,//是否搜索
-            pagination: true,//是否分页
-            pageSize: 3,//单页记录数
-            pageList: [3,8,14,20],//分页步进值
-            sidePagination: "client",//服务端分页
-            searchAlign: "left",
-            searchOnEnterKey: false,//回车搜索
-            showRefresh: false,//刷新按钮
-            showColumns: false,//列选择按钮
-            buttonsAlign: "right",//按钮对齐方式
-            locale: "zh-CN",//中文支持
-            detailView: false,
-            showToggle:false,
-            sortName:'bci',
-            sortOrder:"desc",
-            columns: [
-                {
-                    title: "时间",//标题
-                    field: "date",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        var lawsuit_date;
-                        if (row.date==''||row.date=='null'||row.date=='unknown'||!row.date){
-                            return '未知';
-                        }else {
-                            lawsuit_date = getLocalTime(row.date);
-                            // return row.date;
-                            return lawsuit_date;
-                        };
-                    }
-                },
-                {
-                    title: "记录",//标题
-                    field: "title",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        if (row.title==''||row.title=='null'||row.title=='unknown'||!row.title){
-                            return '未知';
-                        }else {
-                            return row.title;
-                        };
-                    }
-                },
-            ],
-        });
-        $('#lawsuit p.load').hide();
+        if(data.length == 0){
+            $('#lawsuit p.load').text('暂无数据');
+        }else {
+            $('#lawsuit').bootstrapTable('load', data);
+            $('#lawsuit').bootstrapTable({
+                data:data,
+                search: true,//是否搜索
+                pagination: true,//是否分页
+                pageSize: 3,//单页记录数
+                pageList: [3,8,14,20],//分页步进值
+                sidePagination: "client",//服务端分页
+                searchAlign: "left",
+                searchOnEnterKey: false,//回车搜索
+                showRefresh: false,//刷新按钮
+                showColumns: false,//列选择按钮
+                buttonsAlign: "right",//按钮对齐方式
+                locale: "zh-CN",//中文支持
+                detailView: false,
+                showToggle:false,
+                sortName:'bci',
+                sortOrder:"desc",
+                columns: [
+                    {
+                        title: "时间",//标题
+                        field: "date",//键名
+                        sortable: true,//是否可排序
+                        order: "desc",//默认排序方式
+                        align: "center",//水平
+                        valign: "middle",//垂直
+                        formatter: function (value, row, index) {
+                            var lawsuit_date;
+                            if (row.date==''||row.date=='null'||row.date=='unknown'||!row.date){
+                                return '未知';
+                            }else {
+                                lawsuit_date = getLocalTime(row.date);
+                                // return row.date;
+                                return lawsuit_date;
+                            };
+                        }
+                    },
+                    {
+                        title: "记录",//标题
+                        field: "title",//键名
+                        sortable: true,//是否可排序
+                        order: "desc",//默认排序方式
+                        align: "center",//水平
+                        valign: "middle",//垂直
+                        formatter: function (value, row, index) {
+                            if (row.title==''||row.title=='null'||row.title=='unknown'||!row.title){
+                                return '未知';
+                            }else {
+                                return row.title;
+                            };
+                        }
+                    },
+                ],
+            });
+            $('#lawsuit p.load').hide();
+        }
+
     };
     // lawsuit(kajsdj);
 
@@ -815,58 +840,64 @@ var last_year_month = function() {
     public_ajax.call_request('get',guarantee_url,guarantee);
     function guarantee(data) {
         // console.log(data)
-        $('#guarantee').bootstrapTable('load', data);
-        $('#guarantee').bootstrapTable({
-            data:data,
-            search: true,//是否搜索
-            pagination: true,//是否分页
-            pageSize: 5,//单页记录数
-            pageList: [15,20,25],//分页步进值
-            sidePagination: "client",//服务端分页
-            searchAlign: "left",
-            searchOnEnterKey: false,//回车搜索
-            showRefresh: false,//刷新按钮
-            showColumns: false,//列选择按钮
-            buttonsAlign: "right",//按钮对齐方式
-            locale: "zh-CN",//中文支持
-            detailView: false,
-            showToggle:false,
-            sortName:'bci',
-            sortOrder:"desc",
-            columns: [
-                {
-                    title: "",//标题
-                    field: "",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        var promiseType;
-                        if(row.promise_type == 1){
-                            promiseType = '本息类担保'
-                        }else if(row.promise_type == 2){
-                            promiseType = '非本息类担保'
-                        }else {
-                            promiseType = '无匹配结果'
+        var item = data[0];
+        if(item.related_text == ''){
+            $('#guarantee p.load').text('暂无数据');
+        }else {
+            $('#guarantee').bootstrapTable('load', data);
+            $('#guarantee').bootstrapTable({
+                data:data,
+                search: true,//是否搜索
+                pagination: true,//是否分页
+                pageSize: 5,//单页记录数
+                pageList: [15,20,25],//分页步进值
+                sidePagination: "client",//服务端分页
+                searchAlign: "left",
+                searchOnEnterKey: false,//回车搜索
+                showRefresh: false,//刷新按钮
+                showColumns: false,//列选择按钮
+                buttonsAlign: "right",//按钮对齐方式
+                locale: "zh-CN",//中文支持
+                detailView: false,
+                showToggle:false,
+                sortName:'bci',
+                sortOrder:"desc",
+                columns: [
+                    {
+                        title: "",//标题
+                        field: "",//键名
+                        sortable: true,//是否可排序
+                        order: "desc",//默认排序方式
+                        align: "center",//水平
+                        valign: "middle",//垂直
+                        formatter: function (value, row, index) {
+                            var promiseType;
+                            if(row.promise_type == 1){
+                                promiseType = '本息类担保'
+                            }else if(row.promise_type == 2){
+                                promiseType = '非本息类担保'
+                            }else {
+                                promiseType = '无匹配结果'
+                            }
+                            return '<div class="promiseCon">'+
+                                '            <div class="inforContent">'+
+                                '                <div class="main">'+
+                                '                    <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
+                                '                    <p class="option">'+
+                                '                        <span>承诺类型：<b style="color: #ff6d70">'+promiseType+'</b></span>'+
+                                '                        <button class="original btn-primary btn-xs" onclick="guarantee_more(\''+row.index_name+'\',\''+row.text_id+'\')">查看全文</button>'+
+                                '                    </p>'+
+                                '                    <p class="context">'+row.related_text+'</p>'+
+                                '                </div>'+
+                                '            </div>'+
+                                '        </div>';
                         }
-                        return '<div class="promiseCon">'+
-                            '            <div class="inforContent">'+
-                            '                <div class="main">'+
-                            '                    <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
-                            '                    <p class="option">'+
-                            '                        <span>承诺类型：<b style="color: #ff6d70">'+promiseType+'</b></span>'+
-                            '                        <button class="original btn-primary btn-xs" onclick="guarantee_more(\''+row.index_name+'\',\''+row.text_id+'\')">查看全文</button>'+
-                            '                    </p>'+
-                            '                    <p class="context">'+row.related_text+'</p>'+
-                            '                </div>'+
-                            '            </div>'+
-                            '        </div>';
-                    }
-                },
-            ],
-        });
-        $('#guarantee p.load').hide();
+                    },
+                ],
+            });
+            $('#guarantee p.load').hide();
+        }
+
     };
     function guarantee_more (index_name,text_id){
         var guarantee_more_url = '/index/promise_content/?index_name='+index_name+'&text_id='+text_id;
@@ -946,12 +977,19 @@ var last_year_month = function() {
                             // 所有的数据
                             articalList[tag+'_'+index] = row.content;
                             // 煽动性
-                            // var
+                            var inflammatory;
+                            if(row.ad123 == 1){
+                                inflammatory = '无';
+                            }else if(row.ad123 ==2){
+                                inflammatory = '一般';
+                            }else if(row.ad123 ==3){
+                                inflammatory = '强';
+                            }
                             return '<div class="inforContent">'+
                                 '            <div class="main">'+
                                 '                <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
                                 '                <p class="option">'+
-                                '                    <span>煽动性：<b style="color: #ff6d70">强</b></span>'+
+                                '                    <span>煽动性：<b style="color: #ff6d70">'+inflammatory+'</b></span>'+
                                 '                    <span>广告渠道：<b style="color: #ff6d70">'+channel+'</b></span>'+
                                 '                    <span>发布时间：<b style="color: #ff6d70">'+publisTime+'</b></span>'+
                                 '   <button onclick="getAllArtical(\''+tag+'_'+index+'\')" artical=\"'+tag+'_'+index+'\" class="original btn-primary btn-xs">查看全文</button>'+
@@ -1005,7 +1043,7 @@ var last_year_month = function() {
     // 部分数据
     var commentarticalList_part={};
     function commentinforContent(data,el,channel) {
-        console.log(data)
+        // console.log(data)
         if(data.length == 0){
             $(el).hide();
         }else {
