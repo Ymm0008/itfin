@@ -55,19 +55,18 @@ def get_adContent(entity_name, score, index_name, type):
 
 def get_commentContent(entity_name, score, index_name, type):
 	query_body = {
-					"query":{
-						"bool":{
-							"must":[
-								{"match":{"content":entity_name}}
-									],
-							"should":[
-								{"match":{"sent":0}},
-								{"match":{"sent":1}},
-								{"match":{"sent":2}}
-									]
-								}
+				"query":{
+					"bool":{
+						"must":{"match":{"content":entity_name}},
+						"should":[
+							{"match":{"sent":0}},
+							{"match":{"sent":1}},
+							{"match":{"sent":2}}
+								],
+						"minimum_should_match" : 1
 							}
-				}
+						}
+				 }		
 	res = es.search(index=index_name, doc_type=type, body=query_body, request_timeout=100)
 	#print(res)
 	hits = res['hits']['hits']
