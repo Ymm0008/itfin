@@ -57,13 +57,12 @@ def get_commentContent(entity_name, score, index_name, type):
 					"query":{
 						"bool":{
 							"must":[
-								{"match":{"content":entity_name}},
-								{"match":{"ad01":1}}
+								{"match":{"content":entity_name}}
 									],
 							"should":[
+								{"match":{"sent":0}},
 								{"match":{"sent":1}},
-								{"match":{"sent":2}},
-								{"match":{"sent":3}}
+								{"match":{"sent":2}}
 									]
 								}
 							}
