@@ -160,8 +160,8 @@ def subfirmContent():
 		level2_subfirms = get_subfirmContent(sub_firm['asset_name'], index_name)
 		level2_temp[sub_firm['asset_name']] = [x['asset_name'] for x in level2_subfirms]
 	results.append(level2_temp)
-	# print len(results)
-	# print len(results[2])
+	# 返回的数据结构为
+	# [根公司，{根公司:[一级子公司A,B,C...]},{一级子公司A:[二级子公司A1,A2,A3],一级子公司B:[二级子公司B1,B2,B3]}]
 
 	return json.dumps(results, ensure_ascii=False)
 
