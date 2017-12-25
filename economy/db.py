@@ -67,7 +67,7 @@ def platform_detail(table1,table2,id,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select el.id,pd.entity_id,el.entity_name,el.location,pd.operation_mode,el.entity_type,el.start_time,pd.illegal_type,pd.risk_level,pd.impact_level,pd.penalty_status from %s as el inner join %s as pd on el.id=pd.entity_id where el.id=%d and pd.date='2017-11-27'" % (table1,table2,id)
+	sql = "select * from %s as el inner join %s as pd on el.id=pd.entity_id where el.id=%d and pd.date='2017-11-27'" % (table1,table2,id)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
@@ -77,7 +77,7 @@ def company_detail(table1,table2,id,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select el.id,cd.entity_id,el.entity_name,el.location,cd.operation_mode,el.entity_type,el.start_time,cd.illegal_type,cd.risk_level,cd.impact_level,cd.penalty_status from %s as el inner join %s as cd on el.id=cd.entity_id where el.id=%d and cd.date='2017-11-27'" % (table1,table2,id)
+	sql = "select * from %s as el inner join %s as cd on el.id=cd.entity_id where el.id=%d and cd.date='2017-11-27'" % (table1,table2,id)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
@@ -87,7 +87,7 @@ def project_detail(table1,table2,id,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select el.id,p.entity_id,el.entity_name,el.location,p.operation_mode,el.entity_type,el.start_time,p.illegal_type,p.risk_level,p.impact_level,p.penalty_status from %s as el inner join %s as p on el.id=p.entity_id where el.id=%d and p.date='2017-11-27'" % (table1,table2,id)
+	sql = "select * from %s as el inner join %s as p on el.id=p.entity_id where el.id=%d and p.date='2017-11-27'" % (table1,table2,id)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
