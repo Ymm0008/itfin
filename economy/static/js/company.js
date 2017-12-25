@@ -8,18 +8,22 @@ var entity_name ;
         var item=data[0];
         entity_name = item.entity_name;
         // console.log(entity_name)
-        var t1='',t2='',t3='否',t4='0级',t5='0级',t6='否',operationMode;
+        var t1='',t2='',t3='否',t4='0级',t5='0级',t6='否',operationMode,legalPerson;
         if (item.entity_type==1){t1='平台';}else if (item.entity_type==2){t1='公司';}else if (item.entity_type==1){t1='项目';}else {t1=''}
-        if (item.start_time){t2=item.start_time;}
+        if (item.start_time){t2=item.start_time;}//发展阶段
         $('.location').text(item.location||''); //注册地
         if (item.operation_mode==1){
             operationMode = '互联网金融';
         }else{
             operationMode = item.operation_mode;
         }
-        $('.type-1').text(operationMode);
+        if(item.legal_person){legalPerson = item.legal_person};
+        $('.type-1').text(operationMode);//运营模式
         $('.type-2').text(t1);
-        $('.type-3').text(t2);
+        $('.type-3').text(t2);//发展阶段
+        $('.type-4').text(legalPerson);//法人代表
+
+
         if (item.illegal_type==1){t3='是';}
         $('.val-1').text(t3);
         if (item.risk_level){t4=item.risk_level+'级';}
@@ -216,7 +220,7 @@ var last_year_month = function() {
 
     var _myChart1,_myChart2;
     function table_1(data){
-        console.log(data)
+        // console.log(data)
         var myChart = echarts.init(document.getElementById('table-1'));
         var option = {
             title : {
@@ -906,7 +910,7 @@ var last_year_month = function() {
             $(el).bootstrapTable('load', data);
             $(el).bootstrapTable({
                 data:data,
-                search: true,//是否搜索
+                search: false,//是否搜索
                 pagination: true,//是否分页
                 pageSize: 3,//单页记录数
                 pageList: [15,20,25],//分页步进值
@@ -941,6 +945,8 @@ var last_year_month = function() {
                             }
                             // 所有的数据
                             articalList[tag+'_'+index] = row.content;
+                            // 煽动性
+                            // var
                             return '<div class="inforContent">'+
                                 '            <div class="main">'+
                                 '                <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
@@ -999,6 +1005,7 @@ var last_year_month = function() {
     // 部分数据
     var commentarticalList_part={};
     function commentinforContent(data,el,channel) {
+        console.log(data)
         if(data.length == 0){
             $(el).hide();
         }else {
@@ -1006,7 +1013,7 @@ var last_year_month = function() {
             $(el).bootstrapTable('load', data);
             $(el).bootstrapTable({
                 data:data,
-                search: true,//是否搜索
+                search: false,//是否搜索
                 pagination: true,//是否分页
                 pageSize: 3,//单页记录数
                 pageList: [15,20,25],//分页步进值
@@ -1041,11 +1048,20 @@ var last_year_month = function() {
                             }
                             // 所有的数据
                             commentarticalList[com+'_'+index] = row.content;
+                            // 评论倾向
+                            var sent;
+                            if(row.sent == 0){
+                                sent = '消极';
+                            }else if(row.sent == 1){
+                                sent = '中性';
+                            }else if(row.sent == 2){
+                                sent = '积极';
+                            }
                             return '<div class="inforContent" id="commentinforContent">'+
                                 '                <div class="main">'+
                                 '                    <img src="/static/images/textIcon.png" class="textFlag" style="top:8px;">'+
                                 '                    <p class="option">'+
-                                '                        <span>评论倾向：<b style="color: #ff6d70">积极</b></span>'+
+                                '                        <span>评论倾向：<b style="color: #ff6d70">'+sent+'</b></span>'+
                                 '                        <span>评论来源：<b style="color: #ff6d70">'+channel+'</b></span>'+
                                 '                        <span>发布时间：<b style="color: #ff6d70">'+publishTime+'</b></span>'+
                                 '                        <button class="originalbtn btn-primary btn-xs" onclick="getAllcommtentartical(\''+com+'_'+index+'\')" artical=\"'+com+'_'+index+'\">查看全文</button>'+
