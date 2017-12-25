@@ -11,9 +11,9 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-plat_field = ['id','entity_type','pd_entity_name','location','start_time','entity_source','link_entity_id','in_type','in_time','monitor_status','pd.id','entity_id','entity_name','company','date','operation_mode','illegal_type','risk_level','impact_level','penalty_status','related_company','related_plat','related_person','follower','bg','avg_return','vol','investor','problem','debt_num','daily_input','daily_balance','inv_period','imprs']
-com_field = ['id','entity_type','cd_entity_name','location','start_time','entity_source','link_entity_id','in_type','in_time','monitor_status','cd.id','entity_id','entity_name','date','monitor_status','operation_mode','illegal_type','risk_level','impact_level','penalty_status','related_company','related_plat','related_person']
-pro_field = ['id','entity_type','p_entity_name','location','start_time','entity_source','link_entity_id','in_type','in_time','monitor_status','p.id','entity_id','entity_name','date','operation_mode','illegal_type','risk_level','impact_level','penalty_status','related_company','related_plat','related_person']
+plat_field = ['id','entity_type','pd_entity_name','location','start_time','entity_source','link_entity_id','in_type','in_time','monitor_status','pd.id','entity_id','entity_name','company','date','operation_mode','illegal_type','risk_level','impact_level','penalty_status','related_company','related_plat','related_person','follower','bg','avg_return','vol','investor','problem','debt_num','daily_input','daily_balance','inv_period','imprs','gs.id','firm_name','entity_id','gs.date','province','city','district','regist_address','up1_level_num','up2_level_num','up3_level_num','down1_level_num','down2_level_num','down3_level_num','admin_suit_num','civil_suit_num','crime_suit_num','other_suit_num','uncontact_abnormal_num','fake_abnormal_num','daily_report_abnormal_num','other_abnormal_num','people_change_num','operation_change_num','capital_change_num','other_change_num','legal_person','capital','holder_detail','set_time']
+com_field = ['id','entity_type','cd_entity_name','location','start_time','entity_source','link_entity_id','in_type','in_time','monitor_status','cd.id','entity_id','entity_name','date','monitor_status','operation_mode','illegal_type','risk_level','impact_level','penalty_status','related_company','related_plat','related_person','gs.id','firm_name','entity_id','gs.date','province','city','district','regist_address','up1_level_num','up2_level_num','up3_level_num','down1_level_num','down2_level_num','down3_level_num','admin_suit_num','civil_suit_num','crime_suit_num','other_suit_num','uncontact_abnormal_num','fake_abnormal_num','daily_report_abnormal_num','other_abnormal_num','people_change_num','operation_change_num','capital_change_num','other_change_num','legal_person','capital','holder_detail','set_time']
+pro_field = ['id','entity_type','p_entity_name','location','start_time','entity_source','link_entity_id','in_type','in_time','monitor_status','p.id','entity_id','entity_name','date','operation_mode','illegal_type','risk_level','impact_level','penalty_status','related_company','related_plat','related_person','gs.id','firm_name','entity_id','gs.date','province','city','district','regist_address','up1_level_num','up2_level_num','up3_level_num','down1_level_num','down2_level_num','down3_level_num','admin_suit_num','civil_suit_num','crime_suit_num','other_suit_num','uncontact_abnormal_num','fake_abnormal_num','daily_report_abnormal_num','other_abnormal_num','people_change_num','operation_change_num','capital_change_num','other_change_num','legal_person','capital','holder_detail','set_time']
 
 ad_field = ['id','entity_id','entity_name','date','ad0_bbs','ad0_forum','ad0_webo','ad0_wechat','ad1_bbs','ad1_forum','ad1_webo','ad1_wechat','inf1_bbs','inf1_forum','inf1_webo','inf1_wechat','inf2_bbs','inf2_forum','inf2_webo','inf2_wechat','inf3_bbs','inf3_forum','inf3_webo','inf3_wechat','ad0_zhihu','ad1_zhihu','inf1_zhihu','inf2_zhihu','inf3_zhihu']
 comment_field = ['id','entity_id','entity_name','date','sent0_bbs','sent0_forum','sent0_webo','sent0_wechat','sent1_bbs','sent1_forum','sent1_webo','sent1_wechat','sent2_bbs','sent2_forum','sent2_webo','sent2_wechat','sent0_zhihu','sent1_zhihu','sent2_zhihu']
@@ -43,11 +43,11 @@ def entity_type():
 	id = int(request.args.get('id',''))
 	type = int(request.args.get('type',''))
 	if type == 1:
-		result = platform_detail('entity_list','plat_detail',id,plat_field)
+		result = platform_detail('entity_list','plat_detail','gongshang',id,plat_field)
 	elif type == 2:
-		result = company_detail('entity_list','company_detail',id,com_field)
+		result = company_detail('entity_list','company_detail','gongshang',id,com_field)
 	elif type == 3:
-		result = project_detail('entity_list','project_detail',id,pro_field)
+		result = project_detail('entity_list','project_detail','gongshang',id,pro_field)
 	return json.dumps(result,ensure_ascii=False)
 
 
