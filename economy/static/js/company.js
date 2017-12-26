@@ -1,7 +1,32 @@
+
+Date.prototype.Format = function (fmt) { //author: meizz
+    var o = {
+        "M+": this.getMonth() + 1, //月份
+        "d+": this.getDate(), //日
+        "H+": this.getHours(), //小时
+        "m+": this.getMinutes(), //分
+        "s+": this.getSeconds(), //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds() //毫秒
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
+//时间戳转时间【年月】
+function getLocalTime_1(nS) {
+    // return new Date(parseInt(nS) * 1000).toLocaleDateString().replace(/年|月/g, "-");
+    // return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
+    return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd");
+}
+
+
 var entity_name ,firm_name;
 
 // 基本信息
     var basicInfor_url='/index/entityType/?id='+pid+'&type='+type;
+    // var basicInfor_url='/index/entityType/?id=5120&type=1';//测试股东信息
     public_ajax.call_request('get',basicInfor_url,basicInfor);
     function basicInfor(data){
         // console.log(data);
@@ -9,8 +34,8 @@ var entity_name ,firm_name;
 
         var t1='',t2='',t3='否',t4='0级',t5='0级',t6='否',operationMode,legalPerson,capital;
         if (item.entity_type==1){t1='平台';}else if (item.entity_type==2){t1='公司';}else if (item.entity_type==1){t1='项目';}else {t1=''}
-        if (item.start_time){t2=item.start_time;}//发展阶段
-        $('.location').text(item.location||''); //注册地
+        if (item.set_time){t2=item.set_time;}//成立时间
+        $('.location').text(item.regist_address||''); //注册地
         if (item.operation_mode==1){
             operationMode = '互联网金融';
         }else{
@@ -20,9 +45,11 @@ var entity_name ,firm_name;
         if(item.capital){capital = item.capital+'万元'}
         $('.type-1').text(operationMode);//运营模式
         $('.type-2').text(t1);
-        $('.type-3').text(t2);//发展阶段
+        $('.type-3').text(t2);//成立时间
         $('.type-4').text(legalPerson);//法人代表
         $('.type-5').text(capital);//注册资本
+        $('.isPlatformName').text(item.company || '');
+
 
         if (item.illegal_type==1){t3='是';}
         $('.val-1').text(t3);
@@ -34,31 +61,62 @@ var entity_name ,firm_name;
         if (item.penalty_status==1){t6='是';}
         $('.val-5').text(t6);
 
+        // 股东信息
+        var holderDetail = [];
+        if(item.holder_detail != ''){
+            holderDetail =  item.holder_detail.split('&');
+            var str = '';
+            for(var i=0;i<holderDetail.length;i++){
+                holderDetail[i].toString().replace(/：/,'-');
+                str += '<p style="text-align:left;"><span style="margin-left:15%;">股东名称：'+holderDetail[i]+'万元</span></p>';
+            }
+            // ==========未完成=============
+            $('.mid-3').html(str);
+        }else {
+            $('.mid-3').text('暂无记录');
+        }
+
         // 取出entity_name
         entity_name = item.entity_name;
         // console.log(entity_name)
-        // 广告内容
-        var billing_url = '/index/ad_content/?entity_name='+entity_name;
-        // console.log(billing_url);
-        public_ajax.call_request('get',billing_url,billing_1);
-        // 评论信息【舆情信息】
-        var commentinforContent_url = '/index/comment_content/?entity_name='+entity_name;
-        public_ajax.call_request('get',commentinforContent_url,commentinforContent_1);
 
         // 取出公司名称
-         firm_name = item.firm_name;
+        firm_name = item.firm_name;
+
+        // 子公司分公司情况
+        var table_1_url = '/index/sub_firm/?firm_name='+firm_name;
+        // var table_1_url = '/index/sub_firm/?firm_name=广西联银投资有限公司';//测试子公司分公司情况
+
         // 经营异常
         var comment_url = '/index/abnormal_info/?firm_name='+firm_name;
-        public_ajax.call_request('get',comment_url,commentTable);
+
         // 信息变更
         var inforChange_url='/index/change_info/?firm_name='+firm_name;
-        public_ajax.call_request('get',inforChange_url,inforChange);
+
         // 诉讼记录
         var lawsuit_url = '/index/law_info/?firm_name='+firm_name;
+
+        public_ajax.call_request('get',table_1_url,table_1);
+
+        public_ajax.call_request('get',comment_url,commentTable);
+
+        public_ajax.call_request('get',inforChange_url,inforChange);
+
         public_ajax.call_request('get',lawsuit_url,lawsuit);
+
+        // 广告内容
+        var billing_url = '/index/ad_content/?entity_name='+entity_name;
+
+        // 评论信息【舆情信息】
+        var commentinforContent_url = '/index/comment_content/?entity_name='+entity_name;
+
+        // console.log(billing_url);
+        public_ajax.call_request('get',billing_url,billing_1);
+
+        public_ajax.call_request('get',commentinforContent_url,commentinforContent_1);
     }
 
-//股东【未完成
+//股东
     var master_url='/index/gongshang/?id='+pid;
     public_ajax.call_request('get',master_url,master);
     function master(data) {
@@ -72,7 +130,7 @@ var entity_name ,firm_name;
         $('.down-3').text(item.up3_level_num);
         $('.mid-1').text();
         $('.mid-2').text();
-        $('.mid-3').text();
+        // $('.mid-3').text();
     }
 
 //一个月时间
@@ -87,7 +145,7 @@ function get7DaysBefore(date,m){
     return [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()].join('-');
 };
 
-//====经营异常【未完成】
+//====经营异常
     var commentData = [
         {'a':'积极','b':'百度贴吧','c':'2017-12','d':'放款快，审核简单，赶快注册！'},
     ]
@@ -100,12 +158,12 @@ function get7DaysBefore(date,m){
     function commentTable(data) {
         // console.log(data)
         if(data.length == 0){
-            $('#business p.load').text('暂无异常');
+            $('#business p.load').text('暂无记录');
         }else {
             $('#business').bootstrapTable('load', data);
             $('#business').bootstrapTable({
                 data:data,
-                search: true,//是否搜索
+                search: false,//是否搜索
                 pagination: true,//是否分页
                 pageSize: 5,//单页记录数
                 pageList: [15,20,25],//分页步进值
@@ -143,23 +201,8 @@ function get7DaysBefore(date,m){
             });
             $('#business p.load').hide();
         }
-
     };
     // commentTable(commentData)
-
-// 12个月
-var last_year_month = function() {
-    var d = new Date();
-    var result = [];
-    for(var i = 0; i < 12; i++) {
-        d.setMonth(d.getMonth() - 1);
-        var m = d.getMonth() + 1;
-        m = m < 10 ? "0" + m : m;
-        //在这里可以自定义输出的日期格式
-        result.push(d.getFullYear() + "年" + m + '月');
-    }
-    return result;
-}
 
 // 右顶侧小表格【未完成
     // var risk_url='///';
@@ -171,7 +214,7 @@ var last_year_month = function() {
         $('#riskValueTable').bootstrapTable('load', data);
         $('#riskValueTable').bootstrapTable({
             data:data,
-            search: true,//是否搜索
+            search: false,//是否搜索
             pagination: true,//是否分页
             pageSize: 3,//单页记录数
             pageList: [15,20,25],//分页步进值
@@ -226,14 +269,14 @@ var last_year_month = function() {
     };
     riskValue(objData)
 
-// 子公司分公司【未完成
+// 子公司分公司
     // var table_1_url = '/index/sub_firm/?firm_name='+firm_name;
-    var table_1_url = '/index/sub_firm/?firm_name=广西联银投资有限公司';
-    public_ajax.call_request('get',table_1_url,table_1);
+    // var table_1_url = '/index/sub_firm/?firm_name=广西联银投资有限公司';
+    // public_ajax.call_request('get',table_1_url,table_1);
 
     var _myChart1,_myChart2;
     function table_1(data){
-        console.log(data)
+        // console.log(data);
         var myChart = echarts.init(document.getElementById('table-1'));
         var option = {
             title : {
@@ -289,11 +332,11 @@ var last_year_month = function() {
                     },
                     data: [
                         {
-                            name: 'A',
+                            name: '',
                             value: 6,
-                            symbolSize: [90, 70],
+                            symbolSize: [60, 60],
                             // symbol: 'image://http://www.iconpng.com/png/ecommerce-business/iphone.png',
-                            symbol: 'A',
+                            // symbol: 'circle',
                             itemStyle: {
                                 normal: {
                                     label: {
@@ -302,139 +345,180 @@ var last_year_month = function() {
                                 }
                             },
                             children: [
-                                {
-                                    name: 'B',
-                                    value: 4,
-                                    // symbol: 'image://http://pic.58pic.com/58pic/12/36/51/66d58PICMUV.jpg',
-                                    symbol: 'B',
-                                    itemStyle: {
-                                        normal: {
-                                            label: {
-                                                show: false
-                                            }
-                                        }
-                                    },
-                                    symbolSize: [60, 60],
-                                    children: [
-                                        {
-                                            name: 'C',
-                                            symbol: 'circle',
-                                            symbolSize: 20,
-                                            value: 4,
-                                            itemStyle: {
-                                                normal: {
-                                                    color: '#fa6900',
-                                                    label: {
-                                                        show: true,
-                                                        position: 'right'
-                                                    },
-
-                                                },
-                                                emphasis: {
-                                                    label: {
-                                                        show: false
-                                                    },
-                                                    borderWidth: 0
+                                /*
+                                    {
+                                        name: 'B',
+                                        value: 4,
+                                        // symbol: 'image://http://pic.58pic.com/58pic/12/36/51/66d58PICMUV.jpg',
+                                        symbol: 'B',
+                                        itemStyle: {
+                                            normal: {
+                                                label: {
+                                                    show: false
                                                 }
                                             }
                                         },
-                                        // {
-                                        //     name: 'D',
-                                        //     value: 4,
-                                        //     symbol: 'circle',
-                                        //     symbolSize: 20,
-                                        //     itemStyle: {
-                                        //         normal: {
-                                        //             label: {
-                                        //                 show: true,
-                                        //                 position: 'right',
-                                        //                 formatter: "{b}"
-                                        //             },
-                                        //             color: '#fa6900',
-                                        //             borderWidth: 2,
-                                        //             borderColor: '#cc66ff'
+                                        symbolSize: [60, 60],
+                                        children: [
+                                            {
+                                                name: 'C',
+                                                symbol: 'circle',
+                                                symbolSize: 20,
+                                                value: 4,
+                                                itemStyle: {
+                                                    normal: {
+                                                        color: '#fa6900',
+                                                        label: {
+                                                            show: true,
+                                                            position: 'right'
+                                                        },
 
-                                        //         },
-                                        //         emphasis: {
-                                        //             borderWidth: 0
-                                        //         }
-                                        //     }
-                                        // },
-                                        // {
-                                        //     name: 'E',
-                                        //     value: 2,
-                                        //     symbol: 'circle',
-                                        //     symbolSize: 20,
-                                        //     itemStyle: {
-                                        //         normal: {
-                                        //             label: {
-                                        //                 position: 'right'
-                                        //             },
-                                        //             color: '#fa6900',
-                                        //             brushType: 'stroke',
-                                        //             borderWidth: 1,
-                                        //             borderColor: '#999966',
-                                        //         },
-                                        //         emphasis: {
-                                        //             borderWidth: 0
-                                        //         }
-                                        //     }
-                                        // }
-                                    ]
-                                },
-                                {
-                                    name: 'F',
-                                    // symbol: 'image://http://www.viastreaming.com/images/apple_logo2.png',
-                                    symbol: 'F',
-                                    symbolSize: [60, 60],
-                                    itemStyle: {
-                                        normal: {
-                                            label: {
-                                                show: false
+                                                    },
+                                                    emphasis: {
+                                                        label: {
+                                                            show: false
+                                                        },
+                                                        borderWidth: 0
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                name: 'D',
+                                                value: 4,
+                                                symbol: 'circle',
+                                                symbolSize: 20,
+                                                itemStyle: {
+                                                    normal: {
+                                                        label: {
+                                                            show: true,
+                                                            position: 'right',
+                                                            formatter: "{b}"
+                                                        },
+                                                        color: '#fa6900',
+                                                        borderWidth: 2,
+                                                        borderColor: '#cc66ff'
+
+                                                    },
+                                                    emphasis: {
+                                                        borderWidth: 0
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                name: 'E',
+                                                value: 2,
+                                                symbol: 'circle',
+                                                symbolSize: 20,
+                                                itemStyle: {
+                                                    normal: {
+                                                        label: {
+                                                            position: 'right'
+                                                        },
+                                                        color: '#fa6900',
+                                                        brushType: 'stroke',
+                                                        borderWidth: 1,
+                                                        borderColor: '#999966',
+                                                    },
+                                                    emphasis: {
+                                                        borderWidth: 0
+                                                    }
+                                                }
                                             }
-
-                                        }
+                                        ]
                                     },
-                                    value: 4
-                                },
-                                {
-                                    name: 'G',
-                                    // symbol: 'image://http://market.huawei.com/hwgg/logo_cn/download/logo.jpg',
-                                    symbol: 'G',
-                                    symbolSize: [60, 60],
-                                    itemStyle: {
-                                        normal: {
-                                            label: {
-                                                show: false
+                                    {
+                                        name: 'F',
+                                        // symbol: 'image://http://www.viastreaming.com/images/apple_logo2.png',
+                                        symbol: 'F',
+                                        symbolSize: [60, 60],
+                                        itemStyle: {
+                                            normal: {
+                                                label: {
+                                                    show: false
+                                                }
+
                                             }
-
-                                        }
+                                        },
+                                        value: 4
                                     },
-                                    value: 2
-                                },
+                                    {
+                                        name: 'G',
+                                        // symbol: 'image://http://market.huawei.com/hwgg/logo_cn/download/logo.jpg',
+                                        symbol: 'G',
+                                        symbolSize: [60, 60],
+                                        itemStyle: {
+                                            normal: {
+                                                label: {
+                                                    show: false
+                                                }
+
+                                            }
+                                        },
+                                        value: 2
+                                    },
+                                */
                             ]
                         }
                     ]
-                    // data:data
                 }
             ]
         };
 
-        for(var i=0;i<data.length;i++){
-            data[0]
-        }
-        option.series[0].data[0].name = data[0];//根公司
-        // option.series[0].data[0].symbol = data[0];
 
-        var comp;
-        if() = data[0];
+        option.series[0].data[0].name = data[0];//根公司
+        // console.log(data[0]);
+        var reg = new RegExp('"',"g");
+        var comp = data[0].replace(reg, "");
         // 一级子公司
-        option.series[0].data[0].children[0].name = data[1].广西联银投资有限公司[0];
-        option.series[0].data[0].children[1].name = data[1].广西联银投资有限公司[1];
-        option.series[0].data[0].children[2].name = data[1].广西联银投资有限公司[2];
+        if(data[1][comp].length != 0){
+            for(var i=0;i<data[1][comp].length;i++){
+                // option.series[0].data[0].children[i].name = data[1][comp][i];
+                option.series[0].data[0].children.push(
+                    {
+                        name:data[1][comp][i],
+                        value:6,
+                        itemStyle: {
+                            normal: {
+                                label: {
+                                    show: false
+                                }
+                            }
+                        },
+                        symbolSize: [60, 60],
+                        children:[],
+                    },
+                )
+                // 二级子公司
+                if(data[2][data[1][comp][i]].length != 0){
+                    for(var j=0;j<data[2][data[1][comp][i]].length;j++){
+                        // option.series[0].data[0].children[i].children[j].name = data[2][data[1][comp][i]][0];
+                        option.series[0].data[0].children[i].children.push(
+                            {
+                                name:data[2][data[1][comp][i]][j],
+                                value:6,
+                                itemStyle: {
+                                    normal: {
+                                        label: {
+                                            show: false
+                                        }
+                                    }
+                                },
+                                symbolSize: [60, 60],
+                                children:[],
+                            },
+                        )
+                    }
+                }
+            }
+            // option.series[0].data[0].children[0].name = data[1].comp[0];
+        };
+        // 一级子公司
+        // option.series[0].data[0].children[0].name = data[1].广西联银投资有限公司[0];
+        // option.series[0].data[0].children[1].name = data[1].广西联银投资有限公司[1];
+        // option.series[0].data[0].children[2].name = data[1].广西联银投资有限公司[2];
 
         // 二级子公司
-        option.series[0].data[0].children[0].children[0].name = data[2].广西金狐计算机科技有限公司[0]
+        // option.series[0].data[0].children[0].children[0].name = data[2].广西金狐计算机科技有限公司[0]
 
         myChart.setOption(option);
         _myChart1 = myChart;
@@ -485,12 +569,12 @@ var last_year_month = function() {
     function inforChange(data) {
         // console.log(data)
         if(data.length == 0){
-            $('#inforChange p.load').text('暂无数据');
+            $('#inforChange p.load').text('暂无记录');
         }else {
             $('#inforChange').bootstrapTable('load', data);
             $('#inforChange').bootstrapTable({
                 data:data,
-                search: true,//是否搜索
+                search: false,//是否搜索
                 pagination: true,//是否分页
                 pageSize: 3,//单页记录数
                 pageList: [3,8,14,20],//分页步进值
@@ -518,7 +602,7 @@ var last_year_month = function() {
                             if (row.change_time==''||row.change_time=='null'||row.change_time=='unknown'||!row.change_time){
                                 return '未知';
                             }else {
-                                change_time = getLocalTime(row.change_time);
+                                change_time = getLocalTime_1(row.change_time);
                                 return change_time;
                             };
                         }
@@ -583,12 +667,12 @@ var last_year_month = function() {
     public_ajax.call_request('get',lawsuit_url,lawsuit);
     function lawsuit(data) {
         if(data.length == 0){
-            $('#lawsuit p.load').text('暂无数据');
+            $('#lawsuit p.load').text('暂无记录');
         }else {
             $('#lawsuit').bootstrapTable('load', data);
             $('#lawsuit').bootstrapTable({
                 data:data,
-                search: true,//是否搜索
+                search: false,//是否搜索
                 pagination: true,//是否分页
                 pageSize: 3,//单页记录数
                 pageList: [3,8,14,20],//分页步进值
@@ -616,7 +700,7 @@ var last_year_month = function() {
                             if (row.date==''||row.date=='null'||row.date=='unknown'||!row.date){
                                 return '未知';
                             }else {
-                                lawsuit_date = getLocalTime(row.date);
+                                lawsuit_date = getLocalTime_1(row.date);
                                 // return row.date;
                                 return lawsuit_date;
                             };
@@ -653,7 +737,6 @@ var last_year_month = function() {
         // }
         day30 = last_year_month().reverse();
         // console.log(day30)
-
 
         var day30Data=[];
         for (var b=0;b< 12;b++){
@@ -763,7 +846,7 @@ var last_year_month = function() {
         $('#incomeTable').bootstrapTable('load', data);
         $('#incomeTable').bootstrapTable({
             data:data,
-            search: true,//是否搜索
+            search: false,//是否搜索
             pagination: true,//是否分页
             pageSize: 5,//单页记录数
             pageList: [15,20,25],//分页步进值
@@ -787,11 +870,12 @@ var last_year_month = function() {
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
+                        var returnRate = row.return_rate*100;
                         return '<div class="inforContent">'+
                             '                <div class="main">'+
                             '                    <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
                             '                    <p class="option">'+
-                            '                        <span>收益率：<b style="color: #ff6d70">'+row.return_rate+'%</b></span>'+
+                            '                        <span>收益率：<b style="color: #ff6d70">'+returnRate+'%</b></span>'+
                             '                        <button class="original btn-primary btn-xs" onclick="incomeTable_more(\''+row.index_name+'\',\''+row.text_id+'\')">查看全文</button>'+
                             '                    </p>'+
                             '                    <p class="context">'+row.related_text+'</p>'+
@@ -804,7 +888,6 @@ var last_year_month = function() {
         $('#incomeTable p.load').hide();
     };
     // incomeTable(serds);
-
 //====收益率点击查看全文====
     function incomeTable_more(index_name,text_id){
         var incomeTable_more_url = '/index/returnRate_content/?index_name='+index_name+'&text_id='+text_id;
@@ -812,7 +895,7 @@ var last_year_month = function() {
         public_ajax.call_request('get',incomeTable_more_url,incomeTablemore);
     }
     function incomeTablemore(data){
-        console.log(data)
+        // console.log(data)
         if(data){
             var channel = data.site_name || data.index_name;//渠道
             var Release_time = getLocalTime(data.publish_time);//时间戳转时间
@@ -829,25 +912,26 @@ var last_year_month = function() {
                 $('#moreInfo #author').text('未知');//作者
             }
             $('#moreInfo #words').text(data.content);//内容
-            $('#moreInfo #url a').text('查看原文').attr({'href':data.u,'target':'_blank','title':'查看原文'});//原文链接
+            $('#moreInfo #url a').text('原网页链接').attr({'href':data.u,'target':'_blank','title':'原网页链接'});//原文链接
 
             $('#moreInfo').modal('show');
         }
     }
 
-//====收益/保本/担保承诺【未完成】====
-    var guarantee_url='/index/guarantee/?id='+pid;
+//====收益/保本/担保承诺====
+    // var guarantee_url='/index/guarantee/?id='+pid;
+    var guarantee_url='/index/guarantee/?id=4291';
     public_ajax.call_request('get',guarantee_url,guarantee);
     function guarantee(data) {
         // console.log(data)
         var item = data[0];
         if(item.related_text == ''){
-            $('#guarantee p.load').text('暂无数据');
+            $('#guarantee p.load').text('暂无记录');
         }else {
             $('#guarantee').bootstrapTable('load', data);
             $('#guarantee').bootstrapTable({
                 data:data,
-                search: true,//是否搜索
+                search: false,//是否搜索
                 pagination: true,//是否分页
                 pageSize: 5,//单页记录数
                 pageList: [15,20,25],//分页步进值
@@ -899,6 +983,7 @@ var last_year_month = function() {
         }
 
     };
+// ====收益担保点击查看全文====
     function guarantee_more (index_name,text_id){
         var guarantee_more_url = '/index/promise_content/?index_name='+index_name+'&text_id='+text_id;
         // console.log(guarantee_more_url);
@@ -906,6 +991,31 @@ var last_year_month = function() {
     }
     function guaranteeMore(data){
         // console.log(data)
+        if(data){
+            var channel = data.site_name || data.index_name;//渠道
+            var Release_time = getLocalTime(data.publish_time);//时间戳转时间
+            $('#moreInfo #channel').text(channel);
+            $('#moreInfo #Release_time').text(Release_time);
+            if(data.title){
+                $('#moreInfo #Advertising_Headlines').text(data.title);//标题
+            }else {
+                $('#moreInfo #Advertising_Headlines').text('无');//标题
+            }
+            if(data.author){
+                $('#moreInfo #author').text(data.author);//作者
+            }else{
+                $('#moreInfo #author').text('暂无');//作者
+            }
+            if(data.usn){
+                $('#moreInfo #usn').text(data.author);//用户
+            }else {
+                $('#moreInfo #usn').text('暂无');//用户
+            }
+            $('#moreInfo #words').text(data.content);//内容
+            $('#moreInfo #url a').text('原网页链接').attr({'href':data.u,'target':'_blank','title':'原网页链接'});//原文链接
+
+            $('#moreInfo').modal('show');
+        }
     }
 
 //====广告内容====
@@ -995,7 +1105,7 @@ var last_year_month = function() {
                                 '   <button onclick="getAllArtical(\''+tag+'_'+index+'\')" artical=\"'+tag+'_'+index+'\" class="original btn-primary btn-xs">查看全文</button>'+
                                 '                </p>'+
                                 '                <p class="context">'+contentClip+'</p>'+
-
+                                '                <a href="'+row.url+'" title="原网页链接" target="_blank">原网页链接</a>            '+
                                 '            </div>'+
                                 '        </div>';
                         }
@@ -1105,6 +1215,7 @@ var last_year_month = function() {
                                 '                        <button class="originalbtn btn-primary btn-xs" onclick="getAllcommtentartical(\''+com+'_'+index+'\')" artical=\"'+com+'_'+index+'\">查看全文</button>'+
                                 '                    </p>'+
                                 '                    <p class="context">'+contentClip+'</p>'+
+                                '                <a href="'+row.url+'" title="原网页链接" target="_blank">原网页链接</a>            '+
                                 '                </div>'+
                                 '            </div>';
                         }
@@ -1126,109 +1237,136 @@ var last_year_month = function() {
         }
     }
 
-// 趋势分析
-function line_2() {
-    var day30=[];
-    day30 = last_year_month().reverse();
-    var day30Data=[];
-    for (var b=0;b< 12;b++){
-        day30Data.push(Math.round(Math.random()*(20-5)+5));
+// 12个月
+var last_year_month = function() {
+    var d = new Date();
+    var result = [];
+    for(var i = 0; i < 12; i++) {
+        d.setMonth(d.getMonth() - 1);
+        var m = d.getMonth() + 1;
+        m = m < 10 ? "0" + m : m;
+        //在这里可以自定义输出的日期格式
+        result.push(d.getFullYear() + "年" + m + '月');
     }
-
-    var day30Data_2=[];
-    for (var c=0;c< 12;c++){
-        day30Data_2.push(Math.round(Math.random()*(20-3)+5));
-    }
-
-    var day30Data_3=[];
-    for (var d=0;d< 12;d++){
-        day30Data_3.push(Math.round(Math.random()*(20-8)+5));
-    }
-
-    var myChart = echarts.init(document.getElementById('opinion'));
-    var option = {
-        title: {
-            text: '',
-            subtext: ''
-        },
-        tooltip: {
-            trigger: 'axis'
-        },
-        legend: {
-            data:['']
-        },
-        xAxis:  {
-            type: 'category',
-            boundaryGap: false,
-            data: day30
-        },
-        yAxis: {
-            type: 'value',
-            axisLabel: {
-                formatter: '{value}'
-            }
-        },
-        series: [
-            {
-                name:'消极评论',
-                type:'line',
-                smooth:true,
-                data:day30Data.reverse(),
-                itemStyle:{normal:{areaStyle:{type:'default'}}},
-                markPoint: {
-                    data: [
-                        {type: 'max', name: '最大值'},
-                        {type: 'min', name: '最小值'}
-                    ]
-                },
-                markLine: {
-                    data: [
-                        {type: 'average', name: '平均值'}
-                    ]
-                }
-            },
-            {
-                name:'中性评论',
-                type:'line',
-                smooth:true,
-                data:day30Data_2,
-                itemStyle:{normal:{areaStyle:{type:'default'}}},
-                markPoint: {
-                    data: [
-                        {type: 'max', name: '最大值'},
-                        {type: 'min', name: '最小值'}
-                    ]
-                },
-                markLine: {
-                    data: [
-                        {type: 'average', name: '平均值'}
-                    ]
-                }
-            },
-            {
-                name:'积极评论',
-                type:'line',
-                smooth:true,
-                data:day30Data_3,
-                itemStyle:{normal:{areaStyle:{type:'default'}}},
-                markPoint: {
-                    data: [
-                        {type: 'max', name: '最大值'},
-                        {type: 'min', name: '最小值'}
-                    ]
-                },
-                markLine: {
-                    data: [
-                        {type: 'average', name: '平均值'}
-                    ]
-                }
-            },
-        ]
-    };
-    myChart.setOption(option);
-    _myChart2 = myChart;
+    return result;
 }
-line_2();
+
+// 趋势分析
+    var trend_url='/index/comment/?id='+pid;
+    public_ajax.call_request('get',trend_url,line_2);
+    function line_2(data) {
+        var day30=[];
+        day30 = last_year_month().reverse();
+        var day30Data=[];
+        for (var b=0;b< 12;b++){
+            day30Data.push(Math.round(Math.random()*(20-5)+5));
+        }
+
+        var day30Data_2=[];
+        for (var c=0;c< 12;c++){
+            day30Data_2.push(Math.round(Math.random()*(20-3)+5));
+        }
+
+        var day30Data_3=[];
+        for (var d=0;d< 12;d++){
+            day30Data_3.push(Math.round(Math.random()*(20-8)+5));
+        }
+
+        var item = data[0];
+        var day30Data_0 = [];
+        var day30Data_1 = [];
+        var day30Data_2 = [];
+        day30Data_0.push(item.sent0_webo,item.sent0_bbs,item.sent0_zhihu,item.sent0_forum,item.sent0_wechat,);
+        day30Data_1.push(item.sent1_webo,item.sent1_bbs,item.sent1_zhihu,item.sent1_forum,item.sent1_wechat,);
+        day30Data_2.push(item.sent2_webo,item.sent2_bbs,item.sent2_zhihu,item.sent2_forum,item.sent2_wechat,);
+
+        var myChart = echarts.init(document.getElementById('opinion'));
+        var option = {
+            title: {
+                text: '',
+                subtext: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['']
+            },
+            xAxis:  {
+                type: 'category',
+                boundaryGap: false,
+                data: day30
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            },
+            series: [
+                {
+                    name:'消极评论',
+                    type:'line',
+                    smooth:true,
+                    // data:day30Data.reverse(),
+                    data:day30Data_0,
+                    itemStyle:{normal:{areaStyle:{type:'default'}}},
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
+                },
+                {
+                    name:'中性评论',
+                    type:'line',
+                    smooth:true,
+                    // data:day30Data_2,
+                    data:day30Data_1,
+                    itemStyle:{normal:{areaStyle:{type:'default'}}},
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
+                },
+                {
+                    name:'积极评论',
+                    type:'line',
+                    smooth:true,
+                    // data:day30Data_3,
+                    data:day30Data_2,
+                    itemStyle:{normal:{areaStyle:{type:'default'}}},
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
+                },
+            ]
+        };
+        myChart.setOption(option);
+        _myChart2 = myChart;
+    }
+    // line_2();
 
 
 // 使用jsFiddle生成Word

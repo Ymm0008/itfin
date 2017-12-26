@@ -104,17 +104,18 @@
 				<span class="status-1 status btn-primary"><i class="icon icon-retweet"></i>&nbsp;停止监测</span>
 				<span class="status-2 status btn-primary"><i class="icon icon-sitemap"></i>&nbsp;查看网络图</span>
 			</h3>
-			<p class="infor-1 inforLine">
-				<span>注册地：</span>&nbsp;<b class="location"></b>
-			</p>
-			<p class="infor-2 inforLine">
-				<span>运营模式：</span>&nbsp;<b class="type-1"></b>
-			</p>
 			<p class="infor-3 inforLine">
 				<span>实体类型：</span>&nbsp;<b class="type-2"></b>
 			</p>
+
+			<p class="infor-2 inforLine">
+				<span>运营模式：</span>&nbsp;<b class="type-1"></b>
+			</p>
+			<p class="infor-1 inforLine" style="max-width:50%;min-width:50%;margin-right:0;">
+				<span style="text-align:left;">注册地：</span>&nbsp;<b class="location" style="max-width:100%;"></b>
+			</p>
 			<p class="infor-4 inforLine">
-				<span>发展阶段：</span>&nbsp;<b class="type-3"></b>
+				<span>成立时间：</span>&nbsp;<b class="type-3"></b>
 			</p>
 			<p class="infor-5 inforLine">
 				<span>法人代表：</span>&nbsp;<b class="type-4"></b>
@@ -122,10 +123,10 @@
 			<p class="infor-6 inforLine">
 				<span>注册资本：</span>&nbsp;<b class="type-5"></b>
 			</p>
-			<p class="isPlatform inforLine" style="display: none;">
+			<p class="isPlatform inforLine" style="display: none;min-width:100%;">
 				<span>工商注册公司名称：</span>&nbsp;<b class="isPlatformName"></b>
 			</p>
-			<p class="infor-7">
+			<p class="infor-7 inforLine">
 				<span>旗下产品：</span>&nbsp;<b class="type">优易网、理财网</b>
 			</p>
 
@@ -450,6 +451,7 @@
 				<span class="titleName">发布时间：</span><span id="Release_time"></span><br>
 				<span class="titleName">标题：</span><span id="Advertising_Headlines"></span><br>
 				<span class="titleName">作者：</span><span id="author"></span><br>
+				<span class="titleName">用户：</span><span id="usn"></span><br>
 				<span class="titleName">内容：</span><span id="words" style="word-wrap:break-word;"></span><br>
 				<span id="url"><a href=""></a></span>
 			</div>
@@ -480,7 +482,7 @@
 	$('#title-1').text(unescape(name));
 	$('.name').text(unescape(name));
 	$('#tableName').text(unescape(name));
-	$('.isPlatformName').text(unescape(name));
+	// $('.isPlatformName').text(unescape(name));
 
 	//导出PDF
 	var downPdf = document.getElementById("LL-PDF");
