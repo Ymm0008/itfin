@@ -14,7 +14,7 @@ es = Elasticsearch([{'host':ES_HOST,'port':ES_PORT}])
 def get_returnrate_content(index_name, text_id):
 	query_body = {"query":{"match":{"_id":text_id}}}
 	res = es.search(index=index_name, doc_type='type1', body=query_body,request_timeout=100)
-	print(res)
+	#print(res)
 	content = res['hits']['hits'][0]['_source']
 	return content
 
@@ -73,9 +73,9 @@ def get_commentContent(entity_name, score, index_name, type):
 	if(len(hits)):
 		for item in hits:
 			text_id = item['_id']
-			print item['_score']
+			#print item['_score']
 			if(item['_score'] >= score):
-				print item
+				#print item
 				if entity_name in item['_source']['content']:
 					result = item['_source']
 					#res['text_id'] = text_id
@@ -134,7 +134,7 @@ def get_subfirmContent(firm,index_name):
 	try:
 		result = es.search(index=index_name, doc_type=type_name, body=query_body)['hits']['hits']
 	except Exception, e:
-		print e
+		#print e
 		return []
 	# 去掉重复文本
 	unique_result = []
