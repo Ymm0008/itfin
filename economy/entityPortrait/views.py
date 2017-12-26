@@ -24,17 +24,17 @@ def portrait():
 @entityPortrait.route('/platform/',methods=['POST','GET'])
 def platform():
 	result = get_platform('entity_list',plat_field)
-	print(result)
+	#print(result)
 	return json.dumps(result,ensure_ascii=False)
 
 @entityPortrait.route('/company/',methods=['POST','GET'])
 def company():
 	result = get_company('entity_list',company_field)
-	print(result)
+	#print(result)
 	return json.dumps(result,ensure_ascii=False)
 
 @entityPortrait.route('/project/',methods=['POST','GET'])
 def project():
 	result = get_project('entity_list',project_field)
-	print(result)
+	#print(result)
 	return json.dumps(result,ensure_ascii=False)
