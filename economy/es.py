@@ -6,27 +6,27 @@ sys.setdefaultencoding('utf-8')
 from elasticsearch import Elasticsearch
 import config
 
-ES_HOST = '219.224.134.216'
+ES_HOST = '219.224.134.214'
 ES_PORT = 9202
 
 es = Elasticsearch([{'host':ES_HOST,'port':ES_PORT}])
 
 def get_returnrate_content(index_name, text_id):
-	query_body = {"query":{"match":{"_id":text_id}}}
+	query_body = {"size":500,"query":{"match":{"_id":text_id}}}
 	res = es.search(index=index_name, doc_type='type1', body=query_body,request_timeout=100)
-	print(res)
+	#print(res)
 	content = res['hits']['hits'][0]['_source']
 	return content
 
 def get_promise_content(index_name, text_id):
-	query_body = {"query":{"match":{"_id":text_id}}}
+	query_body = {"size":500,"query":{"match":{"_id":text_id}}}
 	res = es.search(index=index_name, doc_type='type1', body=query_body,request_timeout=100)
 	content = res['hits']['hits'][0]['_source']
 	return content
 
 
 def get_adContent(entity_name, score, index_name, type):
-	query_body = {
+	query_body = {	"size":200,
 					"query":{
 						"bool":{
 							"must":[
@@ -53,7 +53,7 @@ def get_adContent(entity_name, score, index_name, type):
 	return results
 
 def get_commentContent(entity_name, score, index_name, type):
-	query_body = {
+	query_body = {	"size":200,
 				"query":{
 					"bool":{
 						"must":{"match":{"content":entity_name}},
@@ -73,9 +73,9 @@ def get_commentContent(entity_name, score, index_name, type):
 	if(len(hits)):
 		for item in hits:
 			text_id = item['_id']
-			print item['_score']
+			#print item['_score']
 			if(item['_score'] >= score):
-				print item
+				#print item
 				if entity_name in item['_source']['content']:
 					result = item['_source']
 					#res['text_id'] = text_id
@@ -84,7 +84,7 @@ def get_commentContent(entity_name, score, index_name, type):
 
 
 def get_ab_info(index_name,type,firm_name):
-	query_body = {"sort":{"in_date":{"order":"desc"}},"query":{"match":{"firm_name":firm_name}}}
+	query_body = {"size":500,"sort":{"in_date":{"order":"desc"}},"query":{"match":{"firm_name":firm_name}}}
 	res = es.search(index=index_name, doc_type=type, body=query_body, request_timeout=100)
 	hits = res['hits']['hits']
 	results = []
@@ -94,7 +94,7 @@ def get_ab_info(index_name,type,firm_name):
 	return results
 
 def get_ch_info(index_name,type,firm_name):
-	query_body = {"sort":{"change_time":{"order":"desc"}},"query":{"match":{"firm_name":firm_name}}}
+	query_body = {"size":500,"sort":{"change_time":{"order":"desc"}},"query":{"match":{"firm_name":firm_name}}}
 	res = es.search(index=index_name, doc_type=type, body=query_body, request_timeout=100)
 	hits = res['hits']['hits']
 	results = []
@@ -104,7 +104,7 @@ def get_ch_info(index_name,type,firm_name):
 	return results
 
 def get_law_info(index_name,type,firm_name):
-	query_body = {"sort":{"date":{"order":"desc"}},"query":{"match":{"firm_name":firm_name}}}
+	query_body = {"size":500,"sort":{"date":{"order":"desc"}},"query":{"match":{"firm_name":firm_name}}}
 	res = es.search(index=index_name, doc_type=type, body=query_body, request_timeout=100)
 	hits = res['hits']['hits']
 	results = []
@@ -115,26 +115,25 @@ def get_law_info(index_name,type,firm_name):
 
 def get_subfirmContent(firm,index_name):
 	type_name = 'invest_info'
-	query_body = {
-		"query": {
-			"filtered": {
-				"filter": {
-					"bool": {
-						"must": [{"term": {"firm_name": firm}},
-								 # {"term": {"holder_type": u'公司'}}
-								 ]
+	query_body = {	"size":500,
+					"query": {
+						"filtered": {
+							"filter": {
+								"bool": {
+									"must": [{"term": {"firm_name": firm}},
+											 # {"term": {"holder_type": u'公司'}}
+											 ]
+								}
+
+							}
+						}
 					}
-
-				}
-			}
-		}
-
-	}
+				 }
 
 	try:
 		result = es.search(index=index_name, doc_type=type_name, body=query_body)['hits']['hits']
 	except Exception, e:
-		print e
+		#print e
 		return []
 	# 去掉重复文本
 	unique_result = []
