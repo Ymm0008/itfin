@@ -11,7 +11,6 @@ ES_PORT = 9202
 
 es = Elasticsearch([{'host':ES_HOST,'port':ES_PORT}])
 
-
 def get_returnrate_content(index_name, text_id):
 	query_body = {"query":{"match":{"_id":text_id}}}
 	res = es.search(index=index_name, doc_type='type1', body=query_body,request_timeout=100)
@@ -66,7 +65,7 @@ def get_commentContent(entity_name, score, index_name, type):
 						"minimum_should_match" : 1
 							}
 						}
-				 }		
+				}
 	res = es.search(index=index_name, doc_type=type, body=query_body, request_timeout=100)
 	#print(res)
 	hits = res['hits']['hits']
@@ -113,8 +112,6 @@ def get_law_info(index_name,type,firm_name):
 		for item in hits:
 			results.append(item['_source'])
 	return results
-
-
 
 def get_subfirmContent(firm,index_name):
 	type_name = 'invest_info'
