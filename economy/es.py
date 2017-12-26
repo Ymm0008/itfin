@@ -6,7 +6,7 @@ sys.setdefaultencoding('utf-8')
 from elasticsearch import Elasticsearch
 import config
 
-ES_HOST = '219.224.134.216'
+ES_HOST = '219.224.134.214'
 ES_PORT = 9202
 
 es = Elasticsearch([{'host':ES_HOST,'port':ES_PORT}])
@@ -66,7 +66,7 @@ def get_commentContent(entity_name, score, index_name, type):
 						"minimum_should_match" : 1
 							}
 						}
-				 }		
+				}
 	res = es.search(index=index_name, doc_type=type, body=query_body, request_timeout=100)
 	#print(res)
 	hits = res['hits']['hits']
