@@ -6,7 +6,7 @@ from economy.db import *
 from . import entityPortrait
 import json
 
-field = ['id','entity_name','entity_type','location','operation_mode']
+field = ['id','entity_name','entity_type','regist_address','operation_mode']
 plat_field = ['id','entity_name']
 company_field = ['id','entity_name']
 project_field = ['id','entity_name']
@@ -38,3 +38,16 @@ def project():
 	result = get_project('entity_list',project_field)
 	#print(result)
 	return json.dumps(result,ensure_ascii=False)
+
+
+@entityPortrait.route('/portrait_letter/',methods=['POST','GET'])
+def portraitLetter():
+	letter = request.args.get('letter','')
+	result = get_portrait('entity_list','plat_detail','company_detail','project_detail',field,letter)
+	return json.dumps(result,ensure_ascii=False)
+
+
+
+
+
+
