@@ -81,6 +81,14 @@
 		text-align:center;
 		margin-top:10px;
 	}
+
+	#inforChange thead th,#lawsuit thead th {
+		border-top:none;
+	}
+	/*信息变更  诉讼记录 */
+	#container .register h3,#container .litigation h3 {
+		margin-bottom:15px;
+	}
 	/* ===12 22 === */
 </style>
 {% endblock %}
@@ -452,8 +460,9 @@
 				<span class="titleName">标题：</span><span id="Advertising_Headlines"></span><br>
 				<span class="titleName">作者：</span><span id="author"></span><br>
 				<span class="titleName">用户：</span><span id="usn"></span><br>
-				<span class="titleName">内容：</span><span id="words" style="word-wrap:break-word;"></span><br>
+				<span class="titleName">内容：</span>
 				<span id="url"><a href=""></a></span>
+				<span id="words" style="word-wrap:break-word;"></span><br>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

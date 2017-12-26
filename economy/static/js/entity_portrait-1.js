@@ -10,7 +10,7 @@ var peoPicture_url='/portraite/portrait/';
 public_ajax.call_request('get',peoPicture_url,peoPicture);
 
 function peoPicture(data) {
-    console.log(data)
+    // console.log(data)
     $('#contentTable').empty();
     $('#contentTable').bootstrapTable('load', data);
     $('#contentTable').bootstrapTable({
@@ -49,16 +49,19 @@ function peoPicture(data) {
             },
             {
                 title: "注册地",//标题
-                field: "location",//键名
+                field: "regist_address",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-                    if (row.location==''||row.location=='null'||row.location=='unknown'||!row.location){
+                    var registAddress = row.regist_address;
+                    if (row.regist_address==''||row.regist_address=='null'||row.regist_address=='unknown'||!row.regist_address){
                         return '未知';
                     }else {
-                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.location+'\')" title="注册地">'+row.location+'</span>';
+                        var i=registAddress.indexOf("市");
+                        registAddress = registAddress.substring(0,i+1);
+                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.registAddress+'\')" title="注册地">'+registAddress+'</span>';
                     };
                 }
             },

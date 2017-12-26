@@ -1,4 +1,3 @@
-
 Date.prototype.Format = function (fmt) { //author: meizz
     var o = {
         "M+": this.getMonth() + 1, //月份
@@ -89,12 +88,14 @@ var entity_name ,firm_name;
 
         // 经营异常
         var comment_url = '/index/abnormal_info/?firm_name='+firm_name;
+        // var comment_url = '/index/abnormal_info/?firm_name=信和财富投资管理（北京）有限公司绍兴分公司';//测试
 
         // 信息变更
         var inforChange_url='/index/change_info/?firm_name='+firm_name;
 
         // 诉讼记录
         var lawsuit_url = '/index/law_info/?firm_name='+firm_name;
+        // var lawsuit_url = '/index/law_info/?firm_name=中信银行股份有限公司';//测试
 
         public_ajax.call_request('get',table_1_url,table_1);
 
@@ -144,65 +145,6 @@ function get7DaysBefore(date,m){
     newDate = new Date(timestamp - m * 24 * 3600 * 1000);
     return [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()].join('-');
 };
-
-//====经营异常
-    var commentData = [
-        {'a':'积极','b':'百度贴吧','c':'2017-12','d':'放款快，审核简单，赶快注册！'},
-    ]
-    // var comment_url = '/index/abnormal_info/?firm_name='+firm_name;
-    // 暂用假的
-    // var comment_url = '/index/abnormal_info/?firm_name=信和财富投资管理（北京）有限公司绍兴分公司';
-    // setTimeout(function(){
-    //     public_ajax.call_request('get',comment_url,commentTable);
-    // },1000)
-    function commentTable(data) {
-        // console.log(data)
-        if(data.length == 0){
-            $('#business p.load').text('暂无记录');
-        }else {
-            $('#business').bootstrapTable('load', data);
-            $('#business').bootstrapTable({
-                data:data,
-                search: false,//是否搜索
-                pagination: true,//是否分页
-                pageSize: 5,//单页记录数
-                pageList: [15,20,25],//分页步进值
-                sidePagination: "client",//服务端分页
-                searchAlign: "left",
-                searchOnEnterKey: false,//回车搜索
-                showRefresh: false,//刷新按钮
-                showColumns: false,//列选择按钮
-                buttonsAlign: "right",//按钮对齐方式
-                locale: "zh-CN",//中文支持
-                detailView: false,
-                showToggle:false,
-                sortName:'bci',
-                sortOrder:"desc",
-                columns: [
-                    {
-                        title: "",//标题
-                        field: "",//键名
-                        sortable: true,//是否可排序
-                        order: "desc",//默认排序方式
-                        align: "center",//水平
-                        valign: "middle",//垂直
-                        formatter: function (value, row, index) {
-                            return '<div class="inforContent" style="text-align: left;">' +
-                                '            <div class="main">' +
-                                '                <span>异常类型：<b style="color: #ff6d70">'+row.abnormal_type+'</b></span>'+
-                                '                <img src="/static/images/textIcon.png" class="textFlag">' +
-                                '                <p class="context">' +row.in_reason+
-                                '                </p>' +
-                                '            </div>' +
-                                '        </div>';
-                        }
-                    },
-                ],
-            });
-            $('#business p.load').hide();
-        }
-    };
-    // commentTable(commentData)
 
 // 右顶侧小表格【未完成
     // var risk_url='///';
@@ -285,7 +227,7 @@ function get7DaysBefore(date,m){
             },
             tooltip : {
                 trigger: 'item',
-                formatter: "{b}: {c}"
+                formatter: "{b}"
             },
             toolbox: {
                 show : true,
@@ -313,16 +255,19 @@ function get7DaysBefore(date,m){
                                 show: true,
                                 position: 'inside',
                                 textStyle: {
-                                    color: '#cc9999',
+                                    color: '#333',
                                     fontSize: 15,
                                     fontWeight:  'bolder'
-                                }
+                                },
+                                // position:['left','bottom']
+                                position:'bottom'
                             },
                             lineStyle: {
                                 color: '#000',
                                 width: 1,
                                 type: 'broken' // 'curve'|'broken'|'solid'|'dotted'|'dashed'
-                            }
+                            },
+                            borderColor:'#337ab7'
                         },
                         emphasis: {
                             label: {
@@ -332,15 +277,15 @@ function get7DaysBefore(date,m){
                     },
                     data: [
                         {
-                            name: '',
-                            value: 6,
-                            symbolSize: [60, 60],
+                            name: data[0],
+                            // value: 6,
+                            symbolSize: [20, 20],
                             // symbol: 'image://http://www.iconpng.com/png/ecommerce-business/iphone.png',
                             // symbol: 'circle',
                             itemStyle: {
                                 normal: {
                                     label: {
-                                        show: false
+                                        show: true
                                     }
                                 }
                             },
@@ -476,15 +421,16 @@ function get7DaysBefore(date,m){
                 option.series[0].data[0].children.push(
                     {
                         name:data[1][comp][i],
-                        value:6,
+                        // value:6,
                         itemStyle: {
                             normal: {
                                 label: {
-                                    show: false
-                                }
+                                    show: true
+                                },
+                                // position:['60%','50%']
                             }
                         },
-                        symbolSize: [60, 60],
+                        symbolSize: [20, 20],
                         children:[],
                     },
                 )
@@ -495,7 +441,7 @@ function get7DaysBefore(date,m){
                         option.series[0].data[0].children[i].children.push(
                             {
                                 name:data[2][data[1][comp][i]][j],
-                                value:6,
+                                // value:6,
                                 itemStyle: {
                                     normal: {
                                         label: {
@@ -503,7 +449,7 @@ function get7DaysBefore(date,m){
                                         }
                                     }
                                 },
-                                symbolSize: [60, 60],
+                                symbolSize: [20, 20],
                                 children:[],
                             },
                         )
@@ -556,6 +502,65 @@ function get7DaysBefore(date,m){
         $('#pubTable .inf3_zhihu').text(item.inf3_zhihu);
     }
 
+//====经营异常
+    var commentData = [
+        {'a':'积极','b':'百度贴吧','c':'2017-12','d':'放款快，审核简单，赶快注册！'},
+    ]
+    // var comment_url = '/index/abnormal_info/?firm_name='+firm_name;
+    // 暂用假的
+    // var comment_url = '/index/abnormal_info/?firm_name=信和财富投资管理（北京）有限公司绍兴分公司';
+    // setTimeout(function(){
+    //     public_ajax.call_request('get',comment_url,commentTable);
+    // },1000)
+    function commentTable(data) {
+        // console.log(data)
+        if(data.length == 0){
+            $('#business p.load').text('暂无记录');
+        }else {
+            $('#business').bootstrapTable('load', data);
+            $('#business').bootstrapTable({
+                data:data,
+                search: false,//是否搜索
+                pagination: true,//是否分页
+                pageSize: 5,//单页记录数
+                // pageList: [15,20,25],//分页步进值
+                sidePagination: "client",//服务端分页
+                searchAlign: "left",
+                searchOnEnterKey: false,//回车搜索
+                showRefresh: false,//刷新按钮
+                showColumns: false,//列选择按钮
+                buttonsAlign: "right",//按钮对齐方式
+                locale: "zh-CN",//中文支持
+                detailView: false,
+                showToggle:false,
+                sortName:'bci',
+                sortOrder:"desc",
+                columns: [
+                    {
+                        title: "",//标题
+                        field: "",//键名
+                        sortable: true,//是否可排序
+                        order: "desc",//默认排序方式
+                        align: "center",//水平
+                        valign: "middle",//垂直
+                        formatter: function (value, row, index) {
+                            return '<div class="inforContent" style="text-align: left;">' +
+                                '            <div class="main">' +
+                                '                <span>异常类型：<b style="color: #ff6d70">'+row.abnormal_type+'</b></span>'+
+                                '                <img src="/static/images/textIcon.png" class="textFlag">' +
+                                '                <p class="context">' +row.in_reason+
+                                '                </p>' +
+                                '            </div>' +
+                                '        </div>';
+                        }
+                    },
+                ],
+            });
+            $('#business p.load').hide();
+        }
+    };
+    // commentTable(commentData)
+
 //====信息变更====
     var indsa=[{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},
         {'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},
@@ -577,7 +582,7 @@ function get7DaysBefore(date,m){
                 search: false,//是否搜索
                 pagination: true,//是否分页
                 pageSize: 3,//单页记录数
-                pageList: [3,8,14,20],//分页步进值
+                // pageList: [3,8,14,20],//分页步进值
                 sidePagination: "client",//服务端分页
                 searchAlign: "left",
                 searchOnEnterKey: false,//回车搜索
@@ -663,8 +668,8 @@ function get7DaysBefore(date,m){
 //====诉讼记录====
     var kajsdj=[{'a':'2017-11-11','b':'testtesttesttesttesttesttesttest'},]
     // var lawsuit_url = '/index/law_info/?firm_name='+firm_name;
-    var lawsuit_url = '/index/law_info/?firm_name=中信银行股份有限公司';
-    public_ajax.call_request('get',lawsuit_url,lawsuit);
+    // var lawsuit_url = '/index/law_info/?firm_name=中信银行股份有限公司';
+    // public_ajax.call_request('get',lawsuit_url,lawsuit);
     function lawsuit(data) {
         if(data.length == 0){
             $('#lawsuit p.load').text('暂无记录');
@@ -675,7 +680,7 @@ function get7DaysBefore(date,m){
                 search: false,//是否搜索
                 pagination: true,//是否分页
                 pageSize: 3,//单页记录数
-                pageList: [3,8,14,20],//分页步进值
+                // pageList: [3,8,14,20],//分页步进值
                 sidePagination: "client",//服务端分页
                 searchAlign: "left",
                 searchOnEnterKey: false,//回车搜索
@@ -888,6 +893,7 @@ function get7DaysBefore(date,m){
         $('#incomeTable p.load').hide();
     };
     // incomeTable(serds);
+
 //====收益率点击查看全文====
     function incomeTable_more(index_name,text_id){
         var incomeTable_more_url = '/index/returnRate_content/?index_name='+index_name+'&text_id='+text_id;
@@ -919,8 +925,8 @@ function get7DaysBefore(date,m){
     }
 
 //====收益/保本/担保承诺====
-    // var guarantee_url='/index/guarantee/?id='+pid;
-    var guarantee_url='/index/guarantee/?id=4291';
+    var guarantee_url='/index/guarantee/?id='+pid;
+    // var guarantee_url='/index/guarantee/?id=4291';
     public_ajax.call_request('get',guarantee_url,guarantee);
     function guarantee(data) {
         // console.log(data)
