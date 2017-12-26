@@ -26,7 +26,7 @@ def get_promise_content(index_name, text_id):
 
 
 def get_adContent(entity_name, score, index_name, type):
-	query_body = {
+	query_body = {	"size":200,
 					"query":{
 						"bool":{
 							"must":[
@@ -53,7 +53,7 @@ def get_adContent(entity_name, score, index_name, type):
 	return results
 
 def get_commentContent(entity_name, score, index_name, type):
-	query_body = {
+	query_body = {	"size":200,
 				"query":{
 					"bool":{
 						"must":{"match":{"content":entity_name}},
