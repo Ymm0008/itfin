@@ -1,4 +1,3 @@
-
 Date.prototype.Format = function (fmt) { //author: meizz
     var o = {
         "M+": this.getMonth() + 1, //月份
@@ -24,7 +23,7 @@ function getLocalTime_1(nS) {
 
 var entity_name ,firm_name;
 
-// 基本信息
+//====基本信息====
     var basicInfor_url='/index/entityType/?id='+pid+'&type='+type;
     // var basicInfor_url='/index/entityType/?id=5120&type=1';//测试股东信息
     public_ajax.call_request('get',basicInfor_url,basicInfor);
@@ -48,11 +47,21 @@ var entity_name ,firm_name;
         $('.type-3').text(t2);//成立时间
         $('.type-4').text(legalPerson);//法人代表
         $('.type-5').text(capital);//注册资本
-        $('.isPlatformName').text(item.company || '');
+        $('.isPlatformName').text(item.company || '');//工商注册公司名称：
 
-
-        if (item.illegal_type==1){t3='是';}
+        //风险评价
+        if (item.illegal_type==1){//是否疑似非法集资
+            t3='是';
+        }else{
+            //隐藏下面的内容和右边表格
+            $('.val-2').parents('p').css('display','none');
+            $('.val-3').parents('p').css('display','none');
+            $('.val-4').parents('p').css('display','none');
+            $('.val-5').parents('p').css('display','none');
+            $('.riskRight').css('display','none');
+        }
         $('.val-1').text(t3);
+
         if (item.risk_level){t4=item.risk_level+'级';}
         $('.val-2').text(t4);
         if (item.impact_level){t5=item.impact_level+'级';}
@@ -70,7 +79,6 @@ var entity_name ,firm_name;
                 holderDetail[i].toString().replace(/：/,'-');
                 str += '<p style="text-align:left;"><span style="margin-left:15%;">股东名称：'+holderDetail[i]+'万元</span></p>';
             }
-            // ==========未完成=============
             $('.mid-3').html(str);
         }else {
             $('.mid-3').text('暂无记录');
@@ -89,12 +97,14 @@ var entity_name ,firm_name;
 
         // 经营异常
         var comment_url = '/index/abnormal_info/?firm_name='+firm_name;
+        // var comment_url = '/index/abnormal_info/?firm_name=信和财富投资管理（北京）有限公司绍兴分公司';//测试
 
         // 信息变更
         var inforChange_url='/index/change_info/?firm_name='+firm_name;
 
         // 诉讼记录
         var lawsuit_url = '/index/law_info/?firm_name='+firm_name;
+        // var lawsuit_url = '/index/law_info/?firm_name=中信银行股份有限公司';//测试
 
         public_ajax.call_request('get',table_1_url,table_1);
 
@@ -116,7 +126,7 @@ var entity_name ,firm_name;
         public_ajax.call_request('get',commentinforContent_url,commentinforContent_1);
     }
 
-//股东
+//====股东数量====
     var master_url='/index/gongshang/?id='+pid;
     public_ajax.call_request('get',master_url,master);
     function master(data) {
@@ -125,9 +135,9 @@ var entity_name ,firm_name;
         $('.up-1').text(item.up1_level_num);
         $('.up-2').text(item.up2_level_num);
         $('.up-3').text(item.up3_level_num);
-        $('.down-1').text(item.up1_level_num);
-        $('.down-2').text(item.up2_level_num);
-        $('.down-3').text(item.up3_level_num);
+        $('.down-1').text(item.down1_level_num);
+        $('.down-2').text(item.down2_level_num);
+        $('.down-3').text(item.down3_level_num);
         $('.mid-1').text();
         $('.mid-2').text();
         // $('.mid-3').text();
@@ -145,66 +155,7 @@ function get7DaysBefore(date,m){
     return [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()].join('-');
 };
 
-//====经营异常
-    var commentData = [
-        {'a':'积极','b':'百度贴吧','c':'2017-12','d':'放款快，审核简单，赶快注册！'},
-    ]
-    // var comment_url = '/index/abnormal_info/?firm_name='+firm_name;
-    // 暂用假的
-    // var comment_url = '/index/abnormal_info/?firm_name=信和财富投资管理（北京）有限公司绍兴分公司';
-    // setTimeout(function(){
-    //     public_ajax.call_request('get',comment_url,commentTable);
-    // },1000)
-    function commentTable(data) {
-        // console.log(data)
-        if(data.length == 0){
-            $('#business p.load').text('暂无记录');
-        }else {
-            $('#business').bootstrapTable('load', data);
-            $('#business').bootstrapTable({
-                data:data,
-                search: false,//是否搜索
-                pagination: true,//是否分页
-                pageSize: 5,//单页记录数
-                pageList: [15,20,25],//分页步进值
-                sidePagination: "client",//服务端分页
-                searchAlign: "left",
-                searchOnEnterKey: false,//回车搜索
-                showRefresh: false,//刷新按钮
-                showColumns: false,//列选择按钮
-                buttonsAlign: "right",//按钮对齐方式
-                locale: "zh-CN",//中文支持
-                detailView: false,
-                showToggle:false,
-                sortName:'bci',
-                sortOrder:"desc",
-                columns: [
-                    {
-                        title: "",//标题
-                        field: "",//键名
-                        sortable: true,//是否可排序
-                        order: "desc",//默认排序方式
-                        align: "center",//水平
-                        valign: "middle",//垂直
-                        formatter: function (value, row, index) {
-                            return '<div class="inforContent" style="text-align: left;">' +
-                                '            <div class="main">' +
-                                '                <span>异常类型：<b style="color: #ff6d70">'+row.abnormal_type+'</b></span>'+
-                                '                <img src="/static/images/textIcon.png" class="textFlag">' +
-                                '                <p class="context">' +row.in_reason+
-                                '                </p>' +
-                                '            </div>' +
-                                '        </div>';
-                        }
-                    },
-                ],
-            });
-            $('#business p.load').hide();
-        }
-    };
-    // commentTable(commentData)
-
-// 右顶侧小表格【未完成
+// ====右顶侧小表格【未完成
     // var risk_url='///';
     // public_ajax.call_request('get',risk_url,riskValue);
     var objData=[{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},
@@ -269,7 +220,7 @@ function get7DaysBefore(date,m){
     };
     riskValue(objData)
 
-// 子公司分公司
+// ====子公司分公司====
     // var table_1_url = '/index/sub_firm/?firm_name='+firm_name;
     // var table_1_url = '/index/sub_firm/?firm_name=广西联银投资有限公司';
     // public_ajax.call_request('get',table_1_url,table_1);
@@ -285,7 +236,7 @@ function get7DaysBefore(date,m){
             },
             tooltip : {
                 trigger: 'item',
-                formatter: "{b}: {c}"
+                formatter: "{b}"
             },
             toolbox: {
                 show : true,
@@ -313,16 +264,19 @@ function get7DaysBefore(date,m){
                                 show: true,
                                 position: 'inside',
                                 textStyle: {
-                                    color: '#cc9999',
+                                    color: '#333',
                                     fontSize: 15,
                                     fontWeight:  'bolder'
-                                }
+                                },
+                                // position:['left','bottom']
+                                position:'bottom'
                             },
                             lineStyle: {
                                 color: '#000',
                                 width: 1,
                                 type: 'broken' // 'curve'|'broken'|'solid'|'dotted'|'dashed'
-                            }
+                            },
+                            borderColor:'#337ab7'
                         },
                         emphasis: {
                             label: {
@@ -332,15 +286,15 @@ function get7DaysBefore(date,m){
                     },
                     data: [
                         {
-                            name: '',
-                            value: 6,
-                            symbolSize: [60, 60],
+                            name: data[0],
+                            // value: 6,
+                            symbolSize: [20, 20],
                             // symbol: 'image://http://www.iconpng.com/png/ecommerce-business/iphone.png',
                             // symbol: 'circle',
                             itemStyle: {
                                 normal: {
                                     label: {
-                                        show: false
+                                        show: true
                                     }
                                 }
                             },
@@ -476,15 +430,16 @@ function get7DaysBefore(date,m){
                 option.series[0].data[0].children.push(
                     {
                         name:data[1][comp][i],
-                        value:6,
+                        // value:6,
                         itemStyle: {
                             normal: {
                                 label: {
-                                    show: false
-                                }
+                                    show: true
+                                },
+                                // position:['60%','50%']
                             }
                         },
-                        symbolSize: [60, 60],
+                        symbolSize: [20, 20],
                         children:[],
                     },
                 )
@@ -495,7 +450,7 @@ function get7DaysBefore(date,m){
                         option.series[0].data[0].children[i].children.push(
                             {
                                 name:data[2][data[1][comp][i]][j],
-                                value:6,
+                                // value:6,
                                 itemStyle: {
                                     normal: {
                                         label: {
@@ -503,7 +458,7 @@ function get7DaysBefore(date,m){
                                         }
                                     }
                                 },
-                                symbolSize: [60, 60],
+                                symbolSize: [20, 20],
                                 children:[],
                             },
                         )
@@ -556,6 +511,65 @@ function get7DaysBefore(date,m){
         $('#pubTable .inf3_zhihu').text(item.inf3_zhihu);
     }
 
+//====经营异常
+    var commentData = [
+        {'a':'积极','b':'百度贴吧','c':'2017-12','d':'放款快，审核简单，赶快注册！'},
+    ]
+    // var comment_url = '/index/abnormal_info/?firm_name='+firm_name;
+    // 暂用假的
+    // var comment_url = '/index/abnormal_info/?firm_name=信和财富投资管理（北京）有限公司绍兴分公司';
+    // setTimeout(function(){
+    //     public_ajax.call_request('get',comment_url,commentTable);
+    // },1000)
+    function commentTable(data) {
+        // console.log(data)
+        if(data.length == 0){
+            $('#business p.load').text('暂无记录');
+        }else {
+            $('#business').bootstrapTable('load', data);
+            $('#business').bootstrapTable({
+                data:data,
+                search: false,//是否搜索
+                pagination: true,//是否分页
+                pageSize: 5,//单页记录数
+                // pageList: [15,20,25],//分页步进值
+                sidePagination: "client",//服务端分页
+                searchAlign: "left",
+                searchOnEnterKey: false,//回车搜索
+                showRefresh: false,//刷新按钮
+                showColumns: false,//列选择按钮
+                buttonsAlign: "right",//按钮对齐方式
+                locale: "zh-CN",//中文支持
+                detailView: false,
+                showToggle:false,
+                sortName:'bci',
+                sortOrder:"desc",
+                columns: [
+                    {
+                        title: "",//标题
+                        field: "",//键名
+                        sortable: true,//是否可排序
+                        order: "desc",//默认排序方式
+                        align: "center",//水平
+                        valign: "middle",//垂直
+                        formatter: function (value, row, index) {
+                            return '<div class="inforContent" style="text-align: left;">' +
+                                '            <div class="main">' +
+                                '                <span>异常类型：<b style="color: #ff6d70">'+row.abnormal_type+'</b></span>'+
+                                '                <img src="/static/images/textIcon.png" class="textFlag">' +
+                                '                <p class="context">' +row.in_reason+
+                                '                </p>' +
+                                '            </div>' +
+                                '        </div>';
+                        }
+                    },
+                ],
+            });
+            $('#business p.load').hide();
+        }
+    };
+    // commentTable(commentData)
+
 //====信息变更====
     var indsa=[{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},
         {'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},{'a':'2017-11-11','b':'名称','c':'1111','d':'2222'},
@@ -577,7 +591,7 @@ function get7DaysBefore(date,m){
                 search: false,//是否搜索
                 pagination: true,//是否分页
                 pageSize: 3,//单页记录数
-                pageList: [3,8,14,20],//分页步进值
+                // pageList: [3,8,14,20],//分页步进值
                 sidePagination: "client",//服务端分页
                 searchAlign: "left",
                 searchOnEnterKey: false,//回车搜索
@@ -663,8 +677,8 @@ function get7DaysBefore(date,m){
 //====诉讼记录====
     var kajsdj=[{'a':'2017-11-11','b':'testtesttesttesttesttesttesttest'},]
     // var lawsuit_url = '/index/law_info/?firm_name='+firm_name;
-    var lawsuit_url = '/index/law_info/?firm_name=中信银行股份有限公司';
-    public_ajax.call_request('get',lawsuit_url,lawsuit);
+    // var lawsuit_url = '/index/law_info/?firm_name=中信银行股份有限公司';
+    // public_ajax.call_request('get',lawsuit_url,lawsuit);
     function lawsuit(data) {
         if(data.length == 0){
             $('#lawsuit p.load').text('暂无记录');
@@ -675,7 +689,7 @@ function get7DaysBefore(date,m){
                 search: false,//是否搜索
                 pagination: true,//是否分页
                 pageSize: 3,//单页记录数
-                pageList: [3,8,14,20],//分页步进值
+                // pageList: [3,8,14,20],//分页步进值
                 sidePagination: "client",//服务端分页
                 searchAlign: "left",
                 searchOnEnterKey: false,//回车搜索
@@ -888,6 +902,7 @@ function get7DaysBefore(date,m){
         $('#incomeTable p.load').hide();
     };
     // incomeTable(serds);
+
 //====收益率点击查看全文====
     function incomeTable_more(index_name,text_id){
         var incomeTable_more_url = '/index/returnRate_content/?index_name='+index_name+'&text_id='+text_id;
@@ -919,8 +934,8 @@ function get7DaysBefore(date,m){
     }
 
 //====收益/保本/担保承诺====
-    // var guarantee_url='/index/guarantee/?id='+pid;
-    var guarantee_url='/index/guarantee/?id=4291';
+    var guarantee_url='/index/guarantee/?id='+pid;
+    // var guarantee_url='/index/guarantee/?id=4291';
     public_ajax.call_request('get',guarantee_url,guarantee);
     function guarantee(data) {
         // console.log(data)
