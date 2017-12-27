@@ -134,11 +134,11 @@ def get_guarantee(table,id,field):
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return data
 
-def get_return_rate(table,id,field):
+def get_return_rate(table1,table2,id,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select * from %s where entity_id=%d and date='2017-11-27'" % (table,id)
+	sql = "select a.id,a.entity_id,a.entity_name,a.date,a.return_type,a.return_rate,a.related_text,a.index_name,a.text_id,a.rule_id,b.avg_return from %s as a inner join %s as b on a.entity_id=b.entity_id where a.entity_id=%d and a.date='2017-11-27'" % (table1,table2,id)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
