@@ -29,13 +29,15 @@ def get_adContent(entity_name, score, index_name, type):
 	query_body = {	"size":200,
 					"query":{
 						"bool":{
-							"must":[
-								{"match":{"content":entity_name}},
-								{"match":{"ad01":1}}
-								]
+							"must":{"match":{"content":entity_name}},
+							"should":[
+								{"match":{"ad123":2}},
+								{"match":{"ad123":3}}
+								],
+							"minimum_should_match":1
+								}
 							}
 						}
-					}
 	res = es.search(index=index_name, doc_type=type, body=query_body, request_timeout=100)
 	#print(res)
 	hits = res['hits']['hits']
@@ -84,7 +86,7 @@ def get_commentContent(entity_name, score, index_name, type):
 
 
 def get_ab_info(index_name,type,firm_name):
-	query_body = {"size":500,"sort":{"in_date":{"order":"desc"}},"query":{"match":{"firm_name":firm_name}}}
+	query_body = {"size":100,"sort":{"in_date":{"order":"desc"}},"query":{"match":{"firm_name":firm_name}}}
 	res = es.search(index=index_name, doc_type=type, body=query_body, request_timeout=100)
 	hits = res['hits']['hits']
 	results = []
@@ -94,7 +96,7 @@ def get_ab_info(index_name,type,firm_name):
 	return results
 
 def get_ch_info(index_name,type,firm_name):
-	query_body = {"size":500,"sort":{"change_time":{"order":"desc"}},"query":{"match":{"firm_name":firm_name}}}
+	query_body = {"size":100,"sort":{"change_time":{"order":"desc"}},"query":{"match":{"firm_name":firm_name}}}
 	res = es.search(index=index_name, doc_type=type, body=query_body, request_timeout=100)
 	hits = res['hits']['hits']
 	results = []
@@ -104,7 +106,7 @@ def get_ch_info(index_name,type,firm_name):
 	return results
 
 def get_law_info(index_name,type,firm_name):
-	query_body = {"size":500,"sort":{"date":{"order":"desc"}},"query":{"match":{"firm_name":firm_name}}}
+	query_body = {"size":100,"sort":{"date":{"order":"desc"}},"query":{"match":{"firm_name":firm_name}}}
 	res = es.search(index=index_name, doc_type=type, body=query_body, request_timeout=100)
 	hits = res['hits']['hits']
 	results = []

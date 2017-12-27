@@ -6,7 +6,7 @@ from economy.db import *
 from . import entityPortrait
 import json
 
-field = ['id','entity_name','entity_type','regist_address','operation_mode']
+field = ['id','entity_name','entity_type','location','operation_mode']
 plat_field = ['id','entity_name']
 company_field = ['id','entity_name']
 project_field = ['id','entity_name']
