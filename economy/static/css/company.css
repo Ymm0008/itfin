@@ -146,7 +146,7 @@
 }
 #container .downCompany #table-1,
 #container .downCompany #table-2 {
-    float: left;
+    // float: left;
     width: 50%;
     height: 300px;
 }

@@ -39,10 +39,6 @@
 
 
 	/* ===lvlei=== */
-	/* 分页步进值按钮 */
-	#container .register .btn-default.dropdown-toggle,.litigation .btn-default.dropdown-toggle {
-		padding:0 6px;
-	}
 	/* 模态框 */
 	#moreInfo {
 		top:100px;
@@ -60,8 +56,6 @@
 	#moreInfo .modal-body #words {
 		text-indent:2em;
 	}
-
-
 	@media (min-width: 768px) {
 		.modal-dialog {
 			width: 800px;
@@ -70,7 +64,11 @@
 	}
 	/* 广告内容 */
 	.billing span {
-		font-weight:700;
+		/* font-weight:700; */
+	}
+	.billing .inforContent .main p.context {
+		max-height:300px;
+		overflow:auto;
 	}
 	/* 评论内容 */
 	.commentinforContent span {
@@ -92,6 +90,61 @@
 	#container .riskValue b {
 		font-size:18px;
 	}
+	/* 子公司分公司图表 */
+	#table-1 {
+		margin:0 auto;
+	}
+	/* 股东信息 */
+	#table-3,#table-4 {
+		text-align:left;
+	}
+	#table-3 p,#table-4 p {
+	    font-size: 16px;
+	    margin:20px 0 0 40px;
+	    max-width:100%;
+	    white-space: nowrap;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	    font-weight: 700;
+	}
+	/* 去掉分页选项 - 信息变更  诉讼记录  广告内容*/
+	.inforChange .page-list,.litigation .page-list,.advertising .page-list{
+        display: none;
+    }
+    /* 宣传行为 */
+    #publicityTable {
+		width:100%;
+		height:300px;
+    }
+    /* 收益率分布 */
+    #container .inforContent_2 .main {
+    	text-align: left;
+	    position: relative;
+	    padding: 5px 5px 5px 30px;
+	    background: rgba(88, 88, 88, 0.1);
+	    margin: 20px auto 0;
+    }
+    #container .inforContent_2 .main .textFlag{
+    	position: absolute;
+	    left:8px;
+    }
+    /* 经营异常标题信息 信息变更  诉讼记录*/
+    .business_title,.inforChange_title,.lawsuit_title {
+    	margin:20px 0;
+    }
+    .business_title span,.inforChange_title span,.lawsuit_title span {
+		display:inline-block;
+		width: 24%;
+    }
+    .business_title span b,.inforChange_title span b,.lawsuit_title span b{
+    	color:#ff6d70;
+    	font-size:18px;
+    }
+    /* 广告内容图表 */
+    #billing_diagram {
+    	width:100%;
+    	height:300px;
+    }
 	/* ===12 22 === */
 </style>
 {% endblock %}
@@ -174,7 +227,7 @@
 		<h3><i class="icon icon-fire"></i>&nbsp;子公司、分公司情况</h3>
 		<div style="width: 100%;text-align: center;">
 			<div id="table-1"></div>
-			<table id="table-2" cellpadding="0" cellspacing="0" border="1">
+			<!-- <table id="table-2" cellpadding="0" cellspacing="0" border="1">
 				<thead>
 					<td colspan="2" id="tableName"></td>
 					<td>一层</td>
@@ -200,21 +253,35 @@
 						<td colspan="4" rowspan="3" class="mid-3"></td>
 					</tr>
 				</tbody>
-			</table>
-			<!-- <div id="table-3">
-				<h3>股东数量</h3>
-				<p><span>上一层：</span>&nbsp;<b class="up-1" style="color: #ff9645;"></b></p>
-				<p><span>上二层：</span>&nbsp;<b class="up-2" style="color: #ff9645;"></b></p>
-				<p><span>上三层：</span>&nbsp;<b class="up-3" style="color: #ff9645;"></b></p>
-				<p><span>下一层：</span>&nbsp;<b class="down-4" style="color: #ff9645;"></b></p>
-				<p><span>下二层：</span>&nbsp;<b class="down-5" style="color: #ff9645;"></b></p>
-				<p><span>下三层：</span>&nbsp;<b class="down-5" style="color: #ff9645;"></b></p>
-			</div> -->
+			</table> -->
+			<div id="table-3" class="clearfix">
+				<h3>股东数量：</h3>
+				<div style="float:left;">
+					<p><span>上一层：</span>&nbsp;<b class="up-1" style="color: #ff9645;"></b></p>
+					<p><span>上二层：</span>&nbsp;<b class="up-2" style="color: #ff9645;"></b></p>
+					<p><span>上三层：</span>&nbsp;<b class="up-3" style="color: #ff9645;"></b></p>
+				</div>
+				<div style="float:left;">
+					<p><span>下一层：</span>&nbsp;<b class="down-1" style="color: #ff9645;"></b></p>
+					<p><span>下二层：</span>&nbsp;<b class="down-2" style="color: #ff9645;"></b></p>
+					<p><span>下三层：</span>&nbsp;<b class="down-3" style="color: #ff9645;"></b></p>
+				</div>
+			</div>
+			<div id="table-4">
+				<h3 style="margin-top:20px;">股东信息：</h3>
+				<p class="mid-3"></p>
+			</div>
 		</div>
 	</div>
 	<div class="operating">
 		<h3><i class="icon icon-warning-sign"></i>&nbsp;经营异常&nbsp;&nbsp;<i class="icon icon-edit operating-1" title="编辑"></i></h3>
 		<div class="business">
+			<p class="business_title">
+				<span>无法联系类异常数量：<b class="business_1"></b></span>
+				<span>弄虚作假类异常数量：<b class="business_2"></b></span>
+				<span>未公布年报类异常数量：<b class="business_3"></b></span>
+				<span>其他类异常数量：<b class="business_4"></b></span>
+			</p>
 			<div id="business">
 				<p class="load">正在拼命加载中....</p>
 			</div>
@@ -239,6 +306,12 @@
 		<!--</div>-->
 		<!--</div>-->
 		<div class="inforChange">
+			<p class="inforChange_title">
+				<span>人员类变更数量：<b class="inforChange_1"></b></span>
+				<span>经营类变更数量：<b class="inforChange_2"></b></span>
+				<span>资本类变更数量：<b class="inforChange_3"></b></span>
+				<span>其他类变更数量：<b class="inforChange_4"></b></span>
+			</p>
 			<div id="inforChange">
 				<p class="load">正在拼命加载中....</p>
 			</div>
@@ -255,6 +328,12 @@
 		<!--</div>-->
 		<!--</div>-->
 		<div class="lawsuit">
+			<p class="lawsuit_title">
+				<span>行政类诉讼数量：<b class="lawsuit_1"></b></span>
+				<span>民事诉讼数量：<b class="lawsuit_2"></b></span>
+				<span>刑事诉讼数量：<b class="lawsuit_3"></b></span>
+				<span>其他诉讼数量：<b class="lawsuit_4"></b></span>
+			</p>
 			<div id="lawsuit">
 				<p class="load">正在拼命加载中....</p>
 			</div>
@@ -295,7 +374,13 @@
 	<div class="advertising">
 		<h3><i class="icon icon-bullhorn"></i>&nbsp;广告内容&nbsp;&nbsp;<i class="icon icon-edit advert-1" title="编辑"></i></h3>
 		<div class="billing">
-			<div id="billing_0">
+			<div id="billing_diagram">
+
+			</div>
+			<div id="billing">
+				<p class="load">正在拼命加载中....</p>
+			</div>
+			<!-- <div id="billing_0">
 				<span>微信</span>
 				<p class="load">正在拼命加载中....</p>
 			</div>
@@ -314,7 +399,7 @@
 			<div id="billing_4">
 				<span>贴吧</span>
 				<p class="load">正在拼命加载中....</p>
-			</div>
+			</div> -->
 		</div>
 		<!--<div class="inforContent">-->
 		<!--<div class="main">-->
@@ -338,8 +423,8 @@
 			<button type="button" class="btn btn-info" style="position: relative;top: -3px;left: 20px;">存档取证</button>
 		</h3>
 		<div class="publicityTable">
-			<!-- <div id="publicityTable"></div> -->
-			<table id="pubTable" border="1">
+			<div id="publicityTable"></div>
+			<!-- <table id="pubTable" border="1">
 				<thead>
 					<th></th>
 					<th>微博</th>
@@ -382,7 +467,7 @@
 						<td class="ad0_zhihu">444</td>
 					</tr>
 				</tbody>
-			</table>
+			</table> -->
 		</div>
 	</div>
 	<div class="commentInfor">
@@ -390,10 +475,17 @@
 			<span style="display: inline-block;"><i class="icon icon-asterisk"></i>&nbsp;舆情分析&nbsp;&nbsp;<i class="icon icon-edit comment-1" title="编辑"></i></span>
 			<button type="button" class="btn btn-info" style="position: relative;top: -3px;left: 20px;">存档取证</button>
 		</h3>
+		<div style="margin-top: 20px;">
+			<h4><i class="icon icon-signal"></i>&nbsp;趋势统计</h4>
+			<div id="opinion" style="width: 100%;height: 300px;"></div>
+		</div>
 		<div>
 			<h4><i class="icon icon-comment"></i>&nbsp;评论信息</h4>
 			<div class="commentinforContent">
-				<div id="commentinforContent_0">
+				<div id="commentinforContent">
+					<p class="load">正在拼命加载中....</p>
+				</div>
+				<!-- <div id="commentinforContent_0">
 					<span>微信</span>
 					<p class="load">正在拼命加载中....</p>
 				</div>
@@ -412,7 +504,7 @@
 				<div id="commentinforContent_4">
 					<span>贴吧</span>
 					<p class="load">正在拼命加载中....</p>
-				</div>
+				</div> -->
 			</div>
 			<!--<div class="inforContent" id="commentinforContent">-->
 			<!--<div class="main">-->
@@ -429,10 +521,7 @@
 			<!--</div>-->
 			<!--</div>-->
 		</div>
-		<div style="margin-top: 20px;">
-			<h4><i class="icon icon-signal"></i>&nbsp;趋势统计</h4>
-			<div id="opinion" style="width: 100%;height: 300px;"></div>
-		</div>
+
 	</div>
 	<div class="related">
 		<div class="pro related-1" style="float: left;">
@@ -469,11 +558,11 @@
 			<div class="modal-body">
 				<span class="titleName">渠道：</span><span id="channel"></span><br>
 				<span class="titleName">发布时间：</span><span id="Release_time"></span><br>
-				<span class="titleName">标题：</span><span id="Advertising_Headlines"></span><br>
+				<span class="titleName">标题：</span><span id="Advertising_Headlines"></span><span id="url"><a href=""></a></span><br>
 				<span class="titleName">作者：</span><span id="author"></span><br>
 				<span class="titleName">用户：</span><span id="usn"></span><br>
 				<span class="titleName">内容：</span>
-				<span id="url"><a href=""></a></span>
+
 				<span id="words" style="word-wrap:break-word;"></span><br>
 			</div>
 			<div class="modal-footer">
