@@ -38,18 +38,15 @@ def get_adContent(entity_name, score, index_name, type):
 						}
 					}
 	res = es.search(index=index_name, doc_type=type, body=query_body, request_timeout=100)
-	#print(res)
 	hits = res['hits']['hits']
-	#print(hits)
 	results = []
 	if(len(hits)):
 		for item in hits:
-			text_id = item['_id']
+			name = item['_index']
 			if(item['_score'] >= score):
-			#print item
 				if entity_name in item['_source']['content']:
 					result = item['_source']
-					#res['text_id'] = text_id
+					result.update({'source':name})
 					results.append(result)
 	return results
 
@@ -70,18 +67,15 @@ def get_commentContent(entity_name, score, index_name, type):
 							}
 				}
 	res = es.search(index=index_name, doc_type=type, body=query_body, request_timeout=100)
-	#print(res)
 	hits = res['hits']['hits']
 	results = []
 	if(len(hits)):
 		for item in hits:
-			text_id = item['_id']
-			print item['_score']
+			name = item['_index']
 			if(item['_score'] >= score):
-				print item
 				if entity_name in item['_source']['content']:
 					result = item['_source']
-					#res['text_id'] = text_id
+					result.update({'source':name})
 					results.append(result)
 	return results
 
