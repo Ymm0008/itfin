@@ -23,7 +23,7 @@ function getLocalTime_1(nS) {
 
 var entity_name ,firm_name;
 
-// 基本信息
+//====基本信息====
     var basicInfor_url='/index/entityType/?id='+pid+'&type='+type;
     // var basicInfor_url='/index/entityType/?id=5120&type=1';//测试股东信息
     public_ajax.call_request('get',basicInfor_url,basicInfor);
@@ -47,11 +47,21 @@ var entity_name ,firm_name;
         $('.type-3').text(t2);//成立时间
         $('.type-4').text(legalPerson);//法人代表
         $('.type-5').text(capital);//注册资本
-        $('.isPlatformName').text(item.company || '');
+        $('.isPlatformName').text(item.company || '');//工商注册公司名称：
 
-
-        if (item.illegal_type==1){t3='是';}
+        //风险评价
+        if (item.illegal_type==1){//是否疑似非法集资
+            t3='是';
+        }else{
+            //隐藏下面的内容和右边表格
+            $('.val-2').parents('p').css('display','none');
+            $('.val-3').parents('p').css('display','none');
+            $('.val-4').parents('p').css('display','none');
+            $('.val-5').parents('p').css('display','none');
+            $('.riskRight').css('display','none');
+        }
         $('.val-1').text(t3);
+
         if (item.risk_level){t4=item.risk_level+'级';}
         $('.val-2').text(t4);
         if (item.impact_level){t5=item.impact_level+'级';}
@@ -69,7 +79,6 @@ var entity_name ,firm_name;
                 holderDetail[i].toString().replace(/：/,'-');
                 str += '<p style="text-align:left;"><span style="margin-left:15%;">股东名称：'+holderDetail[i]+'万元</span></p>';
             }
-            // ==========未完成=============
             $('.mid-3').html(str);
         }else {
             $('.mid-3').text('暂无记录');
@@ -117,7 +126,7 @@ var entity_name ,firm_name;
         public_ajax.call_request('get',commentinforContent_url,commentinforContent_1);
     }
 
-//股东
+//====股东数量====
     var master_url='/index/gongshang/?id='+pid;
     public_ajax.call_request('get',master_url,master);
     function master(data) {
@@ -126,9 +135,9 @@ var entity_name ,firm_name;
         $('.up-1').text(item.up1_level_num);
         $('.up-2').text(item.up2_level_num);
         $('.up-3').text(item.up3_level_num);
-        $('.down-1').text(item.up1_level_num);
-        $('.down-2').text(item.up2_level_num);
-        $('.down-3').text(item.up3_level_num);
+        $('.down-1').text(item.down1_level_num);
+        $('.down-2').text(item.down2_level_num);
+        $('.down-3').text(item.down3_level_num);
         $('.mid-1').text();
         $('.mid-2').text();
         // $('.mid-3').text();
@@ -146,7 +155,7 @@ function get7DaysBefore(date,m){
     return [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()].join('-');
 };
 
-// 右顶侧小表格【未完成
+// ====右顶侧小表格【未完成
     // var risk_url='///';
     // public_ajax.call_request('get',risk_url,riskValue);
     var objData=[{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},
@@ -211,7 +220,7 @@ function get7DaysBefore(date,m){
     };
     riskValue(objData)
 
-// 子公司分公司
+// ====子公司分公司====
     // var table_1_url = '/index/sub_firm/?firm_name='+firm_name;
     // var table_1_url = '/index/sub_firm/?firm_name=广西联银投资有限公司';
     // public_ajax.call_request('get',table_1_url,table_1);

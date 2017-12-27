@@ -157,6 +157,20 @@ function jumpFrame_2(monitorFlag) {
     window.localStorage.setItem('monitorFlag',monitorFlag);
     window.location.href='../templates/monitorDetails.html';
 }
+// ====索引====
+// var IndexesArr = $()
+$('.words b').on('click',function(){
+    var letter = $(this).text().toLowerCase();
+    var portrait_letter_url = '/portraite/portrait_letter/?letter='+letter;
+    public_ajax.call_request('get',portrait_letter_url,portrait_letter);
+})
+function portrait_letter (data) {
+    if(data){
+        $('#contentTable').bootstrapTable('load', data);
+    }
+}
+
+
 //第二屏---滚动
 // var allMonitor_url='/system_manage/show_users_account/';
 var allMonitor_url='/portraite/platform/';
