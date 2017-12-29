@@ -20,6 +20,10 @@ function getLocalTime_1(nS) {
     return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd");//年月日
     // return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd HH:mm:ss");//年月日 时分秒
 }
+// 【年月日】
+function getLocalTime_2(nS) {
+    return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd HH:mm:ss");//年月日 时分秒
+}
 
 var entity_name ,firm_name;
 
@@ -76,8 +80,8 @@ var entity_name ,firm_name;
             holderDetail =  item.holder_detail.split('&');
             var str = '';
             for(var i=0;i<holderDetail.length;i++){
-                holderDetail[i].toString().replace(/：/,'-');
-                str += '<p style="text-align:left;"><span style="margin-left:15%;">股东名称：'+holderDetail[i]+'万元</span></p>';
+                holderDetail[i] = holderDetail[i].replace(':',"---");
+                str += '<p style="text-align:left;margin:0 0 20px 0;"><span style="">股东名称：'+holderDetail[i]+'万元</span></p>';
             }
             $('.mid-3').html(str);
         }else {
@@ -287,14 +291,23 @@ function get7DaysBefore(date,m){
                         normal: {
                             label: {
                                 show: true,
-                                position: 'inside',
+                                // position: 'inside',
                                 textStyle: {
                                     color: '#333',
                                     fontSize: 15,
                                     fontWeight:  'bolder'
                                 },
-                                // position:['left','bottom']
-                                position:'bottom'
+                                position:'bottom',//位置
+                                // offset:[50,0], //偏移
+
+                                // 字符换行
+                                formatter:function(val){
+                                    if(val.name.length>8){
+                                        return val.name.substring(0,8)+'\n'+val.name.substring(8)
+                                    }else {
+                                        return val.name
+                                    }
+                                }
                             },
                             lineStyle: {
                                 color: '#000',
@@ -654,7 +667,6 @@ function get7DaysBefore(date,m){
         billing_diagram(data_billing_diagram);
     }
 
-
 //====经营异常
     var commentData = [
         {'a':'积极','b':'百度贴吧','c':'2017-12','d':'放款快，审核简单，赶快注册！'},
@@ -698,10 +710,12 @@ function get7DaysBefore(date,m){
                         align: "center",//水平
                         valign: "middle",//垂直
                         formatter: function (value, row, index) {
+                            var time = getLocalTime_1(row.in_date);
                             return '<div class="inforContent" style="text-align: left;">' +
                                 '            <div class="main">' +
-                                '                <span>异常类型：<b style="color: #ff6d70">'+row.abnormal_type+'</b></span>'+
+                                '                <span style="margin-right:20px;">异常类型：<b style="color: #ff6d70">'+row.abnormal_type+'</b></span>'+
                                 '                <img src="/static/images/textIcon.png" class="textFlag">' +
+                                '                <span>时间：<b style="color: #ff6d70">'+time+'</b></span>'+
                                 '                <p class="context">' +row.in_reason+
                                 '                </p>' +
                                 '            </div>' +
@@ -891,112 +905,6 @@ function get7DaysBefore(date,m){
     // lawsuit(kajsdj);
 
 //====收益率及其分布====
-    function line_1() {
-        var day30=[];
-        // for (var a=0;a < 12;a++){
-        //     day30.push(get12MonthBefore(new Date(),a));
-        // }
-        day30 = last_year_month().reverse();
-        // console.log(day30)
-
-        var day30Data=[];
-        for (var b=0;b< 12;b++){
-            day30Data.push(Math.round(Math.random()*(20-5)+5));
-        }
-
-        var day30Data_2=[];
-        for (var c=0;c< 12;c++){
-            day30Data_2.push(Math.round(Math.random()*(20-3)+5));
-        }
-
-        var day30Data_3=[];
-        for (var d=0;d< 12;d++){
-            day30Data_3.push(Math.round(Math.random()*(20-8)+5));
-        }
-
-        var myChart = echarts.init(document.getElementById('opinion'));
-        var option = {
-            title: {
-                text: '',
-                subtext: ''
-            },
-            tooltip: {
-                trigger: 'axis'
-            },
-            legend: {
-                data:['']
-            },
-            xAxis:  {
-                type: 'category',
-                boundaryGap: false,
-                data:day30
-            },
-            yAxis: {
-                type: 'value',
-                axisLabel: {
-                    formatter: '{value}'
-                }
-            },
-            series: [
-                {
-                    name:'消极评论',
-                    type:'line',
-                    smooth:true,
-                    data:day30Data.reverse(),
-                    itemStyle:{normal:{areaStyle:{type:'default'}}},
-                    markPoint: {
-                        data: [
-                            {type: 'max', name: '最大值'},
-                            {type: 'min', name: '最小值'}
-                        ]
-                    },
-                    markLine: {
-                        data: [
-                            {type: 'average', name: '平均值'}
-                        ]
-                    }
-                },
-                {
-                    name:'中性评论',
-                    type:'line',
-                    smooth:true,
-                    data:day30Data_2,
-                    itemStyle:{normal:{areaStyle:{type:'default'}}},
-                    markPoint: {
-                        data: [
-                            {type: 'max', name: '最大值'},
-                            {type: 'min', name: '最小值'}
-                        ]
-                    },
-                    markLine: {
-                        data: [
-                            {type: 'average', name: '平均值'}
-                        ]
-                    }
-                },
-                {
-                    name:'积极评论',
-                    type:'line',
-                    smooth:true,
-                    data:day30Data_3,
-                    itemStyle:{normal:{areaStyle:{type:'default'}}},
-                    markPoint: {
-                        data: [
-                            {type: 'max', name: '最大值'},
-                            {type: 'min', name: '最小值'}
-                        ]
-                    },
-                    markLine: {
-                        data: [
-                            {type: 'average', name: '平均值'}
-                        ]
-                    }
-                },
-            ]
-        };
-        myChart.setOption(option);
-    }
-    // line_1();
     var serds = [
         {'a':'积极','b':'百度贴吧','c':'2017-12','d':'放款快，审核简单，赶快注册！'},
     ]
@@ -1042,7 +950,7 @@ function get7DaysBefore(date,m){
                             '                <div class="main">'+
                             '                    <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
                             '                    <p class="option">'+
-                            '                        <span>宣传收益率：<b style="color: #ff6d70">'+returnRate+'%</b></span>'+
+                            '                        <span>宣传收益率：<b style="color: #ff6d70;font-size:16px">'+returnRate+'%</b></span>'+
                             '                        <button class="original btn-primary btn-xs" onclick="incomeTable_more(\''+row.index_name+'\',\''+row.text_id+'\')">查看全文</button>'+
                             '                    </p>'+
                             '                    <p class="context">'+row.related_text+'</p>'+
@@ -1052,7 +960,7 @@ function get7DaysBefore(date,m){
                             '       <div class="main">'+
                             '           <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
                             '           <p class="ooption">'+
-                            '                <span>披露收益率：<b style="color: #ff6d70">'+avg_return+'</b></span>'+
+                            '                <span>披露收益率：<b style="color: #ff6d70;font-size:16px;">'+avg_return+'</b></span>'+
                             '           </p>'+
                             '       </div>'+
                             '</div>';
@@ -1066,15 +974,20 @@ function get7DaysBefore(date,m){
 
 //====收益率点击查看全文====
     function incomeTable_more(index_name,text_id){
-        var incomeTable_more_url = '/index/returnRate_content/?index_name='+index_name+'&text_id='+text_id;
-        // console.log(incomeTable_more_url);
-        public_ajax.call_request('get',incomeTable_more_url,incomeTablemore);
+        if(index_name != '' && text_id != ''){
+            var incomeTable_more_url = '/index/returnRate_content/?index_name='+index_name+'&text_id='+text_id;
+            // console.log(incomeTable_more_url);
+            public_ajax.call_request('get',incomeTable_more_url,incomeTablemore);
+        }else{
+            // console.log('====暂无更多内容====')
+        }
+
     }
     function incomeTablemore(data){
         // console.log(data)
         if(data){
             var channel = data.site_name || data.index_name;//渠道
-            var Release_time = getLocalTime(data.publish_time);//时间戳转时间
+            var Release_time = getLocalTime_2(data.publish_time);//时间戳转时间
             $('#moreInfo #channel').text(channel);
             $('#moreInfo #Release_time').text(Release_time);
             if(data.title){
@@ -1086,6 +999,11 @@ function get7DaysBefore(date,m){
                 $('#moreInfo #author').text(data.author);//作者
             }else{
                 $('#moreInfo #author').text('未知');//作者
+            }
+            if(data.usn){
+                $('#moreInfo #usn').text(data.usn);//作者
+            }else{
+                $('#moreInfo #usn').text('未知');//作者
             }
             $('#moreInfo #words').text(data.content);//内容
             $('#moreInfo #url a').text('原网页链接').attr({'href':data.u,'target':'_blank','title':'原网页链接'});//原文链接
@@ -1144,7 +1062,7 @@ function get7DaysBefore(date,m){
                                 '                <div class="main">'+
                                 '                    <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
                                 '                    <p class="option">'+
-                                '                        <span>承诺类型：<b style="color: #ff6d70">'+promiseType+'</b></span>'+
+                                '                        <span>承诺类型：<b style="color: #ff6d70;font-size:16px;">'+promiseType+'</b></span>'+
                                 '                        <button class="original btn-primary btn-xs" onclick="guarantee_more(\''+row.index_name+'\',\''+row.text_id+'\')">查看全文</button>'+
                                 '                    </p>'+
                                 '                    <p class="context">'+row.related_text+'</p>'+
@@ -1196,14 +1114,6 @@ function get7DaysBefore(date,m){
     }
 
 //====广告内容====
-    /*
-    setTimeout(function(){
-        var billing_url = '/index/ad_content/?entity_name='+entity_name;
-        // console.log(billing_url);
-        public_ajax.call_request('get',billing_url,billing_1);
-    },1000);
-     */
-
     /*
     var data_0,data_1,data_2,data_3,data_4;
     function billing_1(data){
@@ -1371,9 +1281,9 @@ function get7DaysBefore(date,m){
                                 '            <div class="main">'+
                                 '                <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
                                 '                <p class="option">'+
-                                '                    <span>煽动性：<b style="color: #ff6d70">'+inflammatory+'</b></span>'+
-                                '                    <span>广告渠道：<b style="color: #ff6d70">'+source+'</b></span>'+
-                                '                    <span>发布时间：<b style="color: #ff6d70">'+publisTime+'</b></span>'+
+                                '                    <span>煽动性：<b style="color: #ff6d70;font-size:16px;">'+inflammatory+'</b></span>'+
+                                '                    <span>广告渠道：<b style="color: #ff6d70;font-size:16px;">'+source+'</b></span>'+
+                                '                    <span>发布时间：<b style="color: #ff6d70;font-size:16px;">'+publisTime+'</b></span>'+
                                 '   <button onclick="getAllArtical(\''+tag+'_'+index+'\')" artical=\"'+tag+'_'+index+'\" class="original btn-primary btn-xs">查看全文</button>'+
                                 '                </p>'+
                                 '                <p class="context">'+contentClip+'</p>'+
@@ -1405,10 +1315,13 @@ function get7DaysBefore(date,m){
     function billing_diagram (data){
         var item = data[0];
         var ad1_data = [],inf1_data = [],inf2_data = [],inf3_data = [];
-        ad1_data.push(item.ad1_wechat,item.ad1_zhihu,item.ad1_bbs,item.ad1_webo,item.ad1_forum);
-        inf1_data.push(item.inf1_wechat,item.inf1_zhihu,item.inf1_bbs,item.inf1_webo,item.inf1_forum);
-        inf2_data.push(item.inf2_wechat,item.inf2_zhihu,item.inf2_bbs,item.inf2_webo,item.inf2_forum);
-        inf3_data.push(item.inf3_wechat,item.inf3_zhihu,item.inf3_bbs,item.inf3_webo,item.inf3_forum);
+        ad1_data.push(item.ad1_wechat+item.ad1_zhihu+item.ad1_bbs+item.ad1_webo+item.ad1_forum);
+        inf1_data.push(item.inf1_wechat+item.inf1_zhihu+item.inf1_bbs+item.inf1_webo+item.inf1_forum);
+        inf2_data.push(item.inf2_wechat+item.inf2_zhihu+item.inf2_bbs+item.inf2_webo+item.inf2_forum);
+        inf3_data.push(item.inf3_wechat+item.inf3_zhihu+item.inf3_bbs+item.inf3_webo+item.inf3_forum);
+        var date = [];
+        date.push(item.date);
+
         var myChart = echarts.init(document.getElementById('billing_diagram'));
         var option = {
             title: {
@@ -1442,7 +1355,8 @@ function get7DaysBefore(date,m){
                 {
                     type : 'category',
                     boundaryGap : false,
-                    data:['微信','知乎','论坛','微博','贴吧']
+                    // data:['微信','知乎','论坛','微博','贴吧']
+                    data:date
                 }
             ],
             yAxis : [
@@ -1484,7 +1398,6 @@ function get7DaysBefore(date,m){
         };
         myChart.setOption(option);
     }
-
 
 //====舆情分析====
     //评论信息
@@ -1602,7 +1515,7 @@ function get7DaysBefore(date,m){
                 data:data,
                 search: false,//是否搜索
                 pagination: true,//是否分页
-                pageSize: 3,//单页记录数
+                pageSize: 5,//单页记录数
                 pageList: [15,20,25],//分页步进值
                 sidePagination: "client",//服务端分页
                 searchAlign: "left",
@@ -1643,6 +1556,8 @@ function get7DaysBefore(date,m){
                                 sent = '中性';
                             }else if(row.sent == 2){
                                 sent = '积极';
+                            }else{
+                                sent = '未知';
                             }
                             // 评论来源
                             var source;
@@ -1663,9 +1578,9 @@ function get7DaysBefore(date,m){
                                 '                <div class="main">'+
                                 '                    <img src="/static/images/textIcon.png" class="textFlag" style="top:8px;">'+
                                 '                    <p class="option">'+
-                                '                        <span>评论倾向：<b style="color: #ff6d70">'+sent+'</b></span>'+
-                                '                        <span>评论来源：<b style="color: #ff6d70">'+source+'</b></span>'+
-                                '                        <span>发布时间：<b style="color: #ff6d70">'+publishTime+'</b></span>'+
+                                '                        <span>评论倾向：<b style="color: #ff6d70;font-size:16px;">'+sent+'</b></span>'+
+                                '                        <span>评论来源：<b style="color: #ff6d70;font-size:16px;">'+source+'</b></span>'+
+                                '                        <span>发布时间：<b style="color: #ff6d70;font-size:16px;">'+publishTime+'</b></span>'+
                                 '                        <button class="originalbtn btn-primary btn-xs" onclick="getAllcommtentartical(\''+com+'_'+index+'\')" artical=\"'+com+'_'+index+'\">查看全文</button>'+
                                 '                    </p>'+
                                 '                    <p class="context">'+contentClip+'</p>'+
@@ -1711,28 +1626,30 @@ var last_year_month = function() {
     function line_2(data) {
         var day30=[];
         day30 = last_year_month().reverse();
-        var day30Data=[];
-        for (var b=0;b< 12;b++){
-            day30Data.push(Math.round(Math.random()*(20-5)+5));
-        }
+        // var day30Data=[];
+        // for (var b=0;b< 12;b++){
+        //     day30Data.push(Math.round(Math.random()*(20-5)+5));
+        // }
 
-        var day30Data_2=[];
-        for (var c=0;c< 12;c++){
-            day30Data_2.push(Math.round(Math.random()*(20-3)+5));
-        }
+        // var day30Data_2=[];
+        // for (var c=0;c< 12;c++){
+        //     day30Data_2.push(Math.round(Math.random()*(20-3)+5));
+        // }
 
-        var day30Data_3=[];
-        for (var d=0;d< 12;d++){
-            day30Data_3.push(Math.round(Math.random()*(20-8)+5));
-        }
+        // var day30Data_3=[];
+        // for (var d=0;d< 12;d++){
+        //     day30Data_3.push(Math.round(Math.random()*(20-8)+5));
+        // }
 
         var item = data[0];
         var day30Data_0 = [];
         var day30Data_1 = [];
         var day30Data_2 = [];
-        day30Data_0.push(item.sent0_webo,item.sent0_bbs,item.sent0_zhihu,item.sent0_forum,item.sent0_wechat,);
-        day30Data_1.push(item.sent1_webo,item.sent1_bbs,item.sent1_zhihu,item.sent1_forum,item.sent1_wechat,);
-        day30Data_2.push(item.sent2_webo,item.sent2_bbs,item.sent2_zhihu,item.sent2_forum,item.sent2_wechat,);
+        day30Data_0.push(item.sent0_webo+item.sent0_bbs+item.sent0_zhihu+item.sent0_forum+item.sent0_wechat);
+        day30Data_1.push(item.sent1_webo+item.sent1_bbs+item.sent1_zhihu+item.sent1_forum+item.sent1_wechat);
+        day30Data_2.push(item.sent2_webo+item.sent2_bbs+item.sent2_zhihu+item.sent2_forum+item.sent2_wechat);
+        var date = [];
+        date.push(item.date);
 
         var myChart = echarts.init(document.getElementById('opinion'));
         var option = {
@@ -1749,7 +1666,8 @@ var last_year_month = function() {
             xAxis:  {
                 type: 'category',
                 boundaryGap: false,
-                data: day30
+                // data: day30
+                data: date
             },
             yAxis: {
                 type: 'value',
@@ -1762,7 +1680,6 @@ var last_year_month = function() {
                     name:'消极评论',
                     type:'line',
                     smooth:true,
-                    // data:day30Data.reverse(),
                     data:day30Data_0,
                     itemStyle:{normal:{areaStyle:{type:'default'}}},
                     markPoint: {
@@ -1781,7 +1698,6 @@ var last_year_month = function() {
                     name:'中性评论',
                     type:'line',
                     smooth:true,
-                    // data:day30Data_2,
                     data:day30Data_1,
                     itemStyle:{normal:{areaStyle:{type:'default'}}},
                     markPoint: {
@@ -1800,7 +1716,6 @@ var last_year_month = function() {
                     name:'积极评论',
                     type:'line',
                     smooth:true,
-                    // data:day30Data_3,
                     data:day30Data_2,
                     itemStyle:{normal:{areaStyle:{type:'default'}}},
                     markPoint: {

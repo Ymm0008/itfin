@@ -38,7 +38,7 @@
 	}
 
 
-	/* ===lvlei=== */
+	/* ====lvlei====*/
 	/* 模态框 */
 	#moreInfo {
 		top:100px;
@@ -74,6 +74,10 @@
 	.commentinforContent span {
 		font-weight:700;
 	}
+    .commentinforContent .inforContent .main p.context {
+        max-height:300px;
+        overflow:auto;
+    }
 	/* 加载提示信息 */
 	.load {
 		text-align:center;
@@ -99,13 +103,13 @@
 		text-align:left;
 	}
 	#table-3 p,#table-4 p {
-	    font-size: 16px;
+	    /* font-size: 16px; */
 	    margin:20px 0 0 40px;
 	    max-width:100%;
 	    white-space: nowrap;
 	    overflow: hidden;
 	    text-overflow: ellipsis;
-	    font-weight: 700;
+	    /* font-weight: 700; */
 	}
 	/* 去掉分页选项 - 信息变更  诉讼记录  广告内容*/
 	.inforChange .page-list,.litigation .page-list,.advertising .page-list{
@@ -144,6 +148,21 @@
     #billing_diagram {
     	width:100%;
     	height:300px;
+    }
+    /* 对外投资数量 */
+    #table-2New{
+        text-align:left;
+    }
+    #table-2New p {
+        margin:10px 0 20px 40px;
+    }
+     #table-2New p span,#table-3 p span  {/* 股东数量*/
+        float:right;
+        margin-right:80%;
+    }
+    /* 二级标题 */
+    .twoLevel_headlines {
+        padding-left:10px;
     }
 	/* ===12 22 === */
 </style>
@@ -224,8 +243,10 @@
 		</div>
 	</div>
 	<div class="downCompany">
-		<h3><i class="icon icon-fire"></i>&nbsp;子公司、分公司情况</h3>
-		<div style="width: 100%;text-align: center;">
+        <!-- <h3><i class="icon icon-fire"></i>&nbsp;子公司、分公司情况</h3> -->
+		<h3><i class="icon icon-fire"></i>&nbsp;企业关系</h3>
+		<div style="width: 100%;margin-top:20px;">
+            <h4 class="twoLevel_headlines"><i class="icon icon-inbox"></i>&nbsp;子公司、分公司情况</h4>
 			<div id="table-1"></div>
 			<!-- <table id="table-2" cellpadding="0" cellspacing="0" border="1">
 				<thead>
@@ -254,9 +275,25 @@
 					</tr>
 				</tbody>
 			</table> -->
+            <div id="table-2New">
+                <p>对外投资数量：
+                    <span>
+                        一层：<b class="down-1" style="color: #ff9645;"></b>
+                        二层：<b class="down-2" style="color: #ff9645;"></b>
+                        三层：<b class="down-3" style="color: #ff9645;"></b>
+                    </span>
+                </p>
+            </div>
 			<div id="table-3" class="clearfix">
-				<h3>股东数量：</h3>
-				<div style="float:left;">
+				<h4 class="twoLevel_headlines"><i class="icon icon-inbox"></i>&nbsp;股东数量：</h4>
+                <p>股东数量：
+                    <span>
+                        一层：<b class="up-1" style="color: #ff9645;"></b>
+                        二层：<b class="up-2" style="color: #ff9645;"></b>
+                        三层：<b class="up-3" style="color: #ff9645;"></b>
+                    </span>
+                </p>
+				<!-- <div style="float:left;">
 					<p><span>上一层：</span>&nbsp;<b class="up-1" style="color: #ff9645;"></b></p>
 					<p><span>上二层：</span>&nbsp;<b class="up-2" style="color: #ff9645;"></b></p>
 					<p><span>上三层：</span>&nbsp;<b class="up-3" style="color: #ff9645;"></b></p>
@@ -265,10 +302,10 @@
 					<p><span>下一层：</span>&nbsp;<b class="down-1" style="color: #ff9645;"></b></p>
 					<p><span>下二层：</span>&nbsp;<b class="down-2" style="color: #ff9645;"></b></p>
 					<p><span>下三层：</span>&nbsp;<b class="down-3" style="color: #ff9645;"></b></p>
-				</div>
+				</div> -->
 			</div>
 			<div id="table-4">
-				<h3 style="margin-top:20px;">股东信息：</h3>
+				<h4 class="twoLevel_headlines" style="margin-top:20px;"><i class="icon icon-inbox"></i>&nbsp;股东信息：</h4>
 				<p class="mid-3"></p>
 			</div>
 		</div>
@@ -372,11 +409,13 @@
 		<!--</div>-->
 	</div>
 	<div class="advertising">
-		<h3><i class="icon icon-bullhorn"></i>&nbsp;广告内容&nbsp;&nbsp;<i class="icon icon-edit advert-1" title="编辑"></i></h3>
-		<div class="billing">
+		<h3><i class="icon icon-bullhorn"></i>&nbsp;广告信息&nbsp;&nbsp;<i class="icon icon-edit advert-1" title="编辑"></i></h3>
+		<div class="billing" style="margin-top:20px;">
+            <h4 class="twoLevel_headlines"><i class="icon icon-inbox"></i>&nbsp;广告发布趋势</h4>
 			<div id="billing_diagram">
 
 			</div>
+            <h4 class="twoLevel_headlines"><i class="icon icon-inbox"></i>&nbsp;广告内容</h4>
 			<div id="billing">
 				<p class="load">正在拼命加载中....</p>
 			</div>
@@ -476,11 +515,13 @@
 			<button type="button" class="btn btn-info" style="position: relative;top: -3px;left: 20px;">存档取证</button>
 		</h3>
 		<div style="margin-top: 20px;">
-			<h4><i class="icon icon-signal"></i>&nbsp;趋势统计</h4>
+            <!-- <h4><i class="icon icon-signal"></i>&nbsp;趋势统计</h4> -->
+			<h4 class="twoLevel_headlines"><i class="icon icon-inbox"></i>&nbsp;舆情趋势</h4>
 			<div id="opinion" style="width: 100%;height: 300px;"></div>
 		</div>
 		<div>
-			<h4><i class="icon icon-comment"></i>&nbsp;评论信息</h4>
+            <!-- <h4><i class="icon icon-comment"></i>&nbsp;评论信息</h4> -->
+			<h4 class="twoLevel_headlines"><i class="icon icon-inbox"></i>&nbsp;舆情内容</h4>
 			<div class="commentinforContent">
 				<div id="commentinforContent">
 					<p class="load">正在拼命加载中....</p>
