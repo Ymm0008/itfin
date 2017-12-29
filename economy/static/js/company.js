@@ -979,7 +979,7 @@ function get7DaysBefore(date,m){
             // console.log(incomeTable_more_url);
             public_ajax.call_request('get',incomeTable_more_url,incomeTablemore);
         }else{
-            // console.log('====暂无更多内容====')
+            console.log('====暂无更多内容====')
         }
 
     }
@@ -1212,7 +1212,7 @@ function get7DaysBefore(date,m){
     */
     function billing_1(data) {
         if(data.length == 0){
-            $('#billing_0').hide();
+            $('#billing p.load').text('暂无记录');
         }else {
             var tag='#billing'.toString().substring(1)
             $('#billing').bootstrapTable('load', data);
@@ -1261,6 +1261,8 @@ function get7DaysBefore(date,m){
                                 inflammatory = '一般';
                             }else if(row.ad123 ==3){
                                 inflammatory = '强';
+                            }else{
+                                inflammatory = '未知';
                             }
                             // 渠道
                             var source;
@@ -1294,7 +1296,7 @@ function get7DaysBefore(date,m){
                     },
                 ],
             });
-            $('#billing'+' p.load').hide();
+            $('#billing p.load').hide();
         }
     };
 
@@ -1507,7 +1509,7 @@ function get7DaysBefore(date,m){
     function commentinforContent_1(data,el,channel) {
         // console.log(data)
         if(data.length == 0){
-            $('#commentinforContent').hide();
+            $('#commentinforContent p.load').text('暂无记录');
         }else {
             var com ='#commentinforContent'.toString().substring(1);
             $('#commentinforContent').bootstrapTable('load', data);
@@ -1591,7 +1593,7 @@ function get7DaysBefore(date,m){
                     },
                 ],
             });
-            $('#commentinforContent'+' p.load').hide();
+            $('#commentinforContent p.load').hide();
         }
     };
 
