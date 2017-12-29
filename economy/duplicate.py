@@ -2,6 +2,7 @@
 # User: linhaobuaa
 # Date: 2014-12-28 17:00:00
 # Version: 0.3.0
+# Modified by Noah
 
 import time
 
@@ -16,20 +17,27 @@ def duplicate(items):
     not_same_items = [item for item in items if 'duplicate' in item and item['duplicate'] == False]
     duplicate_items = [item for item in items if 'duplicate' in item and item['duplicate'] == True]
     candidate_items = [item for item in items if 'duplicate' not in item]
-
+    # dup_id = 0
     for item in candidate_items:
+        # item['_id'] = dup_id
+        # dup_id += 1
+        if not item.has_key('title'):
+            item['title'] = 'empty'.encode('utf-8')
+        else:
+            item['title'] = item['title'].encode('utf-8')
+        item['content'] = item['content'].encode('utf-8')
         idx, rate, flag = max_same_rate_shingle(not_same_items, item)
         if flag:
             item['duplicate'] = False
-            item['same_from'] = item['_id']
+            # item['same_from'] = item['_id']
             not_same_items.append(item)
         else:
             item['duplicate'] = True
-            item['same_from'] = not_same_items[idx]['_id']
+            # item['same_from'] = not_same_items[idx]['_id']
             duplicate_items.append(item)
 
-    return not_same_items + duplicate_items
-
+    # return not_same_items + duplicate_items
+    return not_same_items
 
 class ShingLing(object):
     """shingle算法
@@ -87,6 +95,7 @@ def max_same_rate_shingle(items, item, rate_threshold=0.3):
     idx = 0
     max_rate = 0
     for i in items:
+        print (i['title']).decode('utf-8'),'\n',(item['title']).decode('utf-8')
         sl = ShingLing((i['title']).decode('utf-8'), (item['title']).decode('utf-8'), n=3)
         sl.cal_jaccard()
         if sl.jaccard >= rate_threshold:
