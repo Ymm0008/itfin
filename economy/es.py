@@ -7,7 +7,7 @@ from elasticsearch import Elasticsearch
 import config
 from duplicate import duplicate
 
-ES_HOST = '219.224.134.216'
+ES_HOST = '219.224.134.214'
 ES_PORT = 9202
 
 es = Elasticsearch([{'host':ES_HOST,'port':ES_PORT}])
