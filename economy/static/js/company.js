@@ -13,14 +13,14 @@ Date.prototype.Format = function (fmt) { //author: meizz
     if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
-//时间戳转时间【年月】
+//时间戳转时间【年月日】
 function getLocalTime_1(nS) {
     // return new Date(parseInt(nS) * 1000).toLocaleDateString().replace(/年|月/g, "-");
     // return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
     return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd");//年月日
     // return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd HH:mm:ss");//年月日 时分秒
 }
-// 【年月日】
+// 【年月日时分秒】
 function getLocalTime_2(nS) {
     return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd HH:mm:ss");//年月日 时分秒
 }
@@ -1539,7 +1539,7 @@ function get7DaysBefore(date,m){
                         align: "center",//水平
                         valign: "middle",//垂直
                         formatter: function (value, row, index) {
-                            var publishTime = getLocalTime(row.publish_time);
+                            var publishTime = getLocalTime_2(row.publish_time);
                             var contentClip;
                             if(row.content.length >= 200){
                                 contentClip = row.content.slice(0,200)+'  ...';
