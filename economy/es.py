@@ -81,7 +81,12 @@ def get_commentContent(entity_name, score, index_name, type):
                     result = item['_source']
                     result.update({'source':name})
                     results.append(result)
-    return results
+    # 按发布时间排序
+    results.sort(key=lambda x: x['publish_time'], reverse=True)
+    # 根据文本相似度去重
+    dup_results = duplicate(results)
+    return dup_results
+    # return results
 
 
 def get_ab_info(index_name,type,firm_name):
