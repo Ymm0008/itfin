@@ -43,36 +43,36 @@ def entity_type():
 	id = int(request.args.get('id',''))
 	type = int(request.args.get('type',''))
 	if type == 1:
-		result = platform_detail('entity_list','plat_detail','gongshang',id,plat_field)
+		result = platform_detail(TABLE_ENTITY_LIST,TABLE_PLAT_DETAIL,TABLE_GONGSHANG,id,plat_field)
 	elif type == 2:
-		result = company_detail('entity_list','company_detail','gongshang',id,com_field)
+		result = company_detail(TABLE_ENTITY_LIST,TABLE_COMPANY_DETAIL,TABLE_GONGSHANG,id,com_field)
 	elif type == 3:
-		result = project_detail('entity_list','project_detail','gongshang',id,pro_field)
+		result = project_detail(TABLE_ENTITY_LIST,TABLE_PROJECT_DETAIL,TABLE_GONGSHANG,id,pro_field)
 	return json.dumps(result,ensure_ascii=False)
 
 
 @index.route('/ad/')
 def adData():
 	id = int(request.args.get('id',''))
-	result = get_ad('ad_statis',id,ad_field)
+	result = get_ad(TABLE_AD_STATIS,id,ad_field)
 	return json.dumps(result,ensure_ascii=False)
 
 @index.route('/comment/')
 def commentData():
 	id = int(request.args.get('id',''))
-	result = get_comment('comment_statis',id,comment_field)
+	result = get_comment(TABLE_COMMENT_STATIS,id,comment_field)
 	return json.dumps(result,ensure_ascii=False)
 
 @index.route('/gongshang/')
 def gongshangData():
 	id = int(request.args.get('id',''))
-	result = get_gongshang('gongshang',id,gongshang_field)
+	result = get_gongshang(TABLE_GONGSHANG,id,gongshang_field)
 	return json.dumps(result,ensure_ascii=False)
 
 @index.route('/guarantee/')
 def guaranteeData():
 	id = int(request.args.get('id',''))
-	result = get_guarantee('guarantee_promise',id,guarantee_promise_field)
+	result = get_guarantee(TABLE_GUARANTEE_PROMISE,id,guarantee_promise_field)
 	return json.dumps(result,ensure_ascii=False)
 
 @index.route('/returnRate/')
@@ -80,11 +80,11 @@ def returnRateData():
 	type = int(request.args.get('type',''))
 	id = int(request.args.get('id',''))
 	if type == 1:
-		result = get_return_rate('return_rate','plat_detail',id,return_rate_field)
+		result = get_return_rate(TABLE_RETURN_RATE,'plat_detail',id,return_rate_field)
 	elif type == 2:
-		result = get_return_rate('return_rate','company_detail',id,return_rate_field)
+		result = get_return_rate(TABLE_RETURN_RATE,'company_detail',id,return_rate_field)
 	elif type == 3:
-		result = get_return_rate('return_rate','project_detail',id,return_rate_field)
+		result = get_return_rate(TABLE_RETURN_RATE,'project_detail',id,return_rate_field)
 	#result = get_return_rate('return_rate',id,return_rate_field)
 	return json.dumps(result,ensure_ascii=False)
 
