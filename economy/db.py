@@ -98,7 +98,7 @@ def get_ad(table,id,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select * from %s where entity_id=%d and date=(select date from %s as a where id=(select max(b.id) from %s as b))" % (table,id,table,table)
+	sql = "select * from %s where entity_id=%d and date <= (select date from %s as a where id=(select max(b.id) from %s as b))" % (table,id,table,table)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
@@ -108,7 +108,7 @@ def get_comment(table,id,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select * from %s where entity_id=%d and date=(select date from %s as a where id=(select max(b.id) from %s as b))" % (table,id,table,table)
+	sql = "select * from %s where entity_id=%d and date <= (select date from %s as a where id=(select max(b.id) from %s as b))" % (table,id,table,table)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
