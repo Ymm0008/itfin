@@ -11,6 +11,14 @@ if (screen.width <=1440) {
 	$('#container #picChart-4 p').css('padding-left','20%')
 }
 
+// 本周预警数
+var warnCount_url='/homepage/warnCount/';
+public_ajax.call_request('get',warnCount_url,warnCount);
+function warnCount(data){
+    console.log(data);
+    // $()
+}
+
 // 页面初始  左下角省份数据
 $('#container .bottom_left #picChart-5 #proRank').empty();
 var provinceData = ['广东', '青海', '四川', '海南', '陕西','甘肃', '云南', '湖南', '湖北', '黑龙江','贵州', '山东', '江西', '河南', '河北','山西', '安徽', '福建', '浙江', '江苏','吉林', '辽宁', '台湾','新疆', '广西', '宁夏', '内蒙古', '西藏','北京', '天津', '上海', '重庆','香港', '澳门'];
