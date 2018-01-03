@@ -370,7 +370,7 @@ line_1();
     })
 
 
-//预警分布
+//====预警分布====
 require.config({
     paths: {
         echarts: '/static/js/echarts-2/build/dist',
@@ -877,7 +877,7 @@ require(
         myChart.setOption(option);
     }
 );
-//==========
+    //==地图==
 var placeData=[{'a':'北京','b':'67','c':'25','d':'56'},{'a':'北京','b':'67','c':'25','d':'56'},{'a':'北京','b':'67','c':'25','d':'56'},
     {'a':'北京','b':'67','c':'25','d':'56'},{'a':'北京','b':'67','c':'25','d':'56'},{'a':'北京','b':'67','c':'25','d':'56'},
     {'a':'北京','b':'67','c':'25','d':'56'},{'a':'北京','b':'67','c':'25','d':'56'},{'a':'北京','b':'67','c':'25','d':'56'},
@@ -887,8 +887,8 @@ var placeData=[{'a':'北京','b':'67','c':'25','d':'56'},{'a':'北京','b':'67',
     {'a':'北京','b':'67','c':'25','d':'56'},{'a':'北京','b':'67','c':'25','d':'56'},{'a':'北京','b':'67','c':'25','d':'56'},
     {'a':'北京','b':'67','c':'25','d':'56'},{'a':'北京','b':'67','c':'25','d':'56'},{'a':'北京','b':'67','c':'25','d':'56'},
     {'a':'北京','b':'67','c':'25','d':'56'},{'a':'北京','b':'67','c':'25','d':'56'},{'a':'北京','b':'67','c':'25','d':'56'},]
-var placeRank_url='';
-// public_ajax.call_request('get',placeRank_url,placeRank);
+var placeRank_url='/detection/detectDistribute/';
+public_ajax.call_request('get',placeRank_url,placeRank);
 function placeRank(data) {
     $('#placeRank').bootstrapTable('load', data);
     $('#placeRank').bootstrapTable({
@@ -911,22 +911,22 @@ function placeRank(data) {
         columns: [
             {
                 title: "省份",//标题
-                field: "a",//键名
+                field: "province",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
-                // formatter: function (value, row, index) {
-                //     if (row.user_name==''||row.user_name=='null'||row.user_name=='unknown'||!row.user_name){
-                //         return '未知';
-                //     }else {
-                //         return row.user_name;
-                //     };
-                // }
+                formatter: function (value, row, index) {
+                    if (row.province==''||row.province=='null'||row.province=='unknown'||!row.province){
+                        return '未知';
+                    }else {
+                        return row.province;
+                    };
+                }
             },
             {
                 title: "指标预警",//标题
-                field: "b",//键名
+                field: "count1",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
@@ -934,7 +934,7 @@ function placeRank(data) {
             },
             {
                 title: "模型预警",//标题
-                field: "c",//键名
+                field: "count1",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
@@ -943,7 +943,15 @@ function placeRank(data) {
             {
                 // title: "舆情预警",//标题
                 title: "指标预警",//标题
-                field: "d",//键名
+                field: "count1",//键名
+                sortable: true,//是否可排序
+                order: "desc",//默认排序方式
+                align: "center",//水平
+                valign: "middle",//垂直
+            },
+            {
+                title: "sum",//标题
+                field: "sum",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
@@ -952,8 +960,9 @@ function placeRank(data) {
         ],
     });
 };
-placeRank(placeData);
-//
+// placeRank(placeData);
+
+//====运营模式====
 function pie_1() {
     var myChart = echarts.init(document.getElementById('pie-1'),'chalk');
     var option = {
