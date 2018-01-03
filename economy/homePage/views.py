@@ -13,7 +13,7 @@ def index():
 
 @homePage.route('/warnCount/')
 def warn_count():
-	result = getWarnCount(TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL)
+	result = h_getWarnCount(TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL)
 	return json.dumps(result,ensure_ascii=False)
 
 
@@ -21,7 +21,7 @@ def warn_count():
 @homePage.route('/provinceRank/')
 def province_rank():
 	result = get_province_rank()
-	
+
 	return result
 
 

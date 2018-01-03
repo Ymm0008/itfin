@@ -22,10 +22,10 @@ def get(table1,table2,table3,table4,table5,field):
 	sql1 = "select el.id,el.entity_name,el.entity_type,el.location,pd.operation_mode,gs.province,gs.city,gs.district,pd.date from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where pd.date=gs.date and el.monitor_status='1' and pd.date=(select max(date) from %s as a)" % (table1,table2,table5,table2)
 	cur.execute(sql1)
 	res1 = cur.fetchall()
-	sql2 = "select el.id,el.entity_name,el.entity_type,el.location,cd.operation_mode,gs.province,gs.city,gs.district,cd.date from %s as el inner join %s as cd on el.id=cd.entity_id inner join %s as gs on el.id=gs.entity_id where pd.date=gs.date and el.monitor_status='1' and cd.date=(select max(date) from %s as a)" % (table1,table3,table5,table3)
+	sql2 = "select el.id,el.entity_name,el.entity_type,el.location,cd.operation_mode,gs.province,gs.city,gs.district,cd.date from %s as el inner join %s as cd on el.id=cd.entity_id inner join %s as gs on el.id=gs.entity_id where cd.date=gs.date and el.monitor_status='1' and cd.date=(select max(date) from %s as a)" % (table1,table3,table5,table3)
 	cur.execute(sql2)
 	res2 = cur.fetchall()
-	sql3 = "select el.id,el.entity_name,el.entity_type,el.location,p.operation_mode,gs.province,gs.city,gs.district,p.date from %s as el inner join %s as p on el.id=p.entity_id inner join %s as gs on el.id=gs.entity_id where pd.date=gs.date and el.monitor_status='1' and p.date=(select max(date) from %s as a)" % (table1,table4,table5,table4)
+	sql3 = "select el.id,el.entity_name,el.entity_type,el.location,p.operation_mode,gs.province,gs.city,gs.district,p.date from %s as el inner join %s as p on el.id=p.entity_id inner join %s as gs on el.id=gs.entity_id where p.date=gs.date and el.monitor_status='1' and p.date=(select max(date) from %s as a)" % (table1,table4,table5,table4)
 	cur.execute(sql3)
 	res3 = cur.fetchall()
 	res = res1 + res2 + res3
@@ -415,7 +415,7 @@ def getWarnCount(table1,table2,table3):
 
 
 # 首页
-def getWarnCount(table1,table2,table3):
+def h_getWarnCount(table1,table2,table3):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()

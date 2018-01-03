@@ -57,7 +57,7 @@ function peoPicture(data) {
                 formatter: function (value, row, index) {
                     // var registAddress = row.regist_address;
                     var registAddress;
-                    if(row.province == '北京' || row.province == '上海' || row.province == '天津' row.province == '重庆'){
+                    if(row.province == '北京' || row.province == '上海' || row.province == '天津' || row.province == '重庆'){
                         registAddress= row.city+row.district;
                     }else{
                         registAddress= row.province+row.city+row.district;

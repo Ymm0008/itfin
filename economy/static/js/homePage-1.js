@@ -12,11 +12,14 @@ if (screen.width <=1440) {
 }
 
 // 本周预警数
-var warnCount_url='/homepage/warnCount/';
-public_ajax.call_request('get',warnCount_url,warnCount);
-function warnCount(data){
-    console.log(data);
-    // $()
+var h_warnCount_url='/homepage/warnCount/';
+public_ajax.call_request('get',h_warnCount_url,h_warnCount);
+function h_warnCount(data){
+    if(data){
+        $('#picChart-3 .company-1').text(data.com);//公司
+        $('#picChart-3 .company-2').text(data.plat);//平台
+        $('#picChart-3 .company-3').text(data.pro);//项目
+    }
 }
 
 // 页面初始  左下角省份数据
