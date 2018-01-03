@@ -1,13 +1,14 @@
+
 // ====预警数====
-var warnCount_url = '/detection/warnCount/';
-public_ajax.call_request('get',warnCount_url,warnCount);
-function warnCount(data){
-    if(data){
-        $('.topTitle .com-3').text(data.seven);
-        $('.topTitle .com-2').text(data.thirty);
-        $('.topTitle .com-1').text(data.ninty);
+    var warnCount_url = '/detection/warnCount/';
+    public_ajax.call_request('get',warnCount_url,warnCount);
+    function warnCount(data){
+        if(data){
+            $('.topTitle .com-3').text(data.seven);
+            $('.topTitle .com-2').text(data.thirty);
+            $('.topTitle .com-1').text(data.ninty);
+        }
     }
-}
 
 //====预警记录====
     var earlyWarningdata=[{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'指标预警','e':'集资','f':'heiha'},{'a':'优易网','b':'北京','c':'2016-11-24','d':'指标预警','e':'集资','f':'heiha'},
@@ -226,18 +227,12 @@ function warnCount(data){
                         width:'2'
                     }
                 },
-                axisLabel: {
-                    margin: 10,
-                    textStyle: {
-                        fontSize: 14,
-                        fontWeight:'700',
-                        color:'white',
-                    }
-                },
-                splitLine: {
-                    lineStyle: {
-                        color: '#57617B'
-                    }
+            axisLabel: {
+                margin: 10,
+                textStyle: {
+                    fontSize: 14,
+                    fontWeight:'700',
+                    color:'white',
                 }
             }],
             series: [
@@ -330,8 +325,7 @@ function warnCount(data){
     pie_3();
 
 //====预警分布====
-
-        // ===表格
+    // ===表格
     var placeData=[{'a':'北京','b':'67','c':'25','d':'56'},{'a':'北京','b':'67','c':'25','d':'56'},{'a':'北京','b':'67','c':'25','d':'56'},
         {'a':'北京','b':'67','c':'25','d':'56'},{'a':'北京','b':'67','c':'25','d':'56'},{'a':'北京','b':'67','c':'25','d':'56'},
         {'a':'北京','b':'67','c':'25','d':'56'},{'a':'北京','b':'67','c':'25','d':'56'},{'a':'北京','b':'67','c':'25','d':'56'},

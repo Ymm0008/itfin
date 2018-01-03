@@ -168,6 +168,7 @@ function jumpFrame_2(monitorFlag) {
 // var IndexesArr = $()
 $('.words b').on('click',function(){
     var letter = $(this).text().toLowerCase();
+    $(this).addClass('active').siblings().removeClass('active');
     var portrait_letter_url = '/portraite/portrait_letter/?letter='+letter;
     public_ajax.call_request('get',portrait_letter_url,portrait_letter);
 })
