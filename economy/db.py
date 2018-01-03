@@ -5,6 +5,7 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 from datetime import datetime,timedelta
 import pymysql as mysql
+from pybloom import ScalableBloomFilter
 
 #conn = mysql.connect(host="0.0.0.0",user="root",password="root",db="db",charset='utf8')
 conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
@@ -267,17 +268,53 @@ def getDetectRank(table1,table2,table3,date,field):
 	result = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return result
 
-def getDetectDistribute(table1,table2,table3,table4):
+def getDetectDistribute(table1,table2,table3,table4,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where illegal_type=1 group by province'
-	sql = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where illegal_type=1 group by province'
+	province_list = []
+	list = []
+	sql1 = 'select pd.illegal_type,gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where illegal_type=1 group by province'%(table1,table4)
+	sql2 = 'select pd.illegal_type,gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where illegal_type=2 group by province'%(table2,table4)
+	sql3 = 'select pd.illegal_type,gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where illegal_type=3 group by province'%(table3,table4)
 
+	cur.execute(sql1)
+	res1 = cur.fetchall()
+	result1 = [{k:row[i] for i,k in enumerate(field)} for row in res1]
 
+	cur.execute(sql2)
+	res2 = cur.fetchall()
+	result2 = [{k:row[i] for i,k in enumerate(field)} for row in res2]
 
+	cur.execute(sql3)
+	res3 = cur.fetchall()
+	result3 = [{k:row[i] for i,k in enumerate(field)} for row in res3]
 
+	result = result1 + result2 + result3
 
+	b = ScalableBloomFilter(1000000,0.001)
+	for p in result1:
+		if not p['province'] in b:
+			[b.add(p['province'])]
+			province_list.append(p['province'])
+
+	for province in province_list:
+		#print(province)
+		if province:
+			pro_dict = {"province":province}
+			for dict in result:
+				if dict['province'] == province:
+					if dict['illegal_type'] == 1:
+						pro_dict.update({'count1':dict['count']})
+					elif dict['illegal_type'] == 2:
+						pro_dict.update({'count2':dict['count']})
+					elif dict['illegal_type'] == 3:
+						pro_dict.update({'count3':dict['count']})
+			pro_dict.update({'count2':0,'count3':0}) # 空数据报错。记得删掉
+			pro_dict.update({'sum':pro_dict['count1']+pro_dict['count2']+pro_dict['count3']})
+			list.append(pro_dict)
+			print(pro_dict)
+	return list
 
 
 
