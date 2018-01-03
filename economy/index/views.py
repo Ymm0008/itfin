@@ -174,6 +174,30 @@ def subfirmContent():
 
 	return json.dumps(results, ensure_ascii=False)
 
+@index.route('/holder/')
+def holderContent():
+    results = []
+    index_name = 'gongshang'
+    firm_name = request.args.get('firm_name', '')
+    # print firm_name
+    level1_holders = get_holderContent(firm_name, index_name)
+
+    results.append(firm_name)  # 根节点
+    level1_temp = []
+    for item in level1_holders:
+        level1_temp.append(item['holder'])
+    results.append({firm_name: level1_temp})
+
+    level2_temp = {}
+    for item in level1_holders:
+        level2_holders = get_holderContent(item['holder'], index_name)
+        level2_temp[item['holder']] = [x['holder'] for x in level2_holders]
+    results.append(level2_temp)
+    # 返回的数据结构为
+    # [根公司，{根公司:[一级股东A,B,C...]},{一级股东A:[二级股东A1,A2,A3],一级股东B:[二级子股东B1,B2,B3]}]
+
+    return json.dumps(results, ensure_ascii=False)
+
 
 
 
