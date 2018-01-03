@@ -7,7 +7,7 @@ from . import entityPortrait
 from economy.config import *
 import json
 
-field = ['id','entity_name','entity_type','location','operation_mode']
+field = ['id','entity_name','entity_type','location','operation_mode','province','city','district','date']
 plat_field = ['id','entity_name']
 company_field = ['id','entity_name']
 project_field = ['id','entity_name']
@@ -18,7 +18,7 @@ def entityportrait():
 
 @entityPortrait.route('/portrait/',methods=['POST','GET'])
 def portrait():
-	result = get(TABLE_ENTITY_LIST,TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,field)
+	result = get(TABLE_ENTITY_LIST,TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,TABLE_GONGSHANG,field)
 	if result['status'] == 1:
 		return json.dumps(result['data'],ensure_ascii=False)
 
@@ -41,7 +41,7 @@ def project():
 @entityPortrait.route('/portrait_letter/',methods=['POST','GET'])
 def portraitLetter():
 	letter = request.args.get('letter','')
-	result = get_portrait(TABLE_ENTITY_LIST,TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,field,letter)
+	result = get_portrait(TABLE_ENTITY_LIST,TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,TABLE_GONGSHANG,field,letter)
 	return json.dumps(result,ensure_ascii=False)
 
 
