@@ -14,7 +14,7 @@ function earlyWarning(data) {
         data:data,
         search: true,//是否搜索
         pagination: true,//是否分页
-        pageSize: 8,//单页记录数
+        pageSize: 6,//单页记录数
         pageList: [15,20,25],//分页步进值
         sidePagination: "client",//服务端分页
         searchAlign: "left",
@@ -249,6 +249,21 @@ function line_2() {
         legend: {
             data: ['']
         },
+        itemStyle:{
+            normal:{
+                // color:'rgba(198, 229, 121, 0.91)'
+                color:'#C6E579'
+                // color: function(params) {
+                //     // build a color map as your need.
+                //     var colorList = [
+                //         '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
+                //         '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
+                //         '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
+                //     ];
+                //     return colorList[params.dataIndex]
+                // },
+            }
+        },
         grid: {
             left: '3%',
             right: '8%',
@@ -277,7 +292,7 @@ function line_2() {
                             name: '最大值',
                             itemStyle:{
                                 normal:{
-                                    color:'rgb(175, 215, 237)',
+                                    color:'#26C0C0',
                                 }
                             },
                             label:{
@@ -292,7 +307,7 @@ function line_2() {
                             name: '最小值',
                             itemStyle:{
                                 normal:{
-                                    color:'rgb(147, 224, 255)',
+                                    color:'#26C0C0',
                                 }
                             },
                             label:{

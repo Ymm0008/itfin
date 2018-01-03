@@ -1,9 +1,8 @@
-* {margin: 0;padding: 0;}
 #container {
     position: relative;
     z-index: 999;
     width: 100%;
-    background: url("../images/bodyPic.png") no-repeat rgb(41, 31, 85);
+    background: url("/static/images/bodyPic.png") no-repeat rgb(41, 31, 85);
     background-size:100% 100%;
 }
 #container .section {
@@ -74,6 +73,15 @@
     margin:0 10px;
     cursor: pointer;
     transition: all linear 0.2s;
+}
+#container .initials .words b.active{
+    color: #ff9584;
+    font-weight: 900;
+    -webkit-transform: scale(2);
+    -moz-transform: scale(2);
+    -ms-transform: scale(2);
+    -o-transform: scale(2);
+    transform: scale(2);
 }
 #container .initials .words b:hover {
     color: #ff9584;

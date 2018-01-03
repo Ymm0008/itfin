@@ -4,6 +4,16 @@
 <link rel="stylesheet" href="/static/css/company.css">
 <style>
 	<!---->
+	#nav .nav_middle .main_li:nth-of-type(3) {
+		-webkit-transform: scale(1.3);
+		-moz-transform: scale(1.3);
+		-ms-transform: scale(1.3);
+		-o-transform: scale(1.3);
+		transform: scale(1.3);
+	}
+	#nav .nav_middle .main_li:nth-of-type(3) a {
+		color: #08F;
+	}
 	#nav {background: #fff;box-shadow: 0 2px 5px rgba(41,46,51,0.15);color: #0e0e0e;}
 	#nav .nav_middle .main_li .li_a,#nav .nav_right span {color: #0e0e0e;}
 	#nav .nav_middle .main_li .line {background-color: #08F;}
@@ -162,9 +172,22 @@
     }
     /* 二级标题 */
     .twoLevel_headlines {
-        padding-left:10px;
+        padding-left:30px;
+		font-size: 16px;
     }
 	/* ===12 22 === */
+	.smallTit p {
+		margin:10px 0 0 10px;
+		display: inline-block;
+	}
+	.smallTit span {
+		display: inline-block;
+		margin: 0 15px;
+	}
+	.smallTit span:nth-of-type(1) {
+		width: 100px;
+		text-align: right;
+	}
 </style>
 {% endblock %}
 {% block main %}
@@ -177,7 +200,7 @@
 		<span id="LL-PDF" class="top-2 btn btn-primary">导出PDF</span>
 	</div>
 	<div style="text-align: center;margin-bottom: 20px;">
-		<span id="title" style="font-size: 36px;"><span id="title-1"></span>画像报告</span>
+		<span id="title" style="font-size: 36px;">“<span id="title-1"></span>”画像报告</span>
 	</div>
 	<div id="card">
 		<div class="infor">
@@ -216,7 +239,7 @@
 		</div>
 	</div>
 	<div class="riskValue">
-		<h3><i class="icon icon-signal"></i>&nbsp;风险评价&nbsp;&nbsp;<i class="icon icon-edit comRisk" title="编辑"></i></h3>
+		<h3><i class="icon icon-exclamation-sign"></i>&nbsp;风险评价&nbsp;&nbsp;<i class="icon icon-edit comRisk" title="编辑"></i></h3>
 		<div class="riskLeft">
 			<p><span>是否疑似非法集资：</span>&nbsp;<b class="val-1" style="color: #ff9645;"></b></p>
 			<p><span>风险等级：</span>&nbsp;<b class="val-2" style="color: #ff9645;"></b></p>
@@ -243,10 +266,25 @@
 		</div>
 	</div>
 	<div class="downCompany">
+		<h3><i class="icon icon-sitemap"></i>&nbsp;企业关系</h3>
+		<div class="smallTit" style="margin: 10px 0;">
+			<p>
+				<span>对外投资数量：</span>
+				<span>一层：<b class="down-1" style="color: #ff9645;"></b></span>
+				<span>二层：<b class="down-2" style="color: #ff9645;"></b></span>
+				<span>三层：<b class="down-3" style="color: #ff9645;"></b></span>
+			</p>
+			<p>
+				<span>股东数量：</span>
+				<span>一层：<b class="up-1" style="color: #ff9645;"></b></span>
+				<span>二层：<b class="up-2" style="color: #ff9645;"></b></span>
+				<span>三层：<b class="up-3" style="color: #ff9645;"></b></span>
+			</p>
+		</div>
         <!-- <h3><i class="icon icon-fire"></i>&nbsp;子公司、分公司情况</h3> -->
-		<h3><i class="icon icon-fire"></i>&nbsp;企业关系</h3>
+
 		<div style="width: 100%;margin-top:20px;">
-            <h4 class="twoLevel_headlines"><i class="icon icon-inbox"></i>&nbsp;子公司、分公司情况</h4>
+            <h5 class="twoLevel_headlines"><i class="icon icon-bookmark"></i>&nbsp;关联公司情况</h5>
 			<div id="table-1"></div>
 			<!-- <table id="table-2" cellpadding="0" cellspacing="0" border="1">
 				<thead>
@@ -274,9 +312,10 @@
 						<td colspan="4" rowspan="3" class="mid-3"></td>
 					</tr>
 				</tbody>
-			</table> -->
+			</table>
             <div id="table-2New">
-                <p>对外投资数量：
+				对外投资数量：
+                <p>
                     <span>
                         一层：<b class="down-1" style="color: #ff9645;"></b>
                         二层：<b class="down-2" style="color: #ff9645;"></b>
@@ -293,7 +332,7 @@
                         三层：<b class="up-3" style="color: #ff9645;"></b>
                     </span>
                 </p>
-				<!-- <div style="float:left;">
+				<div style="float:left;">
 					<p><span>上一层：</span>&nbsp;<b class="up-1" style="color: #ff9645;"></b></p>
 					<p><span>上二层：</span>&nbsp;<b class="up-2" style="color: #ff9645;"></b></p>
 					<p><span>上三层：</span>&nbsp;<b class="up-3" style="color: #ff9645;"></b></p>
@@ -302,10 +341,10 @@
 					<p><span>下一层：</span>&nbsp;<b class="down-1" style="color: #ff9645;"></b></p>
 					<p><span>下二层：</span>&nbsp;<b class="down-2" style="color: #ff9645;"></b></p>
 					<p><span>下三层：</span>&nbsp;<b class="down-3" style="color: #ff9645;"></b></p>
-				</div> -->
-			</div>
+				</div>
+			</div>-->
 			<div id="table-4">
-				<h4 class="twoLevel_headlines" style="margin-top:20px;"><i class="icon icon-inbox"></i>&nbsp;股东信息：</h4>
+				<h5 class="twoLevel_headlines" style="margin-top:20px;"><i class="icon icon-bookmark"></i>&nbsp;股东信息：</h5>
 				<p class="mid-3"></p>
 			</div>
 		</div>
@@ -333,7 +372,7 @@
 		<!--</div>-->
 	</div>
 	<div class="register">
-		<h3><i class="icon icon-bell-alt"></i>&nbsp;信息变更&nbsp;&nbsp;<i class="icon icon-edit register-1" title="编辑"></i></h3>
+		<h3><i class="icon icon-retweet"></i>&nbsp;信息变更&nbsp;&nbsp;<i class="icon icon-edit register-1" title="编辑"></i></h3>
 		<!--<div class="inforContent">-->
 		<!--<div class="main">-->
 		<!--<img src="/static/images/textIcon.png" class="textFlag">-->
@@ -355,7 +394,7 @@
 		</div>
 	</div>
 	<div class="litigation">
-		<h3><i class="icon icon-envelope-alt"></i>&nbsp;诉讼记录&nbsp;&nbsp;<i class="icon icon-edit inter-1" title="编辑"></i></h3>
+		<h3><i class="icon icon-file-alt"></i>&nbsp;诉讼记录&nbsp;&nbsp;<i class="icon icon-edit inter-1" title="编辑"></i></h3>
 		<!--<div class="inforContent">-->
 		<!--<div class="main">-->
 		<!--<img src="/static/images/textIcon.png" class="textFlag">-->
@@ -378,7 +417,7 @@
 	</div>
 
 	<div class="income">
-		<h3><i class="icon icon-money"></i>&nbsp;收益率及其分布</h3>
+		<h3><i class="icon icon-credit-card"></i>&nbsp;收益率及其分布</h3>
 		<!--<div id="incomeTable" style="width: 100%;height: 450px;"></div>-->
 		<div class="incomeTable">
 			<div id="incomeTable">
@@ -387,7 +426,7 @@
 		</div>
 	</div>
 	<div class="promise">
-		<h3><i class="icon icon-gift"></i>&nbsp;收益/保本/担保承诺&nbsp;&nbsp;<i class="icon icon-edit comPro-1" title="编辑"></i></h3>
+		<h3><i class="icon icon-check"></i>&nbsp;收益/保本/担保承诺&nbsp;&nbsp;<i class="icon icon-edit comPro-1" title="编辑"></i></h3>
 		<div class="guarantee">
 			<div id="guarantee">
 				<p class="load">正在拼命加载中....</p>
@@ -409,13 +448,13 @@
 		<!--</div>-->
 	</div>
 	<div class="advertising">
-		<h3><i class="icon icon-bullhorn"></i>&nbsp;广告信息&nbsp;&nbsp;<i class="icon icon-edit advert-1" title="编辑"></i></h3>
+		<h3><i class="icon icon-envelope-alt"></i>&nbsp;广告信息&nbsp;&nbsp;<i class="icon icon-edit advert-1" title="编辑"></i></h3>
 		<div class="billing" style="margin-top:20px;">
-            <h4 class="twoLevel_headlines"><i class="icon icon-inbox"></i>&nbsp;广告发布趋势</h4>
+            <h5 class="twoLevel_headlines"><i class="icon icon-bookmark"></i>&nbsp;广告发布趋势</h5>
 			<div id="billing_diagram">
 
 			</div>
-            <h4 class="twoLevel_headlines"><i class="icon icon-inbox"></i>&nbsp;广告内容</h4>
+            <h5 class="twoLevel_headlines"><i class="icon icon-bookmark"></i>&nbsp;广告内容</h5>
 			<div id="billing">
 				<p class="load">正在拼命加载中....</p>
 			</div>
@@ -511,17 +550,17 @@
 	</div>
 	<div class="commentInfor">
 		<h3 style="margin-bottom: 15px;">
-			<span style="display: inline-block;"><i class="icon icon-asterisk"></i>&nbsp;舆情分析&nbsp;&nbsp;<i class="icon icon-edit comment-1" title="编辑"></i></span>
+			<span style="display: inline-block;"><i class="icon icon-bar-chart"></i>&nbsp;舆情分析&nbsp;&nbsp;<i class="icon icon-edit comment-1" title="编辑"></i></span>
 			<button type="button" class="btn btn-info" style="position: relative;top: -3px;left: 20px;">存档取证</button>
 		</h3>
 		<div style="margin-top: 20px;">
             <!-- <h4><i class="icon icon-signal"></i>&nbsp;趋势统计</h4> -->
-			<h4 class="twoLevel_headlines"><i class="icon icon-inbox"></i>&nbsp;舆情趋势</h4>
+			<h5 class="twoLevel_headlines"><i class="icon icon-bookmark"></i>&nbsp;舆情趋势</h5>
 			<div id="opinion" style="width: 100%;height: 300px;"></div>
 		</div>
 		<div>
             <!-- <h4><i class="icon icon-comment"></i>&nbsp;评论信息</h4> -->
-			<h4 class="twoLevel_headlines"><i class="icon icon-inbox"></i>&nbsp;舆情内容</h4>
+			<h5 class="twoLevel_headlines"><i class="icon icon-bookmark"></i>&nbsp;舆情内容</h5>
 			<div class="commentinforContent">
 				<div id="commentinforContent">
 					<p class="load">正在拼命加载中....</p>
@@ -566,7 +605,7 @@
 	</div>
 	<div class="related">
 		<div class="pro related-1" style="float: left;">
-			<h4><i class="icon icon-beaker"></i>&nbsp;关联产品</h4>
+			<h4><i class="icon icon-link"></i>&nbsp;关联产品</h4>
 			<div id="product">
 				游戏大全
 
@@ -576,7 +615,7 @@
 			</div>
 		</div>
 		<div class="pro related-2" style="float: right">
-			<h4><i class="icon icon-road"></i>&nbsp;关联企业</h4>
+			<h4><i class="icon icon-link"></i>&nbsp;关联企业</h4>
 			<div id="company">
 				财付通
 
@@ -705,6 +744,8 @@
 		if ($(document).scrollTop()!=0){
 			$(this).css({color:'#fff'});
 			$(this).find('i').css({color:'#fff'});
+            $('#nav .nav_middle .main_li').eq(2).find('a').css({color:'#ff9645'});
+            $('#nav .nav_middle .main_li').eq(2).find('i').css({color:'#ff9645'});
 		}else {
 			$(this).css({color:'#000'});
 			$(this).find('i').css({color:'#000'});
@@ -721,6 +762,8 @@
 		$('#nav .nav_middle .main_li .li_a').css({color:'white'});
 		$('#nav .nav_middle .main_li .li_a i').css({color:'white'});
 		$('#nav .nav_right span').css({color:'#fff',background:'#35baee'});
+        $('#nav .nav_middle .main_li').eq(2).find('a').css({color:'#ff9645'});
+        $('#nav .nav_middle .main_li').eq(2).find('i').css({color:'#ff9645'});
 		if ($(document).scrollTop()==0){
 			$('#nav').css({backgroundColor:'#fff'});
 			$('#nav .nav_left h3').css({color:'black'});
@@ -729,6 +772,8 @@
 			$('#nav .nav_middle .main_li .li_a').css({color:'black'});
 			$('#nav .nav_middle .main_li .li_a i').css({color:'black'});
 			$('#nav .nav_right span').css({color:'#0e0e0e',background:'white'});
+            $('#nav .nav_middle .main_li').eq(2).find('a').css({color:'#08F'});
+            $('#nav .nav_middle .main_li').eq(2).find('i').css({color:'#08F'});
 		}
 	};
 
