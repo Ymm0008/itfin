@@ -238,13 +238,13 @@ def getDetectData(date,table1,table2,table3,table4,table5,field):
 	end_time = cur.fetchall()[0][0]
 	start_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=int(date))
 	start_time = start_time.strftime("%Y-%m-%d")
-	sql1 = "select el.id,el.entity_name,el.entity_type,el.location,pd.operation_mode,gs.province,gs.city,gs.district,pd.illegal_type,pd.date from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where pd.date>='%s' and pd.date<='%s' and el.monitor_status='1' and pd.illegal_type>0 order by pd.date desc" % (table1,table2,table5,start_time,end_time)
+	sql1 = "select el.id,el.entity_name,el.entity_type,el.location,pd.operation_mode,gs.province,gs.city,gs.district,pd.illegal_type,pd.date from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where pd.date=gs.date and pd.date>='%s' and pd.date<='%s' and el.monitor_status='1' and pd.illegal_type>0 order by pd.date desc" % (table1,table2,table5,start_time,end_time)
 	cur.execute(sql1)
 	res1 = cur.fetchall()
-	sql2 = "select el.id,el.entity_name,el.entity_type,el.location,cd.operation_mode,gs.province,gs.city,gs.district,cd.illegal_type,cd.date from %s as el inner join %s as cd on el.id=cd.entity_id inner join %s as gs on el.id=gs.entity_id where cd.date>='%s' and cd.date<='%s' and el.monitor_status='1' and cd.illegal_type>0 order by cd.date desc" % (table1,table3,table5,start_time,end_time)
+	sql2 = "select el.id,el.entity_name,el.entity_type,el.location,cd.operation_mode,gs.province,gs.city,gs.district,cd.illegal_type,cd.date from %s as el inner join %s as cd on el.id=cd.entity_id inner join %s as gs on el.id=gs.entity_id where cd.date=gs.date and cd.date>='%s' and cd.date<='%s' and el.monitor_status='1' and cd.illegal_type>0 order by cd.date desc" % (table1,table3,table5,start_time,end_time)
 	cur.execute(sql2)
 	res2 = cur.fetchall()
-	sql3 = "select el.id,el.entity_name,el.entity_type,el.location,p.operation_mode,gs.province,gs.city,gs.district,p.illegal_type,p.date from %s as el inner join %s as p on el.id=p.entity_id inner join %s as gs on el.id=gs.entity_id where p.date>='%s' and p.date<='%s' and el.monitor_status='1' and p.illegal_type>0 order by p.date desc" % (table1,table4,table5,start_time,end_time)
+	sql3 = "select el.id,el.entity_name,el.entity_type,el.location,p.operation_mode,gs.province,gs.city,gs.district,p.illegal_type,p.date from %s as el inner join %s as p on el.id=p.entity_id inner join %s as gs on el.id=gs.entity_id where p.date=gs.date and p.date>='%s' and p.date<='%s' and el.monitor_status='1' and p.illegal_type>0 order by p.date desc" % (table1,table4,table5,start_time,end_time)
 	cur.execute(sql3)
 	res3 = cur.fetchall()
 	res = res1 + res2 + res3
