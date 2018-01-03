@@ -38,6 +38,19 @@
         width: 5%;
     }
 
+    /* ====lvlei===2018-1-2 */
+    /* 提示信息 */
+    .load {
+        text-align:center;
+        color:#fff;
+        font-size:18px;
+        margin-top:20px;
+    }
+    /* 画像搜索表格 */
+    #contentTable thead th{
+        border-top:none;
+    }
+
 </style>
 {% endblock %}
 {% block main %}
@@ -148,8 +161,7 @@
         </div>
         <div class="contentTable">
             <div id="contentTable">
-                <br><br>
-                <center style="color:#fff;font-size: 18px;">正在加载，请稍后....</center>
+                <p class="load">正在努力加载中...</p>
             </div>
         </div>
     </div>
@@ -199,7 +211,7 @@
                     <p><span>优易网</span><span>模型预警</span></p>
                     <p><span>优易网</span><span>模型预警</span></p>
                     <p><span>优易网</span><span>模型预警</span></p> -->
-                    <center>正在加载，请稍后....</center>
+                    <p class="load">正在努力加载中...</p>
                 </div>
             </div>
         </div>

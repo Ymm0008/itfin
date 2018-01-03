@@ -1,4 +1,4 @@
-//预警记录
+//====预警记录====
 var earlyWarningdata=[{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'指标预警','e':'集资','f':'heiha'},{'a':'优易网','b':'北京','c':'2016-11-24','d':'指标预警','e':'集资','f':'heiha'},
     {'a':'青云门','b':'北京','c':'2016-11-24','d':'模型预警','e':'集资','f':'heiha'},{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},{'a':'优易网','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},
     {'a':'青云门','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},{'a':'优易网','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},
@@ -6,8 +6,8 @@ var earlyWarningdata=[{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'指
     {'a':'青云门','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},{'a':'优易网','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},
     {'a':'青云门','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},{'a':'优易网','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},
     {'a':'青云门','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'}]
-var earlyWarning_url='';
-// public_ajax.call_request('get',earlyWarning_url,earlyWarning);
+var earlyWarning_url='/detection/detectData/';
+public_ajax.call_request('get',earlyWarning_url,earlyWarning);
 function earlyWarning(data) {
     $('#recordingTable').bootstrapTable('load', data);
     $('#recordingTable').bootstrapTable({
@@ -30,31 +30,44 @@ function earlyWarning(data) {
         columns: [
             {
                 title: "监测对象",//标题
-                field: "a",//键名
+                field: "entity_name",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-                    if (row.a==''||row.a=='null'||row.a=='unknown'||!row.a){
+                    if (row.entity_name==''||row.entity_name=='null'||row.entity_name=='unknown'||!row.entity_name){
                         return '未知';
                     }else {
-                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.a+'\')" title="进入画像">'+row.a+'</span>';
+                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.entity_name+'\')" title="进入画像">'+row.entity_name+'</span>';
                     };
                 }
             },
             {
                 title: "注册地",//标题
-                field: "b",//键名
+                field: "",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                formatter: function (value, row, index) {
+                    var registAddress;
+                    if(row.province == '北京市'){
+                        registAddress= row.city+row.district;
+                    }else{
+                        registAddress= row.province+row.city+row.district;
+                    }
+                    if (registAddress.length == 0){
+                        return '未知';
+                    }else {
+                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.registAddress+'\')" title="注册地">'+registAddress+'</span>';
+                    };
+                }
 
             },
             {
                 title: "时间",//标题
-                field: "c",//键名
+                field: "date",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
@@ -62,11 +75,26 @@ function earlyWarning(data) {
             },
             {
                 title: "预警理由",//标题
-                field: "d",//键名
+                field: "",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                formatter: function (value, row, index) {
+                    var warningReasons;
+                    if(row.illegal_type==1){
+                        warningReasons = '模型预警';
+                    }else if(row.illegal_type==2){
+                        warningReasons = '舆情预警';
+                    }else if(row.illegal_type==3){
+                        warningReasons = '指标预警';
+                    }
+                    if (row.illegal_type==''||row.illegal_type=='null'||row.illegal_type=='unknown'||!row.illegal_type){
+                        return '未知';
+                    }else{
+                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.entity_name+'\')" title="预警理由">'+warningReasons+'</span>';
+                    };
+                }
             },
             {
                 title: "运营模式",//标题
@@ -75,7 +103,15 @@ function earlyWarning(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                formatter: function (value, row, index) {
+                    if (row.operation_mode==''||row.operation_mode=='null'||row.operation_mode=='unknown'||!row.operation_mode){
+                        return '互联网金融';
+                    }else {
+                        // return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.entity_name+'\')" title="进入画像">'+row.entity_name+'</span>';
 
+                        return '互联网金融'; // ====先写死====
+                    };
+                }
             },
             {
                 title: "监测详情",//标题
@@ -101,8 +137,10 @@ function earlyWarning(data) {
             },
         ],
     });
+    $('#recordingTable p.load').hide();
 };
-earlyWarning(earlyWarningdata);
+// earlyWarning(earlyWarningdata);
+
 function jumpFrame_1(flag) {
     var html='';
     // 页面展示出来 先
@@ -231,85 +269,106 @@ function line_1() {
 }
 line_1();
 
-//排名
-function line_2() {
-    var myChart = echarts.init(document.getElementById('warningNum'),'chalk');
-    var option = {
-        backgroundColor:'transparent',
-        title: {
-            text: '',
-            subtext: ''
-        },
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'shadow'
+//====预警排名====
+    var ranking_url='/detection/detectRank?date=7';
+    public_ajax.call_request('get',ranking_url,line_2);
+    function line_2(data) {
+        if(data){
+            var entity_nameArr = [], rankingData = [];
+            for(var i=0;i<data.length;i++){
+                entity_nameArr.push(data[i].entity_name);
+                rankingData.push(data[i].count)
             }
-        },
-        legend: {
-            data: ['']
-        },
-        grid: {
-            left: '3%',
-            right: '8%',
-            bottom: '3%',
-            containLabel: true
-        },
-        xAxis: {
-            name:'预警数量',
-            type: 'value',
-            boundaryGap: [0, 0.01]
-        },
-        yAxis: {
-            name:'预警对象',
-            type: 'category',
-            data : ['优易网','湖北嘟嘟','有糖','品质金融','一元云购','上海中晋公司','风车点赞','玫瑰庄园','青云门','浙江本色控股'],
-        },
-        series: [
-            {
-                name: '预警数',
-                type: 'bar',
-                data:[11, 22, 34, 53, 65, 78, 89, 101, 122, 156],
-                markPoint : {
-                    data : [
-                        {
-                            type : 'max',
-                            name: '最大值',
-                            itemStyle:{
-                                normal:{
-                                    color:'rgb(175, 215, 237)',
-                                }
-                            },
-                            label:{
-                                normal:{
-                                    textStyle:
-                                        {color:'#fff'},
-                                }
-                            }
-                        },
-                        {
-                            type : 'min',
-                            name: '最小值',
-                            itemStyle:{
-                                normal:{
-                                    color:'rgb(147, 224, 255)',
-                                }
-                            },
-                            label:{
-                                normal:{
-                                    textStyle:
-                                        {color:'#fff'},
-                                }
-                            }
-                        },
-                    ]
+            var myChart = echarts.init(document.getElementById('warningNum'),'chalk');
+            var option = {
+                backgroundColor:'transparent',
+                title: {
+                    text: '',
+                    subtext: ''
                 },
-            },
-        ]
-    };
-    myChart.setOption(option);
-}
-line_2();
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                legend: {
+                    data: ['']
+                },
+                grid: {
+                    left: '3%',
+                    right: '8%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    name:'预警数量',
+                    type: 'value',
+                    boundaryGap: [0, 0.01]
+                },
+                yAxis: {
+                    name:'预警对象',
+                    type: 'category',
+                    // data : ['优易网','湖北嘟嘟','有糖','品质金融','一元云购','上海中晋公司','风车点赞','玫瑰庄园','青云门','浙江本色控股'],
+                    data :entity_nameArr,
+                },
+                series: [
+                    {
+                        name: '预警数',
+                        type: 'bar',
+                        // data:[11, 22, 34, 53, 65, 78, 89, 101, 122, 156],
+                        data:rankingData,
+                        markPoint : {
+                            data : [
+                                {
+                                    type : 'max',
+                                    name: '最大值',
+                                    itemStyle:{
+                                        normal:{
+                                            color:'rgb(175, 215, 237)',
+                                        }
+                                    },
+                                    label:{
+                                        normal:{
+                                            textStyle:
+                                                {color:'#fff'},
+                                        }
+                                    }
+                                },
+                                {
+                                    type : 'min',
+                                    name: '最小值',
+                                    itemStyle:{
+                                        normal:{
+                                            color:'rgb(147, 224, 255)',
+                                        }
+                                    },
+                                    label:{
+                                        normal:{
+                                            textStyle:
+                                                {color:'#fff'},
+                                        }
+                                    }
+                                },
+                            ]
+                        },
+                    },
+                ]
+            };
+            $('#warningNum p.load').hide();
+            myChart.setOption(option);
+        }
+
+    }
+    // line_2();
+    // ===时间选项===
+    $('._time2').change(function(){
+        var selectTime = $(this).children('option:selected').val();//这就是selected的值
+        ranking_url = '/detection/detectRank?date='+selectTime;
+        console.log(ranking_url);
+        public_ajax.call_request('get',ranking_url,line_2);
+    })
+
 
 //预警分布
 require.config({

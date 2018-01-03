@@ -6,12 +6,12 @@ if (screen.width <= 1440){
     $('#container .secondScreen .box').css({'max-height':'510px','min-height':'510px'})
     pageData=10;
 }
+// 一屏 表格
 var peoPicture_url='/portraite/portrait/';
 public_ajax.call_request('get',peoPicture_url,peoPicture);
 
 function peoPicture(data) {
-    // console.log(data)
-    $('#contentTable').empty();
+    // console.log(data);
     $('#contentTable').bootstrapTable('load', data);
     $('#contentTable').bootstrapTable({
         data:data,
@@ -49,34 +49,40 @@ function peoPicture(data) {
             },
             {
                 title: "注册地",//标题
-                field: "regist_address",//键名
+                field: "",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-                    var registAddress = row.regist_address;
-                    if (row.regist_address==''||row.regist_address=='null'||row.regist_address=='unknown'||!row.regist_address){
+                    // var registAddress = row.regist_address;
+                    var registAddress;
+                    if(row.province == '北京市'){
+                        registAddress= row.city+row.district;
+                    }else{
+                        registAddress= row.province+row.city+row.district;
+                    }
+                    if (registAddress.length == 0){
                         return '未知';
                     }else {
-                        var i=registAddress.indexOf("市");
-                        registAddress = registAddress.substring(0,i+1);
+                        // var i=registAddress.indexOf("市");
+                        // registAddress = registAddress.substring(0,i+1);
                         return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.registAddress+'\')" title="注册地">'+registAddress+'</span>';
                     };
                 }
             },
             {
                 title: "时间",//标题
-                field: "start_time",//键名
+                field: "",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-                    if (row.start_time==''||row.start_time=='null'||row.start_time=='unknown'||!row.start_time){
+                    if (row.date==''||row.date=='null'||row.date=='unknown'||!row.date){
                         return '未知';
                     }else {
-                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.start_time+'\')" title="时间">'+row.start_time+'</span>';
+                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.date+'\')" title="时间">'+row.date+'</span>';
                     };
                 }
             },
@@ -140,6 +146,7 @@ function peoPicture(data) {
             },
         ],
     });
+    $('#contentTable p.load').hide();
 };
 
 function jumpFrame_1(name,type,id) {

@@ -42,7 +42,8 @@ var entity_name ,firm_name;
         if (item.operation_mode==1){
             operationMode = '互联网金融';
         }else{
-            operationMode = item.operation_mode;
+            // operationMode = item.operation_mode;
+            operationMode = '互联网金融';
         }
         if(item.legal_person){legalPerson = item.legal_person};
         if(item.capital){capital = item.capital+'万元'}
@@ -550,7 +551,8 @@ function get7DaysBefore(date,m){
         $('#pubTable .inf3_zhihu').text(item.inf3_zhihu);
     }
      */
-    var data_billing_diagram ;
+
+    var data_billing_diagram ;//广告趋势图数据
     function publicityTable(data){
         data_billing_diagram = data;
         // console.log(data);
@@ -1313,92 +1315,96 @@ function get7DaysBefore(date,m){
     }
     // billing(serds);
 
-    // 加一个折线图
+    // 加一个折线图  ===广告趋势图===
     function billing_diagram (data){
-        var item = data[0];
-        var ad1_data = [],inf1_data = [],inf2_data = [],inf3_data = [];
-        ad1_data.push(item.ad1_wechat+item.ad1_zhihu+item.ad1_bbs+item.ad1_webo+item.ad1_forum);
-        inf1_data.push(item.inf1_wechat+item.inf1_zhihu+item.inf1_bbs+item.inf1_webo+item.inf1_forum);
-        inf2_data.push(item.inf2_wechat+item.inf2_zhihu+item.inf2_bbs+item.inf2_webo+item.inf2_forum);
-        inf3_data.push(item.inf3_wechat+item.inf3_zhihu+item.inf3_bbs+item.inf3_webo+item.inf3_forum);
-        var date = [];
-        date.push(item.date);
+        // console.log(data)
+        if(data){
+            var ad1_data = [],inf1_data = [],inf2_data = [],inf3_data = [];
+            // 时间
+            var date = [];
+            for(var i=0;i < data.length;i++){
+                inf1_data.push(data[i].inf1_wechat+data[i].inf1_zhihu+data[i].inf1_bbs+data[i].inf1_webo+data[i].inf1_forum);
+                inf2_data.push(data[i].inf2_wechat+data[i].inf2_zhihu+data[i].inf2_bbs+data[i].inf2_webo+data[i].inf2_forum);
+                inf3_data.push(data[i].inf3_wechat+data[i].inf3_zhihu+data[i].inf3_bbs+data[i].inf3_webo+data[i].inf3_forum);
 
-        var myChart = echarts.init(document.getElementById('billing_diagram'));
-        var option = {
-            title: {
-                text: ''
-            },
-            tooltip : {
-                trigger: 'axis',
-                axisPointer: {
-                    type: 'cross',
-                    label: {
-                        backgroundColor: '#6a7985'
+                date.push(data[i].date);
+            }
+            var myChart = echarts.init(document.getElementById('billing_diagram'));
+            var option = {
+                title: {
+                    text: ''
+                },
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
                     }
-                }
-            },
-            legend: {
-                // data:['无煽动性广告数','一般煽动性广告数','强煽动性广告数','广告数']
-                data:['无煽动性广告数','一般煽动性广告数','强煽动性广告数']
-            },
-            toolbox: {
-                feature: {
-                    saveAsImage: {}
-                }
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis : [
-                {
-                    type : 'category',
-                    boundaryGap : false,
-                    // data:['微信','知乎','论坛','微博','贴吧']
-                    data:date
-                }
-            ],
-            yAxis : [
-                {
-                    type : 'value'
-                }
-            ],
-            series : [
+                },
+                legend: {
+                    // data:['无煽动性广告数','一般煽动性广告数','强煽动性广告数','广告数']
+                    data:['无煽动性广告数','一般煽动性广告数','强煽动性广告数']
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis : [
+                    {
+                        type : 'category',
+                        boundaryGap : false,
+                        // data:['微信','知乎','论坛','微博','贴吧']
+                        data:date
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value'
+                    }
+                ],
+                series : [
 
-                {
-                    name:'无煽动性广告数',
-                    type:'line',
-                    stack: '总量',
-                    areaStyle: {normal: {}},
-                    data:inf1_data
-                },
-                {
-                    name:'一般煽动性广告数',
-                    type:'line',
-                    stack: '总量',
-                    areaStyle: {normal: {}},
-                    data:inf2_data
-                },
-                {
-                    name:'强煽动性广告数',
-                    type:'line',
-                    stack: '总量',
-                    areaStyle: {normal: {}},
-                    data:inf3_data
-                },
-                // {
-                //     name:'广告数',
-                //     type:'line',
-                //     stack: '总量',
-                //     areaStyle: {normal: {}},
-                //     data:ad1_data
-                // },
-            ]
-        };
-        myChart.setOption(option);
+                    {
+                        name:'无煽动性广告数',
+                        type:'line',
+                        stack: '总量',
+                        areaStyle: {normal: {}},
+                        data:inf1_data
+                    },
+                    {
+                        name:'一般煽动性广告数',
+                        type:'line',
+                        stack: '总量',
+                        areaStyle: {normal: {}},
+                        data:inf2_data
+                    },
+                    {
+                        name:'强煽动性广告数',
+                        type:'line',
+                        stack: '总量',
+                        areaStyle: {normal: {}},
+                        data:inf3_data
+                    },
+                    // {
+                    //     name:'广告数',
+                    //     type:'line',
+                    //     stack: '总量',
+                    //     areaStyle: {normal: {}},
+                    //     data:ad1_data
+                    // },
+                ]
+            };
+            myChart.setOption(option);
+        }
     }
 
 //====舆情分析====
@@ -1622,36 +1628,34 @@ var last_year_month = function() {
     return result;
 }
 
-// 趋势分析
+// 舆情趋势分析
     var trend_url='/index/comment/?id='+pid;
     public_ajax.call_request('get',trend_url,line_2);
     function line_2(data) {
-        var day30=[];
-        day30 = last_year_month().reverse();
-        // var day30Data=[];
-        // for (var b=0;b< 12;b++){
-        //     day30Data.push(Math.round(Math.random()*(20-5)+5));
-        // }
-
-        // var day30Data_2=[];
-        // for (var c=0;c< 12;c++){
-        //     day30Data_2.push(Math.round(Math.random()*(20-3)+5));
-        // }
-
-        // var day30Data_3=[];
-        // for (var d=0;d< 12;d++){
-        //     day30Data_3.push(Math.round(Math.random()*(20-8)+5));
-        // }
-
-        var item = data[0];
-        var day30Data_0 = [];
-        var day30Data_1 = [];
-        var day30Data_2 = [];
-        day30Data_0.push(item.sent0_webo+item.sent0_bbs+item.sent0_zhihu+item.sent0_forum+item.sent0_wechat);
-        day30Data_1.push(item.sent1_webo+item.sent1_bbs+item.sent1_zhihu+item.sent1_forum+item.sent1_wechat);
-        day30Data_2.push(item.sent2_webo+item.sent2_bbs+item.sent2_zhihu+item.sent2_forum+item.sent2_wechat);
-        var date = [];
-        date.push(item.date);
+        if(data){
+            var day30Data_0 = [],day30Data_1 = [],day30Data_2 = [];
+            // 时间
+            var date = [];
+            for(var i=0;i<data.length;i++){
+                // 消极评论
+                day30Data_0.push(data[i].sent0_webo+data[i].sent0_bbs+data[i].sent0_zhihu+data[i].sent0_forum+data[i].sent0_wechat);
+                // 中性评论
+                day30Data_1.push(data[i].sent1_webo+data[i].sent1_bbs+data[i].sent1_zhihu+data[i].sent1_forum+data[i].sent1_wechat);
+                // 积极评论
+                day30Data_2.push(data[i].sent2_webo+data[i].sent2_bbs+data[i].sent2_zhihu+data[i].sent2_forum+data[i].sent2_wechat);
+                // 时间
+                date.push(data[i].date);
+            }
+        }
+        // var item = data[0];
+        // var day30Data_0 = [];
+        // var day30Data_1 = [];
+        // var day30Data_2 = [];
+        // day30Data_0.push(item.sent0_webo+item.sent0_bbs+item.sent0_zhihu+item.sent0_forum+item.sent0_wechat);
+        // day30Data_1.push(item.sent1_webo+item.sent1_bbs+item.sent1_zhihu+item.sent1_forum+item.sent1_wechat);
+        // day30Data_2.push(item.sent2_webo+item.sent2_bbs+item.sent2_zhihu+item.sent2_forum+item.sent2_wechat);
+        // var date = [];
+        // date.push(item.date);
 
         var myChart = echarts.init(document.getElementById('opinion'));
         var option = {
