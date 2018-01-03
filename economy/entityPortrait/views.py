@@ -41,7 +41,7 @@ def project():
 @entityPortrait.route('/portrait_letter/',methods=['POST','GET'])
 def portraitLetter():
 	letter = request.args.get('letter','')
-	result = get_portrait(TABLE_ENTITY_LIST,TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,field,letter)
+	result = get_portrait(TABLE_ENTITY_LIST,TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,TABLE_GONGSHANG,field,letter)
 	return json.dumps(result,ensure_ascii=False)
 
 
