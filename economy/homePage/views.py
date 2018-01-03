@@ -5,7 +5,29 @@ from flask import Flask, render_template, request, jsonify, Blueprint, send_from
 from economy.db import *
 from . import homePage
 import json
+from economy.config import *
 
 @homePage.route('/')
 def index():
 	return render_template('homePage/homePage.html')
+
+@homePage.route('/warnCount/')
+def warn_count():
+	result = getWarnCount(TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL)
+	return json.dumps(result,ensure_ascii=False)
+
+
+
+@homePage.route('/provinceRank/')
+def province_rank():
+	result = get_province_rank()
+	
+	return result
+
+
+
+
+
+
+
+
