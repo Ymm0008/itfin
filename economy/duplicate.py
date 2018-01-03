@@ -95,7 +95,7 @@ def max_same_rate_shingle(items, item, rate_threshold=0.3):
     idx = 0
     max_rate = 0
     for i in items:
-        print (i['title']).decode('utf-8'),'\n',(item['title']).decode('utf-8')
+        # print (i['title']).decode('utf-8'),'\n',(item['title']).decode('utf-8')
         sl = ShingLing((i['title']).decode('utf-8'), (item['title']).decode('utf-8'), n=3)
         sl.cal_jaccard()
         if sl.jaccard >= rate_threshold:
