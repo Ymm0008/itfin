@@ -283,8 +283,9 @@ function get7DaysBefore(date,m){
                     name:'',
                     type:'tree',
                     orient: 'horizontal',  // vertical horizontal
-                    rootLocation: {x: 100, y: '60%'}, // 根节点位置  {x: 'center',y: 10}
+                    rootLocation: {x: 'center', y: '60%'}, // 根节点位置  {x: 'center',y: 10}
                     nodePadding: 20,
+                    left: '50%',
                     symbol: 'circle',
                     symbolSize: 40,
                     itemStyle: {
@@ -299,7 +300,6 @@ function get7DaysBefore(date,m){
                                 },
                                 position:'bottom',//位置
                                 // offset:[50,0], //偏移
-
                                 // 字符换行
                                 formatter:function(val){
                                     if(val.name.length>8){
@@ -332,124 +332,123 @@ function get7DaysBefore(date,m){
                             itemStyle: {
                                 normal: {
                                     label: {
-                                        show: true
+                                        show: true,
                                     }
                                 }
                             },
-                            children: [
-                                /*
-                                    {
-                                        name: 'B',
-                                        value: 4,
-                                        // symbol: 'image://http://pic.58pic.com/58pic/12/36/51/66d58PICMUV.jpg',
-                                        symbol: 'B',
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                }
-                                            }
-                                        },
-                                        symbolSize: [60, 60],
-                                        children: [
-                                            {
-                                                name: 'C',
-                                                symbol: 'circle',
-                                                symbolSize: 20,
-                                                value: 4,
-                                                itemStyle: {
-                                                    normal: {
-                                                        color: '#fa6900',
-                                                        label: {
-                                                            show: true,
-                                                            position: 'right'
-                                                        },
-
-                                                    },
-                                                    emphasis: {
-                                                        label: {
-                                                            show: false
-                                                        },
-                                                        borderWidth: 0
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                name: 'D',
-                                                value: 4,
-                                                symbol: 'circle',
-                                                symbolSize: 20,
-                                                itemStyle: {
-                                                    normal: {
-                                                        label: {
-                                                            show: true,
-                                                            position: 'right',
-                                                            formatter: "{b}"
-                                                        },
-                                                        color: '#fa6900',
-                                                        borderWidth: 2,
-                                                        borderColor: '#cc66ff'
-
-                                                    },
-                                                    emphasis: {
-                                                        borderWidth: 0
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                name: 'E',
-                                                value: 2,
-                                                symbol: 'circle',
-                                                symbolSize: 20,
-                                                itemStyle: {
-                                                    normal: {
-                                                        label: {
-                                                            position: 'right'
-                                                        },
-                                                        color: '#fa6900',
-                                                        brushType: 'stroke',
-                                                        borderWidth: 1,
-                                                        borderColor: '#999966',
-                                                    },
-                                                    emphasis: {
-                                                        borderWidth: 0
-                                                    }
-                                                }
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        name: 'F',
-                                        // symbol: 'image://http://www.viastreaming.com/images/apple_logo2.png',
-                                        symbol: 'F',
-                                        symbolSize: [60, 60],
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                }
-
-                                            }
-                                        },
-                                        value: 4
-                                    },
-                                    {
-                                        name: 'G',
-                                        // symbol: 'image://http://market.huawei.com/hwgg/logo_cn/download/logo.jpg',
-                                        symbol: 'G',
-                                        symbolSize: [60, 60],
-                                        itemStyle: {
-                                            normal: {
-                                                label: {
-                                                    show: false
-                                                }
-
-                                            }
-                                        },
-                                        value: 2
-                                    },
-                                */
-                            ]
+                            // children: [
+                            //         {
+                            //             name: 'B',
+                            //             value: 4,
+                            //             // symbol: 'image://http://pic.58pic.com/58pic/12/36/51/66d58PICMUV.jpg',
+                            //             symbol: 'B',
+                            //             itemStyle: {
+                            //                 normal: {
+                            //                     label: {
+                            //                         show: false
+                            //                     }
+                            //                 }
+                            //             },
+                            //             symbolSize: [60, 60],
+                            //             children: [
+                            //                 {
+                            //                     name: 'C',
+                            //                     symbol: 'circle',
+                            //                     symbolSize: 20,
+                            //                     value: 4,
+                            //                     itemStyle: {
+                            //                         normal: {
+                            //                             color: '#fa6900',
+                            //                             label: {
+                            //                                 show: true,
+                            //                                 position: 'right'
+                            //                             },
+                            //
+                            //                         },
+                            //                         emphasis: {
+                            //                             label: {
+                            //                                 show: false
+                            //                             },
+                            //                             borderWidth: 0
+                            //                         }
+                            //                     }
+                            //                 },
+                            //                 {
+                            //                     name: 'D',
+                            //                     value: 4,
+                            //                     symbol: 'circle',
+                            //                     symbolSize: 20,
+                            //                     itemStyle: {
+                            //                         normal: {
+                            //                             label: {
+                            //                                 show: true,
+                            //                                 position: 'right',
+                            //                                 formatter: "{b}"
+                            //                             },
+                            //                             color: '#fa6900',
+                            //                             borderWidth: 2,
+                            //                             borderColor: '#cc66ff'
+                            //
+                            //                         },
+                            //                         emphasis: {
+                            //                             borderWidth: 0
+                            //                         }
+                            //                     }
+                            //                 },
+                            //                 {
+                            //                     name: 'E',
+                            //                     value: 2,
+                            //                     symbol: 'circle',
+                            //                     symbolSize: 20,
+                            //                     itemStyle: {
+                            //                         normal: {
+                            //                             label: {
+                            //                                 position: 'right'
+                            //                             },
+                            //                             color: '#fa6900',
+                            //                             brushType: 'stroke',
+                            //                             borderWidth: 1,
+                            //                             borderColor: '#999966',
+                            //                         },
+                            //                         emphasis: {
+                            //                             borderWidth: 0
+                            //                         }
+                            //                     }
+                            //                 }
+                            //             ]
+                            //         },
+                            //         {
+                            //             name: 'F',
+                            //             // symbol: 'image://http://www.viastreaming.com/images/apple_logo2.png',
+                            //             symbol: 'F',
+                            //             symbolSize: [60, 60],
+                            //             itemStyle: {
+                            //                 normal: {
+                            //                     label: {
+                            //                         show: false
+                            //                     }
+                            //
+                            //                 }
+                            //             },
+                            //             value: 4
+                            //         },
+                            //         {
+                            //             name: 'G',
+                            //             // symbol: 'image://http://market.huawei.com/hwgg/logo_cn/download/logo.jpg',
+                            //             symbol: 'G',
+                            //             symbolSize: [60, 60],
+                            //             itemStyle: {
+                            //                 normal: {
+                            //                     label: {
+                            //                         show: false
+                            //                     }
+                            //
+                            //                 }
+                            //             },
+                            //             value: 2
+                            //         },
+                            //
+                            // ]
                         }
                     ]
                 }
