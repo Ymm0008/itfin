@@ -8,9 +8,9 @@ from economy.config import *
 import json
 
 field = ['id','entity_name','entity_type','location','operation_mode','province','city','district','date']
-plat_field = ['id','entity_name']
-company_field = ['id','entity_name']
-project_field = ['id','entity_name']
+plat_field = ['id','entity_name','illegal_type']
+company_field = ['id','entity_name','illegal_type']
+project_field = ['id','entity_name','illegal_type']
 
 @entityPortrait.route('/entityPortrait/')
 def entityportrait():
@@ -24,17 +24,17 @@ def portrait():
 
 @entityPortrait.route('/platform/',methods=['POST','GET'])
 def platform():
-	result = get_platform(TABLE_ENTITY_LIST,plat_field)
+	result = get_platform(TABLE_PLAT_DETAIL,plat_field)
 	return json.dumps(result,ensure_ascii=False)
 
 @entityPortrait.route('/company/',methods=['POST','GET'])
 def company():
-	result = get_company(TABLE_ENTITY_LIST,company_field)
+	result = get_company(TABLE_COMPANY_DETAIL,company_field)
 	return json.dumps(result,ensure_ascii=False)
 
 @entityPortrait.route('/project/',methods=['POST','GET'])
 def project():
-	result = get_project(TABLE_ENTITY_LIST,project_field)
+	result = get_project(TABLE_PROJECT_DETAIL,project_field)
 	return json.dumps(result,ensure_ascii=False)
 
 
