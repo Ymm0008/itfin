@@ -23,7 +23,8 @@ def warn_count():
 
 @homePage.route('/cityRank/')
 def city_rank():
-	result = get_city_rank(TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,TABLE_GONGSHANG,field)
+	province = request.args.get('province','')
+	result = get_city_rank(TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,TABLE_GONGSHANG,field,province)
 	return json.dumps(result,ensure_ascii=False)
 
 
