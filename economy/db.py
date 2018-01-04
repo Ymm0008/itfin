@@ -446,10 +446,10 @@ def get_city_rank(table1,table2,table3,table4,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	
+
 	city_list = []
 	list = []
-	
+
 	sql = "select max(date) from %s"%table1
 	cur.execute(sql)
 	end_time = cur.fetchall()[0][0]
@@ -491,13 +491,14 @@ def get_province_rank(table1,table2,table3,table4,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
+	list = []
 	province_list = []
 	sql = "select max(date) from %s"%table1
 	cur.execute(sql)
 	end_time = cur.fetchall()[0][0]
 	start0_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=7)
 	start1_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=30)
-	
+
 	start_time0 = start0_time.strftime("%Y-%m-%d")
 	start_time1 = start1_time.strftime("%Y-%m-%d")
 
@@ -513,7 +514,7 @@ def get_province_rank(table1,table2,table3,table4,field):
 	cur.execute(sql3)
 	res3 = cur.fetchall()
 	result3 = [{k:row[i] for i,k in enumerate(field)} for row in res3]
-	
+
 	sql4 = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>="%s" and pd.date<="%s" and illegal_type>0 group by province'%(table1,table4,start_time1,end_time)
 	cur.execute(sql4)
 	res4 = cur.fetchall()
@@ -573,11 +574,11 @@ def getTimeDistribute(table1,table2,table3):
 			sql2 = "select count(*) from %s where date<='%s' and date>='%s'"%(table2,time_list[i],time_list[i+1])
 			cur.execute(sql2)
 			res2 = cur.fetchall()[0][0]
-		
+
 			sql3 = "select count(*) from %s where date<='%s' and date>='%s'"%(table3,time_list[i],time_list[i+1])
 			cur.execute(sql3)
 			res3 = cur.fetchall()[0][0]
-	
+
 			result = res1 + res2 + res3
 			dict = {'time':time,'count':result}
 			list.append(dict)

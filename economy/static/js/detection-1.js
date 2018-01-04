@@ -216,25 +216,28 @@
                 },
                 data: ['周一','周二','周三','周四','周五','周六','周日'],
             }],
-            yAxis: [{
-                type: 'value',
-                axisTick: {
-                    show: false
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: '#fff',
-                        width:'2'
+            yAxis: [
+                {
+                    type: 'value',
+                    axisTick: {
+                        show: false
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#fff',
+                            width:'2'
+                        }
+                    },
+                    axisLabel: {
+                        margin: 10,
+                        textStyle: {
+                            fontSize: 14,
+                            fontWeight:'700',
+                            color:'white',
+                        }
                     }
-                },
-            axisLabel: {
-                margin: 10,
-                textStyle: {
-                    fontSize: 14,
-                    fontWeight:'700',
-                    color:'white',
                 }
-            }],
+            ],
             series: [
                 {
                     name: '预警次数',
