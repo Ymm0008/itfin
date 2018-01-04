@@ -311,28 +311,28 @@ def getDetectDistribute(date,table1,table2,table3,table4,field):
 	result3 = [{k:row[i] for i,k in enumerate(field)} for row in res3]
 
 	cur.execute(sql2)
-	res3 = cur.fetchall()
-	result4 = [{k:row[i] for i,k in enumerate(field)} for row in res3]
+	res4 = cur.fetchall()
+	result4 = [{k:row[i] for i,k in enumerate(field)} for row in res4]
 
 	cur.execute(sql21)
-	res3 = cur.fetchall()
-	result5 = [{k:row[i] for i,k in enumerate(field)} for row in res3]
+	res5 = cur.fetchall()
+	result5 = [{k:row[i] for i,k in enumerate(field)} for row in res5]
 
 	cur.execute(sql22)
-	res3 = cur.fetchall()
-	result6 = [{k:row[i] for i,k in enumerate(field)} for row in res3]
+	res6 = cur.fetchall()
+	result6 = [{k:row[i] for i,k in enumerate(field)} for row in res6]
 
 	cur.execute(sql3)
-	res3 = cur.fetchall()
-	result7 = [{k:row[i] for i,k in enumerate(field)} for row in res3]
+	res7 = cur.fetchall()
+	result7 = [{k:row[i] for i,k in enumerate(field)} for row in res7]
 
 	cur.execute(sql31)
-	res3 = cur.fetchall()
-	result8 = [{k:row[i] for i,k in enumerate(field)} for row in res3]
+	res8 = cur.fetchall()
+	result8 = [{k:row[i] for i,k in enumerate(field)} for row in res8]
 
 	cur.execute(sql32)
-	res3 = cur.fetchall()
-	result9 = [{k:row[i] for i,k in enumerate(field)} for row in res3]
+	res9 = cur.fetchall()
+	result9 = [{k:row[i] for i,k in enumerate(field)} for row in res9]
 
 	result = result1 + result2 + result3 + result4 + result5 + result6 + result7 + result8 + result9
 
@@ -442,14 +442,146 @@ def h_getWarnCount(table1,table2,table3):
 	return dict
 
 
+def get_city_rank(table1,table2,table3,table4,field):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+	
+	city_list = []
+	list = []
+	
+	sql = "select max(date) from %s"%table1
+	cur.execute(sql)
+	end_time = cur.fetchall()[0][0]
+	start_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=7)
+	start_time = start_time.strftime("%Y-%m-%d")
+
+	sql1 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>="%s" and pd.date<="%s" and illegal_type>0 group by province,city'%(table1,table4,start_time,end_time)
+	cur.execute(sql1)
+	res1 = cur.fetchall()
+	result1 = [{k:row[i] for i,k in enumerate(field)} for row in res1]
+	sql2 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>="%s" and pd.date<="%s" and illegal_type>0 group by province,city'%(table2,table4,start_time,end_time)
+	cur.execute(sql2)
+	res2 = cur.fetchall()
+	result2 = [{k:row[i] for i,k in enumerate(field)} for row in res2]
+	sql3 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>="%s" and pd.date<="%s" and illegal_type>0 group by province,city'%(table3,table4,start_time,end_time)
+	cur.execute(sql3)
+	res3 = cur.fetchall()
+	result3 = [{k:row[i] for i,k in enumerate(field)} for row in res3]
+
+	result = result1 + result2 + result3
+
+	b = ScalableBloomFilter(1000000,0.001)
+	for p in result:
+		if not p['city'] in b:
+			[b.add(p['city'])]
+			city_list.append({'province':p['province'],'city':p['city']})
+
+	for d in city_list:
+		if d['city']:
+			pro_dict = {"province":d['province'],"city":d['city']}
+			for dict in result:
+				if dict['city'] == d['city']:
+					pro_dict.update({'count':dict['count']})
+			list.append(pro_dict)
+	return list
 
 
+def get_province_rank(table1,table2,table3,table4,field):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+	province_list = []
+	sql = "select max(date) from %s"%table1
+	cur.execute(sql)
+	end_time = cur.fetchall()[0][0]
+	start0_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=7)
+	start1_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=30)
+	
+	start_time0 = start0_time.strftime("%Y-%m-%d")
+	start_time1 = start1_time.strftime("%Y-%m-%d")
+
+	sql1 = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>="%s" and pd.date<="%s" and illegal_type>0 group by province'%(table1,table4,start_time0,end_time)
+	cur.execute(sql1)
+	res1 = cur.fetchall()
+	result1 = [{k:row[i] for i,k in enumerate(field)} for row in res1]
+	sql2 = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>="%s" and pd.date<="%s" and illegal_type>0 group by province'%(table2,table4,start_time0,end_time)
+	cur.execute(sql2)
+	res2 = cur.fetchall()
+	result2 = [{k:row[i] for i,k in enumerate(field)} for row in res2]
+	sql3 = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>="%s" and pd.date<="%s" and illegal_type>0 group by province'%(table3,table4,start_time0,end_time)
+	cur.execute(sql3)
+	res3 = cur.fetchall()
+	result3 = [{k:row[i] for i,k in enumerate(field)} for row in res3]
+	
+	sql4 = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>="%s" and pd.date<="%s" and illegal_type>0 group by province'%(table1,table4,start_time1,end_time)
+	cur.execute(sql4)
+	res4 = cur.fetchall()
+	result4 = [{k:row[i] for i,k in enumerate(field)} for row in res4]
+	sql5 = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>="%s" and pd.date<="%s" and illegal_type>0 group by province'%(table2,table4,start_time1,end_time)
+	cur.execute(sql5)
+	res5 = cur.fetchall()
+	result5 = [{k:row[i] for i,k in enumerate(field)} for row in res5]
+	sql6 = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>="%s" and pd.date<="%s" and illegal_type>0 group by province'%(table3,table4,start_time1,end_time)
+	cur.execute(sql6)
+	res6 = cur.fetchall()
+	result6 = [{k:row[i] for i,k in enumerate(field)} for row in res6]
+
+	result7 = result1 + result2 + result3
+	result30 = result4 + result5 + result6
+
+	b = ScalableBloomFilter(1000000,0.001)
+	for p in result7:
+		if not p['province'] in b:
+			[b.add(p['province'])]
+			province_list.append(p['province'])
+
+	for d in province_list:
+		pro_dict = {"province":d}
+		for dict in result7:
+			if dict['province'] == d:
+				pro_dict.update({'count7':dict['count']})
+		for dict in result30:
+			if dict['province'] == d:
+				pro_dict.update({'count30':dict['count']})
+		list.append(pro_dict)
+	return list
 
 
+def getTimeDistribute(table1,table2,table3):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+	list = []
+	count_list = []
+	sql = "select max(date) from %s"%table1
+	cur.execute(sql)
+	end_time = cur.fetchall()[0][0]
 
+	time_list = []
+	for i in range(1,31):
+		start_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=i)
+		start_time = start_time.strftime("%Y-%m-%d")
+		time_list.append(start_time)
 
+	for i,time in enumerate(time_list):
+		if i < len(time_list)-1:
+			sql1 = "select count(*) from %s where date<='%s' and date>='%s'"%(table1,time_list[i],time_list[i+1])
+			cur.execute(sql1)
+			res1 = cur.fetchall()[0][0]
 
+			sql2 = "select count(*) from %s where date<='%s' and date>='%s'"%(table2,time_list[i],time_list[i+1])
+			cur.execute(sql2)
+			res2 = cur.fetchall()[0][0]
+		
+			sql3 = "select count(*) from %s where date<='%s' and date>='%s'"%(table3,time_list[i],time_list[i+1])
+			cur.execute(sql3)
+			res3 = cur.fetchall()[0][0]
+	
+			result = res1 + res2 + res3
+			dict = {'time':time,'count':result}
+			list.append(dict)
 
-
+	return list
 
 

@@ -7,6 +7,9 @@ from . import homePage
 import json
 from economy.config import *
 
+field = ['illegal_type','province','city','count']
+province_field = ['province','count']
+
 @homePage.route('/')
 def index():
 	return render_template('homePage/homePage.html')
@@ -18,16 +21,21 @@ def warn_count():
 
 
 
+
+@homePage.route('/cityRank/')
+def city_rank():
+	result = get_city_rank(TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,TABLE_GONGSHANG,field)
+	return json.dumps(result,ensure_ascii=False)
+
+
 @homePage.route('/provinceRank/')
 def province_rank():
-	result = get_province_rank()
-
-	return result
-
+	result = get_province_rank(TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,TABLE_GONGSHANG,province_field)
+	return json.dumps(result,ensure_ascii=False)
 
 
-
-
-
-
+@homePage.route('/timeDistribute/')
+def time_distribute():
+	result = getTimeDistribute(TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL)
+	return json.dumps(result,ensure_ascii=False)
 
