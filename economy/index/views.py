@@ -25,6 +25,10 @@ return_rate_field = ['id','entity_id','entity_name','date','return_type','return
 def platform():
 	return render_template('index/platform.html')
 
+@index.route('/monitor/')
+def monitor():
+	return render_template('index/monitorDetails.html')
+
 @index.route('/company/')
 def company():
 	name = request.args.get('name','')

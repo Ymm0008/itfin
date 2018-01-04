@@ -171,8 +171,9 @@
     }
     // 监测详情
     function jumpFrame_2(monitorFlag) {
-        window.localStorage.setItem('monitorFlag',monitorFlag);
-        window.location.href='../templates/monitorDetails.html';
+        // window.localStorage.setItem('monitorFlag',monitorFlag);
+        // window.location.href='../templates/monitorDetails.html';
+        window.location.href='/index/monitor/';
     }
     // 一键取证
     function prove(flag) {

@@ -45,7 +45,7 @@ function line_1() {
     };
     myChart.setOption(option);
 }
-
+line_1();
 function line_2() {
     var myChart = echarts.init(document.getElementById('modal-1'),'chalk');
     var option = {
@@ -93,4 +93,5 @@ function line_2() {
     };
     myChart.setOption(option);
 }
+line_2();
 

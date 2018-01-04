@@ -159,10 +159,11 @@ function jumpFrame_1(name,type,id) {
     }
     window.location.href=html;
 }
-
+// 监测详情
 function jumpFrame_2(monitorFlag) {
-    window.localStorage.setItem('monitorFlag',monitorFlag);
-    window.location.href='../templates/monitorDetails.html';
+    // window.localStorage.setItem('monitorFlag',monitorFlag);
+    // window.location.href='../templates/monitorDetails.html';
+    window.location.href='/index/monitor/';
 }
 // ====索引====
 // var IndexesArr = $()
@@ -191,7 +192,7 @@ function allMonitor(data) {
     for (var i=0;i<line.length;i++){
         phonehtml.push(
             '<p class="phone" type="button" data-toggle="modal" ' +
-            'onclick="show(this)" onmousemove="chgecol(this)" onmouseout="back(this)">'+
+            'onclick="show(\''+line[i].entity_name+'\',\''+line[i].id+'\')" onmousemove="chgecol(this)" onmouseout="back(this)">'+
             '<span class="iphone zjnum">'+line[i].entity_name+'</span>'+
             // '<span class="iphone bjnum">'+line[i]+'</span>'+
             '<span class="iphone bjnum">模型预警</span>'+
@@ -250,8 +251,11 @@ function scrollList(obj) {
             // $('.scroll-box .box').append(phonehtml.shift());
         });
 };
-function show(a) {
-
+function show(name,type,id) {
+    var html='';
+    name=escape(name);
+    html='/index/company/?name='+name+'&pid='+id;
+    window.location.href=html;
 }
 function chgecol(b) {
 

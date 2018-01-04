@@ -59,7 +59,9 @@
                 var mt = mapType[curIndx % len];
                 if (mt == 'china') {
                     // 更新数据
-                    $('#container .bottom_left .title span').text('疑似非法集资城市排行')
+                    $('#container .bottom_left .title span').text('疑似非法集资城市排行');
+                    $('#container .bottom_left #picChart-5>p').children('span:first-child').text('城市');
+
                     // 全国选择时指定到选中的省份
                     var selected = param.selected;
                     var target = param.target;
@@ -80,7 +82,7 @@
                             break;
                         }
                     }
-                    option.tooltip.formatter = '点击返回全国<br/>{b}';
+                    option.tooltip.formatter = '点击返回全国<br/>{b}-{c}';
                     // 没有标注气泡的
                     option.dataRange = {
                         show:true,
@@ -144,7 +146,9 @@
                                 }
                             }
                         },
-                        // data:[],
+                        data:[],
+                        // 这是假数据
+                        /*
                         data:[
                             // 11-27添加的重庆市下县数据
                             {name: '万州区',value: Math.round(Math.random()*1000)},
@@ -611,11 +615,11 @@
                             {name: '保亭黎族苗族自治县',value: Math.round(Math.random()*1000)},
                             {name: '五指山市',value: Math.round(Math.random()*1000)}
                         ],
-
+                        */
                         markPoint : {
                             symbol:'pin',
                             symbolSize : function (v){
-                                return 10 + v/10
+                                return 10 + v/100
                             },
                             effect : {
                                 show: false,
@@ -647,7 +651,6 @@
                             },
                             data:[]
                         },
-
                         geoCoord : {
                             '北京':[116.4,39.9],
                             '天津':[117.2,39.12],
@@ -1205,21 +1208,32 @@
                                 height:'70%'
                             }
                         }
-
-                        $('#container .bottom_left .title span').text('疑似非法集资城市排行')
-                        $('#container .bottom_left #picChart-5>p').children('span:first-child').text('城市')
                         // ====请求省下级各市====
-                        var city_url='/homepage/cityRank/?city='+target;
+                        var city_url='/homepage/cityRank/?province='+target;
+                        console.log(city_url);
                         public_ajax.call_request('get',city_url,city);
                     }
-                    var proviceData = [];
+                    var proviceData = [],proviceData_1 = [];
+                    var cityData = [];
                     function city(data){
                         if(data){
+                            // 更新左下角
+                            $('#container .bottom_left #picChart-5 #proRank').empty();
                             for(var i=0;i<data.length;i++){
-                                proviceData.push({name:data[i].city,value:data[i].count})
+                                proviceData.push({name:data[i].city,value:data[i].count});
+                                // series.data的数据（用于地图块的颜色，只能跟地图数据名字一样、、）
+                                proviceData_1.push({name:data[i].city+'市',value:data[i].count});//
+                                // 更新左下角排行
+                                var str = '<p><span>'+data[i].city+'</span><span>'+data[i].count7+'</span><span>'+data[i].count30+'</span></p>';
+                                $('#container .bottom_left #picChart-5 #proRank').append(str)
                             }
                         }
+                        console.log(proviceData);
+                        option.series[0].data = proviceData_1;
                         option.series[0].markPoint.data = proviceData;
+                        // 渲染地图
+                        // console.log(option);
+                        myChart.setOption(option, true);
                     }
                     /*
 
@@ -1837,6 +1851,7 @@
                     // 左下角数据
                     $('#container .bottom_left .title span').text('疑似非法集资省份排行')
                     $('#container .bottom_left #picChart-5>p').children('span:first-child').text('省份')
+                    public_ajax.call_request('get',provinceRank_url,provinceRank);
                     // $('#container .bottom_left #picChart-5 #proRank').empty();
                     // var provinceData = ['广东', '青海', '四川', '海南', '陕西','甘肃', '云南', '湖南', '湖北', '黑龙江','贵州', '山东', '江西', '河南', '河北','山西', '安徽', '福建', '浙江', '江苏','吉林', '辽宁', '台湾','新疆', '广西', '宁夏', '内蒙古', '西藏','北京', '天津', '上海', '重庆','香港', '澳门'];
                     // for (var i=0;i<provinceData.length;i++){
@@ -1849,7 +1864,7 @@
 
                     curIndx = 0;
                     mt = 'china';
-                    option.tooltip.formatter = '点击进入该省<br/>{b}';
+                    option.tooltip.formatter = '点击进入该省<br/>{b}:{c}';
                     option.dataRange = {
                         show:true,
                         min: 0,
@@ -1860,13 +1875,21 @@
                         // calculable : true,
                         itemGap:2,
                         splitList: [
-                            {start: 800},
+                            // {start: 800},
+                            // // {start: 700, end: 999},
+                            // {start: 600, end: 800},
+                            // {start: 400, end: 600},
+                            // {start: 150, end: 400, label: '100 到 300'},
+                            // // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
+                            // {end: 150},
+
+                            {start: 6000},
                             // {start: 700, end: 999},
-                            {start: 600, end: 800},
-                            {start: 400, end: 600},
-                            {start: 150, end: 400, label: '100 到 300'},
+                            {start: 4000, end: 6000},
+                            {start: 2000, end: 4000},
+                            {start: 300, end: 20000},
                             // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
-                            {end: 150}
+                            {end: 300},
                         ],
                         textStyle:{
                             color:'white'
@@ -1915,6 +1938,8 @@
                                 }
                             }
                         },
+                        data:[]
+                        /*
                         data:[
                             {name: '北京',value: Math.round(Math.random()*1000)},
                             {name: '天津',value: Math.round(Math.random()*1000)},
@@ -1951,32 +1976,64 @@
                             {name: '香港',value: Math.round(Math.random()*1000)},
                             {name: '澳门',value: Math.round(Math.random()*1000)}
                         ]
+                         */
                     }
                     // 点击返回全国后适配分辨率
-                    if ((screen.width == 1920) && (screen.height == 1080)){
+                    if (screen.width <= 1440) {
+                        option.series[0].mapLocation = {
+                            x:'center',
+                            y:'100px',
+                            width:'100%',
+                            height:'80%'
+                        }
+                    } else {
                         option.series[0].mapLocation = {
                             x:'center',
                             y:'100px',
                             width:'85%',
-                            height:'85%'
+                            height:'85%%'
                         }
                     }
-                    if ((screen.width == 1440) && (screen.height == 900)){
-                        option.series[0].mapLocation = {
-                            x:'center',
-                            y:'100px',
-                            width:'100%',
-                            height:'80%'
+                    // if ((screen.width == 1920) && (screen.height == 1080)){
+                    //     option.series[0].mapLocation = {
+                    //         x:'center',
+                    //         y:'100px',
+                    //         width:'85%',
+                    //         height:'85%'
+                    //     }
+                    // }
+                    // if ((screen.width == 1440) && (screen.height == 900)){
+                    //     option.series[0].mapLocation = {
+                    //         x:'center',
+                    //         y:'100px',
+                    //         width:'100%',
+                    //         height:'80%'
+                    //     }
+                    // }
+                    // if ((screen.width == 1366) && (screen.height == 768)){
+                    //     option.series[0].mapLocation = {
+                    //         x:'center',
+                    //         y:'100px',
+                    //         width:'100%',
+                    //         height:'80%'
+                    //     }
+                    // }
+                    //====请求全国数据====
+                    var cityRank_url_1='/homepage/cityRank/';
+                    public_ajax.call_request('get',cityRank_url_1,cityRank_1);
+                    var cityRankData_1 = [];
+                    function cityRank_1(data){
+                        if(data){
+                            // console.log(data);
+                            for(var i=0;i<data.length;i++){
+                                cityRankData_1.push({name:data[i].province,value:data[i].count})
+                            }
+                            console.log(cityRankData_1);
+                            option.series[0].data = cityRankData_1;
+                            myChart.setOption(option);
                         }
                     }
-                    if ((screen.width == 1366) && (screen.height == 768)){
-                        option.series[0].mapLocation = {
-                            x:'center',
-                            y:'100px',
-                            width:'100%',
-                            height:'80%'
-                        }
-                    }
+                    myChart.setOption(option);
                 }
                 option.series[0].mapType = mt;
                 option.title.subtext = mt + ' （点击切换）';
@@ -1990,14 +2047,13 @@
                 },
                 tooltip : {
                     trigger: 'item',
-                    formatter: '点击进入该省<br/>{b}'
+                    formatter: '点击进入该省<br/>{b}:{c}'
                 },
                 legend: {
                     orient: 'vertical',
                     x:'right',
                     data:['随机数据']
                 },
-
                 dataRange: {
                     show:true,
                     x: '27%',
@@ -2006,13 +2062,21 @@
                     // calculable : true,
                     itemGap:2,
                     splitList: [
-                        {start: 800},
+                        // {start: 800},
+                        // // {start: 700, end: 999},
+                        // {start: 600, end: 800},
+                        // {start: 400, end: 600},
+                        // {start: 150, end: 400, label: '100 到 300'},
+                        // // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
+                        // {end: 150},
+
+                        {start: 6000},
                         // {start: 700, end: 999},
-                        {start: 600, end: 800},
-                        {start: 400, end: 600},
-                        {start: 150, end: 400, label: '100 到 300'},
+                        {start: 4000, end: 6000},
+                        {start: 2000, end: 4000},
+                        {start: 300, end: 20000},
                         // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
-                        {end: 150}
+                        {end: 300},
                     ],
                     textStyle:{
                         color:'white'
@@ -2074,6 +2138,8 @@
                                 }
                             }
                         },
+                        data:[]
+                        /*
                         data:[
                             {name: '北京',value: Math.round(Math.random()*1000)},
                             {name: '天津',value: Math.round(Math.random()*1000)},
@@ -2110,44 +2176,78 @@
                             {name: '香港',value: Math.round(Math.random()*1000)},
                             {name: '澳门',value: Math.round(Math.random()*1000)}
                         ],
+                         */
                     },
                 ]
             };
             // 首次画地图之前判断分辨率
-            if ((screen.width == 1920) && (screen.height == 1080)){
-                option.series[0].mapLocation = {
-                    x:'center',
-                    y:'100px',
-                    width:'85%',
-                    height:'85%'
-                }
-            }
-            if ((screen.width == 1440) && (screen.height == 900)){
-                option.series[0].mapLocation = {
-                    x:'center',
-                    y:'100px',
-                    width:'90%',
-                    height:'80%'
-                }
-            }
-            if ((screen.width == 1366) && (screen.height == 768)){
+            if (screen.width <= 1440) {
                 option.series[0].mapLocation = {
                     x:'center',
                     y:'100px',
                     width:'100%',
                     height:'80%'
                 }
+            } else {
+                option.series[0].mapLocation = {
+                    x:'center',
+                    y:'100px',
+                    width:'85%',
+                    height:'85%%'
+                }
+            }
+
+            // if ((screen.width == 1920) && (screen.height == 1080)){
+            //     option.series[0].mapLocation = {
+            //         x:'center',
+            //         y:'100px',
+            //         width:'85%',
+            //         height:'85%'
+            //     }
+            // }
+            // if ((screen.width == 1440) && (screen.height == 900)){
+            //     option.series[0].mapLocation = {
+            //         x:'center',
+            //         y:'100px',
+            //         width:'90%',
+            //         height:'80%'
+            //     }
+            // }
+            // if ((screen.width == 1366) && (screen.height == 768)){
+            //     option.series[0].mapLocation = {
+            //         x:'center',
+            //         y:'100px',
+            //         width:'100%',
+            //         height:'80%'
+            //     }
+            // }
+
+            //====请求全国数据====
+            var cityRank_url='/homepage/cityRank/';
+            public_ajax.call_request('get',cityRank_url,cityRank);
+            var cityRankData = [];
+            function cityRank(data){
+                // console.log(data);
+                for(var i=0;i<data.length;i++){
+                    cityRankData.push({name:data[i].province,value:data[i].count})
+                }
+                for(var j=0;j<cityRankData.length;j++){
+                    if(cityRankData[j] != '青海'){
+                        cityRankData.push({name:'青海',value:0})
+                    }
+                    if(cityRankData[j] != '甘肃'){
+                        cityRankData.push({name:'甘肃',value:0})
+                    }
+                }
+                console.log(cityRankData);
+                option.series[0].data = cityRankData;
+                myChart.setOption(option);
             }
             myChart.setOption(option);
         }
     );
 
-    //====请求全国数据====
-    var cityRank_url='/homepage/cityRank/';
-    public_ajax.call_request('get',cityRank_url,cityRank);
-    function cityRank(data){
-        console.log(data);
-    }
+
 
 // ====非法集资省份排行==== 页面初始  左下角省份数据
     var provinceRank_url = '/homepage/provinceRank/';
