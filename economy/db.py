@@ -6,6 +6,7 @@ sys.setdefaultencoding('utf-8')
 from datetime import datetime,timedelta
 import pymysql as mysql
 from pybloom import ScalableBloomFilter
+import time
 
 #conn = mysql.connect(host="0.0.0.0",user="root",password="root",db="db",charset='utf8')
 conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
@@ -442,14 +443,15 @@ def h_getWarnCount(table1,table2,table3):
 	return dict
 
 
-def get_city_rank(table1,table2,table3,table4,field):
+def get_city_rank(table1,table2,table3,table4,field,province_name):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	
 	city_list = []
 	list = []
-	
+	province_list = []
+
 	sql = "select max(date) from %s"%table1
 	cur.execute(sql)
 	end_time = cur.fetchall()[0][0]
@@ -478,11 +480,27 @@ def get_city_rank(table1,table2,table3,table4,field):
 			city_list.append({'province':p['province'],'city':p['city']})
 
 	for d in city_list:
-		if d['city']:
-			pro_dict = {"province":d['province'],"city":d['city']}
+		if not d['province'] in province_list:
+			province_list.append(d['province'])
+
+	if province_name:
+		for d in city_list:
+			if d['province']==province_name and d['city']:
+				pro_dict = {"province":d['province'],"city":d['city']}
+				for dict in result:
+					if dict['city'] == d['city']:
+						pro_dict.update({'count':dict['count']})
+				list.append(pro_dict)
+	
+
+	if not province_name:
+		for p in province_list:
+			pro_dict = {"province":p}
+			count = 0
 			for dict in result:
-				if dict['city'] == d['city']:
-					pro_dict.update({'count':dict['count']})
+				if dict['province'] == p:
+					count += dict['count']
+			pro_dict.update({"count":count})
 			list.append(pro_dict)
 	return list
 
@@ -491,6 +509,7 @@ def get_province_rank(table1,table2,table3,table4,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
+	list = []
 	province_list = []
 	sql = "select max(date) from %s"%table1
 	cur.execute(sql)
