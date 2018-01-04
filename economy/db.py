@@ -41,7 +41,7 @@ def get_platform(table,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select id,entity_name from %s where entity_type=1" % table
+	sql = "select id,entity_name,illegal_type from %s where illegal_type>0" % table
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
@@ -51,7 +51,7 @@ def get_company(table,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select id,entity_name from %s where entity_type=2" % table
+	sql = "select id,entity_name,illegal_type from %s where illegal_type>0" % table
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
@@ -61,7 +61,7 @@ def get_project(table,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select id,entity_name from %s where entity_type=3" % table
+	sql = "select id,entity_name,illegal_type from %s where illegal_type>0" % table
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
@@ -457,6 +457,9 @@ def get_city_rank(table1,table2,table3,table4,field,province_name):
 	end_time = cur.fetchall()[0][0]
 	start_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=7)
 	start_time = start_time.strftime("%Y-%m-%d")
+	
+	start1_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=30)
+	start_time1 = start1_time.strftime("%Y-%m-%d")
 
 	sql1 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>="%s" and pd.date<="%s" and illegal_type>0 group by province,city'%(table1,table4,start_time,end_time)
 	cur.execute(sql1)
@@ -470,8 +473,21 @@ def get_city_rank(table1,table2,table3,table4,field,province_name):
 	cur.execute(sql3)
 	res3 = cur.fetchall()
 	result3 = [{k:row[i] for i,k in enumerate(field)} for row in res3]
-
 	result = result1 + result2 + result3
+
+	sql11 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>="%s" and pd.date<="%s" and illegal_type>0 group by province,city'%(table1,table4,start_time1,end_time)
+	cur.execute(sql11)
+	res11 = cur.fetchall()
+	result11 = [{k:row[i] for i,k in enumerate(field)} for row in res11]
+	sql22 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>="%s" and pd.date<="%s" and illegal_type>0 group by province,city'%(table2,table4,start_time1,end_time)
+	cur.execute(sql22)
+	res22 = cur.fetchall()
+	result22 = [{k:row[i] for i,k in enumerate(field)} for row in res22]
+	sql33 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>="%s" and pd.date<="%s" and illegal_type>0 group by province,city'%(table3,table4,start_time1,end_time)
+	cur.execute(sql33)
+	res33 = cur.fetchall()
+	result33 = [{k:row[i] for i,k in enumerate(field)} for row in res33]
+	result111 = result11 + result22 + result33
 
 	b = ScalableBloomFilter(1000000,0.001)
 	for p in result:
@@ -489,7 +505,10 @@ def get_city_rank(table1,table2,table3,table4,field,province_name):
 				pro_dict = {"province":d['province'],"city":d['city']}
 				for dict in result:
 					if dict['city'] == d['city']:
-						pro_dict.update({'count':dict['count']})
+						pro_dict.update({'count7':dict['count']})
+				for dict in result111:
+					if dict['city'] == d['city']:
+						pro_dict.update({'count30':dict['count']})
 				list.append(pro_dict)
 
 
@@ -556,14 +575,15 @@ def get_province_rank(table1,table2,table3,table4,field):
 			province_list.append(p['province'])
 
 	for d in province_list:
-		pro_dict = {"province":d}
-		for dict in result7:
-			if dict['province'] == d:
-				pro_dict.update({'count7':dict['count']})
-		for dict in result30:
-			if dict['province'] == d:
-				pro_dict.update({'count30':dict['count']})
-		list.append(pro_dict)
+		if d:
+			pro_dict = {"province":d}
+			for dict in result7:
+				if dict['province'] == d:
+					pro_dict.update({'count7':dict['count']})
+			for dict in result30:
+				if dict['province'] == d:
+					pro_dict.update({'count30':dict['count']})
+			list.append(pro_dict)
 	return list
 
 
