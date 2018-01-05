@@ -37,31 +37,31 @@ def get(table1,table2,table3,table4,table5,field):
 		result = {'status':0,'data':'null'}
 	return result
 
-def get_platform(table,field):
+def get_platform(table0,table,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select id,entity_name,illegal_type from %s where illegal_type>0" % table
+	sql = "select pd.id,pd.entity_name,pd.illegal_type,el.entity_type from %s as el inner join %s as pd on el.id=pd.entity_id where pd.illegal_type>0" % (table0, table)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return data
 
-def get_company(table,field):
+def get_company(table0,table,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select id,entity_name,illegal_type from %s where illegal_type>0" % table
+	sql = "select cd.id,cd.entity_name,cd.illegal_type,el.entity_type from %s as el inner join %s as cd on el.id=cd.entity_id where cd.illegal_type>0" % (table0, table)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return data
 
-def get_project(table,field):
+def get_project(table0,table,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select id,entity_name,illegal_type from %s where illegal_type>0" % table
+	sql = "select p.id,p.entity_name,p.illegal_type,el.entity_type from %s as el inner join %s as p on el.id=p.entity_id where p.illegal_type>0" % (table0, table)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
@@ -622,5 +622,33 @@ def getTimeDistribute(table1,table2,table3):
 			list.append(dict)
 
 	return list
+
+
+
+#感知入库
+def get_perceive_data(table,field):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+
+	sql = 'select * from %s group by entity_name order by date desc'%table
+	cur.execute(sql)
+	res = cur.fetchall()
+	result = [{k:row[i] for i,k in enumerate(field)} for row in res]
+	return result
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
