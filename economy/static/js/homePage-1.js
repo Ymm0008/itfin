@@ -1210,25 +1210,25 @@
                         }
                         // ====请求省下级各市====
                         var city_url='/homepage/cityRank/?province='+target;
-                        console.log(city_url);
+                        // console.log(city_url);
                         public_ajax.call_request('get',city_url,city);
                     }
                     var proviceData = [],proviceData_1 = [];
-                    var cityData = [];
                     function city(data){
                         if(data){
                             // 更新左下角
                             $('#container .bottom_left #picChart-5 #proRank').empty();
                             for(var i=0;i<data.length;i++){
-                                proviceData.push({name:data[i].city,value:data[i].count});
+                                proviceData.push({name:data[i].city,value:data[i].count7});
                                 // series.data的数据（用于地图块的颜色，只能跟地图数据名字一样、、）
-                                proviceData_1.push({name:data[i].city+'市',value:data[i].count});//
+                                proviceData_1.push({name:data[i].city+'市',value:data[i].count7});//
                                 // 更新左下角排行
                                 var str = '<p><span>'+data[i].city+'</span><span>'+data[i].count7+'</span><span>'+data[i].count30+'</span></p>';
                                 $('#container .bottom_left #picChart-5 #proRank').append(str)
                             }
                         }
-                        console.log(proviceData);
+                        // console.log(proviceData);
+                        // console.log(proviceData_1);
                         option.series[0].data = proviceData_1;
                         option.series[0].markPoint.data = proviceData;
                         // 渲染地图
@@ -2028,7 +2028,9 @@
                             for(var i=0;i<data.length;i++){
                                 cityRankData_1.push({name:data[i].province,value:data[i].count})
                             }
-                            console.log(cityRankData_1);
+                            cityRankData_1.push({name:'青海',value:0});
+                            cityRankData_1.push({name:'甘肃',value:0});
+                            // console.log(cityRankData_1);
                             option.series[0].data = cityRankData_1;
                             myChart.setOption(option);
                         }
@@ -2074,7 +2076,7 @@
                         // {start: 700, end: 999},
                         {start: 4000, end: 6000},
                         {start: 2000, end: 4000},
-                        {start: 300, end: 20000},
+                        {start: 300, end: 2000},
                         // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
                         {end: 300},
                     ],
@@ -2196,7 +2198,6 @@
                     height:'85%%'
                 }
             }
-
             // if ((screen.width == 1920) && (screen.height == 1080)){
             //     option.series[0].mapLocation = {
             //         x:'center',
@@ -2231,23 +2232,16 @@
                 for(var i=0;i<data.length;i++){
                     cityRankData.push({name:data[i].province,value:data[i].count})
                 }
-                for(var j=0;j<cityRankData.length;j++){
-                    if(cityRankData[j] != '青海'){
-                        cityRankData.push({name:'青海',value:0})
-                    }
-                    if(cityRankData[j] != '甘肃'){
-                        cityRankData.push({name:'甘肃',value:0})
-                    }
-                }
-                console.log(cityRankData);
+                cityRankData.push({name:'青海',value:0})
+                cityRankData.push({name:'甘肃',value:0})
+
+                // console.log(cityRankData);
                 option.series[0].data = cityRankData;
                 myChart.setOption(option);
             }
             myChart.setOption(option);
         }
     );
-
-
 
 // ====非法集资省份排行==== 页面初始  左下角省份数据
     var provinceRank_url = '/homepage/provinceRank/';
@@ -2265,6 +2259,38 @@
                 var str = '<p><span>'+provinceData[j]+'</span><span>'+provinceData_7[j]+'</span><span>'+provinceData_30[j]+'</span></p>';
                 $('#container .bottom_left #picChart-5 #proRank').append(str)
             }
+            var $uList = $("#container #proRank");
+            var timer = null;
+            //触摸清空定时器
+            $uList.hover(function() {
+                clearInterval(timer);
+            },
+            function() { //离开启动定时器
+                timer = setInterval(function() {
+                        scrollList($uList);
+                    },
+                    1000);
+            }).trigger("mouseleave"); //自动触发触摸事件
+            //滚动动画
+            function scrollList(obj) {
+                //获得当前<li>的高度
+                var scrollHeight = $("#proRank p:first").height();
+                //滚动出一个<li>的高度
+                $uList.stop().animate({
+                        marginTop: -scrollHeight
+                    },
+                    600,
+                    function() {
+                        //动画结束后，将当前<ul>marginTop置为初始值0状态，再将第一个<li>拼接到末尾。
+                        $uList.css({
+                            marginTop: 0
+                        }).find("p:first").appendTo($uList);
+                        // $uList.css({
+                        //     marginTop: 0
+                        // }).find("p:first").remove();
+                        // $('.scroll-box .box').append(phonehtml.shift());
+                    });
+            };
         }
     }
     /*
@@ -2276,272 +2302,367 @@
         }
     */
 
-// ====疑似非法集资态势====左上角折线面积图
+// ====疑似非法集资态势==== 左上角折线面积图
     //一个月时间 -先画一张假图
-        function get7DaysBefore(date,m){
-            var date = date || new Date(),
-                timestamp, newDate;
-            if(!(date instanceof Date)){
-                date = new Date(date);
-            }
-            timestamp = date.getTime();
-            newDate = new Date(timestamp - m * 24 * 3600 * 1000);
-            return [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()].join('-');
-        };
-        var day30=[];
-        for (var a=0;a < 30;a++){
-            day30.push(get7DaysBefore(new Date(),a));
-        }
-        var day30Data=[];
-        for (var b=0;b< 30;b++){
-            day30Data.push(Math.round(Math.random()*(20-5)+5));
-        }
-        var option_1 = {
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        lineStyle: {
-                            color: '#57617B'
-                        }
-                    }
-                },
-                grid: {
-                    left: '4%',
-                    right: '7%',
-                    bottom: '8%',
-                    top:'4%',
-                    containLabel: true
-                },
-                xAxis: [{
-                    type: 'category',
-                    boundaryGap: false,
-                    axisLine: {
-                        lineStyle: {
-                            color: '#57617B'
-                        }
-                    },
-                    axisLabel: {
-                        textStyle: {
-                            color: '#fff',
-                        }
-                    },
-                    data: day30.reverse(),
-                }],
-                yAxis: [{
-                    type: 'value',
-                    axisTick: {
-                        show: false
-                    },
-                    axisLine: {
-                        lineStyle: {
-                            color: '#57c4d3'
-                        }
-                    },
-                    axisLabel: {
-                        show:false,
-                        margin: 10,
-                        textStyle: {
-                            fontSize: 14,
-                            color:'white',
-                        }
-                    },
-                    splitLine: {
-                        lineStyle: {
-                            color: '#57617B'
-                        }
-                    }
-                }],
-                series: [
-                    {
-                        name: '',
-                        type: 'line',
-                        smooth: true,
-                        symbol: 'circle',
-                        symbolSize: 5,
-                        showSymbol: false,
-                        lineStyle: {
-                            normal: {
-                                width: 1,
-                            }
-                        },
-                        areaStyle: {
-                            normal: {
-                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                    offset: 0,
-                                    color: 'rgba(137, 189, 27, 0.8)'
-                                }, {
-                                    offset: 1,
-                                    color: 'rgba(137, 189, 27, 0)'
-                                }], false),
-                                shadowColor: 'rgba(0, 0, 0, 0.1)',
-                                shadowBlur: 10
-                            }
-                        },
-                        itemStyle: {
-                            normal: {
-                                color: 'rgb(137,189,27)',
-                                borderColor: 'rgba(137,189,2,0.27)',
-                                borderWidth: 12
-                            }
-                        },
-                        data: day30Data,
-                    }
-                ]
-            };
-        function line_1() {
-            var myChart = echarts.init(document.getElementById('picChart-2'));
-            myChart.setOption(option_1);
-        }
-        line_1();
+        // function get7DaysBefore(date,m){
+        //     var date = date || new Date(),
+        //         timestamp, newDate;
+        //     if(!(date instanceof Date)){
+        //         date = new Date(date);
+        //     }
+        //     timestamp = date.getTime();
+        //     newDate = new Date(timestamp - m * 24 * 3600 * 1000);
+        //     return [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()].join('-');
+        // };
+        // var day30=[];
+        // for (var a=0;a < 30;a++){
+        //     day30.push(get7DaysBefore(new Date(),a));
+        // }
+        // var day30Data=[];
+        // for (var b=0;b< 30;b++){
+        //     day30Data.push(Math.round(Math.random()*(20-5)+5));
+        // }
+        // var option_1 = {
+        //         tooltip: {
+        //             trigger: 'axis',
+        //             axisPointer: {
+        //                 lineStyle: {
+        //                     color: '#57617B'
+        //                 }
+        //             }
+        //         },
+        //         grid: {
+        //             left: '4%',
+        //             right: '7%',
+        //             bottom: '8%',
+        //             top:'4%',
+        //             containLabel: true
+        //         },
+        //         xAxis: [{
+        //             type: 'category',
+        //             boundaryGap: false,
+        //             axisLine: {
+        //                 lineStyle: {
+        //                     color: '#57617B'
+        //                 }
+        //             },
+        //             axisLabel: {
+        //                 textStyle: {
+        //                     color: '#fff',
+        //                 }
+        //             },
+        //             data: day30.reverse(),
+        //         }],
+        //         yAxis: [{
+        //             type: 'value',
+        //             axisTick: {
+        //                 show: false
+        //             },
+        //             axisLine: {
+        //                 lineStyle: {
+        //                     color: '#57c4d3'
+        //                 }
+        //             },
+        //             axisLabel: {
+        //                 show:false,
+        //                 margin: 10,
+        //                 textStyle: {
+        //                     fontSize: 14,
+        //                     color:'white',
+        //                 }
+        //             },
+        //             splitLine: {
+        //                 lineStyle: {
+        //                     color: '#57617B'
+        //                 }
+        //             }
+        //         }],
+        //         series: [
+        //             {
+        //                 name: '',
+        //                 type: 'line',
+        //                 smooth: true,
+        //                 symbol: 'circle',
+        //                 symbolSize: 5,
+        //                 showSymbol: false,
+        //                 lineStyle: {
+        //                     normal: {
+        //                         width: 1,
+        //                     }
+        //                 },
+        //                 areaStyle: {
+        //                     normal: {
+        //                         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+        //                             offset: 0,
+        //                             color: 'rgba(137, 189, 27, 0.8)'
+        //                         }, {
+        //                             offset: 1,
+        //                             color: 'rgba(137, 189, 27, 0)'
+        //                         }], false),
+        //                         shadowColor: 'rgba(0, 0, 0, 0.1)',
+        //                         shadowBlur: 10
+        //                     }
+        //                 },
+        //                 itemStyle: {
+        //                     normal: {
+        //                         color: 'rgb(137,189,27)',
+        //                         borderColor: 'rgba(137,189,2,0.27)',
+        //                         borderWidth: 12
+        //                     }
+        //                 },
+        //                 // data: day30Data,
+        //                 data: [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,],
+        //             }
+        //         ]
+        //     };
+        // function line_1() {
+        //     var myChart = echarts.init(document.getElementById('picChart-2'));
+        //     myChart.setOption(option_1);
+        // }
+        // line_1();
     // 请求数据==重新渲染图表==
     var timeDistribute_url='/homepage/timeDistribute/';
     public_ajax.call_request('get',timeDistribute_url,line_1_new);
+    var option_1 = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                lineStyle: {
+                    color: '#57617B'
+                }
+            }
+        },
+        grid: {
+            left: '4%',
+            right: '7%',
+            bottom: '8%',
+            top:'4%',
+            containLabel: true
+        },
+        xAxis: [{
+            type: 'category',
+            boundaryGap: false,
+            axisLine: {
+                lineStyle: {
+                    color: '#57617B'
+                }
+            },
+            axisLabel: {
+                textStyle: {
+                    color: '#fff',
+                }
+            },
+            data:[],
+        }],
+        yAxis: [{
+            type: 'value',
+            axisTick: {
+                show: false
+            },
+            axisLine: {
+                lineStyle: {
+                    color: '#57c4d3'
+                }
+            },
+            axisLabel: {
+                show:false,
+                margin: 10,
+                textStyle: {
+                    fontSize: 14,
+                    color:'white',
+                }
+            },
+            splitLine: {
+                lineStyle: {
+                    color: '#57617B'
+                }
+            }
+        }],
+        series: [
+            {
+                name: '',
+                type: 'line',
+                smooth: true,
+                symbol: 'circle',
+                symbolSize: 5,
+                showSymbol: false,
+                lineStyle: {
+                    normal: {
+                        width: 1,
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(137, 189, 27, 0.8)'
+                        }, {
+                            offset: 1,
+                            color: 'rgba(137, 189, 27, 0)'
+                        }], false),
+                        shadowColor: 'rgba(0, 0, 0, 0.1)',
+                        shadowBlur: 10
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: 'rgb(137,189,27)',
+                        borderColor: 'rgba(137,189,2,0.27)',
+                        borderWidth: 12
+                    }
+                },
+                // data: day30Data,
+                data: [],
+            }
+        ]
+    };
     var day30_new=[],day30Data_new=[];
     function line_1_new(data) {
         if(data){
+            $('#picChart-2 p.load').hide();
             for(var i=0;i<data.length;i++){
                 day30_new.push(data[i].time);
                 day30Data_new.push(data[i].count)
             };
             option_1.xAxis[0].data = day30_new.reverse();
             option_1.series[0].data = day30Data_new.reverse();
-            line_1();
+            var myChart = echarts.init(document.getElementById('picChart-2'));
+            myChart.setOption(option_1);
         }
     }
 
-
 // 字符云
-function createRandomItemStyle() {
-    return {
-        normal: {
-            color: 'rgb(' + [
-                Math.round(Math.random() * 128+127),
-                Math.round(Math.random() * 128+127),
-                Math.round(Math.random() * 128+127)
-            ].join(',') + ')'
-        }
-    };
-}
-function keywords() {
-    require(
-        [
-            'echarts',
-            'echarts/chart/wordCloud'
-        ],
-        //关键词
-        function (ec) {
-            // 基于准备好的dom，初始化echarts图表
-            var myChart = ec.init(document.getElementById('picChart-4-4'));
-            var option = {
-                title: {
-                    text: '',
-                },
-                tooltip: {
-                    show: true,
-                },
-                series: [{
-                    type: 'wordCloud',
-                    size: ['100%', '90%','100%','90%','100%','20%','10%','20%'],
-                    textRotation : [0, 45, 90, -45],
-                    textPadding: 0,
-                    autoSize: {
-                        // enable: true,
-                        // minSize: 18
+    function createRandomItemStyle() {
+        return {
+            normal: {
+                color: 'rgb(' + [
+                    Math.round(Math.random() * 128+127),
+                    Math.round(Math.random() * 128+127),
+                    Math.round(Math.random() * 128+127)
+                ].join(',') + ')'
+            }
+        };
+    }
+    function keywords() {
+        require(
+            [
+                'echarts',
+                'echarts/chart/wordCloud'
+            ],
+            //关键词
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('picChart-4-4'));
+                var option = {
+                    title: {
+                        text: '',
                     },
-                    data: [
-                        {
-                            name: "我要金蛋",
-                            value: 999,
-                            itemStyle: createRandomItemStyle()
+                    tooltip: {
+                        show: true,
+                    },
+                    series: [{
+                        type: 'wordCloud',
+                        size: ['100%', '90%','100%','90%','100%','20%','10%','20%'],
+                        textRotation : [0, 45, 90, -45],
+                        textPadding: 0,
+                        autoSize: {
+                            // enable: true,
+                            // minSize: 18
                         },
-                        {
-                            name: "屹农金服",
-                            value: 999,
-                            itemStyle: createRandomItemStyle()
-                        },
-                        {
-                            name: "理财去",
-                            value: 999,
-                            itemStyle: createRandomItemStyle()
-                        },
-                        {
-                            name: "联投银帮",
-                            value: 999,
-                            itemStyle: createRandomItemStyle()
-                        },
-                        {
-                            name: "弘信宝",
-                            value: 999,
-                            itemStyle: createRandomItemStyle()
-                        },
-                        {
-                            name: "网惠金融",
-                            value: 999,
-                            itemStyle: createRandomItemStyle()
-                        },
-                        {
-                            name: "晶行财富",
-                            value: 999,
-                            itemStyle: createRandomItemStyle()
-                        },
-                        {
-                            name: "孺牛金服",
-                            value: 999,
-                            itemStyle: createRandomItemStyle()
-                        },
-                        {
-                            name: "摩根浦捷贷",
-                            value: 999,
-                            itemStyle: createRandomItemStyle()
-                        },
-                        {
-                            name: "知屋理财",
-                            value: 999,
-                            itemStyle: createRandomItemStyle()
-                        },
-                        {
-                            name: "沪臣地方金融",
-                            value: 999,
-                            itemStyle: createRandomItemStyle()
-                        },
-                        {
-                            name: "升隆财富",
-                            value: 999,
-                            itemStyle: createRandomItemStyle()
-                        },
-                        {
-                            name: "冰融贷",
-                            value: 999,
-                            itemStyle: createRandomItemStyle()
-                        },
-                        {
-                            name: "靠谱鸟",
-                            value: 999,
-                            itemStyle: createRandomItemStyle()
-                        },
-                        {
-                            name: "速溶360",
-                            value: 999,
-                            itemStyle: createRandomItemStyle()
-                        },
-                        {
-                            name: "存米网",
-                            value: 999,
-                            itemStyle: createRandomItemStyle()
-                        },
-                        {
-                            name: "太保金服",
-                            value: 999,
-                            itemStyle: createRandomItemStyle()
-                        },
-                    ]
-                }]
-            };
-            myChart.setOption(option);
-        }
-    );
-}
-keywords();
+                        data: [
+                            {
+                                name: "我要金蛋",
+                                value: 999,
+                                itemStyle: createRandomItemStyle()
+                            },
+                            {
+                                name: "屹农金服",
+                                value: 999,
+                                itemStyle: createRandomItemStyle()
+                            },
+                            {
+                                name: "理财去",
+                                value: 999,
+                                itemStyle: createRandomItemStyle()
+                            },
+                            {
+                                name: "联投银帮",
+                                value: 999,
+                                itemStyle: createRandomItemStyle()
+                            },
+                            {
+                                name: "弘信宝",
+                                value: 999,
+                                itemStyle: createRandomItemStyle()
+                            },
+                            {
+                                name: "网惠金融",
+                                value: 999,
+                                itemStyle: createRandomItemStyle()
+                            },
+                            {
+                                name: "晶行财富",
+                                value: 999,
+                                itemStyle: createRandomItemStyle()
+                            },
+                            {
+                                name: "孺牛金服",
+                                value: 999,
+                                itemStyle: createRandomItemStyle()
+                            },
+                            {
+                                name: "摩根浦捷贷",
+                                value: 999,
+                                itemStyle: createRandomItemStyle()
+                            },
+                            {
+                                name: "知屋理财",
+                                value: 999,
+                                itemStyle: createRandomItemStyle()
+                            },
+                            {
+                                name: "沪臣地方金融",
+                                value: 999,
+                                itemStyle: createRandomItemStyle()
+                            },
+                            {
+                                name: "升隆财富",
+                                value: 999,
+                                itemStyle: createRandomItemStyle()
+                            },
+                            {
+                                name: "冰融贷",
+                                value: 999,
+                                itemStyle: createRandomItemStyle()
+                            },
+                            {
+                                name: "靠谱鸟",
+                                value: 999,
+                                itemStyle: createRandomItemStyle()
+                            },
+                            {
+                                name: "速溶360",
+                                value: 999,
+                                itemStyle: createRandomItemStyle()
+                            },
+                            {
+                                name: "存米网",
+                                value: 999,
+                                itemStyle: createRandomItemStyle()
+                            },
+                            {
+                                name: "太保金服",
+                                value: 999,
+                                itemStyle: createRandomItemStyle()
+                            },
+                        ]
+                    }]
+                };
+                myChart.setOption(option);
+            }
+        );
+    }
+    keywords();
 
 //滚动
 var allMonitor_url='/system_manage/show_users_account/';
@@ -2560,19 +2681,19 @@ function allMonitor(data) {
     };
     $('.scroll-box').append(phonehtml.splice(0,5));
 }
-var $uList = $("#container #proRank");
+// var $uList = $("#container #proRank");
 var $uList2 = $("#container #comment");
 var timer = null,timer2=null;
 //触摸清空定时器
-$uList.hover(function() {
-        clearInterval(timer);
-    },
-    function() { //离开启动定时器
-        timer = setInterval(function() {
-                scrollList($uList);
-            },
-            1000);
-    }).trigger("mouseleave"); //自动触发触摸事件
+// $uList.hover(function() {
+//         clearInterval(timer);
+//     },
+//     function() { //离开启动定时器
+//         timer = setInterval(function() {
+//                 scrollList($uList);
+//             },
+//             1000);
+//     }).trigger("mouseleave"); //自动触发触摸事件
 $uList2.hover(function() {
         clearInterval(timer2);
     },
@@ -2582,26 +2703,26 @@ $uList2.hover(function() {
             },
             1000);
     }).trigger("mouseleave"); //自动触发触摸事件
-//滚动动画
-function scrollList(obj) {
-    //获得当前<li>的高度
-    var scrollHeight = $("#proRank p:first").height();
-    //滚动出一个<li>的高度
-    $uList.stop().animate({
-            marginTop: -scrollHeight
-        },
-        600,
-        function() {
-            //动画结束后，将当前<ul>marginTop置为初始值0状态，再将第一个<li>拼接到末尾。
-            $uList.css({
-                marginTop: 0
-            }).find("p:first").appendTo($uList);
-            // $uList.css({
-            //     marginTop: 0
-            // }).find("p:first").remove();
-            // $('.scroll-box .box').append(phonehtml.shift());
-        });
-};
+// //滚动动画
+// function scrollList(obj) {
+//     //获得当前<li>的高度
+//     var scrollHeight = $("#proRank p:first").height();
+//     //滚动出一个<li>的高度
+//     $uList.stop().animate({
+//             marginTop: -scrollHeight
+//         },
+//         600,
+//         function() {
+//             //动画结束后，将当前<ul>marginTop置为初始值0状态，再将第一个<li>拼接到末尾。
+//             $uList.css({
+//                 marginTop: 0
+//             }).find("p:first").appendTo($uList);
+//             // $uList.css({
+//             //     marginTop: 0
+//             // }).find("p:first").remove();
+//             // $('.scroll-box .box').append(phonehtml.shift());
+//         });
+// };
 
 function scrollList2(obj) {
     //获得当前<li>的高度

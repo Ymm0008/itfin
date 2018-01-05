@@ -18,6 +18,14 @@
     	width: 30px;
     	height: 30px;
     }
+
+    /* 加载提示信息 */
+    p.load {
+        color:#fff;
+        text-align:center;
+        margin-top:20px;
+        font-size:16px;
+    }
 </style>
 {% endblock %}
 
@@ -30,7 +38,9 @@
             <span>疑似非法集资态势</span>
         </div>
         <div class="picChart-2">
-            <div id="picChart-2"></div>
+            <div id="picChart-2">
+                <p class="load">正在努力加载中...</p>
+            </div>
         </div>
     </div>
     <div class="top_mid">
@@ -41,15 +51,15 @@
         <div id="picChart-3" style="margin-top: 15px;">
             <dl>
                 <dt>公司</dt>
-                <dd class="company-1">11</dd>
+                <dd class="company-1">加载中...</dd>
             </dl>
             <dl>
                 <dt>平台</dt>
-                <dd class="company-2">22</dd>
+                <dd class="company-2">加载中...</dd>
             </dl>
             <dl>
                 <dt>项目</dt>
-                <dd class="company-3">33</dd>
+                <dd class="company-3">加载中...</dd>
             </dl>
         </div>
     </div>
@@ -84,11 +94,12 @@
                 <p style="position: relative;z-index: 10;"><span>省份</span><span>近一周</span><span>近一月</span></p>
                 <div style="overflow: hidden; height:82%;" class="outSide">
                     <div id="proRank">
-                        <p><span>北京</span><span>22</span><span>7</span></p>
+                        <p class="load">正在努力加载中...</p>
+                        <!-- <p><span>北京</span><span>22</span><span>7</span></p>
                         <p><span>天津</span><span>11</span><span>9</span></p>
                         <p><span>上海</span><span>33</span><span>9</span></p>
                         <p><span>河南</span><span>11</span><span>6</span></p>
-                        <p><span>广东</span><span>44</span><span>11</span></p>
+                        <p><span>广东</span><span>44</span><span>11</span></p> -->
                     </div>
                 </div>
             </div>

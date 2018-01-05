@@ -148,7 +148,7 @@ function peoPicture(data) {
     });
     $('#contentTable p.load').hide();
 };
-
+// 点击进入公司详情页
 function jumpFrame_1(name,type,id) {
     var html='';
     name=escape(name);
@@ -189,13 +189,22 @@ function allMonitor(data) {
     console.log(data)
     // var line=data.airlines;
     var line=data;
+    var illegalType;
     for (var i=0;i<line.length;i++){
+        if(data[i].illegal_type == 1){
+            illegalType = '模型预警';
+        }else if(data[i].illegal_type == 2){
+            illegalType = '舆情预警';
+        }else if(data[i].illegal_type == 3){
+            illegalType = '指标预警';
+        }
+
         phonehtml.push(
             '<p class="phone" type="button" data-toggle="modal" ' +
-            'onclick="show(\''+line[i].entity_name+'\',\''+line[i].id+'\')" onmousemove="chgecol(this)" onmouseout="back(this)">'+
+            'onclick="show(\''+line[i].entity_name+'\',\''+line[i].entity_type+'\',\''+line[i].id+'\')" onmousemove="chgecol(this)" onmouseout="back(this)">'+
             '<span class="iphone zjnum">'+line[i].entity_name+'</span>'+
             // '<span class="iphone bjnum">'+line[i]+'</span>'+
-            '<span class="iphone bjnum">模型预警</span>'+
+            '<span class="iphone bjnum">'+illegalType+'</span>'+
             '</p>'
         );
     };
@@ -251,10 +260,11 @@ function scrollList(obj) {
             // $('.scroll-box .box').append(phonehtml.shift());
         });
 };
+
 function show(name,type,id) {
     var html='';
     name=escape(name);
-    html='/index/company/?name='+name+'&pid='+id;
+    html='/index/company/?name='+name+'&flag='+type+'&pid='+id;
     window.location.href=html;
 }
 function chgecol(b) {

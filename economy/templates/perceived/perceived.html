@@ -46,7 +46,53 @@
             cursor: pointer;
         }
         #sureTime:hover,#sureTime2:hover,
-        #sureTime3:hover,#sureTime4:hover {background: rgba(8,23,44,0.65)}
+        #sureTime3:hover,#sureTime4:hover {background: rgba(8,23,44,0.65);}
+
+        /* 加载提示信息 */
+        p.load {
+            text-align:center;
+            color:#fff;
+            font-size: 18px;
+            margin-top:20px;
+        }
+        /* 感知推荐表格 */
+        #fellTable thead th{
+            border-top:none;
+        }
+        /* 查看全文 */
+        #perceiveContent_in {
+            max-height:400px;
+            overflow:auto;
+        }
+        #perceiveContent_in .inforContent .main {
+            width: 96%;
+            text-align: left;
+            position: relative;
+            padding: 5px 5px 5px 30px;
+            background: rgba(88, 88, 88, 0.1);
+            margin: 20px auto 0;
+        }
+        #perceiveContent_in .inforContent .main .textFlag {
+            position: absolute;
+            top: 8px;
+            left:8px;
+        }
+        .modal-dialog {
+            width: 50%;
+            margin: 10% auto !important;
+        }
+
+        #perceiveContent_in thead {
+            display:none !important;
+        }
+        #perceiveContent .fixed-table-container {
+            border:none !important;
+        }
+
+        #perceiveContent_in {
+            border:none !important;
+        }
+
     </style>
 {% endblock %}
 
@@ -55,21 +101,21 @@
     <div class="section firstScreen">
         <div>
             <div class="title" style="text-align: center;color: white;">
-                <img src="/static/images/chart-2.png" style="width: 40px;height: 40px;">
-                <span style="font-size:32px;vertical-align: middle;">当天预警数</span>
+                <img src="/static/images/chart-2.png" style="width: 25px;height: 25px;">
+                <span style="font-size:20px;vertical-align: middle;">当天预警数</span>
             </div>
-            <div class="topTitle" style="margin: 0 auto;">
+            <div class="topTitle" style="margin: 0 auto;margin-top:15px;">
                 <dl>
-                    <dd>公司</dd>
-                    <dt class="com-1">32</dt>
+                    <dt>公司</dt>
+                    <dd class="com-1">32</dd>
                 </dl>
                 <dl>
-                    <dd>平台</dd>
-                    <dt class="com-2">43</dt>
+                    <dt>平台</dt>
+                    <dd class="com-2">43</dd>
                 </dl>
                 <dl>
-                    <dd>项目</dd>
-                    <dt class="com-3">45</dt>
+                    <dt>项目</dt>
+                    <dd class="com-3">45</dd>
                 </dl>
             </div>
         </div>
@@ -80,7 +126,9 @@
                       style="margin-left: 20px;vertical-align: middle;">一键入库</span>
             </h3>
             <div class="fellTable" style="margin-top: 20px;">
-                <div id="fellTable"></div>
+                <div id="fellTable">
+                    <p class="load">正在努力加载中...</p>
+                </div>
             </div>
         </div>
     </div>
@@ -148,10 +196,27 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="perceiveContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" >更多内容</h4>
+            </div>
+            <div class="modal-body" id="perceiveContent_in">
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button> -->
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block my_js %}
-<script src="/static/js/pager.js"></script>
+<!-- <script src="/static/js/pager.js"></script> -->
 <script src="/static/js/echarts-2/build/dist/echarts.js"></script>
 <script src="/static/js/chalk.js"></script>
 <script src="/static/js/jquery.fullPage.min.js"></script>
@@ -166,7 +231,9 @@
         'loopBottom':'true',
         'navigationPosition': 'right',
         'navigationTooltips': ['预警记录','预警态势'],
-        'fixedElements':'#nav'
+        'fixedElements':'#nav',
+
+        'normalScrollElements':'#perceiveContent .modal-dialog'
     });
 
 </script>

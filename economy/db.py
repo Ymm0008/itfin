@@ -37,31 +37,31 @@ def get(table1,table2,table3,table4,table5,field):
 		result = {'status':0,'data':'null'}
 	return result
 
-def get_platform(table,field):
+def get_platform(table0,table,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select id,entity_name,illegal_type from %s where illegal_type>0" % table
+	sql = "select pd.id,pd.entity_name,pd.illegal_type,el.entity_type from %s as el inner join %s as pd on el.id=pd.entity_id where pd.illegal_type>0" % (table0, table)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return data
 
-def get_company(table,field):
+def get_company(table0,table,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select id,entity_name,illegal_type from %s where illegal_type>0" % table
+	sql = "select cd.id,cd.entity_name,cd.illegal_type,el.entity_type from %s as el inner join %s as cd on el.id=cd.entity_id where cd.illegal_type>0" % (table0, table)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return data
 
-def get_project(table,field):
+def get_project(table0,table,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select id,entity_name,illegal_type from %s where illegal_type>0" % table
+	sql = "select p.id,p.entity_name,p.illegal_type,el.entity_type from %s as el inner join %s as p on el.id=p.entity_id where p.illegal_type>0" % (table0, table)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
@@ -174,51 +174,51 @@ def get_portrait(table1,table2,table3,table4,table5,field,letter):
 		l = None
 		name = dict['entity_name'].encode('gbk')
 		num = ord(name[0])*256 + ord(name[1])-65536
-		if num >= -20319 and num <= -20284:
+		if num >= -20319 and num <= -20284: 
 			l = 'a'
-		if num >= -20283 and num <= -19776:
+		if num >= -20283 and num <= -19776: 
 			l = 'b'
-		if num >= -19775 and num <= -19219:
+		if num >= -19775 and num <= -19219: 
 			l = 'c'
-		if num >= -19218 and num <= -18711:
+		if num >= -19218 and num <= -18711: 
 			l = 'd'
-		if num >= -18710 and num <= -18527:
+		if num >= -18710 and num <= -18527: 
 			l = 'e'
-		if num >= -18526 and num <= -18240:
+		if num >= -18526 and num <= -18240: 
 			l = 'f'
-		if num >= -18239 and num <= -17923:
+		if num >= -18239 and num <= -17923: 
 			l = 'g'
-		if num >= -17922 and num <= -17418:
+		if num >= -17922 and num <= -17418: 
 			l = 'h'
-		if num >= -17417 and num <= -16475:
+		if num >= -17417 and num <= -16475: 
 			l = 'j'
-		if num >= -16474 and num <= -16213:
+		if num >= -16474 and num <= -16213: 
 			l = 'k'
-		if num >= -16212 and num <= -15641:
+		if num >= -16212 and num <= -15641: 
 			l = 'l'
-		if num >= -15640 and num <= -15166:
+		if num >= -15640 and num <= -15166: 
 			l = 'm'
-		if num >= -15165 and num <= -14923:
+		if num >= -15165 and num <= -14923: 
 			l = 'n'
-		if num >= -14922 and num <= -14915:
+		if num >= -14922 and num <= -14915: 
 			l = 'o'
-		if num >= -14914 and num <= -14631:
+		if num >= -14914 and num <= -14631: 
 			l = 'p'
-		if num >= -14630 and num <= -14150:
+		if num >= -14630 and num <= -14150: 
 			l = 'q'
-		if num >= -14149 and num <= -14091:
+		if num >= -14149 and num <= -14091: 
 			l = 'r'
-		if num >= -14090 and num <= -13119:
+		if num >= -14090 and num <= -13119: 
 			l = 's'
-		if num >= -13118 and num <= -12839:
+		if num >= -13118 and num <= -12839: 
 			l = 't'
-		if num >= -12838 and num <= -12557:
+		if num >= -12838 and num <= -12557: 
 			l = 'w'
-		if num >= -12556 and num <= -11848:
+		if num >= -12556 and num <= -11848: 
 			l = 'x'
-		if num >= -11847 and num <= -11056:
+		if num >= -11847 and num <= -11056: 
 			l = 'y'
-		if num >= -11055 and num <= -10247:
+		if num >= -11055 and num <= -10247: 
 			l = 'z'
 
 		if l == letter:
@@ -427,14 +427,14 @@ def h_getWarnCount(table1,table2,table3):
 	start_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=7)
 	start_time = start_time.strftime("%Y-%m-%d")
 
-	sql1 = 'select count(*) from %s where illegal_type>0 and date>="%s" and date<="%s"'%(table1,start_time,end_time)
+	sql1 = 'select count(*) from %s where illegal_type>0 and date>="%s" and date<="%s"'%(table1,start_time,end_time)	
 	cur.execute(sql1)
 	res1 = cur.fetchall()
-
-	sql2 = 'select count(*) from %s where illegal_type>0 and date>="%s" and date<="%s"'%(table2,start_time,end_time)
+	
+	sql2 = 'select count(*) from %s where illegal_type>0 and date>="%s" and date<="%s"'%(table2,start_time,end_time)	
 	cur.execute(sql2)
 	res2 = cur.fetchall()
-
+	
 	sql3 = 'select count(*) from %s where illegal_type>0 and date>="%s" and date<="%s"'%(table3,start_time,end_time)
 	cur.execute(sql3)
 	res3 = cur.fetchall()
@@ -447,7 +447,7 @@ def get_city_rank(table1,table2,table3,table4,field,province_name):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-
+	
 	city_list = []
 	list = []
 	province_list = []
@@ -510,7 +510,7 @@ def get_city_rank(table1,table2,table3,table4,field,province_name):
 					if dict['city'] == d['city']:
 						pro_dict.update({'count30':dict['count']})
 				list.append(pro_dict)
-
+	
 
 	if not province_name:
 		for p in province_list:
@@ -535,7 +535,7 @@ def get_province_rank(table1,table2,table3,table4,field):
 	end_time = cur.fetchall()[0][0]
 	start0_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=7)
 	start1_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=30)
-
+	
 	start_time0 = start0_time.strftime("%Y-%m-%d")
 	start_time1 = start1_time.strftime("%Y-%m-%d")
 
@@ -551,7 +551,7 @@ def get_province_rank(table1,table2,table3,table4,field):
 	cur.execute(sql3)
 	res3 = cur.fetchall()
 	result3 = [{k:row[i] for i,k in enumerate(field)} for row in res3]
-
+	
 	sql4 = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>="%s" and pd.date<="%s" and illegal_type>0 group by province'%(table1,table4,start_time1,end_time)
 	cur.execute(sql4)
 	res4 = cur.fetchall()
@@ -612,15 +612,43 @@ def getTimeDistribute(table1,table2,table3):
 			sql2 = "select count(*) from %s where date<='%s' and date>='%s'"%(table2,time_list[i],time_list[i+1])
 			cur.execute(sql2)
 			res2 = cur.fetchall()[0][0]
-
+		
 			sql3 = "select count(*) from %s where date<='%s' and date>='%s'"%(table3,time_list[i],time_list[i+1])
 			cur.execute(sql3)
 			res3 = cur.fetchall()[0][0]
-
+	
 			result = res1 + res2 + res3
 			dict = {'time':time,'count':result}
 			list.append(dict)
 
 	return list
+
+
+
+#感知入库
+def get_perceive_data(table,field):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+
+	sql = 'select * from %s group by entity_name order by date desc'%table
+	cur.execute(sql)
+	res = cur.fetchall()
+	result = [{k:row[i] for i,k in enumerate(field)} for row in res]
+	return result
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
