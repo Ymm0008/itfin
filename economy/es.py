@@ -199,3 +199,26 @@ def get_holderContent(firm,index_name):
         if item['_source'] not in unique_result:
             unique_result.append(item['_source'])
     return unique_result
+
+
+def get_perceive_content(index_name,type,text_id):
+    list = []
+    for id in text_id.split(','):
+        print(id)
+        query_body = {
+                "query":{
+                    "match":{
+                        "_id":id
+                    }
+                }
+        }
+        result = es.search(index=index_name,doc_type=type,body=query_body)['hits']['hits'][0]['_source']
+        list.append(result)
+    return list
+
+
+
+
+
+
+
