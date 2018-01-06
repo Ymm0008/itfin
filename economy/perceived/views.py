@@ -9,6 +9,7 @@ from economy.config import *
 from economy.es import *
 
 field = ['id','entity_type','entity_name','date','company','related_person','key_words','index_name','text_id','rec_type','status']
+warn_field = ['entity_type','count']
 
 @perceived.route('/perceive/')
 def perceive():
@@ -25,4 +26,9 @@ def perceive_content():
 	index_name = request.args.get('index_name','')
 	type = TYPE[index_name]
 	result = get_perceive_content(index_name,type,text_id)
+	return json.dumps(result,ensure_ascii=False)
+
+@perceived.route('/warnCount/')
+def warn_count():
+	result = p_getWarnCount(TABLE_SENSOR,warn_field)
 	return json.dumps(result,ensure_ascii=False)

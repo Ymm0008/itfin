@@ -204,7 +204,6 @@ def get_holderContent(firm,index_name):
 def get_perceive_content(index_name,type,text_id):
     list = []
     for id in text_id.split(','):
-        print(id)
         query_body = {
                 "query":{
                     "match":{
