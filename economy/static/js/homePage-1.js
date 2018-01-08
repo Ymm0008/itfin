@@ -91,13 +91,13 @@
                         // calculable : true,
                         itemGap:2,
                         splitList: [
-                            {start: 800},
+                            {start: 300},
                             // {start: 700, end: 999},
-                            {start: 600, end: 800},
-                            {start: 400, end: 600},
-                            {start: 150, end: 400, label: '100 到 300'},
+                            {start: 200, end: 300},
+                            {start: 100, end: 200},
+                            {start: 50, end: 100,},
                             // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
-                            {end: 150}
+                            {end: 50}
                         ],
                         x:'27%',
                         textStyle:{
@@ -1234,7 +1234,7 @@
                             }
                         }
                         // console.log(proviceData);
-                        console.log(proviceData_1);
+                        // console.log(proviceData_1);
                         option.series[0].data = proviceData_1;
                         // ===========先去掉标注===============
                         // option.series[0].markPoint.data = proviceData;
@@ -1891,11 +1891,11 @@
                             // // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
                             // {end: 150},
 
-                            {start: 6000},
+                            {start: 2500},
                             // {start: 700, end: 999},
-                            {start: 4000, end: 6000},
-                            {start: 2000, end: 4000},
-                            {start: 300, end: 20000},
+                            {start: 1000, end: 2500},
+                            {start: 800, end: 1000},
+                            {start: 300, end: 800},
                             // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
                             {end: 300},
                         ],
@@ -2085,13 +2085,13 @@
                         // // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
                         // {end: 150},
 
-                        {start: 6000},
+                        {start: 1000},
                         // {start: 700, end: 999},
-                        {start: 4000, end: 6000},
-                        {start: 2000, end: 4000},
-                        {start: 300, end: 2000},
+                        {start: 600, end: 1000},
+                        {start: 200, end: 600},
+                        {start: 100, end: 200},
                         // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
-                        {end: 300},
+                        {end: 100},
                     ],
                     textStyle:{
                         color:'white'
@@ -2242,7 +2242,7 @@
             public_ajax.call_request('get',cityRank_url,cityRank);
             var cityRankData = [];
             function cityRank(data){
-                // console.log(data);
+                console.log(data);
                 for(var i=0;i<data.length;i++){
                     cityRankData.push({name:data[i].province,value:data[i].count})
                 }
@@ -2267,7 +2267,7 @@
                 // cityRankData.push({name:'青海',value:0});
                 // cityRankData.push({name:'甘肃',value:0});
 
-                // console.log(cityRankData);
+                console.log(cityRankData);
                 option.series[0].data = cityRankData;
                 myChart.setOption(option);
             }
@@ -2553,8 +2553,9 @@
         var fellData = data.slice(0,15);
         // var fellData_1 = [];
         for(var i=0;i<fellData.length;i++){
-            fellData_1.push({name:fellData[i].entity_name,value: 999,itemStyle: createRandomItemStyle()})
+            fellData_1.push({name:fellData[i].entity_name,value:9999,itemStyle:createRandomItemStyle()})
         }
+        keywords();
     }
     // console.log(fellData_1);
 
@@ -2588,6 +2589,7 @@
                     },
                     series: [{
                         type: 'wordCloud',
+                        // size: ['100%', '90%','100%','90%','100%','20%','10%','20%'],
                         size: ['100%', '90%','100%','90%','100%','20%','10%','20%'],
                         textRotation : [0, 45, 90, -45],
                         textPadding: 0,

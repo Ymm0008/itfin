@@ -295,8 +295,8 @@ def getDetectData(date,table1,table2,table3,table4,table5,field):
 	cur = conn.cursor()
 
 	#####
-	list = [u"靠谱鸟",u"绿能宝",u"e联贷",u"同江金融",u"君享金融",u"金钱贷",u"亿好金服",u"佰仟金融",u"速溶360",u"亿优金融",u"鑫脉财富",u"太保金服",u"穆金所",u"升隆财富",u"邑民金融"]
-	list1 = []
+	list = [u"绿能宝",u"亿好金服",u"速溶360",u"鑫脉财富",u"太保金服",u"穆金所",u"升隆财富",u"邑民金融"]
+	list1 = [""]*9
 	list2 = []
 	filter_list = []
 	#####
@@ -317,14 +317,18 @@ def getDetectData(date,table1,table2,table3,table4,table5,field):
 	res3 = cur.fetchall()
 	res = res1 + res2 + res3
 	result = [{k:row[i] for i,k in enumerate(field)} for row in res]
-	print(len(result))
+	#print(len(result))
 	#for entity in list:
 	for r in result:
 		if not r['entity_name'] in filter_list and r['entity_name'] in list:
+			for item in range(len(list)):
+				if r['entity_name'] in list[item]:
+					list1[item] = r
+					print(r['entity_name'])
 			#if not r['entity_name'] in filter_list:
 				#if r['entity_name'] == entity:
-			list1.append(r)
-			filter_list.append(r['entity_name'])
+					#list1.append(r)
+					filter_list.append(r['entity_name'])
 		else:
 			list2.append(r)
 
@@ -340,13 +344,13 @@ def getDetectRank(table1,table2,table3,date,field):
 	start_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=int(date))
 	start_time = start_time.strftime("%Y-%m-%d")
 
-	sql1 = 'select entity_id,entity_name,sum(risk_level) from %s where date>"%s" and date<="%s" and illegal_type>0 and risk_level>80 group by entity_id order by sum(risk_level) desc'%(table1,start_time,end_time)
+	sql1 = 'select entity_id,entity_name,max(risk_level) from %s where date>"%s" and date<="%s" and illegal_type>0 and risk_level>80 group by entity_id order by sum(risk_level) desc'%(table1,start_time,end_time)
 	cur.execute(sql1)
 	res1 = cur.fetchall()
-	sql2 = 'select entity_id,entity_name,sum(risk_level) from %s where date>"%s" and date<="%s" and illegal_type>0 and risk_level>80 group by entity_id order by sum(risk_level) desc'%(table2,start_time,end_time)
+	sql2 = 'select entity_id,entity_name,max(risk_level) from %s where date>"%s" and date<="%s" and illegal_type>0 and risk_level>80 group by entity_id order by sum(risk_level) desc'%(table2,start_time,end_time)
 	cur.execute(sql2)
 	res2 = cur.fetchall()
-	sql3 = 'select entity_id,entity_name,sum(risk_level) from %s where date>"%s" and date<="%s" and illegal_type>0 and risk_level>80 group by entity_id order by sum(risk_level) desc'%(table3,start_time,end_time)
+	sql3 = 'select entity_id,entity_name,max(risk_level) from %s where date>"%s" and date<="%s" and illegal_type>0 and risk_level>80 group by entity_id order by sum(risk_level) desc'%(table3,start_time,end_time)
 	cur.execute(sql3)
 	res3 = cur.fetchall()
 	res = res1 + res2 + res3
