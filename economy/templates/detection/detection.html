@@ -50,6 +50,22 @@
         #nav {
             top:0;
         }
+
+        /* ====lvlei===2018-1-2 */
+        /* 提示信息 */
+        .load {
+            text-align:center;
+            color:#fff;
+            font-size:18px;
+            margin-top:20px;
+        }
+        /* 预警记录表格      预警分布表格*/
+        #recordingTable thead th,#placeRank thead th{
+            border-top:none;
+        }
+        #recordingTable,#placeRank {
+            border-bottom:none;
+        }
     </style>
 {% endblock %}
 
@@ -58,16 +74,16 @@
     <div class="section firstScreen">
         <div class="topTitle" style="margin: 10px auto;">
             <dl>
-                <dd>本周预警数</dd>
-                <dt class="com-3">22</dt>
+                <dt>本周预警数</dt>
+                <dd class="com-3">22</dd>
             </dl>
             <dl>
-                <dd>本月预警数</dd>
-                <dt class="com-2">43</dt>
+                <dt>本月预警数</dt>
+                <dd class="com-2">43</dd>
             </dl>
             <dl>
-                <dd>本季预警数</dd>
-                <dt class="com-1">213</dt>
+                <dt>本季预警数</dt>
+                <dd class="com-1">213</dd>
             </dl>
         </div>
         <div style="color: white;font-weight:700;font-size: 24px;position: relative;">
@@ -82,15 +98,16 @@
             <div class="content-1 conLeft" style="margin-top:20px;">
                 <span class="ct-tit">预警时间：</span>
                 <select id="select-1" class="selectLab">
-                    <option value="近一周">近一周</option>
-                    <option value="近一个月">近一个月</option>
-                    <option value="近三个月">近三个月</option>
-                    <option value="近一年">近一年</option>
+                    <option value="7">近一周</option>
+                    <option value="30">近一个月</option>
+                    <option value="90">近三个月</option>
+                    <option value="365">近一年</option>
                 </select>
             </div>
             <div class="content-2 conLeft">
                 <span class="ct-tit">运营模式：</span>
                 <select id="select-2" class="selectLab">
+                    <option value="全部" selected>全部</option>
                     <option value="P2P理财">P2P理财</option>
                     <option value="投资项目">投资项目</option>
                     <option value="游戏">游戏</option>
@@ -101,6 +118,7 @@
             <div class="content-3 conLeft">
                 <span class="ct-tit">预警类型：</span>
                 <select id="select-3" class="selectLab">
+                    <option value="全部" selected>全部</option>
                     <!-- <option value="舆情预警">舆情预警</option> -->
                     <option value="模型预警">模型预警</option>
                     <option value="指标预警">指标预警</option>
@@ -109,6 +127,7 @@
             <div class="content-4 conLeft">
                 <span class="ct-tit">实体类型：</span>
                 <select id="select-4" class="selectLab">
+                    <option value="全部" selected>全部</option>
                     <option value="公司">公司</option>
                     <option value="平台">平台</option>
                     <option value="项目">项目</option>
@@ -117,6 +136,7 @@
             <div class="content-5 conLeft">
                 <span style="display: inline-block;" class="ct-tit">预警分布：</span>
                 <select id="city34" class="selectLab">
+                    <option value="全部" selected>全部</option>
                     <option value='北京'>北京</option>
                     <option value='天津'>天津</option>
                     <option value='安徽'>安徽</option>
@@ -155,7 +175,9 @@
             </div>
         </div>
         <div class="recordingTable" style="margin-top: 10px;">
-            <div id="recordingTable"></div>
+            <div id="recordingTable">
+                <p class="load">正在努力加载中...</p>
+            </div>
         </div>
     </div>
 
@@ -172,6 +194,7 @@
                 <div class="content-3 conLeft">
                     <span class="ct-tit">预警类型：</span>
                     <select id="second_select-3" class="selectLab">
+                        <option value="全部" selected>全部</option>
                         <!-- <option value="舆情预警">舆情预警</option> -->
                         <option value="模型预警">模型预警</option>
                         <option value="指标预警">指标预警</option>
@@ -180,6 +203,7 @@
                 <div class="content-4 conLeft">
                     <span class="ct-tit">实体类型：</span>
                     <select id="second_select-4" class="selectLab">
+                        <option value="全部" selected>全部</option>
                         <option value="公司">公司</option>
                         <option value="平台">平台</option>
                         <option value="项目">项目</option>
@@ -188,6 +212,7 @@
                 <div class="content-5 conLeft">
                     <span style="display: inline-block;" class="ct-tit">预警分布：</span>
                     <select id="second_city34" class="selectLab">
+                        <option value="全部" selected>全部</option>
                         <option value='北京'>北京</option>
                         <option value='天津'>天津</option>
                         <option value='安徽'>安徽</option>
@@ -228,7 +253,7 @@
                     <span class="ct-tit">预警时间：</span>
                     <select id="second_select-1" class="selectLab">
                         <option value="近一周">近一周</option>
-                        <option value="近一个月">近一个月</option>
+                        <option value="近一个月" selected>近一个月</option>
                         <option value="近三个月">近三个月</option>
                         <option value="近一年">近一年</option>
                     </select>
@@ -236,6 +261,7 @@
                 <div class="content-2 conLeft">
                     <span class="ct-tit">运营模式：</span>
                     <select id="second_select-2" class="selectLab">
+                        <option value="全部" selected>全部</option>
                         <option value="P2P理财">P2P理财</option>
                         <option value="投资项目">投资项目</option>
                         <option value="游戏">游戏</option>
@@ -245,7 +271,9 @@
                 </div>
                 <button type="button" class="btn btn-primary btn-sm" style="margin-left: 10px;">确定</button>
             </div>
-            <div id="trendLine" style="width:100%;height:450px;margin-top:30px;"></div>
+            <div id="trendLine" style="width:100%;height:450px;margin-top:30px;">
+                <center class="load">正在努力加载中...</center>
+            </div>
         </div>
         <div class="type" style="float:right;width:48%;">
             <h3 style="color: white;text-align: left;"><i class="icon icon-stethoscope"></i>&nbsp;预警类型</h3>
@@ -259,18 +287,20 @@
                 <i class="icon icon-map-marker"></i>&nbsp;&nbsp;预警分布
             </h3>
             <select class="_time">
-                <option value="近一周">近一周</option>
-                <option value="近一个月">近一个月</option>
-                <option value="近三个月">近三个月</option>
-                <option value="近一年">近一年</option>
+                <option value="7">近一周</option>
+                <option value="30">近一个月</option>
+                <option value="90">近三个月</option>
+                <option value="365">近一年</option>
             </select>
-            <div id="map" style="width:100%;height:100%;"></div>
+            <div id="map" style="width:100%;height:100%;">
+                <p class="load">正在努力加载中...</p>
+            </div>
         </div>
         <div class="rank" style="margin-top:30px;width:38%;height:450px;float: right;">
             <h3 style="color: white;"><i class="icon icon-flag"></i>&nbsp;&nbsp;疑似非法集资省份排行</h3>
             <div class="placeRank" style="margin-top: 20px;">
                 <div id="placeRank">
-
+                    <p class="load">正在努力加载中...</p>
                 </div>
             </div>
         </div>
@@ -289,17 +319,20 @@
             <i class="icon icon-signal"></i>&nbsp;预警排名
         </h3>
         <select class="_time1">
+            <option value="全部" selected>全部</option>
             <option value="公司">公司</option>
             <option value="平台">平台</option>
             <option value="项目">项目</option>
         </select>
         <select class="_time2">
-            <option value="近一周">近一周</option>
-            <option value="近一个月">近一个月</option>
-            <option value="近三个月">近三个月</option>
-            <option value="近一年">近一年</option>
+            <option value="7">近一周</option>
+            <option value="30">近一个月</option>
+            <option value="90" >近三个月</option>
+            <option value="365">近一年</option>
         </select>
-        <div id="warningNum" style="width: 100%;height: 450px;margin-top: 30px;"></div>
+        <div id="warningNum" style="width: 100%;height: 450px;margin-top: 30px;">
+            <p class="load">正在努力加载中...</p>
+        </div>
     </div>
 
 </div>

@@ -27,6 +27,10 @@ table_field = ['date','illegal_type']
 def platform():
 	return render_template('index/platform.html')
 
+@index.route('/monitor/')
+def monitor():
+	return render_template('index/monitorDetails.html')
+
 @index.route('/company/')
 def company():
 	name = request.args.get('name','')
