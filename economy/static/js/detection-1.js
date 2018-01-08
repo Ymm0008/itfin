@@ -132,7 +132,7 @@
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_2(\''+row.d+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
+                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.entity_name+'\',\''+row.entity_type+'\',\''+row.id+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
                     }
                 },
                 {
@@ -181,6 +181,117 @@
     }
 
 //====预警趋势====
+    var timeDistribute_url='/homepage/timeDistribute/';
+    public_ajax.call_request('get',timeDistribute_url,line_1_new);
+    var option_1 = {
+        backgroundColor:'transparent',
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                lineStyle: {
+                    color: '#57617B'
+                }
+            }
+        },
+        grid: {
+            left: '4%',
+            right: '7%',
+            bottom: '8%',
+            top:'4%',
+            containLabel: true
+        },
+        xAxis: [{
+            type: 'category',
+            boundaryGap: false,
+            axisLine: {
+                lineStyle: {
+                    color: '#57617B'
+                }
+            },
+            axisLabel: {
+                textStyle: {
+                    color: '#fff',
+                }
+            },
+            data:[],
+        }],
+        yAxis: [{
+            type: 'value',
+            axisTick: {
+                show: true
+            },
+            axisLine: {
+                lineStyle: {
+                    color: '#57c4d3'
+                }
+            },
+            axisLabel: {
+                show:true,
+                margin: 10,
+                textStyle: {
+                    fontSize: 14,
+                    color:'white',
+                }
+            },
+            splitLine: {
+                lineStyle: {
+                    color: '#57617B'
+                }
+            }
+        }],
+        series: [
+            {
+                name: '',
+                type: 'line',
+                smooth: true,
+                symbol: 'circle',
+                symbolSize: 5,
+                showSymbol: false,
+                lineStyle: {
+                    normal: {
+                        width: 1,
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(137, 189, 27, 0.8)'
+                        }, {
+                            offset: 1,
+                            color: 'rgba(137, 189, 27, 0)'
+                        }], false),
+                        shadowColor: 'rgba(0, 0, 0, 0.1)',
+                        shadowBlur: 10
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: 'rgb(137,189,27)',
+                        borderColor: 'rgba(137,189,2,0.27)',
+                        borderWidth: 12
+                    }
+                },
+                // data: day30Data,
+                data: [],
+            }
+        ]
+    };
+    var day30_new=[],day30Data_new=[];
+    function line_1_new(data) {
+        if(data){
+            $('#picChart-2 p.load').hide();
+            for(var i=0;i<data.length;i++){
+                day30_new.push(data[i].time);
+                day30Data_new.push(data[i].count)
+            };
+            option_1.xAxis[0].data = day30_new.reverse();
+            option_1.series[0].data = day30Data_new.reverse();
+            var myChart = echarts.init(document.getElementById('trendLine'),'chalk');
+            myChart.setOption(option_1);
+        }
+    }
+
     function line_1() {
         var myChart = echarts.init(document.getElementById('trendLine'),'chalk');
         var option = {
@@ -278,7 +389,7 @@
         };
         myChart.setOption(option);
     }
-    line_1();
+    // line_1();
     //类型
     function pie_3() {
         var myChart = echarts.init(document.getElementById('warningType'),'chalk');
@@ -296,7 +407,8 @@
             legend: {
                 orient: 'vertical',
                 left: 'left',
-                data: ['收益率异常','广告异常','经营异常','宣传行为异常','负面评论异常','诉讼异常','模型异常','舆情异常']
+                // data: ['收益率异常','广告异常','经营异常','宣传行为异常','负面评论异常','诉讼异常','模型异常','舆情异常']
+                data: ['收益率异常','广告异常','经营异常','诉讼异常','模型预警','舆情预警']
             },
             series : [
                 {
@@ -308,11 +420,11 @@
                         {value:335, name:'收益率异常'},
                         {value:310, name:'广告异常'},
                         {value:234, name:'经营异常'},
-                        {value:135, name:'宣传行为异常'},
-                        {value:1548, name:'负面评论异常'},
+                        // {value:135, name:'宣传行为异常'},
+                        // {value:1548, name:'负面评论异常'},
                         {value:456, name:'诉讼异常'},
-                        {value:873, name:'模型异常'},
-                        {value:633, name:'舆情异常'},
+                        {value:873, name:'模型预警'},
+                        {value:633, name:'舆情预警'},
                     ],
                     itemStyle: {
                         emphasis: {
@@ -419,15 +531,16 @@
                         align: "center",//水平
                         valign: "middle",//垂直
                     },
-                    {
-                        // title: "舆情预警",//标题
-                        title: "指标预警",//标题
-                        field: "count3",//键名
-                        sortable: true,//是否可排序
-                        order: "desc",//默认排序方式
-                        align: "center",//水平
-                        valign: "middle",//垂直
-                    },
+                    // 指标预警去掉
+                    // {
+                    //     // title: "舆情预警",//标题
+                    //     title: "指标预警",//标题
+                    //     field: "count3",//键名
+                    //     sortable: true,//是否可排序
+                    //     order: "desc",//默认排序方式
+                    //     align: "center",//水平
+                    //     valign: "middle",//垂直
+                    // },
                 ],
             });
             $('#placeRank p.load').hide();
@@ -1426,12 +1539,12 @@
                     bottom: '3%',
                     containLabel: true
                 },
-                xAxis: {
+                yAxis: {
                     name:'预警数量',
                     type: 'value',
                     boundaryGap: [0, 0.01]
                 },
-                yAxis: {
+                xAxis: {
                     name:'预警对象',
                     type: 'category',
                     // data : ['优易网','湖北嘟嘟','有糖','品质金融','一元云购','上海中晋公司','风车点赞','玫瑰庄园','青云门','浙江本色控股'],
@@ -1443,40 +1556,42 @@
                         type: 'bar',
                         // data:[11, 22, 34, 53, 65, 78, 89, 101, 122, 156],
                         data:rankingData,
-                        markPoint : {
-                            data : [
-                                {
-                                    type : 'max',
-                                    name: '最大值',
-                                    itemStyle:{
-                                        normal:{
-                                            color:'rgb(175, 215, 237)',
+                        /*
+                            markPoint : {
+                                data : [
+                                    {
+                                        type : 'max',
+                                        name: '最大值',
+                                        itemStyle:{
+                                            normal:{
+                                                color:'rgb(175, 215, 237)',
+                                            }
+                                        },
+                                        label:{
+                                            normal:{
+                                                textStyle:
+                                                    {color:'#fff'},
+                                            }
                                         }
                                     },
-                                    label:{
-                                        normal:{
-                                            textStyle:
-                                                {color:'#fff'},
-                                        }
-                                    }
-                                },
-                                {
-                                    type : 'min',
-                                    name: '最小值',
-                                    itemStyle:{
-                                        normal:{
-                                            color:'rgb(147, 224, 255)',
+                                    {
+                                        type : 'min',
+                                        name: '最小值',
+                                        itemStyle:{
+                                            normal:{
+                                                color:'rgb(147, 224, 255)',
+                                            }
+                                        },
+                                        label:{
+                                            normal:{
+                                                textStyle:
+                                                    {color:'#fff'},
+                                            }
                                         }
                                     },
-                                    label:{
-                                        normal:{
-                                            textStyle:
-                                                {color:'#fff'},
-                                        }
-                                    }
-                                },
-                            ]
-                        },
+                                ]
+                            },
+                         */
                     },
                 ]
             };

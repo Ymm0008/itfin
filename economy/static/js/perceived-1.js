@@ -1,3 +1,42 @@
+Date.prototype.Format = function (fmt) { //author: meizz
+    var o = {
+        "M+": this.getMonth() + 1, //月份
+        "d+": this.getDate(), //日
+        "H+": this.getHours(), //小时
+        "m+": this.getMinutes(), //分
+        "s+": this.getSeconds(), //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds() //毫秒
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
+//时间戳转时间【年月日】
+function getLocalTime_1(nS) {
+    // return new Date(parseInt(nS) * 1000).toLocaleDateString().replace(/年|月/g, "-");
+    // return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
+    return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd");//年月日
+    // return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd HH:mm:ss");//年月日 时分秒
+}
+// 【年月日时分秒】
+function getLocalTime_2(nS) {
+    return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd HH:mm:ss");//年月日 时分秒
+}
+
+
+// 当天感知数
+var warnCount_url='/perceived/warnCount/';
+public_ajax.call_request('get',warnCount_url,warnCount);
+function warnCount (data){
+    if(data){
+        $('#container .topTitle .com-1').text(0);
+        $('#container .topTitle .com-2').text(0);
+        $('#container .topTitle .com-3').text(data[0].count);
+    }
+}
+
 var pageData=6;
 if (screen.width <= 1440){
     $('#container .secondScreen .box').css({'max-height':'308px','min-height':'308px'})
@@ -74,6 +113,21 @@ function fellTable(data) {
                             return '未知';
                         }else {
                             return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.entity_name+'\',\''+row.entity_type+'\',\''+row.id+'\')" title="进入画像">'+row.entity_name+'</span>';
+                        };
+                    }
+                },
+                {
+                    title: "感知时间",//标题
+                    field: "date",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.date==''||row.date=='null'||row.date=='unknown'||!row.date){
+                            return '未知';
+                        }else {
+                            return '<span style="cursor:pointer;color:white;" title="感知时间">'+row.date+'</span>';
                         };
                     }
                 },
@@ -263,7 +317,7 @@ function perceiveContent(data){
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        var publisTime = getLocalTime(row.publish_time);
+                        var publisTime = getLocalTime_2(row.publish_time);
                         var contentClip, title, author, usn;
                         if(row.content.length >= 100){
                             contentClip = row.content.slice(0,100)+'  ...';
@@ -296,19 +350,15 @@ function perceiveContent(data){
                         return '<div class="inforContent">'+
                             '            <div class="main">'+
                             '                <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
-                            '                <p class="option">'+
-                            '                    <p>'+
-                            '                    <span>标题：<b style="color: #ff6d70;">'+title+'</b></span>'+
-                            // '                    <span>广告渠道：<b style="color: #ff6d70;font-size:16px;">'+source+'</b></span>'+
-                            '                    <span style="float:right;margin-right:15%;">发布时间：<b style="color: #ff6d70;">'+publisTime+'</b></span><br />'+
-                            '                    </p>'+
+                            '                <p class="option clearfix">'+
+                            '                    <span style="display:inline-block;width:100%;">标题：<b style="vertical-align:middle;color: #ff6d70;display:inline-block;width:50%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" title="\''+title+'\'">'+title+'</b><button onclick="getAllArtical(\''+tag+'_'+index+'\')" artical=\"'+tag+'_'+index+'\" class="original btn-primary btn-xs" style="margin-left:10px;">查看全文</button>'+'</span>'+
+                            '                    <span>发布时间：<b style="color: #ff6d70;">'+publisTime+'</b></span><br />'+
+                            // '                    <span style="display:inline-block;width:49%;">作者：<b style="color: #ff6d70;">'+author+'</b></span>'+
 
-                            '                    <span>作者：<b style="color: #ff6d70;">'+author+'</b></span>'+
-
-                            '   <button onclick="getAllArtical(\''+tag+'_'+index+'\')" artical=\"'+tag+'_'+index+'\" class="original btn-primary btn-xs" style="float:right;">查看全文</button>'+
-                            '                    <span style="float:right;margin-right:15%;">用户：<b style="color: #ff6d70;">'+usn+'</b></span>'+
+                            // '   <button onclick="getAllArtical(\''+tag+'_'+index+'\')" artical=\"'+tag+'_'+index+'\" class="original btn-primary btn-xs" style="float:right;">查看全文</button>'+
+                            '                    <span>用户：<b style="color: #ff6d70;">'+usn+'</b></span>'+
                             '                </p>'+
-                            '                <p class="context" style="overflow:auto;max-height:100px;">'+contentClip+'</p>'+
+                            '                <p class="context" style="overflow:auto;max-height:200px;text-indent:2em;">'+contentClip+'</p>'+
                             '                <a href="'+row.url+'" title="原网页链接" target="_blank">原网页链接</a>            '+
                             '            </div>'+
                             '        </div>';

@@ -616,10 +616,12 @@
                             {name: '五指山市',value: Math.round(Math.random()*1000)}
                         ],
                         */
+                        // 标注
                         markPoint : {
                             symbol:'pin',
                             symbolSize : function (v){
-                                return 10 + v/100
+                                // return 10 + v/100
+                                return 20
                             },
                             effect : {
                                 show: false,
@@ -627,8 +629,10 @@
                             },
                             itemStyle: {
                                 normal: {
-                                    color:'#9ed4f5',
-                                    borderColor: '#87cefa',
+                                    // color:'#9ed4f5',
+                                    color:'#ffbdd4',
+                                    // borderColor: '#87cefa',
+                                    borderColor: '#ffbdd4',
                                     borderWidth: 1,            // 标注边线线宽，单位px，默认为1
                                     label: {
                                         show: false
@@ -1220,17 +1224,20 @@
                             $('#container .bottom_left #picChart-5 #proRank').empty();
                             for(var i=0;i<data.length;i++){
                                 proviceData.push({name:data[i].city,value:data[i].count7});
+
                                 // series.data的数据（用于地图块的颜色，只能跟地图数据名字一样、、）
                                 proviceData_1.push({name:data[i].city+'市',value:data[i].count7});//
+
                                 // 更新左下角排行
                                 var str = '<p><span>'+data[i].city+'</span><span>'+data[i].count7+'</span><span>'+data[i].count30+'</span></p>';
                                 $('#container .bottom_left #picChart-5 #proRank').append(str)
                             }
                         }
                         // console.log(proviceData);
-                        // console.log(proviceData_1);
+                        console.log(proviceData_1);
                         option.series[0].data = proviceData_1;
-                        option.series[0].markPoint.data = proviceData;
+                        // ===========先去掉标注===============
+                        // option.series[0].markPoint.data = proviceData;
                         // 渲染地图
                         // console.log(option);
                         myChart.setOption(option, true);
@@ -1852,6 +1859,7 @@
                     $('#container .bottom_left .title span').text('疑似非法集资省份排行')
                     $('#container .bottom_left #picChart-5>p').children('span:first-child').text('省份')
                     public_ajax.call_request('get',provinceRank_url,provinceRank);
+                    // provinceRank(provinceRank_data);//用保存的数据
                     // $('#container .bottom_left #picChart-5 #proRank').empty();
                     // var provinceData = ['广东', '青海', '四川', '海南', '陕西','甘肃', '云南', '湖南', '湖北', '黑龙江','贵州', '山东', '江西', '河南', '河北','山西', '安徽', '福建', '浙江', '江苏','吉林', '辽宁', '台湾','新疆', '广西', '宁夏', '内蒙古', '西藏','北京', '天津', '上海', '重庆','香港', '澳门'];
                     // for (var i=0;i<provinceData.length;i++){
@@ -1938,44 +1946,45 @@
                                 }
                             }
                         },
-                        data:[]
+                        // data:[]
+                        data:cityRankData//用之前的数据，不再重新请求
                         /*
-                        data:[
-                            {name: '北京',value: Math.round(Math.random()*1000)},
-                            {name: '天津',value: Math.round(Math.random()*1000)},
-                            {name: '上海',value: Math.round(Math.random()*1000)},
-                            {name: '重庆',value: Math.round(Math.random()*1000)},
-                            {name: '河北',value: Math.round(Math.random()*1000)},
-                            {name: '河南',value: Math.round(Math.random()*1000)},
-                            {name: '云南',value: Math.round(Math.random()*1000)},
-                            {name: '辽宁',value: Math.round(Math.random()*1000)},
-                            {name: '黑龙江',value: Math.round(Math.random()*1000)},
-                            {name: '湖南',value: Math.round(Math.random()*1000)},
-                            {name: '安徽',value: Math.round(Math.random()*1000)},
-                            {name: '山东',value: Math.round(Math.random()*1000)},
-                            {name: '新疆',value: Math.round(Math.random()*1000)},
-                            {name: '江苏',value: Math.round(Math.random()*1000)},
-                            {name: '浙江',value: Math.round(Math.random()*1000)},
-                            {name: '江西',value: Math.round(Math.random()*1000)},
-                            {name: '湖北',value: Math.round(Math.random()*1000)},
-                            {name: '广西',value: Math.round(Math.random()*1000)},
-                            {name: '甘肃',value: Math.round(Math.random()*1000)},
-                            {name: '山西',value: Math.round(Math.random()*1000)},
-                            {name: '内蒙古',value: Math.round(Math.random()*1000)},
-                            {name: '陕西',value: Math.round(Math.random()*1000)},
-                            {name: '吉林',value: Math.round(Math.random()*1000)},
-                            {name: '福建',value: Math.round(Math.random()*1000)},
-                            {name: '贵州',value: Math.round(Math.random()*1000)},
-                            {name: '广东',value: Math.round(Math.random()*1000)},
-                            {name: '青海',value: Math.round(Math.random()*1000)},
-                            {name: '西藏',value: Math.round(Math.random()*1000)},
-                            {name: '四川',value: Math.round(Math.random()*1000)},
-                            {name: '宁夏',value: Math.round(Math.random()*1000)},
-                            {name: '海南',value: Math.round(Math.random()*1000)},
-                            {name: '台湾',value: Math.round(Math.random()*1000)},
-                            {name: '香港',value: Math.round(Math.random()*1000)},
-                            {name: '澳门',value: Math.round(Math.random()*1000)}
-                        ]
+                            data:[
+                                {name: '北京',value: Math.round(Math.random()*1000)},
+                                {name: '天津',value: Math.round(Math.random()*1000)},
+                                {name: '上海',value: Math.round(Math.random()*1000)},
+                                {name: '重庆',value: Math.round(Math.random()*1000)},
+                                {name: '河北',value: Math.round(Math.random()*1000)},
+                                {name: '河南',value: Math.round(Math.random()*1000)},
+                                {name: '云南',value: Math.round(Math.random()*1000)},
+                                {name: '辽宁',value: Math.round(Math.random()*1000)},
+                                {name: '黑龙江',value: Math.round(Math.random()*1000)},
+                                {name: '湖南',value: Math.round(Math.random()*1000)},
+                                {name: '安徽',value: Math.round(Math.random()*1000)},
+                                {name: '山东',value: Math.round(Math.random()*1000)},
+                                {name: '新疆',value: Math.round(Math.random()*1000)},
+                                {name: '江苏',value: Math.round(Math.random()*1000)},
+                                {name: '浙江',value: Math.round(Math.random()*1000)},
+                                {name: '江西',value: Math.round(Math.random()*1000)},
+                                {name: '湖北',value: Math.round(Math.random()*1000)},
+                                {name: '广西',value: Math.round(Math.random()*1000)},
+                                {name: '甘肃',value: Math.round(Math.random()*1000)},
+                                {name: '山西',value: Math.round(Math.random()*1000)},
+                                {name: '内蒙古',value: Math.round(Math.random()*1000)},
+                                {name: '陕西',value: Math.round(Math.random()*1000)},
+                                {name: '吉林',value: Math.round(Math.random()*1000)},
+                                {name: '福建',value: Math.round(Math.random()*1000)},
+                                {name: '贵州',value: Math.round(Math.random()*1000)},
+                                {name: '广东',value: Math.round(Math.random()*1000)},
+                                {name: '青海',value: Math.round(Math.random()*1000)},
+                                {name: '西藏',value: Math.round(Math.random()*1000)},
+                                {name: '四川',value: Math.round(Math.random()*1000)},
+                                {name: '宁夏',value: Math.round(Math.random()*1000)},
+                                {name: '海南',value: Math.round(Math.random()*1000)},
+                                {name: '台湾',value: Math.round(Math.random()*1000)},
+                                {name: '香港',value: Math.round(Math.random()*1000)},
+                                {name: '澳门',value: Math.round(Math.random()*1000)}
+                            ]
                          */
                     }
                     // 点击返回全国后适配分辨率
@@ -1991,51 +2000,55 @@
                             x:'center',
                             y:'100px',
                             width:'85%',
-                            height:'85%%'
+                            height:'85%'
                         }
                     }
-                    // if ((screen.width == 1920) && (screen.height == 1080)){
-                    //     option.series[0].mapLocation = {
-                    //         x:'center',
-                    //         y:'100px',
-                    //         width:'85%',
-                    //         height:'85%'
-                    //     }
-                    // }
-                    // if ((screen.width == 1440) && (screen.height == 900)){
-                    //     option.series[0].mapLocation = {
-                    //         x:'center',
-                    //         y:'100px',
-                    //         width:'100%',
-                    //         height:'80%'
-                    //     }
-                    // }
-                    // if ((screen.width == 1366) && (screen.height == 768)){
-                    //     option.series[0].mapLocation = {
-                    //         x:'center',
-                    //         y:'100px',
-                    //         width:'100%',
-                    //         height:'80%'
-                    //     }
-                    // }
-                    //====请求全国数据====
-                    var cityRank_url_1='/homepage/cityRank/';
-                    public_ajax.call_request('get',cityRank_url_1,cityRank_1);
-                    var cityRankData_1 = [];
-                    function cityRank_1(data){
-                        if(data){
-                            // console.log(data);
-                            for(var i=0;i<data.length;i++){
-                                cityRankData_1.push({name:data[i].province,value:data[i].count})
+                    /*
+                        if ((screen.width == 1920) && (screen.height == 1080)){
+                            option.series[0].mapLocation = {
+                                x:'center',
+                                y:'100px',
+                                width:'85%',
+                                height:'85%'
                             }
-                            cityRankData_1.push({name:'青海',value:0});
-                            cityRankData_1.push({name:'甘肃',value:0});
-                            // console.log(cityRankData_1);
-                            option.series[0].data = cityRankData_1;
-                            myChart.setOption(option);
                         }
-                    }
-                    myChart.setOption(option);
+                        if ((screen.width == 1440) && (screen.height == 900)){
+                            option.series[0].mapLocation = {
+                                x:'center',
+                                y:'100px',
+                                width:'100%',
+                                height:'80%'
+                            }
+                        }
+                        if ((screen.width == 1366) && (screen.height == 768)){
+                            option.series[0].mapLocation = {
+                                x:'center',
+                                y:'100px',
+                                width:'100%',
+                                height:'80%'
+                            }
+                        }
+                     */
+                    /*
+                        // ====请求全国数据====用已保存的
+                        var cityRank_url_1='/homepage/cityRank/';
+                        public_ajax.call_request('get',cityRank_url_1,cityRank_1);
+                        var cityRankData_1 = [];
+                        function cityRank_1(data){
+                            if(data){
+                                // console.log(data);
+                                for(var i=0;i<data.length;i++){
+                                    cityRankData_1.push({name:data[i].province,value:data[i].count})
+                                }
+                                cityRankData_1.push({name:'青海',value:0});
+                                cityRankData_1.push({name:'甘肃',value:0});
+                                // console.log(cityRankData_1);
+                                option.series[0].data = cityRankData_1;
+                                myChart.setOption(option);
+                            }
+                        }
+                        myChart.setOption(option);
+                     */
                 }
                 option.series[0].mapType = mt;
                 option.title.subtext = mt + ' （点击切换）';
@@ -2198,31 +2211,32 @@
                     height:'85%%'
                 }
             }
-            // if ((screen.width == 1920) && (screen.height == 1080)){
-            //     option.series[0].mapLocation = {
-            //         x:'center',
-            //         y:'100px',
-            //         width:'85%',
-            //         height:'85%'
-            //     }
-            // }
-            // if ((screen.width == 1440) && (screen.height == 900)){
-            //     option.series[0].mapLocation = {
-            //         x:'center',
-            //         y:'100px',
-            //         width:'90%',
-            //         height:'80%'
-            //     }
-            // }
-            // if ((screen.width == 1366) && (screen.height == 768)){
-            //     option.series[0].mapLocation = {
-            //         x:'center',
-            //         y:'100px',
-            //         width:'100%',
-            //         height:'80%'
-            //     }
-            // }
-
+            /*
+                if ((screen.width == 1920) && (screen.height == 1080)){
+                    option.series[0].mapLocation = {
+                        x:'center',
+                        y:'100px',
+                        width:'85%',
+                        height:'85%'
+                    }
+                }
+                if ((screen.width == 1440) && (screen.height == 900)){
+                    option.series[0].mapLocation = {
+                        x:'center',
+                        y:'100px',
+                        width:'90%',
+                        height:'80%'
+                    }
+                }
+                if ((screen.width == 1366) && (screen.height == 768)){
+                    option.series[0].mapLocation = {
+                        x:'center',
+                        y:'100px',
+                        width:'100%',
+                        height:'80%'
+                    }
+                }
+             */
             //====请求全国数据====
             var cityRank_url='/homepage/cityRank/';
             public_ajax.call_request('get',cityRank_url,cityRank);
@@ -2232,8 +2246,26 @@
                 for(var i=0;i<data.length;i++){
                     cityRankData.push({name:data[i].province,value:data[i].count})
                 }
-                cityRankData.push({name:'青海',value:0})
-                cityRankData.push({name:'甘肃',value:0})
+                // 判断没有的省市 赋值为0 以展示地图
+                var all_data=['北京','天津','上海','重庆','河北','河南','云南','辽宁','黑龙江','湖南','安徽','山东','新疆','江苏','浙江','江西','湖北','广西','甘肃','山西','内蒙古','陕西','吉林','福建','贵州','广东','青海','西藏','四川','宁夏','海南','台湾','香港','澳门'];
+                for(var n = 0; n < all_data.length; n++){
+                    var an = all_data[n];
+                    var isExist = false;
+                    for(var m = 0; m < cityRankData.length; m++){
+                        var cm = cityRankData[m].name;
+                        if(cm == an){
+                            isExist = true;
+                            break;
+                        }
+                    }
+                    if(!isExist){
+                        cityRankData.push({name:an,value:0});
+                    }
+                }
+                // console.log(cityRankData);
+
+                // cityRankData.push({name:'青海',value:0});
+                // cityRankData.push({name:'甘肃',value:0});
 
                 // console.log(cityRankData);
                 option.series[0].data = cityRankData;
@@ -2246,9 +2278,13 @@
 // ====非法集资省份排行==== 页面初始  左下角省份数据
     var provinceRank_url = '/homepage/provinceRank/';
     public_ajax.call_request('get',provinceRank_url,provinceRank);
+    // 保存数据，返回全国地图时使用
+    var provinceRank_data;
+
     var provinceData = [],provinceData_7=[],provinceData_30=[];
     function provinceRank(data){
         if(data){
+            provinceRank_data = data;
             $('#container .bottom_left #picChart-5 #proRank').empty();
             for(var i=0;i<data.length;i++){
                 provinceData.push(data[i].province);
@@ -2259,38 +2295,6 @@
                 var str = '<p><span>'+provinceData[j]+'</span><span>'+provinceData_7[j]+'</span><span>'+provinceData_30[j]+'</span></p>';
                 $('#container .bottom_left #picChart-5 #proRank').append(str)
             }
-            var $uList = $("#container #proRank");
-            var timer = null;
-            //触摸清空定时器
-            $uList.hover(function() {
-                clearInterval(timer);
-            },
-            function() { //离开启动定时器
-                timer = setInterval(function() {
-                        scrollList($uList);
-                    },
-                    1000);
-            }).trigger("mouseleave"); //自动触发触摸事件
-            //滚动动画
-            function scrollList(obj) {
-                //获得当前<li>的高度
-                var scrollHeight = $("#proRank p:first").height();
-                //滚动出一个<li>的高度
-                $uList.stop().animate({
-                        marginTop: -scrollHeight
-                    },
-                    600,
-                    function() {
-                        //动画结束后，将当前<ul>marginTop置为初始值0状态，再将第一个<li>拼接到末尾。
-                        $uList.css({
-                            marginTop: 0
-                        }).find("p:first").appendTo($uList);
-                        // $uList.css({
-                        //     marginTop: 0
-                        // }).find("p:first").remove();
-                        // $('.scroll-box .box').append(phonehtml.shift());
-                    });
-            };
         }
     }
     /*
@@ -2681,19 +2685,19 @@ function allMonitor(data) {
     };
     $('.scroll-box').append(phonehtml.splice(0,5));
 }
-// var $uList = $("#container #proRank");
+var $uList = $("#container #proRank");
 var $uList2 = $("#container #comment");
 var timer = null,timer2=null;
 //触摸清空定时器
-// $uList.hover(function() {
-//         clearInterval(timer);
-//     },
-//     function() { //离开启动定时器
-//         timer = setInterval(function() {
-//                 scrollList($uList);
-//             },
-//             1000);
-//     }).trigger("mouseleave"); //自动触发触摸事件
+$uList.hover(function() {
+        clearInterval(timer);
+    },
+    function() { //离开启动定时器
+        timer = setInterval(function() {
+                scrollList($uList);
+            },
+            1000);
+    }).trigger("mouseleave"); //自动触发触摸事件
 $uList2.hover(function() {
         clearInterval(timer2);
     },
@@ -2703,26 +2707,26 @@ $uList2.hover(function() {
             },
             1000);
     }).trigger("mouseleave"); //自动触发触摸事件
-// //滚动动画
-// function scrollList(obj) {
-//     //获得当前<li>的高度
-//     var scrollHeight = $("#proRank p:first").height();
-//     //滚动出一个<li>的高度
-//     $uList.stop().animate({
-//             marginTop: -scrollHeight
-//         },
-//         600,
-//         function() {
-//             //动画结束后，将当前<ul>marginTop置为初始值0状态，再将第一个<li>拼接到末尾。
-//             $uList.css({
-//                 marginTop: 0
-//             }).find("p:first").appendTo($uList);
-//             // $uList.css({
-//             //     marginTop: 0
-//             // }).find("p:first").remove();
-//             // $('.scroll-box .box').append(phonehtml.shift());
-//         });
-// };
+//滚动动画
+function scrollList(obj) {
+    //获得当前<li>的高度
+    var scrollHeight = $("#proRank p:first").height();
+    //滚动出一个<li>的高度
+    $uList.stop().animate({
+            marginTop: -scrollHeight
+        },
+        600,
+        function() {
+            //动画结束后，将当前<ul>marginTop置为初始值0状态，再将第一个<li>拼接到末尾。
+            $uList.css({
+                marginTop: 0
+            }).find("p:first").appendTo($uList);
+            // $uList.css({
+            //     marginTop: 0
+            // }).find("p:first").remove();
+            // $('.scroll-box .box').append(phonehtml.shift());
+        });
+};
 
 function scrollList2(obj) {
     //获得当前<li>的高度

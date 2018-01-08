@@ -67,9 +67,11 @@ var entity_name ,firm_name;
         }
         $('.val-1').text(t3);
 
-        if (item.risk_level){t4=item.risk_level+'级';}
+        // if (item.risk_level){t4=item.risk_level+'级';}
+        if (item.risk_level){t4=item.risk_level;}
         $('.val-2').text(t4);
-        if (item.impact_level){t5=item.impact_level+'级';}
+        // if (item.impact_level){t5=item.impact_level+'级';}
+        if (item.impact_level){t5=item.impact_level;}
         $('.val-3').text(t5);
         $('.val-4').text(item.operation_mode||'');
         if (item.penalty_status==1){t6='是';}
@@ -278,13 +280,15 @@ function get7DaysBefore(date,m){
                 }
             },
             calculable : false,
+            /*
+
 
             series : [
                 {
                     name:'',
                     type:'tree',
                     orient: 'horizontal',  // vertical horizontal
-                    rootLocation: {x: 'center', y: '60%'}, // 根节点位置  {x: 'center',y: 10}
+                    rootLocation: {x: 100, y: '60%'}, // 根节点位置  {x: 'center',y: 10}
                     nodePadding: 20,
                     left: '50%',
                     symbol: 'circle',
@@ -450,6 +454,176 @@ function get7DaysBefore(date,m){
                             //         },
                             //
                             // ]
+                        }
+                    ]
+                }
+            ]
+             */
+
+            series : [
+                {
+                    name:'',
+                    type:'tree',
+                    orient: 'horizontal',  // vertical horizontal
+                    rootLocation: {x: 'center', y: '60%'}, // 根节点位置  {x: 'center',y: 10}
+                    left:'50%',
+                    nodePadding: 20,
+                    symbol: 'circle',
+                    symbolSize: 40,
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true,
+                                position: 'inside',
+                                textStyle: {
+                                    color: '#333',
+                                    fontSize: 15,
+                                    fontWeight:  'bolder'
+                                },
+                                // position:['left','bottom']
+                                position:'bottom'
+                            },
+                            lineStyle: {
+                                color: '#000',
+                                width: 1,
+                                type: 'broken' // 'curve'|'broken'|'solid'|'dotted'|'dashed'
+                            },
+                            borderColor:'#337ab7'
+                        },
+                        emphasis: {
+                            label: {
+                                show: true
+                            }
+                        }
+                    },
+                    data: [
+                        {
+                            name: data[0],
+                            // value: 6,
+                            symbolSize: [20, 20],
+                            // symbol: 'image://http://www.iconpng.com/png/ecommerce-business/iphone.png',
+                            // symbol: 'circle',
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: true
+                                    }
+                                }
+                            },
+                            children: [
+                                /*
+                                    {
+                                        name: 'B',
+                                        value: 4,
+                                        // symbol: 'image://http://pic.58pic.com/58pic/12/36/51/66d58PICMUV.jpg',
+                                        symbol: 'B',
+                                        itemStyle: {
+                                            normal: {
+                                                label: {
+                                                    show: false
+                                                }
+                                            }
+                                        },
+                                        symbolSize: [60, 60],
+                                        children: [
+                                            {
+                                                name: 'C',
+                                                symbol: 'circle',
+                                                symbolSize: 20,
+                                                value: 4,
+                                                itemStyle: {
+                                                    normal: {
+                                                        color: '#fa6900',
+                                                        label: {
+                                                            show: true,
+                                                            position: 'right'
+                                                        },
+
+                                                    },
+                                                    emphasis: {
+                                                        label: {
+                                                            show: false
+                                                        },
+                                                        borderWidth: 0
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                name: 'D',
+                                                value: 4,
+                                                symbol: 'circle',
+                                                symbolSize: 20,
+                                                itemStyle: {
+                                                    normal: {
+                                                        label: {
+                                                            show: true,
+                                                            position: 'right',
+                                                            formatter: "{b}"
+                                                        },
+                                                        color: '#fa6900',
+                                                        borderWidth: 2,
+                                                        borderColor: '#cc66ff'
+
+                                                    },
+                                                    emphasis: {
+                                                        borderWidth: 0
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                name: 'E',
+                                                value: 2,
+                                                symbol: 'circle',
+                                                symbolSize: 20,
+                                                itemStyle: {
+                                                    normal: {
+                                                        label: {
+                                                            position: 'right'
+                                                        },
+                                                        color: '#fa6900',
+                                                        brushType: 'stroke',
+                                                        borderWidth: 1,
+                                                        borderColor: '#999966',
+                                                    },
+                                                    emphasis: {
+                                                        borderWidth: 0
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        name: 'F',
+                                        // symbol: 'image://http://www.viastreaming.com/images/apple_logo2.png',
+                                        symbol: 'F',
+                                        symbolSize: [60, 60],
+                                        itemStyle: {
+                                            normal: {
+                                                label: {
+                                                    show: false
+                                                }
+
+                                            }
+                                        },
+                                        value: 4
+                                    },
+                                    {
+                                        name: 'G',
+                                        // symbol: 'image://http://market.huawei.com/hwgg/logo_cn/download/logo.jpg',
+                                        symbol: 'G',
+                                        symbolSize: [60, 60],
+                                        itemStyle: {
+                                            normal: {
+                                                label: {
+                                                    show: false
+                                                }
+
+                                            }
+                                        },
+                                        value: 2
+                                    },
+                                */
+                            ]
                         }
                     ]
                 }

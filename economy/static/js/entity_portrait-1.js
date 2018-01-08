@@ -141,7 +141,8 @@ function peoPicture(data) {
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-                    return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_2(\''+row.d+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
+                    return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.entity_name+
+                            '\',\''+row.entity_type+'\',\''+row.id+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
                 }
             },
         ],
