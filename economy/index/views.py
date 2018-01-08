@@ -21,6 +21,8 @@ gongshang_field = ['id','firm_name','entity_id','date','province','city','distri
 guarantee_promise_field = ['id','entity_id','entity_name','date','promise_type','promise_num','related_text','index_name','text_id','rule_id']
 return_rate_field = ['id','entity_id','entity_name','date','return_type','return_rate','related_text','index_name','text_id','rule_id','avg_return']
 
+table_field = ['date','illegal_type']
+
 @index.route('/platform/')
 def platform():
 	return render_template('index/platform.html')
@@ -203,6 +205,11 @@ def holderContent():
     return json.dumps(results, ensure_ascii=False)
 
 
-
+@index.route('/riskCommentTable/')
+def risk_comment_table():
+	entity_id = int(request.args.get('entity_id',''))
+	type = int(request.args.get('type',''))
+	result = get_risk_comment_table(TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,entity_id,type,table_field)
+	return json.dumps(result,ensure_ascii=False)
 
 
