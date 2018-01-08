@@ -73,7 +73,7 @@ function fellTable(data) {
                         if (row.entity_name==''||row.entity_name=='null'||row.entity_name=='unknown'||!row.entity_name){
                             return '未知';
                         }else {
-                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.text_id+'\',\''+row.index_name+'\')" title="进入画像">'+row.entity_name+'</span>';
+                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.entity_name+'\',\''+row.entity_type+'\',\''+row.id+'\')" title="进入画像">'+row.entity_name+'</span>';
                         };
                     }
                 },
@@ -192,14 +192,13 @@ function fellTable(data) {
 // fellTable(objData);
 
 //进入画像
-function jumpFrame_1(flag) {
+function jumpFrame_1(name,type,id) {
     var html='';
-    if (flag=='公司'){
-        html='../templates/company.html';
-    }else if(flag=='平台'){
-        html='../templates/platform.html';
-    }else if(flag=='项目'){
-        html='../templates/project.html';
+    name=escape(name);
+    if (type=='1'||type=='2'){
+        html='/index/company/?name='+name+'&flag='+type+'&pid='+id;
+    }else {
+        html='/index/project/?name='+name+'&flag='+type+'&pid='+id;
     }
     window.location.href=html;
 }
@@ -265,7 +264,7 @@ function perceiveContent(data){
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
                         var publisTime = getLocalTime(row.publish_time);
-                        var contentClip;
+                        var contentClip, title, author, usn;
                         if(row.content.length >= 100){
                             contentClip = row.content.slice(0,100)+'  ...';
                             articalList_part[tag+'_'+index] = contentClip;
@@ -276,15 +275,38 @@ function perceiveContent(data){
                         // 所有的数据
                         articalList[tag+'_'+index] = row.content;
 
+                        if(row.title){//标题
+                            title = row.title;
+                        }else{
+                            title = '未知';
+                        }
+
+                        if(row.author){//作者
+                            author = row.author;
+                        }else{
+                            author = '未知';
+                        }
+
+                        if(row.usn){//用户
+                            usn = row.usn;
+                        }else{
+                            usn = '未知';
+                        }
+
                         return '<div class="inforContent">'+
                             '            <div class="main">'+
                             '                <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
                             '                <p class="option">'+
-                            '                    <span>标题：<b style="color: #ff6d70;font-size:16px;">'+row.title+'</b></span>'+
+                            '                    <p>'+
+                            '                    <span>标题：<b style="color: #ff6d70;">'+title+'</b></span>'+
                             // '                    <span>广告渠道：<b style="color: #ff6d70;font-size:16px;">'+source+'</b></span>'+
-                            '                    <span>发布时间：<b style="color: #ff6d70;font-size:16px;">'+publisTime+'</b></span><br />'+
-                            '                    <span>作者：<b style="color: #ff6d70;font-size:16px;">'+row.author+'</b></span>'+
+                            '                    <span style="float:right;margin-right:15%;">发布时间：<b style="color: #ff6d70;">'+publisTime+'</b></span><br />'+
+                            '                    </p>'+
+
+                            '                    <span>作者：<b style="color: #ff6d70;">'+author+'</b></span>'+
+
                             '   <button onclick="getAllArtical(\''+tag+'_'+index+'\')" artical=\"'+tag+'_'+index+'\" class="original btn-primary btn-xs" style="float:right;">查看全文</button>'+
+                            '                    <span style="float:right;margin-right:15%;">用户：<b style="color: #ff6d70;">'+usn+'</b></span>'+
                             '                </p>'+
                             '                <p class="context" style="overflow:auto;max-height:100px;">'+contentClip+'</p>'+
                             '                <a href="'+row.url+'" title="原网页链接" target="_blank">原网页链接</a>            '+
