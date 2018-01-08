@@ -44,7 +44,10 @@ def portraitLetter():
 	result = get_portrait(TABLE_ENTITY_LIST,TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,TABLE_GONGSHANG,field,letter)
 	return json.dumps(result,ensure_ascii=False)
 
-
+@entityPortrait.route('/monitorCount/')
+def m_count():
+	result = get_monitor_count(TABLE_ENTITY_LIST)
+	return json.dumps(result,ensure_ascii=False)
 
 
 
