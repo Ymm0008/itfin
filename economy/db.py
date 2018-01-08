@@ -246,22 +246,44 @@ def get_portrait(table1,table2,table3,table4,table5,field,letter):
 	return result
 
 def get_risk_comment_table(table1,table2,table3,entity_id,type,field):
+	result = []
+	dict = {}
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
 	if type == 1:
 		sql = "select date,illegal_type from %s where illegal_type>0 and entity_id=%d order by date desc"%(table1,entity_id)
 		cur.execute(sql)
 		res = cur.fetchall()
 		result = [{k:row[i] for i,k in enumerate(field)} for row in res]
+
+		sql = "select count(*) from %s where illegal_type>0 and entity_id=%d order by date desc"%(table1,entity_id)
+		cur.execute(sql)
+		res = cur.fetchall()[0][0]
+		dict = {res:result}
+	
 	if type == 2:
 		sql = "select date,illegal_type from %s where illegal_type>0 and entity_id=%d order by date desc"%(table2,entity_id)
 		cur.execute(sql)
 		res = cur.fetchall()
 		result = [{k:row[i] for i,k in enumerate(field)} for row in res]
-	if type == 2:
-		sql = "select date,illegal_type from %s where illegal_type>0 and entity_id=%d order by date desc"%(table3,entity_id)
+
+		sql = "select count(*) from %s where illegal_type>0 and entity_id=%d order by date desc"%(table2,entity_id)
+		cur.execute(sql)
+		res = cur.fetchall()[0][0]
+		dict = {res:result}
+	
+	if type == 3:
+		sql = "select date,illegal_type from %s where illegal_type>0 and entity_id=%d order by date desc"%(table2,entity_id)
 		cur.execute(sql)
 		res = cur.fetchall()
 		result = [{k:row[i] for i,k in enumerate(field)} for row in res]
-	return result
+
+		sql = "select count(*) from %s where illegal_type>0 and entity_id=%d order by date desc"%(table3,entity_id)
+		cur.execute(sql)
+		res = cur.fetchall()[0][0]
+		dict = {res:result}
+	return dict
 
 
 
@@ -295,15 +317,16 @@ def getDetectData(date,table1,table2,table3,table4,table5,field):
 	res3 = cur.fetchall()
 	res = res1 + res2 + res3
 	result = [{k:row[i] for i,k in enumerate(field)} for row in res]
-	for entity in list:
-		for r in result:
-			if not r['entity_name'] in filter_list:
-				if r['entity_name'] == entity:
-					print(r['entity_name'])
-					list1.append(r)
-					filter_list.append(r['entity_name'])
-				else:
-					list2.append(r)
+	print(len(result))
+	#for entity in list:
+	for r in result:
+		if not r['entity_name'] in filter_list and r['entity_name'] in list:
+			#if not r['entity_name'] in filter_list:
+				#if r['entity_name'] == entity:
+			list1.append(r)
+			filter_list.append(r['entity_name'])
+		else:
+			list2.append(r)
 
 	return list1 + list2
 
@@ -317,13 +340,13 @@ def getDetectRank(table1,table2,table3,date,field):
 	start_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=int(date))
 	start_time = start_time.strftime("%Y-%m-%d")
 
-	sql1 = 'select entity_id,entity_name,count(*),sum(risk_level) from %s where date>"%s" and date<="%s" and illegal_type>0 and risk_level>80 group by entity_id order by count(*) desc,sum(risk_level) desc'%(table1,start_time,end_time)
+	sql1 = 'select entity_id,entity_name,sum(risk_level) from %s where date>"%s" and date<="%s" and illegal_type>0 and risk_level>80 group by entity_id order by sum(risk_level) desc'%(table1,start_time,end_time)
 	cur.execute(sql1)
 	res1 = cur.fetchall()
-	sql2 = 'select entity_id,entity_name,count(*),sum(risk_level) from %s where date>"%s" and date<="%s" and illegal_type>0 and risk_level>80 group by entity_id order by count(*) desc,sum(risk_level) desc'%(table2,start_time,end_time)
+	sql2 = 'select entity_id,entity_name,sum(risk_level) from %s where date>"%s" and date<="%s" and illegal_type>0 and risk_level>80 group by entity_id order by sum(risk_level) desc'%(table2,start_time,end_time)
 	cur.execute(sql2)
 	res2 = cur.fetchall()
-	sql3 = 'select entity_id,entity_name,count(*),sum(risk_level) from %s where date>"%s" and date<="%s" and illegal_type>0 and risk_level>80 group by entity_id order by count(*) desc,sum(risk_level) desc'%(table3,start_time,end_time)
+	sql3 = 'select entity_id,entity_name,sum(risk_level) from %s where date>"%s" and date<="%s" and illegal_type>0 and risk_level>80 group by entity_id order by sum(risk_level) desc'%(table3,start_time,end_time)
 	cur.execute(sql3)
 	res3 = cur.fetchall()
 	res = res1 + res2 + res3
