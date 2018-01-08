@@ -296,7 +296,7 @@ def getDetectData(date,table1,table2,table3,table4,table5,field):
 
 	#####
 	list = [u"绿能宝",u"亿好金服",u"速溶360",u"鑫脉财富",u"太保金服",u"穆金所",u"升隆财富",u"邑民金融"]
-	list1 = [""]*9
+	list1 = [""]*8
 	list2 = []
 	filter_list = []
 	#####
