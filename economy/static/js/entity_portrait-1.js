@@ -1,3 +1,14 @@
+// 当前监测实体
+var monitorCount_url='/portraite/monitorCount/';
+public_ajax.call_request('get',monitorCount_url,monitorCount);
+function monitorCount(data){
+    if(data){
+        $('.com-1').text(data.all)
+        $('.com-2').text(data.today)
+    }
+}
+
+
 var pageData=6;
 if (screen.width <= 1440){
     $('#container .secondScreen .box').css({'max-height':'308px','min-height':'308px'})
@@ -6,12 +17,12 @@ if (screen.width <= 1440){
     $('#container .secondScreen .box').css({'max-height':'510px','min-height':'510px'})
     pageData=10;
 }
+// 一屏 表格
 var peoPicture_url='/portraite/portrait/';
 public_ajax.call_request('get',peoPicture_url,peoPicture);
 
 function peoPicture(data) {
-    // console.log(data)
-    $('#contentTable').empty();
+    // console.log(data);
     $('#contentTable').bootstrapTable('load', data);
     $('#contentTable').bootstrapTable({
         data:data,
@@ -49,34 +60,40 @@ function peoPicture(data) {
             },
             {
                 title: "注册地",//标题
-                field: "regist_address",//键名
+                field: "",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-                    var registAddress = row.regist_address;
-                    if (row.regist_address==''||row.regist_address=='null'||row.regist_address=='unknown'||!row.regist_address){
+                    // var registAddress = row.regist_address;
+                    var registAddress;
+                    if(row.province == '北京' || row.province == '上海' || row.province == '天津' || row.province == '重庆'){
+                        registAddress= row.city+row.district;
+                    }else{
+                        registAddress= row.province+row.city+row.district;
+                    }
+                    if (registAddress.length == 0){
                         return '未知';
                     }else {
-                        var i=registAddress.indexOf("市");
-                        registAddress = registAddress.substring(0,i+1);
+                        // var i=registAddress.indexOf("市");
+                        // registAddress = registAddress.substring(0,i+1);
                         return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.registAddress+'\')" title="注册地">'+registAddress+'</span>';
                     };
                 }
             },
             {
                 title: "时间",//标题
-                field: "start_time",//键名
+                field: "",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-                    if (row.start_time==''||row.start_time=='null'||row.start_time=='unknown'||!row.start_time){
+                    if (row.date==''||row.date=='null'||row.date=='unknown'||!row.date){
                         return '未知';
                     }else {
-                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.start_time+'\')" title="时间">'+row.start_time+'</span>';
+                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.date+'\')" title="时间">'+row.date+'</span>';
                     };
                 }
             },
@@ -135,13 +152,15 @@ function peoPicture(data) {
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-                    return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_2(\''+row.d+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
+                    return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.entity_name+
+                            '\',\''+row.entity_type+'\',\''+row.id+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
                 }
             },
         ],
     });
+    $('#contentTable p.load').hide();
 };
-
+// 点击进入公司详情页
 function jumpFrame_1(name,type,id) {
     var html='';
     name=escape(name);
@@ -152,10 +171,11 @@ function jumpFrame_1(name,type,id) {
     }
     window.location.href=html;
 }
-
+// 监测详情
 function jumpFrame_2(monitorFlag) {
-    window.localStorage.setItem('monitorFlag',monitorFlag);
-    window.location.href='../templates/monitorDetails.html';
+    // window.localStorage.setItem('monitorFlag',monitorFlag);
+    // window.location.href='../templates/monitorDetails.html';
+    window.location.href='/index/monitor/';
 }
 // ====索引====
 // var IndexesArr = $()
@@ -178,16 +198,25 @@ var allMonitor_url='/portraite/platform/';
 public_ajax.call_request('get',allMonitor_url,allMonitor);
 var phonehtml=[];
 function allMonitor(data) {
-    console.log(data)
+    // console.log(data)
     // var line=data.airlines;
     var line=data;
+    var illegalType;
     for (var i=0;i<line.length;i++){
+        if(data[i].illegal_type == 1){
+            illegalType = '模型预警';
+        }else if(data[i].illegal_type == 2){
+            illegalType = '舆情预警';
+        }else if(data[i].illegal_type == 3){
+            illegalType = '指标预警';
+        }
+
         phonehtml.push(
             '<p class="phone" type="button" data-toggle="modal" ' +
-            'onclick="show(this)" onmousemove="chgecol(this)" onmouseout="back(this)">'+
+            'onclick="show(\''+line[i].entity_name+'\',\''+line[i].entity_type+'\',\''+line[i].id+'\')" onmousemove="chgecol(this)" onmouseout="back(this)">'+
             '<span class="iphone zjnum">'+line[i].entity_name+'</span>'+
             // '<span class="iphone bjnum">'+line[i]+'</span>'+
-            '<span class="iphone bjnum">模型预警</span>'+
+            '<span class="iphone bjnum">'+illegalType+'</span>'+
             '</p>'
         );
     };
@@ -243,8 +272,12 @@ function scrollList(obj) {
             // $('.scroll-box .box').append(phonehtml.shift());
         });
 };
-function show(a) {
 
+function show(name,type,id) {
+    var html='';
+    name=escape(name);
+    html='/index/company/?name='+name+'&flag='+type+'&pid='+id;
+    window.location.href=html;
 }
 function chgecol(b) {
 

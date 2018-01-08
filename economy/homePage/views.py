@@ -21,6 +21,7 @@ def warn_count():
 
 
 
+
 @homePage.route('/cityRank/')
 def city_rank():
 	province = request.args.get('province','')
