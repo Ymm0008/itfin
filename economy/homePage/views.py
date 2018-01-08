@@ -31,6 +31,7 @@ def city_rank():
 @homePage.route('/provinceRank/')
 def province_rank():
 	result = get_province_rank(TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,TABLE_GONGSHANG,province_field)
+	result.sort(key=lambda x:x['count7'],reverse=True)
 	return json.dumps(result,ensure_ascii=False)
 
 

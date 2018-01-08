@@ -67,6 +67,26 @@ def get_project(table0,table,field):
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return data
 
+def get_monitor_count(table):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+	sql1 = "select count(*) from %s where monitor_status=1"%table
+	cur.execute(sql1)
+	res1 = cur.fetchall()[0][0]
+	
+	t = int(time.time())
+	a = time.localtime(t)
+	b = time.strftime("%Y-%m-%d",a)
+
+	sql3 = "select count(*) from %s where in_time=%s and monitor_status=1"%(table, b)
+	cur.execute(sql3)
+	res3 = cur.fetchall()[0][0]
+
+	dict = {'all':res1,'today':res3}
+	return dict
+
+
 
 #实体详情页
 def platform_detail(table1,table2,table3,id,field):
@@ -234,6 +254,13 @@ def getDetectData(date,table1,table2,table3,table4,table5,field):
 	conn.autocommit(True)
 	cur = conn.cursor()
 
+	#####
+	list = [u"靠谱鸟",u"绿能宝",u"e联贷",u"同江金融",u"君享金融",u"金钱贷",u"亿好金服",u"佰仟金融",u"速溶360",u"亿优金融",u"鑫脉财富",u"太保金服",u"穆金所",u"升隆财富",u"邑民金融"]
+	list1 = []
+	list2 = []
+	filter_list = []
+	#####
+
 	sql = "select max(date) from %s"%table2
 	cur.execute(sql)
 	end_time = cur.fetchall()[0][0]
@@ -249,9 +276,16 @@ def getDetectData(date,table1,table2,table3,table4,table5,field):
 	cur.execute(sql3)
 	res3 = cur.fetchall()
 	res = res1 + res2 + res3
-	if res:
-		result = [{k:row[i] for i,k in enumerate(field)} for row in res]
-	return result
+	result = [{k:row[i] for i,k in enumerate(field)} for row in res]
+	for entity in list:
+		for r in result:
+			if not r['entity_name'] in filter_list and r['entity_name'] == entity:
+				list1.append(r)
+			else:
+				list2.append(r)
+				filter_list.append(r['entity_name'])
+
+	return list1 + list2
 
 def getDetectRank(table1,table2,table3,date,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
@@ -428,6 +462,7 @@ def h_getWarnCount(table1,table2,table3):
 	start_time = start_time.strftime("%Y-%m-%d")
 
 	sql1 = 'select count(*) from %s where illegal_type>0 and date>="%s" and date<="%s"'%(table1,start_time,end_time)	
+	print(sql1)
 	cur.execute(sql1)
 	res1 = cur.fetchall()
 	
@@ -598,28 +633,31 @@ def getTimeDistribute(table1,table2,table3):
 	end_time = cur.fetchall()[0][0]
 
 	time_list = []
-	for i in range(1,31):
+	for i in range(0,30):
 		start_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=i)
 		start_time = start_time.strftime("%Y-%m-%d")
 		time_list.append(start_time)
 
 	for i,time in enumerate(time_list):
-		if i < len(time_list)-1:
-			sql1 = "select count(*) from %s where date<='%s' and date>='%s'"%(table1,time_list[i],time_list[i+1])
-			cur.execute(sql1)
-			res1 = cur.fetchall()[0][0]
+		#print(i)
+		#print(time)
+		#if i < len(time_list)-1:
+		sql1 = "select count(*) from %s where date='%s' and illegal_type>0"%(table1,time)
+		print(sql1)
+		cur.execute(sql1)
+		res1 = cur.fetchall()[0][0]
 
-			sql2 = "select count(*) from %s where date<='%s' and date>='%s'"%(table2,time_list[i],time_list[i+1])
-			cur.execute(sql2)
-			res2 = cur.fetchall()[0][0]
-		
-			sql3 = "select count(*) from %s where date<='%s' and date>='%s'"%(table3,time_list[i],time_list[i+1])
-			cur.execute(sql3)
-			res3 = cur.fetchall()[0][0]
+		sql2 = "select count(*) from %s where date='%s' and illegal_type>0"%(table2,time)
+		cur.execute(sql2)
+		res2 = cur.fetchall()[0][0]
 	
-			result = res1 + res2 + res3
-			dict = {'time':time,'count':result}
-			list.append(dict)
+		sql3 = "select count(*) from %s where date='%s' and illegal_type>0"%(table3,time)
+		cur.execute(sql3)
+		res3 = cur.fetchall()[0][0]
+
+		result = res1 + res2 + res3
+		dict = {'time':time,'count':result}
+		list.append(dict)
 
 	return list
 

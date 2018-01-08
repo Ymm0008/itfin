@@ -62,9 +62,8 @@ def get_commentContent(entity_name, score, index_name, type):
                         "bool":{
                             "must":{"match":{"content":entity_name}},
                             "should":[
-                                {"match":{"sent":1}},
-                                {"match":{"sent":2}},
-                                {"match":{"sent":3}}
+                                {"match":{"em1":0}},
+                                {"match":{"em1":1}}
                                     ],
                             "minimum_should_match" : 1
                                 }
