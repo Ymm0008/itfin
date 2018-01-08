@@ -192,69 +192,91 @@ function get7DaysBefore(date,m){
 };
 
 // ====右顶侧小表格【未完成
-    // var risk_url='///';
-    // public_ajax.call_request('get',risk_url,riskValue);
+
+    var risk_url='/index/riskCommentTable/?entity_id='+pid+'&type='+type;
+    public_ajax.call_request('get',risk_url,riskValue);
     var objData=[{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},
         {'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},
         {'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''}]
     function riskValue(data) {
-        $('#riskValueTable').bootstrapTable('load', data);
-        $('#riskValueTable').bootstrapTable({
-            data:data,
-            search: false,//是否搜索
-            pagination: true,//是否分页
-            pageSize: 3,//单页记录数
-            pageList: [15,20,25],//分页步进值
-            sidePagination: "client",//服务端分页
-            searchAlign: "left",
-            searchOnEnterKey: false,//回车搜索
-            showRefresh: false,//刷新按钮
-            showColumns: false,//列选择按钮
-            buttonsAlign: "right",//按钮对齐方式
-            locale: "zh-CN",//中文支持
-            detailView: false,
-            showToggle:false,
-            sortName:'bci',
-            sortOrder:"desc",
-            columns: [
-                {
-                    title: "时间",//标题
-                    field: "a",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    // formatter: function (value, row, index) {
-                    //     if (row.user_name==''||row.user_name=='null'||row.user_name=='unknown'||!row.user_name){
-                    //         return '未知';
-                    //     }else {
-                    //         return row.user_name;
-                    //     };
-                    // }
-                },
-                {
-                    title: "预警内容",//标题
-                    field: "b",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                },
-                {
-                    title: "查看详情",//标题
-                    field: "",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        return '<span style="cursor:pointer;" onclick="" title="查看详情"><i class="icon icon-edit"></i></span>';
-                    }
-                },
-            ],
-        });
+        for(var item in data){
+            if(data.item.length == 0){
+                $('#riskValueTable p.load').text('暂无记录');
+            }else{
+                $('#riskValueTable').bootstrapTable('load', data.item);
+                $('#riskValueTable').bootstrapTable({
+                    data:data.item,
+                    search: false,//是否搜索
+                    pagination: true,//是否分页
+                    pageSize: 3,//单页记录数
+                    pageList: [15,20,25],//分页步进值
+                    sidePagination: "client",//服务端分页
+                    searchAlign: "left",
+                    searchOnEnterKey: false,//回车搜索
+                    showRefresh: false,//刷新按钮
+                    showColumns: false,//列选择按钮
+                    buttonsAlign: "right",//按钮对齐方式
+                    locale: "zh-CN",//中文支持
+                    detailView: false,
+                    showToggle:false,
+                    sortName:'bci',
+                    sortOrder:"desc",
+                    columns: [
+                        {
+                            title: "时间",//标题
+                            field: "date",//键名
+                            sortable: true,//是否可排序
+                            order: "desc",//默认排序方式
+                            align: "center",//水平
+                            valign: "middle",//垂直
+                            formatter: function (value, row, index) {
+                                if (row.date==''||row.date=='null'||row.date=='unknown'||!row.date){
+                                    return '未知';
+                                }else {
+                                    return row.date;
+                                };
+                            }
+                        },
+                        {
+                            title: "预警内容",//标题
+                            field: "illegal_type",//键名
+                            sortable: true,//是否可排序
+                            order: "desc",//默认排序方式
+                            align: "center",//水平
+                            valign: "middle",//垂直
+                            formatter: function (value, row, index) {
+                                if (row.illegal_type==''||row.illegal_type=='null'||row.illegal_type=='unknown'||!row.illegal_type){
+                                    return '未知';
+                                }else if(row.illegal_type==1) {
+                                    return '模型预警';
+                                }else if(row.illegal_type==2) {
+                                    return '舆情预警';
+                                }else if(row.illegal_type==3) {
+                                    return '指标预警';
+                                };
+                            }
+                        },
+                        {
+                            title: "查看详情",//标题
+                            field: "",//键名
+                            sortable: true,//是否可排序
+                            order: "desc",//默认排序方式
+                            align: "center",//水平
+                            valign: "middle",//垂直
+                            formatter: function (value, row, index) {
+                                return '<span style="cursor:pointer;" onclick="" title="查看详情"><i class="icon icon-edit"></i></span>';
+                            }
+                        },
+                    ],
+                });
+                $('#riskValueTable p.load').hide();
+
+                $('.mon-2').text(item)
+            }
+        }
+
     };
-    riskValue(objData)
+    // riskValue(objData)
 
 // ====子公司分公司====
     // var table_1_url = '/index/sub_firm/?firm_name='+firm_name;
@@ -1185,7 +1207,14 @@ function get7DaysBefore(date,m){
                 $('#moreInfo #usn').text('未知');//作者
             }
             $('#moreInfo #words').text(data.content);//内容
-            $('#moreInfo #url a').text('原网页链接').attr({'href':data.u,'target':'_blank','title':'原网页链接'});//原文链接
+            // 原网页链接
+            var url;
+            if(row.url){
+                url = row.url;
+            }else{
+                url = row.u;
+            }
+            $('#moreInfo #url a').text('原网页链接').attr({'href':url,'target':'_blank','title':'原网页链接'});//原文链接
 
             $('#moreInfo').modal('show');
         }
@@ -1286,7 +1315,14 @@ function get7DaysBefore(date,m){
                 $('#moreInfo #usn').text('暂无');//用户
             }
             $('#moreInfo #words').text(data.content);//内容
-            $('#moreInfo #url a').text('原网页链接').attr({'href':data.u,'target':'_blank','title':'原网页链接'});//原文链接
+            // 原网页链接
+            var url;
+            if(row.url){
+                url = row.url;
+            }else{
+                url = row.u;
+            }
+            $('#moreInfo #url a').text('原网页链接').attr({'href':url,'target':'_blank','title':'原网页链接'});//原文链接
 
             $('#moreInfo').modal('show');
         }
@@ -1458,6 +1494,15 @@ function get7DaysBefore(date,m){
                             }else{
                                 source = '未知';
                             }
+
+                            // 原网页链接
+                            var url;
+                            if(row.url){
+                                url = row.url;
+                            }else{
+                                url = row.u;
+                            }
+
                             return '<div class="inforContent">'+
                                 '            <div class="main">'+
                                 '                <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
@@ -1468,7 +1513,7 @@ function get7DaysBefore(date,m){
                                 '   <button onclick="getAllArtical(\''+tag+'_'+index+'\')" artical=\"'+tag+'_'+index+'\" class="original btn-primary btn-xs">查看全文</button>'+
                                 '                </p>'+
                                 '                <p class="context">'+contentClip+'</p>'+
-                                '                <a href="'+row.url+'" title="原网页链接" target="_blank">原网页链接</a>            '+
+                                '                <a href="'+url+'" title="原网页链接" target="_blank">原网页链接</a>            '+
                                 '            </div>'+
                                 '        </div>';
                         }
@@ -1734,16 +1779,17 @@ function get7DaysBefore(date,m){
                             // 所有的数据
                             commentarticalList[com+'_'+index] = row.content;
                             // 评论倾向
-                            var sent;
-                            if(row.sent == 0){
-                                sent = '消极';
-                            }else if(row.sent == 1){
-                                sent = '中性';
-                            }else if(row.sent == 2){
-                                sent = '积极';
-                            }else{
-                                sent = '未知';
-                            }
+                            var sent = '负面';
+
+                            // if(row.sent == 0){
+                            //     sent = '消极';
+                            // }else if(row.sent == 1){
+                            //     sent = '中性';
+                            // }else if(row.sent == 2){
+                            //     sent = '积极';
+                            // }else{
+                            //     sent = '未知';
+                            // }
                             // 评论来源
                             var source;
                             if(row.source == 'wechat'){
@@ -1759,6 +1805,15 @@ function get7DaysBefore(date,m){
                             }else{
                                 source = '未知';
                             }
+
+                            // 原网页链接
+                            var url;
+                            if(row.url){
+                                url = row.url;
+                            }else{
+                                url = row.u;
+                            }
+
                             return '<div class="inforContent" id="commentinforContent">'+
                                 '                <div class="main">'+
                                 '                    <img src="/static/images/textIcon.png" class="textFlag" style="top:8px;">'+
@@ -1769,7 +1824,7 @@ function get7DaysBefore(date,m){
                                 '                        <button class="originalbtn btn-primary btn-xs" onclick="getAllcommtentartical(\''+com+'_'+index+'\')" artical=\"'+com+'_'+index+'\">查看全文</button>'+
                                 '                    </p>'+
                                 '                    <p class="context">'+contentClip+'</p>'+
-                                '                <a href="'+row.url+'" title="原网页链接" target="_blank">原网页链接</a>            '+
+                                '                <a href="'+url+'" title="原网页链接" target="_blank">原网页链接</a>            '+
                                 '                </div>'+
                                 '            </div>';
                         }
