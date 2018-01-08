@@ -638,14 +638,29 @@ def get_perceive_data(table,field):
 	return result
 
 
+def p_getWarnCount(table,field):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
 
+	#sql1 = "select count(*) from %s where entity_type=1 group by entity_name"%table	
+	#sql2 = "select count(*) from %s where entity_type=2 group by entity_name"%table	
+	#sql3 = "select count(*) from %s where entity_type=3 group by entity_name"%table
 
+	#cur.execute(sql1)
+	#res1 = cur.fetchall()[0][0]
+	#cur.execute(sql2)
+	#res2 = cur.fetchall()[0][0]
+	#cur.execute(sql3)
+	#res3 = cur.fetchall()[0][0]
+	#dict = {'platform':res1,'company':res2,'project':res3}
+	#return dict
 
-
-
-
-
-
+	sql = 'select entity_type,count(*) from %s where date=(select max(date) from sensor_daily as sd) group by entity_type'%table
+	cur.execute(sql)
+	res = cur.fetchall()
+	result = [{k:row[i] for i,k in enumerate(field)} for row in res]
+	return result
 
 
 
