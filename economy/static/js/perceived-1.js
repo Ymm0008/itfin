@@ -347,6 +347,13 @@ function perceiveContent(data){
                             usn = '未知';
                         }
 
+                        var url;//原文链接
+                        if(row.u){
+                            url = row.u;
+                        }else if(row.url){
+                            url = row.url;
+                        }
+
                         return '<div class="inforContent">'+
                             '            <div class="main">'+
                             '                <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
@@ -359,7 +366,7 @@ function perceiveContent(data){
                             '                    <span>用户：<b style="color: #ff6d70;">'+usn+'</b></span>'+
                             '                </p>'+
                             '                <p class="context" style="overflow:auto;max-height:200px;text-indent:2em;">'+contentClip+'</p>'+
-                            '                <a href="'+row.url+'" title="原网页链接" target="_blank">原网页链接</a>            '+
+                            '                <a href="'+url+'" title="原网页链接" target="_blank">原网页链接</a>            '+
                             '            </div>'+
                             '        </div>';
                     }

@@ -122,7 +122,7 @@
                             normal: {
                                 borderWidth:2,
                                 borderColor:'white',
-                                color:'rgba(3, 3, 4, 0.41)',
+                                color:'#fee9b4',
                                 label: {
                                     show: true,
                                     textStyle: {
@@ -2536,6 +2536,28 @@
     }
 
 // 字符云
+    // 当天感知数
+    var warnCount_url='/perceived/warnCount/';
+    public_ajax.call_request('get',warnCount_url,warnCount);
+    function warnCount (data){
+        if(data){
+            $('#container .todayIn').text(data[0].count);
+        }
+    }
+    // 感知表格前15个
+    var fellTable_url='/perceived/perceiveData/';
+    public_ajax.call_request('get',fellTable_url,fellTable);
+    var fellData_1 = [];
+    function fellTable(data){
+        // console.log(data.slice(0,15));
+        var fellData = data.slice(0,15);
+        // var fellData_1 = [];
+        for(var i=0;i<fellData.length;i++){
+            fellData_1.push({name:fellData[i].entity_name,value: 999,itemStyle: createRandomItemStyle()})
+        }
+    }
+    // console.log(fellData_1);
+
     function createRandomItemStyle() {
         return {
             normal: {
@@ -2573,93 +2595,96 @@
                             // enable: true,
                             // minSize: 18
                         },
-                        data: [
-                            {
-                                name: "我要金蛋",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "屹农金服",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "理财去",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "联投银帮",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "弘信宝",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "网惠金融",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "晶行财富",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "孺牛金服",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "摩根浦捷贷",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "知屋理财",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "沪臣地方金融",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "升隆财富",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "冰融贷",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "靠谱鸟",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "速溶360",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "存米网",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "太保金服",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                        ]
+                        /*
+                            data: [
+                                {
+                                    name: "我要金蛋",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "屹农金服",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "理财去",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "联投银帮",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "弘信宝",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "网惠金融",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "晶行财富",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "孺牛金服",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "摩根浦捷贷",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "知屋理财",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "沪臣地方金融",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "升隆财富",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "冰融贷",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "靠谱鸟",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "速溶360",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "存米网",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "太保金服",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                            ]
+                         */
+                        data:fellData_1
                     }]
                 };
                 myChart.setOption(option);

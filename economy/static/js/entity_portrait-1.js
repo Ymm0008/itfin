@@ -1,3 +1,14 @@
+// 当前监测实体
+var monitorCount_url='/portraite/monitorCount/';
+public_ajax.call_request('get',monitorCount_url,monitorCount);
+function monitorCount(data){
+    if(data){
+        $('.com-1').text(data.all)
+        $('.com-2').text(data.today)
+    }
+}
+
+
 var pageData=6;
 if (screen.width <= 1440){
     $('#container .secondScreen .box').css({'max-height':'308px','min-height':'308px'})
@@ -187,7 +198,7 @@ var allMonitor_url='/portraite/platform/';
 public_ajax.call_request('get',allMonitor_url,allMonitor);
 var phonehtml=[];
 function allMonitor(data) {
-    console.log(data)
+    // console.log(data)
     // var line=data.airlines;
     var line=data;
     var illegalType;

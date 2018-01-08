@@ -32,10 +32,10 @@ var entity_name ,firm_name;
     // var basicInfor_url='/index/entityType/?id=5120&type=1';//测试股东信息
     public_ajax.call_request('get',basicInfor_url,basicInfor);
     function basicInfor(data){
-        // console.log(data);
+        console.log(data);
         var item=data[0];
 
-        var t1='',t2='',t3='否',t4='0级',t5='0级',t6='否',operationMode,legalPerson,capital;
+        var t1='',t2='',t3='否',t4='0',t5='0',t6='否',operationMode,legalPerson,capital;
         if (item.entity_type==1){t1='平台';}else if (item.entity_type==2){t1='公司';}else if (item.entity_type==1){t1='项目';}else {t1=''}
         if (item.set_time){t2=item.set_time;}//成立时间
         $('.location').text(item.regist_address||''); //注册地
@@ -67,12 +67,16 @@ var entity_name ,firm_name;
         }
         $('.val-1').text(t3);
 
-        // if (item.risk_level){t4=item.risk_level+'级';}
-        if (item.risk_level){t4=item.risk_level;}
-        $('.val-2').text(t4);
-        // if (item.impact_level){t5=item.impact_level+'级';}
-        if (item.impact_level){t5=item.impact_level;}
-        $('.val-3').text(t5);
+        if (item.risk_level!=''&&item.risk_level!='null'&&item.risk_level!='unknown'&&!item.risk_level&&item.risk_level!='None'){
+            t4=item.risk_level;
+        }
+        $('.val-2').text(t4);//风险等级
+
+        if (item.impact_level!=''&&item.impact_level!='null'&&item.impact_level!='unknown'&&!item.impact_level&&item.impact_level!='None'){
+            t5=item.impact_level;
+        }
+        $('.val-3').text(t5);//影响等级
+
         $('.val-4').text(item.operation_mode||'');
         if (item.penalty_status==1){t6='是';}
         $('.val-5').text(t6);

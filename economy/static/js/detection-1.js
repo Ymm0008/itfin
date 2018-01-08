@@ -197,7 +197,7 @@
             left: '4%',
             right: '7%',
             bottom: '8%',
-            top:'4%',
+            top:'10%',
             containLabel: true
         },
         xAxis: [{
@@ -217,6 +217,11 @@
         }],
         yAxis: [{
             type: 'value',
+            name:'当日总预警数',
+            nameLocation:'end',
+            nameTextStyle:{
+                fontSize:14
+            },
             axisTick: {
                 show: true
             },
@@ -227,7 +232,7 @@
             },
             axisLabel: {
                 show:true,
-                margin: 10,
+                // margin: 10,
                 textStyle: {
                     fontSize: 14,
                     color:'white',
