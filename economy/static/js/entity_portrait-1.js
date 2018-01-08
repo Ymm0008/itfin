@@ -105,6 +105,9 @@ function peoPicture(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                formatter: function (value, row, index) {
+                    return '模型预警'
+                }
             },
             {
                 title: "实体类型",//标题
@@ -133,15 +136,16 @@ function peoPicture(data) {
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-                    if (row.operation_mode==''||row.operation_mode=='null'||row.operation_mode=='unknown'||!row.operation_mode){
-                        return '未知';
-                    }else if(row.operation_mode == 1){
-                        return '互联网金融';
-                    }else if(row.operation_mode == 2){
-                        return '2';
-                    }else if(row.operation_mode == 3){
-                        return '3';
-                    }
+                    // if (row.operation_mode==''||row.operation_mode=='null'||row.operation_mode=='unknown'||!row.operation_mode){
+                    //     return '未知';
+                    // }else if(row.operation_mode == 1){
+                    //     return '互联网金融';
+                    // }else if(row.operation_mode == 2){
+                    //     return '2';
+                    // }else if(row.operation_mode == 3){
+                    //     return '3';
+                    // }
+                    return '互联网金融';
                 }
             },
             {

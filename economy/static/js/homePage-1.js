@@ -2553,8 +2553,9 @@
         var fellData = data.slice(0,15);
         // var fellData_1 = [];
         for(var i=0;i<fellData.length;i++){
-            fellData_1.push({name:fellData[i].entity_name,value:1,itemStyle:createRandomItemStyle()})
+            fellData_1.push({name:fellData[i].entity_name,value:9999,itemStyle:createRandomItemStyle()})
         }
+        keywords();
     }
     // console.log(fellData_1);
 
@@ -2588,6 +2589,7 @@
                     },
                     series: [{
                         type: 'wordCloud',
+                        // size: ['100%', '90%','100%','90%','100%','20%','10%','20%'],
                         size: ['100%', '90%','100%','90%','100%','20%','10%','20%'],
                         textRotation : [0, 45, 90, -45],
                         textPadding: 0,

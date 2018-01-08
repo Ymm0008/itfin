@@ -70,12 +70,12 @@ var entity_name ,firm_name;
         if (item.risk_level!=''&&item.risk_level!='null'&&item.risk_level!='unknown'&&!item.risk_level&&item.risk_level!='None'){
             t4=item.risk_level;
         }
-        $('.val-2').text(t4);//风险等级
+        $('.val-2').text(item.risk_level);//风险等级
 
         if (item.impact_level!=''&&item.impact_level!='null'&&item.impact_level!='unknown'&&!item.impact_level&&item.impact_level!='None'){
             t5=item.impact_level;
         }
-        $('.val-3').text(t5);//影响等级
+        $('.val-3').text(item.impact_level);//影响等级
 
         $('.val-4').text(item.operation_mode||'');
         if (item.penalty_status==1){t6='是';}
@@ -199,13 +199,15 @@ function get7DaysBefore(date,m){
         {'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},
         {'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''}]
     function riskValue(data) {
+        console.log(data);
         for(var item in data){
-            if(data.item.length == 0){
+            console.log(item);
+            if(data[item].length == 0){
                 $('#riskValueTable p.load').text('暂无记录');
             }else{
-                $('#riskValueTable').bootstrapTable('load', data.item);
+                $('#riskValueTable').bootstrapTable('load', data[item]);
                 $('#riskValueTable').bootstrapTable({
-                    data:data.item,
+                    data:data[item],
                     search: false,//是否搜索
                     pagination: true,//是否分页
                     pageSize: 3,//单页记录数
@@ -1869,12 +1871,12 @@ var last_year_month = function() {
             // 时间
             var date = [];
             for(var i=0;i<data.length;i++){
-                // 消极评论
-                day30Data_0.push(data[i].sent0_webo+data[i].sent0_bbs+data[i].sent0_zhihu+data[i].sent0_forum+data[i].sent0_wechat);
-                // 中性评论
-                day30Data_1.push(data[i].sent1_webo+data[i].sent1_bbs+data[i].sent1_zhihu+data[i].sent1_forum+data[i].sent1_wechat);
-                // 积极评论
-                day30Data_2.push(data[i].sent2_webo+data[i].sent2_bbs+data[i].sent2_zhihu+data[i].sent2_forum+data[i].sent2_wechat);
+                // 一般负面评论
+                day30Data_0.push(data[i].em0_text_webo+data[i].em0_text_bbs+data[i].em0_text_zhihu+data[i].em0_text_forum+data[i].em0_text_wechat);
+                // 严重负面评论
+                day30Data_1.push(data[i].em1_text_webo+data[i].em1_text_bbs+data[i].em1_text_zhihu+data[i].em1_text_forum+data[i].em1_text_wechat);
+                // // 积极评论
+                // day30Data_2.push(data[i].sent2_webo+data[i].sent2_bbs+data[i].sent2_zhihu+data[i].sent2_forum+data[i].sent2_wechat);
                 // 时间
                 date.push(data[i].date);
             }
@@ -1899,7 +1901,7 @@ var last_year_month = function() {
                 trigger: 'axis'
             },
             legend: {
-                data:['']
+                data:['一般负面评论','严重负面评论']
             },
             xAxis:  {
                 type: 'category',
@@ -1915,17 +1917,17 @@ var last_year_month = function() {
             },
             series: [
                 {
-                    name:'消极评论',
+                    name:'一般负面评论',
                     type:'line',
                     smooth:true,
                     data:day30Data_0,
                     itemStyle:{normal:{areaStyle:{type:'default'}}},
-                    markPoint: {
-                        data: [
-                            {type: 'max', name: '最大值'},
-                            {type: 'min', name: '最小值'}
-                        ]
-                    },
+                    // markPoint: {
+                    //     data: [
+                    //         {type: 'max', name: '最大值'},
+                    //         {type: 'min', name: '最小值'}
+                    //     ]
+                    // },
                     markLine: {
                         data: [
                             {type: 'average', name: '平均值'}
@@ -1933,41 +1935,41 @@ var last_year_month = function() {
                     }
                 },
                 {
-                    name:'中性评论',
+                    name:'严重负面评论',
                     type:'line',
                     smooth:true,
                     data:day30Data_1,
                     itemStyle:{normal:{areaStyle:{type:'default'}}},
-                    markPoint: {
-                        data: [
-                            {type: 'max', name: '最大值'},
-                            {type: 'min', name: '最小值'}
-                        ]
-                    },
+                    // markPoint: {
+                    //     data: [
+                    //         {type: 'max', name: '最大值'},
+                    //         {type: 'min', name: '最小值'}
+                    //     ]
+                    // },
                     markLine: {
                         data: [
                             {type: 'average', name: '平均值'}
                         ]
                     }
                 },
-                {
-                    name:'积极评论',
-                    type:'line',
-                    smooth:true,
-                    data:day30Data_2,
-                    itemStyle:{normal:{areaStyle:{type:'default'}}},
-                    markPoint: {
-                        data: [
-                            {type: 'max', name: '最大值'},
-                            {type: 'min', name: '最小值'}
-                        ]
-                    },
-                    markLine: {
-                        data: [
-                            {type: 'average', name: '平均值'}
-                        ]
-                    }
-                },
+                // {
+                //     name:'积极评论',
+                //     type:'line',
+                //     smooth:true,
+                //     data:day30Data_2,
+                //     itemStyle:{normal:{areaStyle:{type:'default'}}},
+                //     markPoint: {
+                //         data: [
+                //             {type: 'max', name: '最大值'},
+                //             {type: 'min', name: '最小值'}
+                //         ]
+                //     },
+                //     markLine: {
+                //         data: [
+                //             {type: 'average', name: '平均值'}
+                //         ]
+                //     }
+                // },
             ]
         };
         myChart.setOption(option);
