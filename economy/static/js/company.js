@@ -752,7 +752,6 @@ function get7DaysBefore(date,m){
                             },
                         )
                         // 三级子公司（暂无数据）
-                        /*
                         if(data[3][data[1][comp][i][j]].length != 0){
                             for(var n=0;n<data[3][data[1][comp][i][j]].length;n++){
                                 // option.series[0].data[0].children[i].children[j].children[n].name = data[3][data[1][comp][i][j]][0];
@@ -773,7 +772,6 @@ function get7DaysBefore(date,m){
                                 )
                             }
                         }
-                         */
                     }
                 }
 
@@ -837,7 +835,6 @@ function get7DaysBefore(date,m){
                                 },
                             )
                             // 三级股东（暂无数据）
-                            /*
                             if(data[3][data[1][comp][i][j]].length != 0){
                                 for(var n=0;n<data[3][data[1][comp][i][j]].length;n++){
                                     // option.series[0].data[0].children[i].children[j].children[n].name = data[3][data[1][comp][i][j]][0];
@@ -858,7 +855,6 @@ function get7DaysBefore(date,m){
                                     )
                                 }
                             }
-                             */
                         }
                     }
                 }
