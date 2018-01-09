@@ -25,160 +25,176 @@ table_field = ['date','illegal_type']
 
 @index.route('/platform/')
 def platform():
-	return render_template('index/platform.html')
+    return render_template('index/platform.html')
 
 @index.route('/monitor/')
 def monitor():
-	return render_template('index/monitorDetails.html')
+    return render_template('index/monitorDetails.html')
 
 @index.route('/company/')
 def company():
-	name = request.args.get('name','')
-	flag = request.args.get('flag','')
-	pid = request.args.get('pid','')
-	return render_template('index/company.html',name=name,flag=flag,pid=pid)
+    name = request.args.get('name','')
+    flag = request.args.get('flag','')
+    pid = request.args.get('pid','')
+    return render_template('index/company.html',name=name,flag=flag,pid=pid)
 
 @index.route('/project/')
 def project():
-	name = request.args.get('name','')
-	flag = request.args.get('flag','')
-	return render_template('index/project.html',name=name,flag=flag)
+    name = request.args.get('name','')
+    flag = request.args.get('flag','')
+    return render_template('index/project.html',name=name,flag=flag)
 
 @index.route('/entityType/')
 def entity_type():
-	id = int(request.args.get('id',''))
-	type = int(request.args.get('type',''))
-	if type == 1:
-		result = platform_detail(TABLE_ENTITY_LIST,TABLE_PLAT_DETAIL,TABLE_GONGSHANG,id,plat_field)
-	elif type == 2:
-		result = company_detail(TABLE_ENTITY_LIST,TABLE_COMPANY_DETAIL,TABLE_GONGSHANG,id,com_field)
-	elif type == 3:
-		result = project_detail(TABLE_ENTITY_LIST,TABLE_PROJECT_DETAIL,TABLE_GONGSHANG,id,pro_field)
-	return json.dumps(result,ensure_ascii=False)
+    id = int(request.args.get('id',''))
+    type = int(request.args.get('type',''))
+    if type == 1:
+        result = platform_detail(TABLE_ENTITY_LIST,TABLE_PLAT_DETAIL,TABLE_GONGSHANG,id,plat_field)
+    elif type == 2:
+        result = company_detail(TABLE_ENTITY_LIST,TABLE_COMPANY_DETAIL,TABLE_GONGSHANG,id,com_field)
+    elif type == 3:
+        result = project_detail(TABLE_ENTITY_LIST,TABLE_PROJECT_DETAIL,TABLE_GONGSHANG,id,pro_field)
+    return json.dumps(result,ensure_ascii=False)
 
 
 @index.route('/ad/')
 def adData():
-	id = int(request.args.get('id',''))
-	result = get_ad(TABLE_AD_STATIS,id,ad_field)
-	return json.dumps(result,ensure_ascii=False)
+    id = int(request.args.get('id',''))
+    result = get_ad(TABLE_AD_STATIS,id,ad_field)
+    return json.dumps(result,ensure_ascii=False)
 
 @index.route('/comment/')
 def commentData():
-	id = int(request.args.get('id',''))
-	result = get_comment(TABLE_COMMENT_STATIS,id,comment_field)
-	return json.dumps(result,ensure_ascii=False)
+    id = int(request.args.get('id',''))
+    result = get_comment(TABLE_COMMENT_STATIS,id,comment_field)
+    return json.dumps(result,ensure_ascii=False)
 
 @index.route('/gongshang/')
 def gongshangData():
-	id = int(request.args.get('id',''))
-	result = get_gongshang(TABLE_GONGSHANG,id,gongshang_field)
-	return json.dumps(result,ensure_ascii=False)
+    id = int(request.args.get('id',''))
+    result = get_gongshang(TABLE_GONGSHANG,id,gongshang_field)
+    return json.dumps(result,ensure_ascii=False)
 
 @index.route('/guarantee/')
 def guaranteeData():
-	id = int(request.args.get('id',''))
-	result = get_guarantee(TABLE_GUARANTEE_PROMISE,id,guarantee_promise_field)
-	return json.dumps(result,ensure_ascii=False)
+    id = int(request.args.get('id',''))
+    result = get_guarantee(TABLE_GUARANTEE_PROMISE,id,guarantee_promise_field)
+    return json.dumps(result,ensure_ascii=False)
 
 @index.route('/returnRate/')
 def returnRateData():
-	type = int(request.args.get('type',''))
-	id = int(request.args.get('id',''))
-	if type == 1:
-		result = get_return_rate(TABLE_RETURN_RATE,'plat_detail',id,return_rate_field)
-	elif type == 2:
-		result = get_return_rate(TABLE_RETURN_RATE,'company_detail',id,return_rate_field)
-	elif type == 3:
-		result = get_return_rate(TABLE_RETURN_RATE,'project_detail',id,return_rate_field)
-	#result = get_return_rate('return_rate',id,return_rate_field)
-	return json.dumps(result,ensure_ascii=False)
+    type = int(request.args.get('type',''))
+    id = int(request.args.get('id',''))
+    if type == 1:
+        result = get_return_rate(TABLE_RETURN_RATE,'plat_detail',id,return_rate_field)
+    elif type == 2:
+        result = get_return_rate(TABLE_RETURN_RATE,'company_detail',id,return_rate_field)
+    elif type == 3:
+        result = get_return_rate(TABLE_RETURN_RATE,'project_detail',id,return_rate_field)
+    #result = get_return_rate('return_rate',id,return_rate_field)
+    return json.dumps(result,ensure_ascii=False)
 
 
 @index.route('/returnRate_content/')
 def returnrateContent():
-	index_name = request.args.get('index_name','')
-	text_id = request.args.get('text_id','')
-	result = get_returnrate_content(index_name,text_id)
-	return json.dumps(result,ensure_ascii=False)
+    index_name = request.args.get('index_name','')
+    text_id = request.args.get('text_id','')
+    result = get_returnrate_content(index_name,text_id)
+    return json.dumps(result,ensure_ascii=False)
 
 @index.route('/promise_content/')
 def promiseContent():
-	index_name = request.args.get('index_name','')
-	text_id = request.args.get('text_id','')
-	result = get_promise_content(index_name,text_id)
-	return json.dumps(result,ensure_ascii=False)
+    index_name = request.args.get('index_name','')
+    text_id = request.args.get('text_id','')
+    result = get_promise_content(index_name,text_id)
+    return json.dumps(result,ensure_ascii=False)
 
 
 @index.route('/ad_content/')
 def adContent():
-	results = []
-	entity_name = request.args.get('entity_name','')
-	for each in TYPE.items():
-		index_name = each[0]
-		type = each[1]
-		result = get_adContent(entity_name, 0.5, index_name, type)
-		for each in result:
-			results.append(each)
-	results.sort(key=lambda x:x['publish_time'],reverse=True)
-	return json.dumps(results[0:50],ensure_ascii=False)
+    results = []
+    entity_name = request.args.get('entity_name','')
+    for each in TYPE.items():
+        index_name = each[0]
+        type = each[1]
+        result = get_adContent(entity_name, 0.5, index_name, type)
+        for each in result:
+            results.append(each)
+    results.sort(key=lambda x:x['publish_time'],reverse=True)
+    return json.dumps(results[0:50],ensure_ascii=False)
 
 @index.route('/comment_content/')
 def commentContent():
-	results = []
-	entity_name = request.args.get('entity_name','')
-	for each in TYPE.items():
-		index_name = each[0]
-		type = each[1]
-		result = get_commentContent(entity_name, 0.5, index_name, type)
-		for each in result:
-			results.append(each)
-	results.sort(key=lambda x:x['publish_time'],reverse=True)
-	return json.dumps(results[0:50],ensure_ascii=False)
+    results = []
+    entity_name = request.args.get('entity_name','')
+    for each in TYPE.items():
+        index_name = each[0]
+        type = each[1]
+        result = get_commentContent(entity_name, 0.5, index_name, type)
+        for each in result:
+            results.append(each)
+    results.sort(key=lambda x:x['publish_time'],reverse=True)
+    return json.dumps(results[0:50],ensure_ascii=False)
 
 
 @index.route('/abnormal_info/')
 def abnormalInfo():
-	firm_name = request.args.get('firm_name','')
-	result = get_ab_info('gongshang','abnormal_info',firm_name)
-	return json.dumps(result,ensure_ascii=False)
+    firm_name = request.args.get('firm_name','')
+    result = get_ab_info('gongshang','abnormal_info',firm_name)
+    return json.dumps(result,ensure_ascii=False)
 
 @index.route('/change_info/')
 def changelInfo():
-	firm_name = request.args.get('firm_name','')
-	result = get_ch_info('gongshang','change_info',firm_name)
-	return json.dumps(result,ensure_ascii=False)
+    firm_name = request.args.get('firm_name','')
+    result = get_ch_info('gongshang','change_info',firm_name)
+    return json.dumps(result,ensure_ascii=False)
 
 @index.route('/law_info/')
 def lawInfo():
-	firm_name = request.args.get('firm_name','')
-	result = get_law_info('gongshang','law_info',firm_name)
-	return json.dumps(result,ensure_ascii=False)
+    firm_name = request.args.get('firm_name','')
+    result = get_law_info('gongshang','law_info',firm_name)
+    return json.dumps(result,ensure_ascii=False)
 
 
 @index.route('/sub_firm/')
 def subfirmContent():
-	results = []
-	index_name = 'gongshang'
-	firm_name = request.args.get('firm_name', '')
-	# print firm_name
-	level1_subfirms = get_subfirmContent(firm_name,index_name)
+    results = []
+    index_name = 'gongshang'
+    firm_name = request.args.get('firm_name', '')
+    # print firm_name
+    level1_subfirms = get_subfirmContent(firm_name,index_name)
 
-	results.append(firm_name)		#根节点
-	level1_temp = []
-	for item in level1_subfirms:
-		level1_temp.append(item['asset_name'])
-	results.append({firm_name:level1_temp})
+    results.append(firm_name)		#根节点
+    level1_temp = []
+    for item in level1_subfirms:
+        level1_temp.append(item['asset_name'])
+    results.append({firm_name:level1_temp})
 
-	level2_temp = {}
-	for sub_firm in level1_subfirms:
-		level2_subfirms = get_subfirmContent(sub_firm['asset_name'], index_name)
-		level2_temp[sub_firm['asset_name']] = [x['asset_name'] for x in level2_subfirms]
-	results.append(level2_temp)
-	# 返回的数据结构为
-	# [根公司，{根公司:[一级子公司A,B,C...]},{一级子公司A:[二级子公司A1,A2,A3],一级子公司B:[二级子公司B1,B2,B3]}]
+    # level2_temp = {}
+    # for sub_firm in level1_subfirms:
+    #     level2_subfirms = get_subfirmContent(sub_firm['asset_name'], index_name)
+    #     level2_temp[sub_firm['asset_name']] = [x['asset_name'] for x in level2_subfirms]
+    # results.append(level2_temp)
+    level2_names = []
+    level2_subfirms = {}
+    for sub_firm in level1_subfirms:
+        level2_temp = get_subfirmContent(sub_firm['asset_name'], index_name)
+        level2_subfirms[sub_firm['asset_name']] = [x['asset_name'] for x in level2_temp]
+        level2_names += [x['asset_name'] for x in level2_temp]
 
-	return json.dumps(results, ensure_ascii=False)
+    results.append(level2_subfirms)
+
+
+    level3_subfirms = {}
+    for sub_firm in level2_names:
+        level3_temp = get_subfirmContent(sub_firm, index_name)
+        level3_subfirms[sub_firm] = [x['asset_name'] for x in level3_temp]
+    results.append(level3_subfirms)
+
+    # 返回的数据结构为
+    # [根公司，{根公司:[一级子公司A,B,C...]},{一级子公司A:[二级子公司A1,A2,A3],一级子公司B:[二级子公司B1,B2,B3]},{二级子公司A1:[三级子公司a1a2a3]}]
+
+    return json.dumps(results, ensure_ascii=False)
 
 @index.route('/holder/')
 def holderContent():
@@ -194,22 +210,36 @@ def holderContent():
         level1_temp.append(item['holder'])
     results.append({firm_name: level1_temp})
 
-    level2_temp = {}
+    # level2_temp = {}
+    # for item in level1_holders:
+    #     level2_holders = get_holderContent(item['holder'], index_name)
+    #     level2_temp[item['holder']] = [x['holder'] for x in level2_holders]
+    # results.append(level2_temp)
+
+    level2_holders = {}
     for item in level1_holders:
-        level2_holders = get_holderContent(item['holder'], index_name)
-        level2_temp[item['holder']] = [x['holder'] for x in level2_holders]
-    results.append(level2_temp)
+        level2_temp = get_holderContent(item['holder'], index_name)
+        level2_holders[item['holder']] = [x['holder'] for x in level2_temp]
+    results.append(level2_holders)
+
+    # level3_holders = {}
+    # for item in level2_holders.values():
+    #     level3_temp = get_holderContent(item, index_name)
+    #     level3_holders[item] = [x['holder'] for x in level3_temp]
+    # results.append(level3_holders)
+
+
     # 返回的数据结构为
-    # [根公司，{根公司:[一级股东A,B,C...]},{一级股东A:[二级股东A1,A2,A3],一级股东B:[二级子股东B1,B2,B3]}]
+    # [根公司，{根公司:[一级股东A,B,C...]},{一级股东A:[二级股东A1,A2,A3],一级股东B:[二级子股东B1,B2,B3]},{二级股东A2:三级股东a1a2a3}]
 
     return json.dumps(results, ensure_ascii=False)
 
 
 @index.route('/riskCommentTable/')
 def risk_comment_table():
-	entity_id = int(request.args.get('entity_id',''))
-	type = int(request.args.get('type',''))
-	result = get_risk_comment_table(TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,entity_id,type,table_field)
-	return json.dumps(result,ensure_ascii=False)
+    entity_id = int(request.args.get('entity_id',''))
+    type = int(request.args.get('type',''))
+    result = get_risk_comment_table(TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,entity_id,type,table_field)
+    return json.dumps(result,ensure_ascii=False)
 
 
