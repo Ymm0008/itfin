@@ -170,12 +170,8 @@ def subfirmContent():
         level1_temp.append(item['asset_name'])
     results.append({firm_name:level1_temp})
 
-    # level2_temp = {}
-    # for sub_firm in level1_subfirms:
-    #     level2_subfirms = get_subfirmContent(sub_firm['asset_name'], index_name)
-    #     level2_temp[sub_firm['asset_name']] = [x['asset_name'] for x in level2_subfirms]
-    # results.append(level2_temp)
-    level2_names = []
+
+    level2_names = []           #用于存储所有的二级公司名
     level2_subfirms = {}
     for sub_firm in level1_subfirms:
         level2_temp = get_subfirmContent(sub_firm['asset_name'], index_name)
@@ -210,23 +206,19 @@ def holderContent():
         level1_temp.append(item['holder'])
     results.append({firm_name: level1_temp})
 
-    # level2_temp = {}
-    # for item in level1_holders:
-    #     level2_holders = get_holderContent(item['holder'], index_name)
-    #     level2_temp[item['holder']] = [x['holder'] for x in level2_holders]
-    # results.append(level2_temp)
 
     level2_holders = {}
+    level2_names = []       #用于存储所有二层公司名
     for item in level1_holders:
         level2_temp = get_holderContent(item['holder'], index_name)
         level2_holders[item['holder']] = [x['holder'] for x in level2_temp]
     results.append(level2_holders)
 
-    # level3_holders = {}
-    # for item in level2_holders.values():
-    #     level3_temp = get_holderContent(item, index_name)
-    #     level3_holders[item] = [x['holder'] for x in level3_temp]
-    # results.append(level3_holders)
+    level3_holders = {}
+    for item in level2_names:
+        level3_temp = get_holderContent(item, index_name)
+        level3_holders[item] = [x['holder'] for x in level3_temp]
+    results.append(level3_holders)
 
 
     # 返回的数据结构为
