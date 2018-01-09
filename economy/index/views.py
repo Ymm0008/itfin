@@ -212,6 +212,7 @@ def holderContent():
     for item in level1_holders:
         level2_temp = get_holderContent(item['holder'], index_name)
         level2_holders[item['holder']] = [x['holder'] for x in level2_temp]
+        level2_names += [x['holder'] for x in level2_temp]
     results.append(level2_holders)
 
     level3_holders = {}
