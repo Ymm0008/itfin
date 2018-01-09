@@ -247,14 +247,14 @@ function fellTable(data) {
 
 //进入画像
 function jumpFrame_1(name,type,id) {
-    var html='';
-    name=escape(name);
-    if (type=='1'||type=='2'){
-        html='/index/company/?name='+name+'&flag='+type+'&pid='+id;
-    }else {
-        html='/index/project/?name='+name+'&flag='+type+'&pid='+id;
-    }
-    window.location.href=html;
+    // var html='';
+    // name=escape(name);
+    // if (type=='1'||type=='2'){
+    //     html='/index/company/?name='+name+'&flag='+type+'&pid='+id;
+    // }else {
+    //     html='/index/project/?name='+name+'&flag='+type+'&pid='+id;
+    // }
+    // window.location.href=html;
 }
 //可以入库不！？
 function testLib() {

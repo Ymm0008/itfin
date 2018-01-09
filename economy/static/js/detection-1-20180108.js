@@ -72,7 +72,7 @@
                         if (registAddress.length == 0){
                             return '未知';
                         }else {
-                            return '<span style="cursor:pointer;color:white;" title="注册地">'+registAddress+'</span>';
+                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.registAddress+'\')" title="注册地">'+registAddress+'</span>';
                         };
                     }
                 },
@@ -103,7 +103,7 @@
                         if (row.illegal_type==''||row.illegal_type=='null'||row.illegal_type=='unknown'||!row.illegal_type){
                             return '未知';
                         }else{
-                            return '<span style="cursor:pointer;color:white;" title="预警理由">'+warningReasons+'</span>';
+                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.entity_name+'\')" title="预警理由">'+warningReasons+'</span>';
                         };
                     }
                 },
@@ -580,7 +580,7 @@
                         },
                         dataRange: {
                             min : 0,
-                            max : 100,
+                            max : 2000,
                             calculable : true,
                             color: ['maroon','purple','red','orange','yellow','lightgreen']
                         },
@@ -1545,22 +1545,19 @@
                     containLabel: true
                 },
                 yAxis: {
-                    name:'预警强度',
+                    name:'预警数量',
                     type: 'value',
-                    min: 80,
-                    max:105,
                     boundaryGap: [0, 0.01]
                 },
                 xAxis: {
                     name:'预警对象',
                     type: 'category',
-
                     // data : ['优易网','湖北嘟嘟','有糖','品质金融','一元云购','上海中晋公司','风车点赞','玫瑰庄园','青云门','浙江本色控股'],
                     data :entity_nameArr,
                 },
                 series: [
                     {
-                        name: '预警强度',
+                        name: '预警数',
                         type: 'bar',
                         // data:[11, 22, 34, 53, 65, 78, 89, 101, 122, 156],
                         data:rankingData,

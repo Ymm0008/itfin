@@ -91,13 +91,13 @@
                         // calculable : true,
                         itemGap:2,
                         splitList: [
-                            {start: 100},
+                            {start: 300},
                             // {start: 700, end: 999},
-                            {start: 50, end: 100},
-                            {start: 10, end: 50},
-                            {start: 5, end: 10,},
+                            {start: 200, end: 300},
+                            {start: 100, end: 200},
+                            {start: 50, end: 100,},
                             // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
-                            {end: 5}
+                            {end: 50}
                         ],
                         x:'27%',
                         textStyle:{
@@ -1891,13 +1891,13 @@
                             // // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
                             // {end: 150},
 
-                            {start: 100},
+                            {start: 2500},
                             // {start: 700, end: 999},
-                            {start: 50, end: 100},
-                            {start: 20, end: 50},
-                            {start: 10, end: 20},
+                            {start: 1000, end: 2500},
+                            {start: 800, end: 1000},
+                            {start: 300, end: 800},
                             // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
-                            {end: 10},
+                            {end: 300},
                         ],
                         textStyle:{
                             color:'white'
@@ -2085,13 +2085,13 @@
                         // // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
                         // {end: 150},
 
-                        {start: 100},
+                        {start: 1000},
                         // {start: 700, end: 999},
-                        {start: 50, end: 100},
-                        {start: 20, end: 50},
-                        {start: 10, end: 20},
+                        {start: 600, end: 1000},
+                        {start: 200, end: 600},
+                        {start: 100, end: 200},
                         // {start: 150, end: 300, label: '50 到 100（自定义特殊颜色）'},
-                        {end: 10},
+                        {end: 100},
                     ],
                     textStyle:{
                         color:'white'
@@ -2695,9 +2695,6 @@
     }
     keywords();
 
-// 右下角热点舆情
-    // var
-
 //滚动
 var allMonitor_url='/system_manage/show_users_account/';
 // public_ajax.call_request('get',allMonitor_url,allMonitor);
@@ -2728,15 +2725,15 @@ $uList.hover(function() {
             },
             1000);
     }).trigger("mouseleave"); //自动触发触摸事件
-// $uList2.hover(function() {
-//         clearInterval(timer2);
-//     },
-//     function() { //离开启动定时器
-//         timer2 = setInterval(function() {
-//                 scrollList2($uList2);
-//             },
-//             1000);
-//     }).trigger("mouseleave"); //自动触发触摸事件
+$uList2.hover(function() {
+        clearInterval(timer2);
+    },
+    function() { //离开启动定时器
+        timer2 = setInterval(function() {
+                scrollList2($uList2);
+            },
+            1000);
+    }).trigger("mouseleave"); //自动触发触摸事件
 //滚动动画
 function scrollList(obj) {
     //获得当前<li>的高度
