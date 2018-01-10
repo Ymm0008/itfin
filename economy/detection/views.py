@@ -27,7 +27,7 @@ def detect_rank():
 	result = getDetectRank(TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,date,rank_field)
 	result.sort(key=lambda x:x['count'],reverse=True)
 
-	return json.dumps(result[0:10],ensure_ascii=False)
+	return json.dumps(result[0:30],ensure_ascii=False)
 
 @detection.route('/detectDistribute/')
 def detect_distribute():
