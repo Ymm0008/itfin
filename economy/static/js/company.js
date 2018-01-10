@@ -752,12 +752,12 @@ function get7DaysBefore(date,m){
                             },
                         )
                         // 三级子公司（暂无数据）
-                        if(data[3][data[1][comp][i][j]].length != 0){
-                            for(var n=0;n<data[3][data[1][comp][i][j]].length;n++){
-                                // option.series[0].data[0].children[i].children[j].children[n].name = data[3][data[1][comp][i][j]][0];
+                        if(data[3][data[2][data[1][comp][i]][j]].length != 0){
+                            for(var n=0;n<datdata[3][data[2][data[1][comp][i]][j]].length;n++){
+                                // option.series[0].data[0].children[1].children[i].children[j].children[n].name = data[3][data[2][data[1][comp][i]][j]][0];
                                 option.series[0].data[0].children[1].children[i].children[j].children.push(
                                     {
-                                        name:data[3][data[1][comp][i]][j][n],
+                                        name:data[3][data[2][data[1][comp][i]][j]][n],
                                         // value:6,
                                         itemStyle: {
                                             normal: {
@@ -794,14 +794,14 @@ function get7DaysBefore(date,m){
         function table_2(data){
             console.log(data);
             var reg = new RegExp('"',"g");
-            var comp = data[0].replace(reg, "");
+            var comp2 = data[0].replace(reg, "");
             // 一级股东
-            if(data[1][comp].length != 0){
-                for(var i=0;i<data[1][comp].length;i++){
+            if(data[1][comp2].length != 0){
+                for(var i=0;i<data[1][comp2].length;i++){
                     // option.series[0].data[0].children[i].name = data[1][comp][i];
                     option.series[0].data[0].children[0].children.push(
                         {
-                            name:data[1][comp][i],
+                            name:data[1][comp2][i],
                             // value:6,
                             itemStyle: {
                                 normal: {
@@ -816,12 +816,12 @@ function get7DaysBefore(date,m){
                         },
                     )
                     // 二级股东
-                    if(data[2][data[1][comp][i]].length != 0){
+                    if(data[2][data[1][comp2][i]].length != 0){
                         for(var j=0;j<data[2][data[1][comp][i]].length;j++){
                             // option.series[0].data[0].children[i].children[j].name = data[2][data[1][comp][i]][0];
                             option.series[0].data[0].children[0].children[i].children.push(
                                 {
-                                    name:data[2][data[1][comp][i]][j],
+                                    name:data[2][data[1][comp2][i]][j],
                                     // value:6,
                                     itemStyle: {
                                         normal: {
@@ -834,13 +834,15 @@ function get7DaysBefore(date,m){
                                     children:[],
                                 },
                             )
-                            // 三级股东（暂无数据）
-                            if(data[3][data[1][comp][i][j]].length != 0){
-                                for(var n=0;n<data[3][data[1][comp][i][j]].length;n++){
-                                    // option.series[0].data[0].children[i].children[j].children[n].name = data[3][data[1][comp][i][j]][0];
-                                    option.series[0].data[0].children[1].children[i].children[j].children.push(
+                            // // 三级股东（暂无数据）
+                            // console.log(data[3][data[2][data[1][comp2][i]][j]]);
+                            if(data[3][data[2][data[1][comp2][i]][j]].length != 0){
+                                for(var n=0;n<data[3][data[2][data[1][comp2][i]][j]].length;n++){
+                                    // console.log(data[3][data[2][data[1][comp2][i]][j]][n]);
+                                    // option.series[0].data[0].children[0].children[i].children[j].children[n].name = data[3][data[1][comp][i][j]][0];
+                                    option.series[0].data[0].children[0].children[i].children[j].children.push(
                                         {
-                                            name:data[3][data[1][comp][i]][j][n],
+                                            name:data[3][data[2][data[1][comp2][i]][j]][n],
                                             // value:6,
                                             itemStyle: {
                                                 normal: {

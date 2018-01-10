@@ -78,7 +78,7 @@ function peoPicture(data) {
                     }else {
                         // var i=registAddress.indexOf("市");
                         // registAddress = registAddress.substring(0,i+1);
-                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.registAddress+'\')" title="注册地">'+registAddress+'</span>';
+                        return '<span style="cursor:pointer;color:white;" title="注册地">'+registAddress+'</span>';
                     };
                 }
             },
@@ -93,7 +93,7 @@ function peoPicture(data) {
                     if (row.date==''||row.date=='null'||row.date=='unknown'||!row.date){
                         return '未知';
                     }else {
-                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.date+'\')" title="时间">'+row.date+'</span>';
+                        return '<span style="cursor:pointer;color:white;" title="时间">'+row.date+'</span>';
                     };
                 }
             },
