@@ -20,6 +20,70 @@
         .riskValueTable .bootstrap-table .table thead>tr>th,.publicityTable .bootstrap-table .table thead>tr>th{
             width: 5%;
         }
+
+        /* ====lvlei==== */
+        /* 工商注册公司名称 */
+        #container .infor .isPlatform span{
+            width: auto!important;
+        }
+        #container .infor .isPlatform,
+        #container .infor .isPlatform b {
+            max-width: 100%!important;
+        }
+        /* 舆情内容 */
+        .commentinforContent span {
+            font-weight:700;
+        }
+        .commentinforContent span.pagination-info {
+            font-weight:400;
+        }
+        .commentinforContent .inforContent .main p.context {
+            max-height:300px;
+            overflow:auto;
+            word-wrap:break-word;
+            word-break:break-all;
+        }
+        /* 加载提示信息 */
+        .load {
+            text-align:center;
+            margin-top:10px;
+        }
+        /* 二级标题 */
+        .twoLevel_headlines {
+            padding-left:30px;
+            font-size: 16px;
+        }
+        /* 舆情内容盒子 */
+        #container .inforContent .main {
+            text-align:left;
+        }
+        /* 去掉边框 */
+        .business .fixed-table-container,.business .bootstrap-table .table>thead>tr>th,
+        .business .table>tbody>tr>td,.business .bootstrap-table .table,
+        .incomeTable .fixed-table-container,.incomeTable .bootstrap-table .table>thead>tr>th,
+        .incomeTable .table>tbody>tr>td,.incomeTable .bootstrap-table .table,
+        .guarantee .fixed-table-container,.guarantee .bootstrap-table .table>thead>tr>th,
+        .guarantee .table>tbody>tr>td,.guarantee .bootstrap-table .table,
+        .billing .fixed-table-container,.billing .bootstrap-table .table>thead>tr>th,
+        .billing .table>tbody>tr>td,.billing .bootstrap-table .table,
+        .commentinforContent .fixed-table-container,.commentinforContent .bootstrap-table .table>thead>tr>th,
+        .commentinforContent .table>tbody>tr>td,.commentinforContent .bootstrap-table .table
+        {border: none;}
+        .business .fixed-table-container thead th .both,.incomeTable .fixed-table-container thead th .both,
+        .guarantee .fixed-table-container thead th .both,.billing .fixed-table-container thead th .both,
+        .commentinforContent .fixed-table-container thead th .both {background-image: none;}
+        .business .fixed-table-container thead th .th-inner,
+        .business .table>tbody>tr>td,.business .bootstrap-table .table:not(.table-condensed)>tbody>tr>td,
+        .incomeTable .fixed-table-container thead th .th-inner,
+        .incomeTable .table>tbody>tr>td,.incomeTable .bootstrap-table .table:not(.table-condensed)>tbody>tr>td,
+        .guarantee .fixed-table-container thead th .th-inner,
+        .guarantee .table>tbody>tr>td,.guarantee .bootstrap-table .table:not(.table-condensed)>tbody>tr>td,
+        .billing .fixed-table-container thead th .th-inner,
+        .billing .table>tbody>tr>td,.billing .bootstrap-table .table:not(.table-condensed)>tbody>tr>td,
+        .commentinforContent .fixed-table-container thead th .th-inner,
+        .commentinforContent .table>tbody>tr>td,.commentinforContent .bootstrap-table .table:not(.table-condensed)>tbody>tr>td
+        {padding: 0;}
+        /* ====lvlei==== */
     </style>
 {% endblock %}
 
@@ -30,7 +94,7 @@
         <span class="top-2 btn btn-primary">一键报告</span>
     </div>
     <div style="text-align: center;margin-bottom: 20px;">
-        <p style="font-size: 36px;display: inline-block;"><span class="tit">青云门</span>预警报告</p>
+        <p style="font-size: 36px;display: inline-block;"><span class="tit"></span>预警报告</p>
     </div>
     <script>
 
@@ -38,12 +102,12 @@
     <div id="card">
         <div class="infor">
             <h3>
-                <b class="name">青云门</b>&nbsp;<i class="icon icon-edit comBisic" title="编辑"></i>
+                <b class="name"></b>&nbsp;<i class="icon icon-edit comBisic" title="编辑"></i>
                 <span class="nameStatus" style="font-size: 12px;color: #ff761f;">已停止监测</span>
                 <span class="status-1 status btn-primary"><i class="icon icon-retweet"></i>&nbsp;恢复监测</span>
                 <span class="status-2 status btn-primary"><i class="icon icon-sitemap"></i>&nbsp;查看网络图</span>
             </h3>
-            <p class="infor-1 inforLine">
+            <!-- <p class="infor-1 inforLine">
                 <span>注册地：</span>&nbsp;<b class="location">北京</b>
             </p>
             <p class="infor-2 inforLine">
@@ -54,11 +118,36 @@
             </p>
             <p class="infor-4 inforLine">
                 <span>发展阶段：</span>&nbsp;<b class="type3">成立于2006年</b>
+            </p> -->
+            <p class="infor-3 inforLine">
+                <span>实体类型：</span>&nbsp;<b class="type-2"></b>
+            </p>
+
+            <p class="infor-2 inforLine">
+                <span>运营模式：</span>&nbsp;<b class="type-1"></b>
+            </p>
+            <p class="infor-1 inforLine" style="max-width:50%;min-width:50%;margin-right:0;">
+                <span style="text-align:left;">注册地：</span>&nbsp;<b class="location" style="max-width:100%;"></b>
+            </p>
+            <p class="infor-4 inforLine">
+                <span>成立时间：</span>&nbsp;<b class="type-3"></b>
+            </p>
+            <p class="infor-5 inforLine">
+                <span>法人代表：</span>&nbsp;<b class="type-4"></b>
+            </p>
+            <p class="infor-6 inforLine">
+                <span>注册资本：</span>&nbsp;<b class="type-5"></b>
+            </p>
+            <p class="isPlatform inforLine" style="display: none;min-width:100%;">
+                <span>工商注册公司名称：</span>&nbsp;<b class="isPlatformName"></b>
+            </p>
+            <p class="infor-7 inforLine">
+                <span>旗下产品：</span>&nbsp;<b class="type">无</b>
             </p>
         </div>
     </div>
     <div class="opinionWarning-1">
-        <h3><i class="icon icon-asterisk"></i>&nbsp;舆情文本</h3>
+        <!-- <h3><i class="icon icon-asterisk"></i>&nbsp;舆情文本</h3>
         <div class="warningContent">
             <div class="inforContent">
                 <div class="main">
@@ -73,9 +162,33 @@
                     </p>
                 </div>
             </div>
+        </div> -->
+
+        <!-- 【【舆情预警】】 -->
+        <div class="commentInfor">
+            <h3 style="margin-bottom: 15px;">
+                <span style="display: inline-block;"><i class="icon icon-bar-chart"></i>&nbsp;舆情分析&nbsp;&nbsp;<i class="icon icon-edit comment-1" title="编辑"></i></span>
+                <button type="button" class="btn btn-info" style="position: relative;top: -3px;left: 20px;">存档取证</button>
+            </h3>
+            <div style="margin-top: 20px;">
+                <!-- <h4><i class="icon icon-signal"></i>&nbsp;趋势统计</h4> -->
+                <h5 class="twoLevel_headlines"><i class="icon icon-bookmark"></i>&nbsp;舆情趋势</h5>
+                <div id="opinion" style="width: 100%;height: 300px;"></div>
+            </div>
+            <div>
+                <!-- <h4><i class="icon icon-comment"></i>&nbsp;评论信息</h4> -->
+                <h5 class="twoLevel_headlines"><i class="icon icon-bookmark"></i>&nbsp;舆情内容</h5>
+                <div class="commentinforContent">
+                    <div id="commentinforContent">
+                        <p class="load">正在拼命加载中....</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="opinionWarning-2">
+
+    <!-- 不展示下面的内容 -->
+    <!-- <div class="opinionWarning-2">
         <h3><i class="icon icon-warning-sign"></i>&nbsp;收益率异常</h3>
         <div id="income" style="width: 100%;height: 450px;"></div>
     </div>
@@ -114,36 +227,48 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 {% endblock %}
 
 {% block my_js %}->
 <script src="/static/js/echarts-2/build/dist/echarts.js"></script>
-<script src="/static/js/monitorDetails-1.js"></script>
+
 <script>
-    var monitorType=window.localStorage.getItem('monitorFlag');
-    if (monitorType=='舆情预警'){
-        $('.opinionWarning-2').hide();
-        $('.opinionWarning-3').hide();
-        $('.tit').text('湖北嘟嘟');
-        $('.name').text('湖北嘟嘟');
-        $('.type2').text('公司');
-    }else if (monitorType=='指标预警'){
-        $('.opinionWarning-1').hide();
-        $('.opinionWarning-3').hide();
-        $('.tit').text('优易网');
-        $('.name').text('优易网');
-        $('.type2').text('平台');
-        line_1();
-    }else if (monitorType=='模型预警'){
-        $('.opinionWarning-1').hide();
-        $('.opinionWarning-2').hide();
-        $('.tit').text('青云门');
-        $('.name').text('青云门');
-        $('.type2').text('项目');
-        line_2();
+    // var monitorType=window.localStorage.getItem('monitorFlag');
+    // if (monitorType=='舆情预警'){
+    //     $('.opinionWarning-2').hide();
+    //     $('.opinionWarning-3').hide();
+    //     $('.tit').text('湖北嘟嘟');
+    //     $('.name').text('湖北嘟嘟');
+    //     $('.type2').text('公司');
+    // }else if (monitorType=='指标预警'){
+    //     $('.opinionWarning-1').hide();
+    //     $('.opinionWarning-3').hide();
+    //     $('.tit').text('优易网');
+    //     $('.name').text('优易网');
+    //     $('.type2').text('平台');
+    //     line_1();
+    // }else if (monitorType=='模型预警'){
+    //     $('.opinionWarning-1').hide();
+    //     $('.opinionWarning-2').hide();
+    //     $('.tit').text('青云门');
+    //     $('.name').text('青云门');
+    //     $('.type2').text('项目');
+    //     line_2();
+    // }
+
+    var name='{{name}}';
+    var type='{{flag}}';
+    var pid='{{pid}}';
+    if (type=='1'){
+        $('.isPlatform').show();
     }
+    $('.tit').text(unescape(name));
+    $('.name').text(unescape(name));
+
+
+    // =============================================
     $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
         $(this).siblings('.line').css({left:'0%'});
         if ($(document).scrollTop()!=0){
@@ -163,6 +288,10 @@
             $(this).find('i').css({color:'#000'});
         }
     });
+    // =====添加=======
+    $('#nav .nav_left img').attr('src','/static/images/scroll_logo.png');
+    $('#nav .nav_left h3').css({color:'black'});
+    // =====添加=======
     window.onscroll=function () {
         $('#nav').css({backgroundColor:'#777'});
         $('#nav .nav_left h3').css({color:'white'});
@@ -182,4 +311,5 @@
         }
     };
 </script>
+<script src="/static/js/monitorDetails-1.js"></script>
 {% endblock %}

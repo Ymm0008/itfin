@@ -32,7 +32,7 @@ var entity_name ,firm_name;
     // var basicInfor_url='/index/entityType/?id=5120&type=1';//测试股东信息
     public_ajax.call_request('get',basicInfor_url,basicInfor);
     function basicInfor(data){
-        console.log(data);
+        // console.log(data);
         var item=data[0];
 
         var t1='',t2='',t3='否',t4='0',t5='0',t6='否',operationMode,legalPerson,capital;
@@ -271,7 +271,7 @@ function get7DaysBefore(date,m){
                             align: "center",//水平
                             valign: "middle",//垂直
                             formatter: function (value, row, index) {
-                                return '<span style="cursor:pointer;" onclick="" title="查看详情"><i class="icon icon-edit"></i></span>';
+                                return '<span style="cursor:pointer;" onclick="jumpFrame_2(\''+entity_name+'\',\''+type+'\',\''+pid+'\',\''+row.illegal_type+'\')" title="查看详情"><i class="icon icon-edit"></i></span>';
                             }
                         },
                     ],
@@ -284,6 +284,23 @@ function get7DaysBefore(date,m){
 
     };
     // riskValue(objData)
+    // =========监测详情===========
+    function jumpFrame_2(name,type,id,illegal_type) {
+        // window.localStorage.setItem('monitorFlag',monitorFlag);
+        // window.location.href='../templates/monitorDetails.html';
+        var html = '';
+        name=escape(name);
+        if(illegal_type == 1){//模型预警 ----> 进入画像页
+            html='/index/company/?name='+name+'&flag='+type+'&pid='+id;
+        }else if(illegal_type == 2){//舆情预警 ----> 进入监测详情页
+            html='/index/monitor/?name='+name+'&flag='+type+'&pid='+id;
+        }else {
+            html='/index/company/?name='+name+'&flag='+type+'&pid='+id;
+        }
+
+        // window.location.href='/index/monitor/';
+        window.location.href=html;
+    }
 
 // ====股东情况====
 
@@ -295,7 +312,7 @@ function get7DaysBefore(date,m){
 
     var _myChart1,_myChart2;
     function table_1(data){
-        console.log(data);
+        // console.log(data);
         var myChart = echarts.init(document.getElementById('table-1'));
         var option = {
             title : {
@@ -707,7 +724,6 @@ function get7DaysBefore(date,m){
             ]
         };
 
-
         option.series[0].data[0].name = data[0];//根公司
         // console.log(data[0]);
         var reg = new RegExp('"',"g");
@@ -788,11 +804,10 @@ function get7DaysBefore(date,m){
 
         // ===========股东情况==========
         var table_2_url = '/index/holder/?firm_name='+firm_name;
-        // var table_2_url = '/index/holder/?firm_name=广西联银投资有限公司';//测试股东情况
         public_ajax.call_request('get',table_2_url,table_2);
 
         function table_2(data){
-            console.log(data);
+            // console.log(data);
             var reg = new RegExp('"',"g");
             var comp2 = data[0].replace(reg, "");
             // 一级股东
@@ -864,9 +879,7 @@ function get7DaysBefore(date,m){
             };
             myChart.setOption(option);
         }
-
-
-        myChart.setOption(option);
+        // myChart.setOption(option);
         _myChart1 = myChart;
     }
     // table_1();

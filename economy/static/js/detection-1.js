@@ -69,7 +69,7 @@
                         }else{
                             registAddress= row.province+row.city+row.district;
                         }
-                        if (registAddress.length == 0){
+                        if (registAddress.length == 0 || row.province==''||row.province=='null'||row.province=='unknown'||!row.province){
                             return '未知';
                         }else {
                             return '<span style="cursor:pointer;color:white;" title="注册地">'+registAddress+'</span>';
@@ -83,6 +83,13 @@
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.date==''||row.date=='null'||row.date=='unknown'||!row.date){
+                            return '未知';
+                        }else {
+                            return '<span style="cursor:pointer;color:white;" title="时间">'+row.date+'</span>';
+                        };
+                    }
                 },
                 {
                     title: "预警理由",//标题
@@ -132,7 +139,7 @@
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.entity_name+'\',\''+row.entity_type+'\',\''+row.id+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
+                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_2(\''+row.entity_name+'\',\''+row.entity_type+'\',\''+row.id+'\',\''+row.illegal_type+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
                     }
                 },
                 {
@@ -170,10 +177,21 @@
         window.location.href=html;
     }
     // 监测详情
-    function jumpFrame_2(monitorFlag) {
+    function jumpFrame_2(name,type,id,illegal_type) {
         // window.localStorage.setItem('monitorFlag',monitorFlag);
         // window.location.href='../templates/monitorDetails.html';
-        window.location.href='/index/monitor/';
+        var html = '';
+        name=escape(name);
+        if(illegal_type == 1){//模型预警 ----> 进入画像页
+            html='/index/company/?name='+name+'&flag='+type+'&pid='+id;
+        }else if(illegal_type == 2){//舆情预警 ----> 进入监测详情页
+            html='/index/monitor/?name='+name+'&flag='+type+'&pid='+id;
+        }else {
+            html='/index/company/?name='+name+'&flag='+type+'&pid='+id;
+        }
+
+        // window.location.href='/index/monitor/';
+        window.location.href=html;
     }
     // 一键取证
     function prove(flag) {
@@ -413,7 +431,8 @@
                 orient: 'vertical',
                 left: 'left',
                 // data: ['收益率异常','广告异常','经营异常','宣传行为异常','负面评论异常','诉讼异常','模型异常','舆情异常']
-                data: ['收益率异常','广告异常','经营异常','诉讼异常','模型预警','舆情预警']
+                // data: ['收益率异常','广告异常','经营异常','诉讼异常','模型预警','舆情预警']
+                data: ['模型预警','舆情预警']
             },
             series : [
                 {
@@ -422,12 +441,12 @@
                     radius : '55%',
                     center: ['50%', '50%'],
                     data:[
-                        {value:335, name:'收益率异常'},
-                        {value:310, name:'广告异常'},
-                        {value:234, name:'经营异常'},
+                        // {value:335, name:'收益率异常'},
+                        // {value:310, name:'广告异常'},
+                        // {value:234, name:'经营异常'},
                         // {value:135, name:'宣传行为异常'},
                         // {value:1548, name:'负面评论异常'},
-                        {value:456, name:'诉讼异常'},
+                        // {value:456, name:'诉讼异常'},
                         {value:873, name:'模型预警'},
                         {value:633, name:'舆情预警'},
                     ],
@@ -491,6 +510,21 @@
                 sortOrder:"desc",
                 columns: [
                     {
+                        title: "城市",//标题
+                        field: "city",//键名
+                        sortable: true,//是否可排序
+                        order: "desc",//默认排序方式
+                        align: "center",//水平
+                        valign: "middle",//垂直
+                        formatter: function (value, row, index) {
+                            if (row.city==''||row.city=='null'||row.city=='unknown'||!row.city){
+                                return '未知';
+                            }else {
+                                return row.city;
+                            };
+                        }
+                    },
+                    {
                         title: "省份",//标题
                         field: "province",//键名
                         sortable: true,//是否可排序
@@ -505,21 +539,7 @@
                             };
                         }
                     },
-                    {
-                        title: "市",//标题
-                        field: "city",//键名
-                        sortable: true,//是否可排序
-                        order: "desc",//默认排序方式
-                        align: "center",//水平
-                        valign: "middle",//垂直
-                        formatter: function (value, row, index) {
-                            if (row.city==''||row.city=='null'||row.city=='unknown'||!row.city){
-                                return '未知';
-                            }else {
-                                return row.city;
-                            };
-                        }
-                    },
+
                     {
                         title: "模型预警",//标题
                         field: "count1",//键名
@@ -1557,6 +1577,19 @@
 
                     // data : ['优易网','湖北嘟嘟','有糖','品质金融','一元云购','上海中晋公司','风车点赞','玫瑰庄园','青云门','浙江本色控股'],
                     data :entity_nameArr,
+                    axisTick: {
+                        alignWithLabel: true
+                    },
+                    axisLabel:{
+                         interval:0,//横轴信息全部显示
+                         rotate:-30,//-30度角倾斜显示
+
+                    }
+                },
+                grid: { // 控制图的大小，调整下面这些值就可以，
+                    x: 40,
+                    x2: 100,
+                    y2: 100,// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
                 },
                 series: [
                     {

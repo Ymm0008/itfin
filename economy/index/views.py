@@ -29,7 +29,10 @@ def platform():
 
 @index.route('/monitor/')
 def monitor():
-    return render_template('index/monitorDetails.html')
+    name = request.args.get('name','')
+    flag = request.args.get('flag','')
+    pid = request.args.get('pid','')
+    return render_template('index/monitorDetails.html',name=name,flag=flag,pid=pid)
 
 @index.route('/company/')
 def company():

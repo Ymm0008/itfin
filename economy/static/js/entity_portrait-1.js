@@ -156,8 +156,7 @@ function peoPicture(data) {
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-                    return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.entity_name+
-                            '\',\''+row.entity_type+'\',\''+row.id+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
+                    return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_2(\''+row.entity_name+'\',\''+row.entity_type+'\',\''+row.id+'\',\''+row.illegal_type+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
                 }
             },
         ],
@@ -176,10 +175,21 @@ function jumpFrame_1(name,type,id) {
     window.location.href=html;
 }
 // 监测详情
-function jumpFrame_2(monitorFlag) {
+function jumpFrame_2(name,type,id,illegal_type) {
     // window.localStorage.setItem('monitorFlag',monitorFlag);
     // window.location.href='../templates/monitorDetails.html';
-    window.location.href='/index/monitor/';
+    var html = '';
+    name=escape(name);
+    if(illegal_type == 1){//模型预警 ----> 进入画像页
+        html='/index/company/?name='+name+'&flag='+type+'&pid='+id;
+    }else if(illegal_type == 2){//舆情预警 ----> 进入监测详情页
+        html='/index/monitor/?name='+name+'&flag='+type+'&pid='+id;
+    }else {
+        html='/index/company/?name='+name+'&flag='+type+'&pid='+id;
+    }
+
+    // window.location.href='/index/monitor/';
+    window.location.href=html;
 }
 // ====索引====
 // var IndexesArr = $()

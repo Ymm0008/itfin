@@ -93,7 +93,7 @@ def platform_detail(table1,table2,table3,id,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select * from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where pd.date=gs.date and el.id=%d and pd.date=(select max(date) from %s as a)" % (table1,table2,table3,id,table2)
+	sql = "select * from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where el.id=%d and pd.date=(select max(date) from %s as a)" % (table1,table2,table3,id,table2)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:str(row[i]).replace('(','').replace(')','').replace('人民币','').replace('万','').replace('元','') for i,k in enumerate(field)} for row in res]
@@ -103,7 +103,7 @@ def company_detail(table1,table2,table3,id,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select * from %s as el inner join %s as cd on el.id=cd.entity_id inner join %s as gs on el.id=gs.entity_id where pd.date=gs.date and el.id=%d and cd.date=(select max(date) from %s as a)" % (table1,table2,table3,id,table2)
+	sql = "select * from %s as el inner join %s as cd on el.id=cd.entity_id inner join %s as gs on el.id=gs.entity_id where el.id=%d and cd.date=(select max(date) from %s as a)" % (table1,table2,table3,id,table2)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:str(row[i]).replace('(','').replace(')','').replace('人民币','').replace('万','').replace('元','') for i,k in enumerate(field)} for row in res]
@@ -113,7 +113,7 @@ def project_detail(table1,table2,table3,id,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select * from %s as el inner join %s as p on el.id=p.entity_id inner join %s as gs on el.id=gs.entity_id where pd.date=gs.date and el.id=%d and p.date=(select max(date) from %s as a)" % (table1,table2,table3,id,table2)
+	sql = "select * from %s as el inner join %s as p on el.id=p.entity_id inner join %s as gs on el.id=gs.entity_id where el.id=%d and p.date=(select max(date) from %s as a)" % (table1,table2,table3,id,table2)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:str(row[i]).replace('(','').replace(')','').replace('人民币','').replace('万','').replace('元','') for i,k in enumerate(field)} for row in res]
@@ -294,45 +294,40 @@ def getDetectData(date,table1,table2,table3,table4,table5,field):
 	conn.autocommit(True)
 	cur = conn.cursor()
 
-	#####
+	'''演示版
 	list = [u"绿能宝",u"亿好金服",u"速溶360",u"鑫脉财富",u"太保金服",u"穆金所",u"升隆财富",u"邑民金融"]
 	list1 = [""]*8
 	list2 = []
 	filter_list = []
-	#####
+	'''
 
 	sql = "select max(date) from %s"%table2
 	cur.execute(sql)
 	end_time = cur.fetchall()[0][0]
 	start_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=int(date))
 	start_time = start_time.strftime("%Y-%m-%d")
-	sql1 = "select el.id,el.entity_name,el.entity_type,el.location,pd.operation_mode,gs.province,gs.city,gs.district,pd.illegal_type,pd.date from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where pd.date=gs.date and pd.date>'%s' and pd.date<='%s' and el.monitor_status='1' and pd.illegal_type>0 and risk_level>80 order by pd.date desc" % (table1,table2,table5,start_time,end_time)
+	sql1 = "select el.id,el.entity_name,el.entity_type,el.location,pd.operation_mode,gs.province,gs.city,gs.district,pd.illegal_type,pd.date from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where gs.date=(select max(date) from %s) and pd.date>'%s' and pd.date<='%s' and el.monitor_status='1' and pd.illegal_type>0 and risk_level>80 order by pd.date desc" % (table1,table2,table5,table5,start_time,end_time)
 	cur.execute(sql1)
 	res1 = cur.fetchall()
-	sql2 = "select el.id,el.entity_name,el.entity_type,el.location,cd.operation_mode,gs.province,gs.city,gs.district,cd.illegal_type,cd.date from %s as el inner join %s as cd on el.id=cd.entity_id inner join %s as gs on el.id=gs.entity_id where cd.date=gs.date and cd.date>'%s' and cd.date<='%s' and el.monitor_status='1' and cd.illegal_type>0 and risk_level>80 order by cd.date desc" % (table1,table3,table5,start_time,end_time)
+	sql2 = "select el.id,el.entity_name,el.entity_type,el.location,cd.operation_mode,gs.province,gs.city,gs.district,cd.illegal_type,cd.date from %s as el inner join %s as cd on el.id=cd.entity_id inner join %s as gs on el.id=gs.entity_id where gs.date=(select max(date) from %s) and cd.date>'%s' and cd.date<='%s' and el.monitor_status='1' and cd.illegal_type>0 and risk_level>80 order by cd.date desc" % (table1,table3,table5,table5,start_time,end_time)
 	cur.execute(sql2)
 	res2 = cur.fetchall()
-	sql3 = "select el.id,el.entity_name,el.entity_type,el.location,p.operation_mode,gs.province,gs.city,gs.district,p.illegal_type,p.date from %s as el inner join %s as p on el.id=p.entity_id inner join %s as gs on el.id=gs.entity_id where p.date=gs.date and p.date>'%s' and p.date<='%s' and el.monitor_status='1' and p.illegal_type>0 and risk_level>80 order by p.date desc" % (table1,table4,table5,start_time,end_time)
+	sql3 = "select el.id,el.entity_name,el.entity_type,el.location,p.operation_mode,gs.province,gs.city,gs.district,p.illegal_type,p.date from %s as el inner join %s as p on el.id=p.entity_id inner join %s as gs on el.id=gs.entity_id where gs.date=(select max(date) from %s) and p.date>'%s' and p.date<='%s' and el.monitor_status='1' and p.illegal_type>0 and risk_level>80 order by p.date desc" % (table1,table4,table5,table5,start_time,end_time)
 	cur.execute(sql3)
 	res3 = cur.fetchall()
 	res = res1 + res2 + res3
 	result = [{k:row[i] for i,k in enumerate(field)} for row in res]
-	#print(len(result))
-	#for entity in list:
+	'''演示版
 	for r in result:
 		if not r['entity_name'] in filter_list and r['entity_name'] in list:
 			for item in range(len(list)):
 				if r['entity_name'] in list[item]:
 					list1[item] = r
-					print(r['entity_name'])
-			#if not r['entity_name'] in filter_list:
-				#if r['entity_name'] == entity:
-					#list1.append(r)
 					filter_list.append(r['entity_name'])
 		else:
 			list2.append(r)
-
-	return list1 + list2
+'''
+	return result
 
 def getDetectRank(table1,table2,table3,date,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
@@ -370,15 +365,15 @@ def getDetectDistribute(date,table1,table2,table3,table4,field):
 
 	province_list = []
 	list = []
-	sql1 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type=1 and risk_level>80 group by province,city'%(table1,table4,start_time,end_time)
-	sql11 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type=1 and risk_level>80 group by province,city'%(table2,table4,start_time,end_time)
-	sql12 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type=1 and risk_level>80 group by province,city'%(table3,table4,start_time,end_time)
-	sql2 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type=2 and risk_level>80 group by province,city'%(table1,table4,start_time,end_time)
-	sql21 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type=2 and risk_level>80 group by province,city'%(table2,table4,start_time,end_time)
-	sql22 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type=2 and risk_level>80 group by province,city'%(table3,table4,start_time,end_time)
-	sql3 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type=3 and risk_level>80 group by province,city'%(table1,table4,start_time,end_time)
-	sql31 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type=3 and risk_level>80 group by province,city'%(table2,table4,start_time,end_time)
-	sql32 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type=3 and risk_level>80 group by province,city'%(table3,table4,start_time,end_time)
+	sql1 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>"%s" and pd.date<="%s" and illegal_type=1 and risk_level>80 group by province,city'%(table1,table4,start_time,end_time)
+	sql11 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>"%s" and pd.date<="%s" and illegal_type=1 and risk_level>80 group by province,city'%(table2,table4,start_time,end_time)
+	sql12 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>"%s" and pd.date<="%s" and illegal_type=1 and risk_level>80 group by province,city'%(table3,table4,start_time,end_time)
+	sql2 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>"%s" and pd.date<="%s" and illegal_type=2 and risk_level>80 group by province,city'%(table1,table4,start_time,end_time)
+	sql21 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>"%s" and pd.date<="%s" and illegal_type=2 and risk_level>80 group by province,city'%(table2,table4,start_time,end_time)
+	sql22 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>"%s" and pd.date<="%s" and illegal_type=2 and risk_level>80 group by province,city'%(table3,table4,start_time,end_time)
+	sql3 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>"%s" and pd.date<="%s" and illegal_type=3 and risk_level>80 group by province,city'%(table1,table4,start_time,end_time)
+	sql31 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>"%s" and pd.date<="%s" and illegal_type=3 and risk_level>80 group by province,city'%(table2,table4,start_time,end_time)
+	sql32 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>"%s" and pd.date<="%s" and illegal_type=3 and risk_level>80 group by province,city'%(table3,table4,start_time,end_time)
 
 	cur.execute(sql1)
 	res1 = cur.fetchall()
@@ -543,29 +538,29 @@ def get_city_rank(table1,table2,table3,table4,field,province_name):
 	start1_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=30)
 	start_time1 = start1_time.strftime("%Y-%m-%d")
 
-	sql1 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province,city'%(table1,table4,start_time,end_time)
+	sql1 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date=(select max(date) from %s) and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province,city'%(table1,table4,table4,start_time,end_time)
 	cur.execute(sql1)
 	res1 = cur.fetchall()
 	result1 = [{k:row[i] for i,k in enumerate(field)} for row in res1]
-	sql2 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province,city'%(table2,table4,start_time,end_time)
+	sql2 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date=(select max(date) from %s) and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province,city'%(table2,table4,table4,start_time,end_time)
 	cur.execute(sql2)
 	res2 = cur.fetchall()
 	result2 = [{k:row[i] for i,k in enumerate(field)} for row in res2]
-	sql3 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province,city'%(table3,table4,start_time,end_time)
+	sql3 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date=(select max(date) from %s) and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province,city'%(table3,table4,table4,start_time,end_time)
 	cur.execute(sql3)
 	res3 = cur.fetchall()
 	result3 = [{k:row[i] for i,k in enumerate(field)} for row in res3]
 	result = result1 + result2 + result3
 
-	sql11 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province,city'%(table1,table4,start_time1,end_time)
+	sql11 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date=(select max(date) from %s) and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province,city'%(table1,table4,table4,start_time1,end_time)
 	cur.execute(sql11)
 	res11 = cur.fetchall()
 	result11 = [{k:row[i] for i,k in enumerate(field)} for row in res11]
-	sql22 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province,city'%(table2,table4,start_time1,end_time)
+	sql22 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date=(select max(date) from %s) and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province,city'%(table2,table4,table4,start_time1,end_time)
 	cur.execute(sql22)
 	res22 = cur.fetchall()
 	result22 = [{k:row[i] for i,k in enumerate(field)} for row in res22]
-	sql33 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province,city'%(table3,table4,start_time1,end_time)
+	sql33 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date=(select max(date) from %s) and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province,city'%(table3,table4,table4,start_time1,end_time)
 	cur.execute(sql33)
 	res33 = cur.fetchall()
 	result33 = [{k:row[i] for i,k in enumerate(field)} for row in res33]
@@ -621,28 +616,28 @@ def get_province_rank(table1,table2,table3,table4,field):
 	start_time0 = start0_time.strftime("%Y-%m-%d")
 	start_time1 = start1_time.strftime("%Y-%m-%d")
 
-	sql1 = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province'%(table1,table4,start_time0,end_time)
+	sql1 = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date=(select max(date) from %s) and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province'%(table1,table4,table4,start_time0,end_time)
 	cur.execute(sql1)
 	res1 = cur.fetchall()
 	result1 = [{k:row[i] for i,k in enumerate(field)} for row in res1]
-	sql2 = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province'%(table2,table4,start_time0,end_time)
+	sql2 = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date=(select max(date) from %s) and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province'%(table2,table4,table4,start_time0,end_time)
 	cur.execute(sql2)
 	res2 = cur.fetchall()
 	result2 = [{k:row[i] for i,k in enumerate(field)} for row in res2]
-	sql3 = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province'%(table3,table4,start_time0,end_time)
+	sql3 = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date=(select max(date) from %s) and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province'%(table3,table4,table4,start_time0,end_time)
 	cur.execute(sql3)
 	res3 = cur.fetchall()
 	result3 = [{k:row[i] for i,k in enumerate(field)} for row in res3]
 	
-	sql4 = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province'%(table1,table4,start_time1,end_time)
+	sql4 = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date=(select max(date) from %s) and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province'%(table1,table4,table4,start_time1,end_time)
 	cur.execute(sql4)
 	res4 = cur.fetchall()
 	result4 = [{k:row[i] for i,k in enumerate(field)} for row in res4]
-	sql5 = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province'%(table2,table4,start_time1,end_time)
+	sql5 = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date=(select max(date) from %s) and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province'%(table2,table4,table4,start_time1,end_time)
 	cur.execute(sql5)
 	res5 = cur.fetchall()
 	result5 = [{k:row[i] for i,k in enumerate(field)} for row in res5]
-	sql6 = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date="2017-11-17" and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province'%(table3,table4,start_time1,end_time)
+	sql6 = 'select gs.province,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where gs.date=(select max(date) from %s) and pd.date>"%s" and pd.date<="%s" and illegal_type>0 and risk_level>80 group by province'%(table3,table4,table4,start_time1,end_time)
 	cur.execute(sql6)
 	res6 = cur.fetchall()
 	result6 = [{k:row[i] for i,k in enumerate(field)} for row in res6]
@@ -686,9 +681,6 @@ def getTimeDistribute(table1,table2,table3):
 		time_list.append(start_time)
 
 	for i,time in enumerate(time_list):
-		#print(i)
-		#print(time)
-		#if i < len(time_list)-1:
 		sql1 = "select count(*) from %s where date='%s' and illegal_type>0 and risk_level>80"%(table1,time)
 		print(sql1)
 		cur.execute(sql1)
