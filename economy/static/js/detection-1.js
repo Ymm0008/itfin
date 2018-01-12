@@ -413,8 +413,22 @@
         myChart.setOption(option);
     }
     // line_1();
-    //类型
-    function pie_3() {
+    //====预警类型====
+    var warningType_url = '/detection/warnType/?date=7'
+    public_ajax.call_request('get',warningType_url,pie_3);
+    function pie_3(data) {
+        var pie_3Data = [];
+        if(data){
+            var name = '';
+            for(var i=0;i<data.length;i++){
+                if(data[i].illegal_type == 1){
+                    name = '模型预警';
+                }else if(data[i].illegal_type == 2){
+                    name = '舆情预警';
+                }
+                pie_3Data.push({name:name,value:data[i].count})
+            }
+        }
         var myChart = echarts.init(document.getElementById('warningType'),'chalk');
         var option = {
             backgroundColor:'transparent',
@@ -440,16 +454,17 @@
                     type: 'pie',
                     radius : '55%',
                     center: ['50%', '50%'],
-                    data:[
-                        // {value:335, name:'收益率异常'},
-                        // {value:310, name:'广告异常'},
-                        // {value:234, name:'经营异常'},
-                        // {value:135, name:'宣传行为异常'},
-                        // {value:1548, name:'负面评论异常'},
-                        // {value:456, name:'诉讼异常'},
-                        {value:873, name:'模型预警'},
-                        {value:633, name:'舆情预警'},
-                    ],
+                    // data:[
+                    //     // {value:335, name:'收益率异常'},
+                    //     // {value:310, name:'广告异常'},
+                    //     // {value:234, name:'经营异常'},
+                    //     // {value:135, name:'宣传行为异常'},
+                    //     // {value:1548, name:'负面评论异常'},
+                    //     // {value:456, name:'诉讼异常'},
+                    //     {value:873, name:'模型预警'},
+                    //     {value:633, name:'舆情预警'},
+                    // ],
+                    data:pie_3Data,
                     itemStyle: {
                         emphasis: {
                             shadowBlur: 10,
@@ -462,7 +477,7 @@
         };
         myChart.setOption(option);
     }
-    pie_3();
+    // pie_3();
 
 //====预警分布====
     // ===表格
@@ -480,6 +495,7 @@
     var mapData = [],
         mapTop5 = [],
         mapT5 = [];
+    var maxData;
     function placeRank(data) {
         if(data){
             for(var i=0;i<data.length;i++){
@@ -487,6 +503,7 @@
             }
             // console.log(mapData);
             mapTop5 = data.slice(0,5);
+            maxData = mapTop5[0].count2 || 100;
             for(var j=0;j<mapTop5.length;j++){
                 mapT5.push({name:mapTop5[j].city,value:mapTop5[j].sum})
             }
@@ -600,9 +617,13 @@
                         },
                         dataRange: {
                             min : 0,
-                            max : 100,
+                            // max : 100,
+                            max : maxData,
                             calculable : true,
-                            color: ['maroon','purple','red','orange','yellow','lightgreen']
+                            color: ['maroon','purple','red','orange','yellow','lightgreen'],
+                            textStyle:{
+                                color:'#fff'
+                            }
                         },
                         series : [
                             {
@@ -1567,8 +1588,8 @@
                 yAxis: {
                     name:'预警强度',
                     type: 'value',
-                    min: 80,
-                    max:2000,
+                    // min: 80,
+                    // max:2000,
                     boundaryGap: [0, 0.01]
                 },
                 xAxis: {

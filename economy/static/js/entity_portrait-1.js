@@ -60,7 +60,7 @@ function peoPicture(data) {
             },
             {
                 title: "注册地",//标题
-                field: "",//键名
+                field: "province",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
@@ -84,7 +84,7 @@ function peoPicture(data) {
             },
             {
                 title: "时间",//标题
-                field: "",//键名
+                field: "date",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
@@ -204,8 +204,12 @@ function jumpFrame_2(name,type,id,illegal_type) {
 // var IndexesArr = $()
 $('.words b').on('click',function(){
     var letter = $(this).text().toLowerCase();
+    if(letter == '#'){
+        letter = 'num';
+    }
     $(this).addClass('active').siblings().removeClass('active');
     var portrait_letter_url = '/portraite/portrait_letter/?letter='+letter;
+    console.log(portrait_letter_url);
     public_ajax.call_request('get',portrait_letter_url,portrait_letter);
 })
 function portrait_letter (data) {
