@@ -18,4 +18,8 @@ TABLE_GUARANTEE_PROMISE = 'guarantee_promise_daily'
 TABLE_RETURN_RATE = 'return_rate_daily'
 TABLE_SENSOR = 'sensor_daily'
 TABLE_MONITOR = 'monitor_daily'
+TABLE_OPERATION_LIST = 'operation_list'
+TABLE_ILLEGAL_LIST = 'illegal_list'
+
+
 RISK_LEVEL = 80
