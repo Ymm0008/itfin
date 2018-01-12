@@ -87,6 +87,85 @@ def get_monitor_count(table):
 	return dict
 
 
+def get_portrait(table1,table2,table3,table4,table5,field,letter):
+	result = []
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+	sql1 = "select el.id,el.entity_name,el.entity_type,el.location,pd.operation_mode,gs.province,gs.city,gs.district,pd.date from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where pd.date=gs.date and pd.date=(select max(date) from %s as a)" % (table1,table2,table5,table2)
+	cur.execute(sql1)
+	res1 = cur.fetchall()
+	sql2 = "select el.id,el.entity_name,el.entity_type,el.location,cd.operation_mode,gs.province,gs.city,gs.district,cd.date from %s as el inner join %s as cd on el.id=cd.entity_id inner join %s as gs on el.id=gs.entity_id where cd.date=gs.date and cd.date=(select max(date) from %s as a)" % (table1,table3,table5,table3)
+	cur.execute(sql2)
+	res2 = cur.fetchall()
+	sql3 = "select el.id,el.entity_name,el.entity_type,el.location,p.operation_mode,gs.province,gs.city,gs.district,p.date from %s as el inner join %s as p on el.id=p.entity_id inner join %s as gs on el.id=gs.entity_id where p.date=gs.date and p.date=(select max(date) from %s as a)" % (table1,table4,table5,table4)
+	cur.execute(sql3)
+	res3 = cur.fetchall()
+	res = res1 + res2 + res3
+	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
+	for dict in data:
+		l = None
+		name = dict['entity_name'].encode('gbk')
+		num = ord(name[0])*256 + ord(name[1])-65536
+		if num >= -20319 and num <= -20284 or name[0] == 'a' or name[0] == 'A':
+			l = 'a'
+		elif num >= -20283 and num <= -19776 or name[0] == 'b' or name[0] == 'B':
+			l = 'b'
+		elif num >= -19775 and num <= -19219 or name[0] == 'c' or name[0] == 'C':
+			l = 'c'
+		elif num >= -19218 and num <= -18711 or name[0] == 'd' or name[0] == 'D':
+			l = 'd'
+		elif num >= -18710 and num <= -18527 or name[0] == 'e' or name[0] == 'E':
+			l = 'e'
+		elif num >= -18526 and num <= -18240 or name[0] == 'f' or name[0] == 'F':
+			l = 'f'
+		elif num >= -18239 and num <= -17923 or name[0] == 'g' or name[0] == 'G':
+			l = 'g'
+		elif num >= -17922 and num <= -17418 or name[0] == 'h' or name[0] == 'H':
+			l = 'h'
+		elif name[0] == 'i' or name[0] == 'I':
+			l = 'i'
+		elif num >= -17417 and num <= -16475 or name[0] == 'j' or name[0] == 'J':
+			l = 'j'
+		elif num >= -16474 and num <= -16213 or name[0] == 'k' or name[0] == 'K':
+			l = 'k'
+		elif num >= -16212 and num <= -15641 or name[0] == 'l' or name[0] == 'L':
+			l = 'l'
+		elif num >= -15640 and num <= -15166 or name[0] == 'm' or name[0] == 'M':
+			l = 'm'
+		elif num >= -15165 and num <= -14923 or name[0] == 'n' or name[0] == 'N':
+			l = 'n'
+		elif num >= -14922 and num <= -14915 or name[0] == 'o' or name[0] == 'O':
+			l = 'o'
+		elif num >= -14914 and num <= -14631 or name[0] == 'p' or name[0] == 'P':
+			l = 'p'
+		elif num >= -14630 and num <= -14150 or name[0] == 'q' or name[0] == 'Q':
+			l = 'q'
+		elif num >= -14149 and num <= -14091 or name[0] == 'r' or name[0] == 'R':
+			l = 'r'
+		elif num >= -14090 and num <= -13119 or name[0] == 's' or name[0] == 'S':
+			l = 's'
+		elif num >= -13118 and num <= -12839 or name[0] == 't' or name[0] == 'T':
+			l = 't'
+		elif name[0] == 'u' or name[0] == 'U':
+			l = 'u'
+		elif name[0] == 'v' or name[0] == 'V':
+			l = 'v'
+		elif num >= -12838 and num <= -12557 or name[0] == 'w' or name[0] == 'W':
+			l = 'w'
+		elif num >= -12556 and num <= -11848 or name[0] == 'x' or name[0] == 'X':
+			l = 'x'
+		elif num >= -11847 and num <= -11056 or name[0] == 'y' or name[0] == 'Y':
+			l = 'y'
+		elif num >= -11055 and num <= -10247 or name[0] == 'z' or name[0] == 'Z':
+			l = 'z'
+		else:
+			l = 'num'
+		if l == letter:
+			result.append(dict)
+	return result
+
+
 
 #实体详情页
 def platform_detail(table1,table2,table3,id,field):
@@ -172,79 +251,6 @@ def get_return_rate(table1,table2,id,field):
 	return data
 
 
-
-def get_portrait(table1,table2,table3,table4,table5,field,letter):
-	result = []
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
-	conn.autocommit(True)
-	cur = conn.cursor()
-	sql1 = "select el.id,el.entity_name,el.entity_type,el.location,pd.operation_mode,gs.province,gs.city,gs.district,pd.date from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where pd.date=gs.date and pd.date=(select max(date) from %s as a)" % (table1,table2,table5,table2)
-	cur.execute(sql1)
-	res1 = cur.fetchall()
-	sql2 = "select el.id,el.entity_name,el.entity_type,el.location,cd.operation_mode,gs.province,gs.city,gs.district,cd.date from %s as el inner join %s as cd on el.id=cd.entity_id inner join %s as gs on el.id=gs.entity_id where cd.date=gs.date and cd.date=(select max(date) from %s as a)" % (table1,table3,table5,table3)
-	cur.execute(sql2)
-	res2 = cur.fetchall()
-	sql3 = "select el.id,el.entity_name,el.entity_type,el.location,p.operation_mode,gs.province,gs.city,gs.district,p.date from %s as el inner join %s as p on el.id=p.entity_id inner join %s as gs on el.id=gs.entity_id where p.date=gs.date and p.date=(select max(date) from %s as a)" % (table1,table4,table5,table4)
-	cur.execute(sql3)
-	res3 = cur.fetchall()
-	res = res1 + res2 + res3
-	print(res)
-	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
-	for dict in data:
-		l = None
-		name = dict['entity_name'].encode('gbk')
-		num = ord(name[0])*256 + ord(name[1])-65536
-		if num >= -20319 and num <= -20284:
-			l = 'a'
-		if num >= -20283 and num <= -19776:
-			l = 'b'
-		if num >= -19775 and num <= -19219:
-			l = 'c'
-		if num >= -19218 and num <= -18711:
-			l = 'd'
-		if num >= -18710 and num <= -18527:
-			l = 'e'
-		if num >= -18526 and num <= -18240:
-			l = 'f'
-		if num >= -18239 and num <= -17923:
-			l = 'g'
-		if num >= -17922 and num <= -17418:
-			l = 'h'
-		if num >= -17417 and num <= -16475:
-			l = 'j'
-		if num >= -16474 and num <= -16213:
-			l = 'k'
-		if num >= -16212 and num <= -15641:
-			l = 'l'
-		if num >= -15640 and num <= -15166:
-			l = 'm'
-		if num >= -15165 and num <= -14923:
-			l = 'n'
-		if num >= -14922 and num <= -14915:
-			l = 'o'
-		if num >= -14914 and num <= -14631:
-			l = 'p'
-		if num >= -14630 and num <= -14150:
-			l = 'q'
-		if num >= -14149 and num <= -14091:
-			l = 'r'
-		if num >= -14090 and num <= -13119:
-			l = 's'
-		if num >= -13118 and num <= -12839:
-			l = 't'
-		if num >= -12838 and num <= -12557:
-			l = 'w'
-		if num >= -12556 and num <= -11848:
-			l = 'x'
-		if num >= -11847 and num <= -11056:
-			l = 'y'
-		if num >= -11055 and num <= -10247:
-			l = 'z'
-
-		if l == letter:
-			result.append(dict)
-	return result
-
 def get_risk_comment_table(table1,table2,table3,entity_id,type,field):
 	result = []
 	dict = {}
@@ -287,18 +293,27 @@ def get_risk_comment_table(table1,table2,table3,entity_id,type,field):
 
 
 
-
 #监测预警
-def getDetectData(date,table1,table6,table5,field,risk_level):
+def getDetectData(date,table1,table2,table3,field,risk_level,operation_mode,illegal_type,entity_type,warn_distribute):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select max(date) from %s"%table6
+	sql = "select max(date) from %s"%table3
 	cur.execute(sql)
 	end_time = cur.fetchall()[0][0]
 	start_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=int(date))
 	start_time = start_time.strftime("%Y-%m-%d")
-	sql1 = "select el.id,el.entity_name,el.entity_type,el.location,pd.operation_mode,gs.province,gs.city,gs.district,pd.illegal_type,pd.date from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where gs.date=(select max(date) from gongshang_daily) and pd.date>'%s' and pd.date<='%s' and el.monitor_status='1' and pd.illegal_type>0 and risk_level>%d order by pd.date desc" % (table1,table6,table5,start_time,end_time,risk_level)
+	sql1 = "select el.id,el.entity_name,el.entity_type,el.location,pd.operation_mode,gs.province,gs.city,gs.district,pd.illegal_type,pd.date from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where gs.date=(select max(date) from gongshang_daily) and pd.date>'%s' and pd.date<='%s' and el.monitor_status='1' and pd.illegal_type>0 and pd.risk_level>%d and pd.operation_mode=%d and pd.illegal_type=%d and pd.entity_type=%d and gs.province='%s' order by pd.date desc" % (table1, table2, table3, start_time, end_time, risk_level, operation_mode, illegal_type, entity_type, warn_distribute)
+	
+	if operation_mode == 0:
+		sql1 = sql1.replace(' and pd.operation_mode=0','')
+	if illegal_type == 0:
+		sql1 = sql1.replace(' and pd.illegal_type=0','')
+	if entity_type == 0:
+		sql1 = sql1.replace(' and pd.entity_type=0','')
+	if warn_distribute == 'all':
+		sql1 = sql1.replace(" and gs.province='all'","")
+
 	cur.execute(sql1)
 	res = cur.fetchall()
 	result = [{k:row[i] for i,k in enumerate(field)} for row in res]
@@ -318,7 +333,7 @@ def getDetectData(date,table1,table6,table5,field,risk_level):
 			list2.append(r)
 '''
 
-def getDetectRank(table,date,field,risk_level):
+def getDetectRank(table, date, field, risk_level, entity_type):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
@@ -328,8 +343,10 @@ def getDetectRank(table,date,field,risk_level):
 	start_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=int(date))
 	start_time = start_time.strftime("%Y-%m-%d")
 
-	sql1 = 'select entity_id,entity_name,max(risk_level) from %s where date>"%s" and date<="%s" and illegal_type>0 and risk_level>%d group by entity_id order by sum(risk_level) desc'%(table,start_time,end_time,risk_level)
-	cur.execute(sql1)
+	sql = 'select entity_id,entity_name,max(risk_level) from %s where date>"%s" and date<="%s" and illegal_type>0 and risk_level>%d and entity_type=%d group by entity_id order by sum(risk_level) desc'%(table, start_time, end_time, risk_level, entity_type)
+	if entity_type == 0:
+		sql = sql.replace(' and entity_type=0','')
+	cur.execute(sql)
 	res = cur.fetchall()
 	result = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return result
@@ -345,9 +362,9 @@ def getDetectDistribute(date,table,table4,field,risk_level):
 	start_time = start_time.strftime("%Y-%m-%d")
 	province_list = []
 	list = []
-	sql1 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>"%s" and pd.date<="%s" and pd.illegal_type=1 and pd.risk_level>%d group by province,city'%(table,table4,start_time,end_time,risk_level)
-	sql2 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>"%s" and pd.date<="%s" and pd.illegal_type=2 and pd.risk_level>%d group by province,city'%(table,table4,start_time,end_time,risk_level)
-	sql3 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>"%s" and pd.date<="%s" and pd.illegal_type=3 and pd.risk_level>%d group by province,city'%(table,table4,start_time,end_time,risk_level)
+	sql1 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>"%s" and pd.date<="%s" and pd.illegal_type=1 and pd.risk_level>%d and gs.date=(select max(date) from %s) group by province,city'%(table,table4,start_time,end_time,risk_level,table4)
+	sql2 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>"%s" and pd.date<="%s" and pd.illegal_type=2 and pd.risk_level>%d and gs.date=(select max(date) from %s) group by province,city'%(table,table4,start_time,end_time,risk_level,table4)
+	sql3 = 'select pd.illegal_type,gs.province,gs.city,count(*) from %s as pd inner join %s as gs on pd.entity_id=gs.entity_id where pd.date>"%s" and pd.date<="%s" and pd.illegal_type=3 and pd.risk_level>%d and gs.date=(select max(date) from %s) group by province,city'%(table,table4,start_time,end_time,risk_level,table4)
 	cur.execute(sql1)
 	res1 = cur.fetchall()
 	result1 = [{k:row[i] for i,k in enumerate(field)} for row in res1]
@@ -609,6 +626,28 @@ def p_getWarnCount(table,field):
 
 
 
+#下拉框
+def operationModeBox(table, field):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+
+	sql = 'select * from %s'%table
+	cur.execute(sql)
+	res = cur.fetchall()
+	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
+	return data	
+
+def illegalTypeBox(table, field):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+
+	sql = 'select * from %s'%table
+	cur.execute(sql)
+	res = cur.fetchall()
+	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
+	return data	
 
 
 
