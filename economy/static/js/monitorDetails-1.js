@@ -195,7 +195,9 @@ var entity_name ,firm_name;
                 {
                     name:'一般负面评论',
                     type:'line',
-                    smooth:true,
+                    // smooth:true,
+                    stack: '总量',
+                    areaStyle: {normal: {}},
                     data:day30Data_0,
                     itemStyle:{normal:{areaStyle:{type:'default'}}},
                     // markPoint: {
@@ -204,16 +206,18 @@ var entity_name ,firm_name;
                     //         {type: 'min', name: '最小值'}
                     //     ]
                     // },
-                    markLine: {
-                        data: [
-                            {type: 'average', name: '平均值'}
-                        ]
-                    }
+                    // markLine: {
+                    //     data: [
+                    //         {type: 'average', name: '平均值'}
+                    //     ]
+                    // }
                 },
                 {
                     name:'严重负面评论',
                     type:'line',
-                    smooth:true,
+                    // smooth:true,
+                    stack: '总量',
+                    areaStyle: {normal: {}},
                     data:day30Data_1,
                     itemStyle:{normal:{areaStyle:{type:'default'}}},
                     // markPoint: {
@@ -222,11 +226,11 @@ var entity_name ,firm_name;
                     //         {type: 'min', name: '最小值'}
                     //     ]
                     // },
-                    markLine: {
-                        data: [
-                            {type: 'average', name: '平均值'}
-                        ]
-                    }
+                    // markLine: {
+                    //     data: [
+                    //         {type: 'average', name: '平均值'}
+                    //     ]
+                    // }
                 },
                 // {
                 //     name:'积极评论',

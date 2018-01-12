@@ -421,8 +421,12 @@ def h_getWarnCount(table, field):
 	start_time = start_time.strftime("%Y-%m-%d")
 	sql = 'select count(*) from %s where illegal_type>0 and risk_level>80 and date>"%s" and date<="%s" group by entity_type'%(table,start_time,end_time)
 	cur.execute(sql)
+	'''没数据报错
 	res = cur.fetchall()
-	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
+	data = [{k:row[i] for i,k in enumerate(field)} for row in res][0]
+	'''
+	res = cur.fetchall()[0][0]
+	data = [{'plat':res,'com':0,'pro':0}][0]
 	return data
 
 
@@ -473,7 +477,7 @@ def get_city_rank(table,table4,field,province_name):
 			if p:
 				pro_dict = {"province":p}
 				count = 0
-				for dict in result:
+				for dict in result1:
 					if dict['province'] == p:
 						count += dict['count']
 				pro_dict.update({"count":count})
@@ -518,6 +522,12 @@ def get_province_rank(table,table4,field):
 				if dict['province'] == d:
 					pro_dict.update({'count30':dict['count']})
 			list.append(pro_dict)
+	for li in list:
+		try:
+			if li['count7']:
+				pass
+		except:
+			li['count7'] = 0
 	return list
 
 

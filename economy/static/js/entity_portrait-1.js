@@ -100,13 +100,22 @@ function peoPicture(data) {
 
             {
                 title: "预警类型",//标题
-                field: "d",//键名
+                field: "illegal_type",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-                    return '模型预警'
+                    if(row.illegal_type == 1){
+                        return '模型预警';
+                    }else if(row.illegal_type == 2){
+                        return '舆情预警';
+                    }else if(row.illegal_type == 3){
+                        return '指标预警';
+                    }else if (row.illegal_type==''||row.illegal_type=='null'||row.illegal_type=='unknown'||!row.illegal_type){
+                        return '未知';
+                    }
+
                 }
             },
             {

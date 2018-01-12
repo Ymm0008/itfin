@@ -57,7 +57,7 @@
                 },
                 {
                     title: "注册地",//标题
-                    field: "",//键名
+                    field: "province",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
@@ -93,7 +93,7 @@
                 },
                 {
                     title: "预警理由",//标题
-                    field: "",//键名
+                    field: "illegal_type",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
@@ -1568,7 +1568,7 @@
                     name:'预警强度',
                     type: 'value',
                     min: 80,
-                    max:105,
+                    max:2000,
                     boundaryGap: [0, 0.01]
                 },
                 xAxis: {

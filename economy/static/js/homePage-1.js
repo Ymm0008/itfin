@@ -1220,6 +1220,8 @@
                     var proviceData = [],proviceData_1 = [];
                     function city(data){
                         if(data){
+                            // console.log(data);
+                            var data_count7,data_count30;
                             // 更新左下角
                             $('#container .bottom_left #picChart-5 #proRank').empty();
                             for(var i=0;i<data.length;i++){
@@ -1229,7 +1231,17 @@
                                 proviceData_1.push({name:data[i].city+'市',value:data[i].count7});//
 
                                 // 更新左下角排行
-                                var str = '<p><span>'+data[i].city+'</span><span>'+data[i].count7+'</span><span>'+data[i].count30+'</span></p>';
+                                if(!data[i].count7){
+                                    data_count7 = 0;
+                                }else {
+                                    data_count7 = data[i].count7;
+                                }
+                                if(!data[i].count30){
+                                    data_count30 = 0;
+                                }else {
+                                    data_count30 = data[i].count30;
+                                }
+                                var str = '<p><span>'+data[i].city+'</span><span>'+data_count7+'</span><span>'+data_count30+'</span></p>';
                                 $('#container .bottom_left #picChart-5 #proRank').append(str)
                             }
                         }
@@ -2242,7 +2254,7 @@
             public_ajax.call_request('get',cityRank_url,cityRank);
             var cityRankData = [];
             function cityRank(data){
-                console.log(data);
+                // console.log(data);
                 for(var i=0;i<data.length;i++){
                     cityRankData.push({name:data[i].province,value:data[i].count})
                 }
@@ -2267,7 +2279,7 @@
                 // cityRankData.push({name:'青海',value:0});
                 // cityRankData.push({name:'甘肃',value:0});
 
-                console.log(cityRankData);
+                // console.log(cityRankData);
                 option.series[0].data = cityRankData;
                 myChart.setOption(option);
             }
@@ -2283,7 +2295,7 @@
 
     var provinceData = [],provinceData_7=[],provinceData_30=[];
     function provinceRank(data){
-        console.log(data);
+        // console.log(data);
         if(data){
             provinceRank_data = data;
             $('#container .bottom_left #picChart-5 #proRank').empty();
