@@ -194,6 +194,10 @@
 		width: 100px;
 		text-align: right;
 	}
+	/* 编辑功能 */
+	.edit {
+		contenteditable:true;
+	}
 </style>
 {% endblock %}
 {% block main %}
@@ -211,7 +215,7 @@
 	<div id="card">
 		<div class="infor">
 			<h3>
-				<b class="name"></b>&nbsp;<i class="icon icon-edit comBisic" title="编辑"></i>
+				<b class="name"></b>&nbsp;<i class="icon icon-edit comBisic" title="编辑" id="card-edit"></i>
 				<span class="nameStatus" style="font-size: 12px;color: #ff761f;">正在监测</span>
 				<span class="status-1 status btn-primary"><i class="icon icon-retweet"></i>&nbsp;停止监测</span>
 				<span class="status-2 status btn-primary"><i class="icon icon-sitemap"></i>&nbsp;查看网络图</span>

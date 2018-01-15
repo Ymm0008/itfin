@@ -10,6 +10,33 @@
         }
     }
 
+// 渲染下拉框
+    var select_url = '/detection/OperationModeBox/';    //运营模式
+    public_ajax.call_request('get',select_url,slectUrl);
+    function slectUrl(data){
+        if(data){
+            var str = '';
+            for(var i=0;i<data.length;i++){
+                str += '<option value="'+data[i].id+'">'+data[i].operation+'</option>'
+            }
+            $('#select-2').append(str);
+            $('#second_select-2').append(str);
+        }
+    }
+    var select_url_2 = '/detection/IllegalTypeBox/';    //预警类型
+    public_ajax.call_request('get',select_url_2,selectUrl_2);
+    function selectUrl_2(data){
+        // console.log(data);
+        if(data){
+            var str2 = '';
+            for(var i=0;i<data.length;i++){
+                str2 += '<option value="'+data[i].id+'">'+data[i].illegal_name+'</option>'
+            }
+            $('#select-3').append(str2);
+            $('#second_select-3').append(str2);
+        }
+    }
+
 //====预警记录====
     var earlyWarningdata=[{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'指标预警','e':'集资','f':'heiha'},{'a':'优易网','b':'北京','c':'2016-11-24','d':'指标预警','e':'集资','f':'heiha'},
         {'a':'青云门','b':'北京','c':'2016-11-24','d':'模型预警','e':'集资','f':'heiha'},{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},{'a':'优易网','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},
@@ -18,7 +45,8 @@
         {'a':'青云门','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},{'a':'优易网','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},
         {'a':'青云门','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},{'a':'湖北嘟嘟','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},{'a':'优易网','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'},
         {'a':'青云门','b':'北京','c':'2016-11-24','d':'ALIBABA','e':'集资','f':'heiha'}]
-    var earlyWarning_url='/detection/detectData/?date=7';
+    // var earlyWarning_url='/detection/detectData/?date=7';
+    var earlyWarning_url='/detection/detectData/?date=7&operation_mode=0&illegal_type=0&entity_type=0&warn_distribute=all';
     public_ajax.call_request('get',earlyWarning_url,earlyWarning);
     function earlyWarning(data) {
         $('#recordingTable').bootstrapTable('load', data);
@@ -156,15 +184,100 @@
             ],
         });
         $('#recordingTable p.load').hide();
+        $('.recordingTable .fixed-table-toolbar .search input').attr('placeholder','请输入查询内容');
     };
     // earlyWarning(earlyWarningdata);
+
     // ===时间选项===
     $('#select-1').change(function(){
         var selectTime = $(this).children('option:selected').val();//这就是selected的值
-        earlyWarning_url = '/detection/detectData/?date='+selectTime;
+        // 运营模式
+        var select_operation_mode = $(this).parents('.content').find('#select-2').val();
+        // 预警类型
+        var select_illegal_type = $(this).parents('.content').find('#select-3').val();
+        // 实体类型
+        var select_entity_type = $(this).parents('.content').find('#select-4').val();
+        // 预警分布
+        var select_warn_distribute = $(this).parents('.content').find('#city34').val();
+        // earlyWarning_url = '/detection/detectData/?date='+selectTime;
+        earlyWarning_url = '/detection/detectData/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
         console.log(earlyWarning_url);
         public_ajax.call_request('get',earlyWarning_url,earlyWarning);
     })
+    // ===运营模式选项===
+    $('#select-2').change(function(){
+        var selectTime = $(this).parents('.content').find('#select-1').val();
+        // 运营模式
+        var select_operation_mode = $(this).val();
+        // 预警类型
+        var select_illegal_type = $(this).parents('.content').find('#select-3').val();
+        // 实体类型
+        var select_entity_type = $(this).parents('.content').find('#select-4').val();
+        // 预警分布
+        var select_warn_distribute = $(this).parents('.content').find('#city34').val();
+        // earlyWarning_url = '/detection/detectData/?date='+selectTime;
+        earlyWarning_url = '/detection/detectData/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+        console.log(earlyWarning_url);
+        public_ajax.call_request('get',earlyWarning_url,earlyWarning);
+    })
+    // ===预警类型选项===
+    $('#select-3').change(function(){
+        var selectTime = $(this).parents('.content').find('#select-1').val();
+        // 运营模式
+        var select_operation_mode = $(this).parents('.content').find('#select-2').val();
+        // 预警类型
+        var select_illegal_type = $(this).val();
+        // 实体类型
+        var select_entity_type = $(this).parents('.content').find('#select-4').val();
+        // 预警分布
+        var select_warn_distribute = $(this).parents('.content').find('#city34').val();
+        // earlyWarning_url = '/detection/detectData/?date='+selectTime;
+        earlyWarning_url = '/detection/detectData/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+        console.log(earlyWarning_url);
+        public_ajax.call_request('get',earlyWarning_url,earlyWarning);
+    })
+    // ===实体类型选项===
+    $('#select-4').change(function(){
+        var selectTime = $(this).parents('.content').find('#select-1').val();
+        // 运营模式
+        var select_operation_mode = $(this).parents('.content').find('#select-2').val();
+        // 预警类型
+        var select_illegal_type = $(this).parents('.content').find('#select-3').val();
+        // 实体类型
+        var select_entity_type = $(this).val();
+        // 预警分布
+        var select_warn_distribute = $(this).parents('.content').find('#city34').val();
+        // earlyWarning_url = '/detection/detectData/?date='+selectTime;
+        earlyWarning_url = '/detection/detectData/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+        console.log(earlyWarning_url);
+        public_ajax.call_request('get',earlyWarning_url,earlyWarning);
+    })
+    // ===预警分布选项===
+    $('#city34').change(function(){
+        var selectTime = $(this).parents('.content').find('#select-1').val();
+        // 运营模式
+        var select_operation_mode = $(this).parents('.content').find('#select-2').val();
+        // 预警类型
+        var select_illegal_type = $(this).parents('.content').find('#select-3').val();
+        // 实体类型
+        var select_entity_type = $(this).parents('.content').find('#select-4').val();
+        // 预警分布
+        var select_warn_distribute = $(this).val();
+        // earlyWarning_url = '/detection/detectData/?date='+selectTime;
+        earlyWarning_url = '/detection/detectData/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+        console.log(earlyWarning_url);
+        public_ajax.call_request('get',earlyWarning_url,earlyWarning);
+    })
+    // function selectChange (data) {
+    //     if(data.length == 0){
+    //         var strhtm = '<p class="load" style="margin-top:100px;">暂无记录</p>'
+    //         $('.recordingTable').empty().append(strhtm);
+    //     }else{
+    //         $('#recordingTable').bootstrapTable('load', data);
+    //         // $('#recordingTable p.load').show();
+    //     }
+    // }
+
 
     function jumpFrame_1(name,type,id) {
         var html='';
@@ -1554,7 +1667,8 @@
     pie_2();
 
 //====预警排名====
-    var ranking_url='/detection/detectRank?date=7';
+    // var ranking_url='/detection/detectRank?date=7';
+    var ranking_url='/detection/detectRank?date=7&entity_type=0';
     public_ajax.call_request('get',ranking_url,line_2);
     function line_2(data) {
         if(data){
@@ -1663,10 +1777,19 @@
 
     }
     // line_2();
+    // ===实体类型选项===
+    $('._time1').change(function(){
+        var select_entity_type  = $(this).children('option:selected').val();//这就是selected的值
+        var selectTime = $(this).siblings('._time2').val();
+        ranking_url = '/detection/detectRank?date='+selectTime+'&entity_type='+select_entity_type;
+        console.log(ranking_url);
+        public_ajax.call_request('get',ranking_url,line_2);
+    })
     // ===时间选项===
     $('._time2').change(function(){
         var selectTime = $(this).children('option:selected').val();//这就是selected的值
-        ranking_url = '/detection/detectRank?date='+selectTime;
+        var select_entity_type = $(this).siblings('._time1').val();
+        ranking_url = '/detection/detectRank?date='+selectTime+'&entity_type='+select_entity_type;
         console.log(ranking_url);
         public_ajax.call_request('get',ranking_url,line_2);
     })

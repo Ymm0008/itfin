@@ -1,29 +1,31 @@
-Date.prototype.Format = function (fmt) { //author: meizz
-    var o = {
-        "M+": this.getMonth() + 1, //月份
-        "d+": this.getDate(), //日
-        "H+": this.getHours(), //小时
-        "m+": this.getMinutes(), //分
-        "s+": this.getSeconds(), //秒
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-        "S": this.getMilliseconds() //毫秒
-    };
-    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
-}
-//时间戳转时间【年月日】
-function getLocalTime_1(nS) {
-    // return new Date(parseInt(nS) * 1000).toLocaleDateString().replace(/年|月/g, "-");
-    // return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
-    return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd");//年月日
-    // return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd HH:mm:ss");//年月日 时分秒
-}
-// 【年月日时分秒】
-function getLocalTime_2(nS) {
-    return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd HH:mm:ss");//年月日 时分秒
-}
+/* 时间戳转换时间  放在publicNav 里去了
+    Date.prototype.Format = function (fmt) { //author: meizz
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "H+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+    //时间戳转时间【年月日】
+    function getLocalTime_1(nS) {
+        // return new Date(parseInt(nS) * 1000).toLocaleDateString().replace(/年|月/g, "-");
+        // return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
+        return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd");//年月日
+        // return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd HH:mm:ss");//年月日 时分秒
+    }
+    // 【年月日时分秒】
+    function getLocalTime_2(nS) {
+        return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd HH:mm:ss");//年月日 时分秒
+    }
+ */
 
 var entity_name ,firm_name;
 
@@ -166,6 +168,17 @@ var entity_name ,firm_name;
 
         public_ajax.call_request('get',commentinforContent_url,commentinforContent_1);
     }
+    // 编辑功能
+    $('#card-edit').on('click',function(){
+        if($('#card .infor .inforLine b').attr('contenteditable') == true){
+            $('#card .infor .inforLine b').attr('contenteditable','false');
+            console.log('已退出编辑模式=======');
+        }else if($('#card .infor .inforLine b').attr('contenteditable') == false){
+            $('#card .infor .inforLine b').attr('contenteditable','true');
+            console.log("=========编辑模式中");
+        }
+
+    })
 
 //====股东数量====
     var master_url='/index/gongshang/?id='+pid;
@@ -302,8 +315,7 @@ function get7DaysBefore(date,m){
         window.location.href=html;
     }
 
-// ====股东情况====
-
+// ====股东情况(在子公司分公司内部)====
 
 // ====子公司分公司====
     // var table_1_url = '/index/sub_firm/?firm_name='+firm_name;
@@ -314,6 +326,16 @@ function get7DaysBefore(date,m){
     function table_1(data){
         // console.log(data);
         var myChart = echarts.init(document.getElementById('table-1'));
+        myChart.showLoading(
+            {type:'default',
+            opts: {
+              text: '正在加载中...',
+              color: '#c23531',
+              textColor: '#000',
+              maskColor: 'rgba(255, 255, 255, 0.8)',
+              zlevel: 0
+            }
+            });//自定义设置未作用
         var option = {
             title : {
                 text: '',
@@ -877,6 +899,7 @@ function get7DaysBefore(date,m){
                 }
                 // option.series[0].data[0].children[0].name = data[1].comp[0];
             };
+            myChart.hideLoading();
             myChart.setOption(option);
         }
         // myChart.setOption(option);

@@ -73,9 +73,28 @@
         .recordingTable .fixed-table-toolbar .search {
             width:20%;
             position:absolute;
-            top:0;
+            top:4px;
             right:100px;
             margin:0;
+        }
+        .recordingTable .fixed-table-toolbar .search input{
+            height:30px;
+            padding: 3px 6px;
+            background: transparent;
+            border: 1px solid silver;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+        .recordingTable .fixed-table-toolbar .search input:focus{
+            background: #f8f8f8;
+            color: #3c3c3c;
+        }
+
+        /* 解决表格无数据时缩水 */
+        #recordingTable thead tr th {
+            width:5%;
         }
     </style>
 {% endblock %}
@@ -119,36 +138,37 @@
                 <div class="content-2 conLeft">
                     <span class="ct-tit">运营模式：</span>
                     <select id="select-2" class="selectLab">
-                        <option value="全部" selected>全部</option>
-                        <option value="P2P理财">P2P理财</option>
+                        <option value="0" >全部</option>
+                        <!-- <option value="P2P理财">P2P理财</option>
                         <option value="投资项目">投资项目</option>
                         <option value="游戏">游戏</option>
                         <option value="任务奖励">任务奖励</option>
-                        <option value="股权私募基金">股权私募基金</option>
+                        <option value="股权私募基金">股权私募基金</option> -->
                     </select>
                 </div>
                 <div class="content-3 conLeft">
                     <span class="ct-tit">预警类型：</span>
                     <select id="select-3" class="selectLab">
-                        <option value="全部" selected>全部</option>
+                        <option value="0" selected>全部</option>
                         <!-- <option value="舆情预警">舆情预警</option> -->
-                        <option value="模型预警">模型预警</option>
-                        <option value="指标预警">指标预警</option>
+                        <!-- 改为动态生成的 -->
+                        <!-- <option value="模型预警">模型预警</option>
+                        <option value="指标预警">指标预警</option> -->
                     </select>
                 </div>
                 <div class="content-4 conLeft">
                     <span class="ct-tit">实体类型：</span>
                     <select id="select-4" class="selectLab">
-                        <option value="全部" selected>全部</option>
-                        <option value="公司">公司</option>
-                        <option value="平台">平台</option>
-                        <option value="项目">项目</option>
+                        <option value="0" selected>全部</option>
+                        <option value="1">平台</option>
+                        <option value="2">公司</option>
+                        <option value="3">项目</option>
                     </select>
                 </div>
                 <div class="content-5 conLeft">
                     <span style="display: inline-block;" class="ct-tit">预警分布：</span>
                     <select id="city34" class="selectLab">
-                        <option value="全部" selected>全部</option>
+                        <option value="all" selected>全部</option>
                         <option value='北京'>北京</option>
                         <option value='天津'>天津</option>
                         <option value='安徽'>安徽</option>
@@ -192,9 +212,6 @@
                 </div>
             </div>
         </div>
-
-
-
     </div>
 
     <div class="section secondScreen" style="overflow:hidden;">
@@ -212,17 +229,17 @@
                     <select id="second_select-3" class="selectLab">
                         <option value="全部" selected>全部</option>
                         <!-- <option value="舆情预警">舆情预警</option> -->
-                        <option value="模型预警">模型预警</option>
-                        <option value="指标预警">指标预警</option>
+                        <!-- <option value="模型预警">模型预警</option>
+                        <option value="指标预警">指标预警</option> -->
                     </select>
                 </div>
                 <div class="content-4 conLeft">
                     <span class="ct-tit">实体类型：</span>
                     <select id="second_select-4" class="selectLab">
-                        <option value="全部" selected>全部</option>
-                        <option value="公司">公司</option>
-                        <option value="平台">平台</option>
-                        <option value="项目">项目</option>
+                        <option value="0" selected>全部</option>
+                        <option value="1">平台</option>
+                        <option value="2">公司</option>
+                        <option value="3">项目</option>
                     </select>
                 </div>
                 <div class="content-5 conLeft">
@@ -278,11 +295,11 @@
                     <span class="ct-tit">运营模式：</span>
                     <select id="second_select-2" class="selectLab">
                         <option value="全部" selected>全部</option>
-                        <option value="P2P理财">P2P理财</option>
+                        <!-- <option value="P2P理财">P2P理财</option>
                         <option value="投资项目">投资项目</option>
                         <option value="游戏">游戏</option>
                         <option value="任务奖励">任务奖励</option>
-                        <option value="股权私募基金">股权私募基金</option>
+                        <option value="股权私募基金">股权私募基金</option> -->
                     </select>
                 </div>
                 <button type="button" class="btn btn-primary btn-sm" style="margin-left: 10px;">确定</button>
@@ -338,10 +355,10 @@
             <i class="icon icon-signal"></i>&nbsp;预警排名Top20
         </h3>
         <select class="_time1">
-            <option value="全部" selected>全部</option>
-            <option value="公司">公司</option>
-            <option value="平台">平台</option>
-            <option value="项目">项目</option>
+            <option value="0" selected>全部</option>
+            <option value="1">平台</option>
+            <option value="2">公司</option>
+            <option value="3">项目</option>
         </select>
         <select class="_time2">
             <option value="7">近一周</option>

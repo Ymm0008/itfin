@@ -162,6 +162,7 @@ def get_portrait(table1,table2,table3,table4,table5,field,letter):
 		else:
 			l = 'num'
 		if l == letter:
+			print(dict['entity_name'])
 			result.append(dict)
 	return result
 
