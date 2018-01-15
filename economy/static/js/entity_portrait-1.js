@@ -45,7 +45,7 @@ function monitorCount(data){
 
 // 一屏 表格
     // var peoPicture_url='/portraite/portrait/';
-    var peoPicture_url='/portraite/portrait/?operation_mode=0&illegal_type=0&entity_type=0&warn_distribute=all';
+    var peoPicture_url='/portraite/portrait/?operation_mode=0&illegal_type=10000&entity_type=0&warn_distribute=all';
     public_ajax.call_request('get',peoPicture_url,peoPicture);
 
     function peoPicture(data) {
