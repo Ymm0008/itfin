@@ -44,7 +44,8 @@ function monitorCount(data){
     }
 
 // 一屏 表格
-    var peoPicture_url='/portraite/portrait/';
+    // var peoPicture_url='/portraite/portrait/';
+    var peoPicture_url='/portraite/portrait/?operation_mode=0&illegal_type=0&entity_type=0&warn_distribute=all';
     public_ajax.call_request('get',peoPicture_url,peoPicture);
 
     function peoPicture(data) {
@@ -198,6 +199,87 @@ function monitorCount(data){
         });
         $('#contentTable p.load').hide();
     };
+
+    // ===时间选项===
+    // $('#select-1').change(function(){
+    //     var selectTime = $(this).children('option:selected').val();//这就是selected的值
+    //     // 运营模式
+    //     var select_operation_mode = $(this).parents('.content').find('#select-2').val();
+    //     // 预警类型
+    //     var select_illegal_type = $(this).parents('.content').find('#select-3').val();
+    //     // 实体类型
+    //     var select_entity_type = $(this).parents('.content').find('#select-4').val();
+    //     // 预警分布
+    //     var select_warn_distribute = $(this).parents('.content').find('#city34').val();
+    //     // earlyWarning_url = '/detection/detectData/?date='+selectTime;
+    //     earlyWarning_url = '/detection/detectData/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+    //     console.log(earlyWarning_url);
+    //     public_ajax.call_request('get',earlyWarning_url,earlyWarning);
+    // })
+    // ===运营模式选项===
+    $('#select-2').change(function(){
+        // var selectTime = $(this).parents('.content').find('#select-1').val();
+        // 运营模式
+        var select_operation_mode = $(this).val();
+        // 预警类型
+        var select_illegal_type = $(this).parents('.content').find('#select-3').val();
+        // 实体类型
+        var select_entity_type = $(this).parents('.content').find('#select-4').val();
+        // 预警分布
+        var select_warn_distribute = $(this).parents('.content').find('#city34').val();
+
+        peoPicture_url = '/portraite/portrait/?operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+        console.log(peoPicture_url);
+        public_ajax.call_request('get',peoPicture_url,peoPicture);
+    })
+    // ===预警类型选项===
+    $('#select-3').change(function(){
+        var selectTime = $(this).parents('.content').find('#select-1').val();
+        // 运营模式
+        var select_operation_mode = $(this).parents('.content').find('#select-2').val();
+        // 预警类型
+        var select_illegal_type = $(this).val();
+        // 实体类型
+        var select_entity_type = $(this).parents('.content').find('#select-4').val();
+        // 预警分布
+        var select_warn_distribute = $(this).parents('.content').find('#city34').val();
+
+        peoPicture_url = '/portraite/portrait/?operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+        console.log(peoPicture_url);
+        public_ajax.call_request('get',peoPicture_url,peoPicture);
+    })
+    // ===实体类型选项===
+    $('#select-4').change(function(){
+        // var selectTime = $(this).parents('.content').find('#select-1').val();
+        // 运营模式
+        var select_operation_mode = $(this).parents('.content').find('#select-2').val();
+        // 预警类型
+        var select_illegal_type = $(this).parents('.content').find('#select-3').val();
+        // 实体类型
+        var select_entity_type = $(this).val();
+        // 预警分布
+        var select_warn_distribute = $(this).parents('.content').find('#city34').val();
+
+        peoPicture_url = '/portraite/portrait/?operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+        console.log(peoPicture_url);
+        public_ajax.call_request('get',peoPicture_url,peoPicture);
+    })
+    // ===预警分布选项===
+    $('#city34').change(function(){
+        // var selectTime = $(this).parents('.content').find('#select-1').val();
+        // 运营模式
+        var select_operation_mode = $(this).parents('.content').find('#select-2').val();
+        // 预警类型
+        var select_illegal_type = $(this).parents('.content').find('#select-3').val();
+        // 实体类型
+        var select_entity_type = $(this).parents('.content').find('#select-4').val();
+        // 预警分布
+        var select_warn_distribute = $(this).val();
+
+        peoPicture_url = '/portraite/portrait/?operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+        console.log(peoPicture_url);
+        public_ajax.call_request('get',peoPicture_url,peoPicture);
+    })
 
 // 点击进入公司详情页
     function jumpFrame_1(name,type,id) {

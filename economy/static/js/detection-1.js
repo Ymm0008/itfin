@@ -268,15 +268,6 @@
         console.log(earlyWarning_url);
         public_ajax.call_request('get',earlyWarning_url,earlyWarning);
     })
-    // function selectChange (data) {
-    //     if(data.length == 0){
-    //         var strhtm = '<p class="load" style="margin-top:100px;">暂无记录</p>'
-    //         $('.recordingTable').empty().append(strhtm);
-    //     }else{
-    //         $('#recordingTable').bootstrapTable('load', data);
-    //         // $('#recordingTable p.load').show();
-    //     }
-    // }
 
 
     function jumpFrame_1(name,type,id) {
