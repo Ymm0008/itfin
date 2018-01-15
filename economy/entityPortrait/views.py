@@ -7,7 +7,7 @@ from . import entityPortrait
 from economy.config import *
 import json
 
-field = ['id','entity_name','entity_type','location','operation_mode','province','city','district','date']
+field = ['id','entity_name','entity_type','location','operation_mode','province','city','district','date','illegal_type']
 plat_field = ['id','entity_name','illegal_type','entity_type']
 company_field = ['id','entity_name','illegal_type','entity_type']
 project_field = ['id','entity_name','illegal_type','entity_type']
@@ -18,7 +18,11 @@ def entityportrait():
 
 @entityPortrait.route('/portrait/',methods=['POST','GET'])
 def portrait():
-	result = get(TABLE_ENTITY_LIST,TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,TABLE_GONGSHANG,field)
+	operation_mode = int(request.args.get('operation_mode',''))
+	illegal_type = int(request.args.get('illegal_type',''))
+	entity_type = int(request.args.get('entity_type',''))
+	warn_distribute = request.args.get('warn_distribute','')
+	result = get(TABLE_ENTITY_LIST,TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,TABLE_GONGSHANG,field,operation_mode,illegal_type,entity_type,warn_distribute)
 	if result['status'] == 1:
 		return json.dumps(result['data'],ensure_ascii=False)
 

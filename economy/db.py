@@ -7,26 +7,43 @@ from datetime import datetime,timedelta
 import pymysql as mysql
 from pybloom import ScalableBloomFilter
 import time
+from xpinyin import Pinyin
 
 #conn = mysql.connect(host="0.0.0.0",user="root",password="root",db="db",charset='utf8')
 conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 conn.autocommit(True)
 cur = conn.cursor()
-
+p = Pinyin()
 
 #实体画像
-def get(table1,table2,table3,table4,table5,field):
+def get(table1,table2,table3,table4,table5,field,operation_mode,illegal_type,entity_type,warn_distribute):
 	#table1: entity_list	 table2: plat_detail 	table3: company_detail 		table4: project_detail
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql1 = "select el.id,el.entity_name,el.entity_type,el.location,pd.operation_mode,gs.province,gs.city,gs.district,pd.date from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where pd.date=gs.date and el.monitor_status='1' and pd.date=(select max(date) from %s as a)" % (table1,table2,table5,table2)
+	sql1 = "select el.id,el.entity_name,el.entity_type,el.location,pd.operation_mode,gs.province,gs.city,gs.district,pd.date,pd.illegal_type from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where gs.date=(select max(date) from %s) and el.monitor_status='1' and pd.date=(select max(date) from %s as a) and pd.operation_mode=%d and pd.illegal_type=%d and el.entity_type=%d and gs.province='%s'" % (table1,table2,table5,table5,table2,operation_mode,illegal_type,entity_type,warn_distribute)
+	sql2 = "select el.id,el.entity_name,el.entity_type,el.location,cd.operation_mode,gs.province,gs.city,gs.district,cd.date,cd.illegal_type from %s as el inner join %s as cd on el.id=cd.entity_id inner join %s as gs on el.id=gs.entity_id where gs.date=(select max(date) from %s) and el.monitor_status='1' and cd.date=(select max(date) from %s as a) and cd.operation_mode=%d and cd.illegal_type=%d and el.entity_type=%d and gs.province='%s'" % (table1,table3,table5,table5,table3,operation_mode,illegal_type,entity_type,warn_distribute)
+	sql3 = "select el.id,el.entity_name,el.entity_type,el.location,p.operation_mode,gs.province,gs.city,gs.district,p.date,p.illegal_type from %s as el inner join %s as p on el.id=p.entity_id inner join %s as gs on el.id=gs.entity_id where gs.date=(select max(date) from %s) and el.monitor_status='1' and p.date=(select max(date) from %s as a) and p.operation_mode=%d and p.illegal_type=%d and el.entity_type=%d and gs.province='%s'" % (table1,table4,table5,table5,table4,operation_mode,illegal_type,entity_type,warn_distribute)
+	if operation_mode == 0:
+		sql1 = sql1.replace(' and pd.operation_mode=0','')
+		sql2 = sql2.replace(' and cd.operation_mode=0','')
+		sql3 = sql3.replace(' and p.operation_mode=0','')
+	if illegal_type == 0:
+		sql1 = sql1.replace(' and pd.illegal_type=0','')
+		sql2 = sql2.replace(' and cd.illegal_type=0','')
+		sql3 = sql3.replace(' and p.illegal_type=0','')
+	if entity_type == 0:
+		sql1 = sql1.replace(' and el.entity_type=0','')
+		sql2 = sql2.replace(' and el.entity_type=0','')
+		sql3 = sql3.replace(' and el.entity_type=0','')
+	if warn_distribute == 'all':
+		sql1 = sql1.replace(" and gs.province='all'","")
+		sql2 = sql2.replace(" and gs.province='all'","")
+		sql3 = sql3.replace(" and gs.province='all'","")
 	cur.execute(sql1)
 	res1 = cur.fetchall()
-	sql2 = "select el.id,el.entity_name,el.entity_type,el.location,cd.operation_mode,gs.province,gs.city,gs.district,cd.date from %s as el inner join %s as cd on el.id=cd.entity_id inner join %s as gs on el.id=gs.entity_id where cd.date=gs.date and el.monitor_status='1' and cd.date=(select max(date) from %s as a)" % (table1,table3,table5,table3)
 	cur.execute(sql2)
 	res2 = cur.fetchall()
-	sql3 = "select el.id,el.entity_name,el.entity_type,el.location,p.operation_mode,gs.province,gs.city,gs.district,p.date from %s as el inner join %s as p on el.id=p.entity_id inner join %s as gs on el.id=gs.entity_id where p.date=gs.date and el.monitor_status='1' and p.date=(select max(date) from %s as a)" % (table1,table4,table5,table4)
 	cur.execute(sql3)
 	res3 = cur.fetchall()
 	res = res1 + res2 + res3
@@ -104,66 +121,16 @@ def get_portrait(table1,table2,table3,table4,table5,field,letter):
 	res = res1 + res2 + res3
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	for dict in data:
-		l = None
-		name = dict['entity_name'].encode('gbk')
-		num = ord(name[0])*256 + ord(name[1])-65536
-		if num >= -20319 and num <= -20284 or name[0] == 'a' or name[0] == 'A':
-			l = 'a'
-		elif num >= -20283 and num <= -19776 or name[0] == 'b' or name[0] == 'B':
-			l = 'b'
-		elif num >= -19775 and num <= -19219 or name[0] == 'c' or name[0] == 'C':
-			l = 'c'
-		elif num >= -19218 and num <= -18711 or name[0] == 'd' or name[0] == 'D':
-			l = 'd'
-		elif num >= -18710 and num <= -18527 or name[0] == 'e' or name[0] == 'E':
-			l = 'e'
-		elif num >= -18526 and num <= -18240 or name[0] == 'f' or name[0] == 'F':
-			l = 'f'
-		elif num >= -18239 and num <= -17923 or name[0] == 'g' or name[0] == 'G':
-			l = 'g'
-		elif num >= -17922 and num <= -17418 or name[0] == 'h' or name[0] == 'H':
-			l = 'h'
-		elif name[0] == 'i' or name[0] == 'I':
-			l = 'i'
-		elif num >= -17417 and num <= -16475 or name[0] == 'j' or name[0] == 'J':
-			l = 'j'
-		elif num >= -16474 and num <= -16213 or name[0] == 'k' or name[0] == 'K':
-			l = 'k'
-		elif num >= -16212 and num <= -15641 or name[0] == 'l' or name[0] == 'L':
-			l = 'l'
-		elif num >= -15640 and num <= -15166 or name[0] == 'm' or name[0] == 'M':
-			l = 'm'
-		elif num >= -15165 and num <= -14923 or name[0] == 'n' or name[0] == 'N':
-			l = 'n'
-		elif num >= -14922 and num <= -14915 or name[0] == 'o' or name[0] == 'O':
-			l = 'o'
-		elif num >= -14914 and num <= -14631 or name[0] == 'p' or name[0] == 'P':
-			l = 'p'
-		elif num >= -14630 and num <= -14150 or name[0] == 'q' or name[0] == 'Q':
-			l = 'q'
-		elif num >= -14149 and num <= -14091 or name[0] == 'r' or name[0] == 'R':
-			l = 'r'
-		elif num >= -14090 and num <= -13119 or name[0] == 's' or name[0] == 'S':
-			l = 's'
-		elif num >= -13118 and num <= -12839 or name[0] == 't' or name[0] == 'T':
-			l = 't'
-		elif name[0] == 'u' or name[0] == 'U':
-			l = 'u'
-		elif name[0] == 'v' or name[0] == 'V':
-			l = 'v'
-		elif num >= -12838 and num <= -12557 or name[0] == 'w' or name[0] == 'W':
-			l = 'w'
-		elif num >= -12556 and num <= -11848 or name[0] == 'x' or name[0] == 'X':
-			l = 'x'
-		elif num >= -11847 and num <= -11056 or name[0] == 'y' or name[0] == 'Y':
-			l = 'y'
-		elif num >= -11055 and num <= -10247 or name[0] == 'z' or name[0] == 'Z':
-			l = 'z'
-		else:
-			l = 'num'
-		if l == letter:
-			print(dict['entity_name'])
+		name = p.get_initials(dict['entity_name'])
+		initial = name.split('-')[0].lower()
+		if initial == letter:
 			result.append(dict)
+		if letter == 'num':
+			try:
+				num = int(initial)
+				result.append(dict)
+			except:
+				pass
 	return result
 
 
@@ -305,7 +272,7 @@ def getDetectData(date,table1,table2,table3,field,risk_level,operation_mode,ille
 	start_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=int(date))
 	start_time = start_time.strftime("%Y-%m-%d")
 	sql1 = "select el.id,el.entity_name,el.entity_type,el.location,pd.operation_mode,gs.province,gs.city,gs.district,pd.illegal_type,pd.date from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where gs.date=(select max(date) from gongshang_daily) and pd.date>'%s' and pd.date<='%s' and el.monitor_status='1' and pd.illegal_type>0 and pd.risk_level>%d and pd.operation_mode=%d and pd.illegal_type=%d and pd.entity_type=%d and gs.province='%s' order by pd.date desc" % (table1, table2, table3, start_time, end_time, risk_level, operation_mode, illegal_type, entity_type, warn_distribute)
-	
+
 	if operation_mode == 0:
 		sql1 = sql1.replace(' and pd.operation_mode=0','')
 	if illegal_type == 0:
@@ -637,7 +604,7 @@ def operationModeBox(table, field):
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
-	return data	
+	return data
 
 def illegalTypeBox(table, field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
@@ -648,7 +615,7 @@ def illegalTypeBox(table, field):
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
-	return data	
+	return data
 
 
 
