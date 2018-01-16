@@ -52,7 +52,11 @@ def warn_count():
 @detection.route('/warnType/')
 def warn_type():
 	date = int(request.args.get('date',''))
-	result = getWarnType(TABLE_MONITOR, RISK_LEVEL, date, warn_type_field)
+	illegal_type = int(request.args.get('illegal_type',''))
+	entity_type = int(request.args.get('entity_type',''))
+	operation_mode = int(request.args.get('operation_mode',''))
+	warn_distribute = request.args.get('warn_distribute','')
+	result = getWarnType(TABLE_MONITOR, TABLE_GONGSHANG, RISK_LEVEL, date, warn_type_field, illegal_type, entity_type, operation_mode, warn_distribute)
 	return json.dumps(result,ensure_ascii=False)
 
 
@@ -64,6 +68,16 @@ def operation_mode_box():
 @detection.route('/IllegalTypeBox/')
 def illegal_type_box():
 	result = illegalTypeBox(TABLE_ILLEGAL_LIST, illegal_field)
+	return json.dumps(result,ensure_ascii=False)
+
+@detection.route('/TimeDistribute/')
+def time_Distribute():
+	date = int(request.args.get('date',''))
+	illegal_type = int(request.args.get('illegal_type',''))
+	entity_type = int(request.args.get('entity_type',''))
+	operation_mode = int(request.args.get('operation_mode',''))
+	warn_distribute = request.args.get('warn_distribute','')
+	result = GetTimeDistribute(TABLE_MONITOR, TABLE_GONGSHANG, RISK_LEVEL, date, illegal_type, entity_type, operation_mode, warn_distribute)
 	return json.dumps(result,ensure_ascii=False)
 
 

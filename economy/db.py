@@ -393,7 +393,7 @@ def getWarnCount(table,risk_level):
 	return dict
 
 
-def getWarnType(table, risk_level, date, field):
+def getWarnType(table, table2, risk_level, date, field, illegal_type, entity_type, operation_mode, warn_distribute):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
@@ -402,11 +402,57 @@ def getWarnType(table, risk_level, date, field):
 	end_time = cur.fetchall()[0][0]
 	start_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=date)
 	start_time = start_time.strftime("%Y-%m-%d")
-	sql = 'select illegal_type,count(*) from %s where risk_level>%d and date>"%s" and date<="%s" group by illegal_type'%(table, risk_level, start_time, end_time)
+	sql = 'select a.illegal_type,count(*) from %s as a inner join %s as b on a.entity_id=b.entity_id where b.date=(select max(date) from %s) and a.risk_level>%d and a.date>"%s" and a.date<="%s" and a.illegal_type=%d and a.entity_type=%d and a.operation_mode=%d and b.province="%s" group by a.illegal_type'%(table, table2, table2, risk_level, start_time, end_time, illegal_type, entity_type, operation_mode, warn_distribute)
+	
+		
+	if operation_mode == 0:
+		sql = sql.replace(' and a.operation_mode=0','')
+	if illegal_type == 0:
+		sql = sql.replace(' and a.illegal_type=0','')
+	if entity_type == 0:
+		sql = sql.replace(' and a.entity_type=0','')
+	if warn_distribute == 'all':
+		sql = sql.replace(' and b.province="all"','')
+	
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return data
+	
+
+def GetTimeDistribute(table, table2, risk_level, date, illegal_type, entity_type, operation_mode, warn_distribute):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+	list = []
+	count_list = []
+	sql = "select max(date) from %s"%table
+	cur.execute(sql)
+	end_time = cur.fetchall()[0][0]
+	time_list = []
+	for i in range(0, date):
+		start_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=i)
+		start_time = start_time.strftime("%Y-%m-%d")
+		time_list.append(start_time)
+	for i,time in enumerate(time_list):
+		sql1 = "select count(*) from %s as a inner join %s as b on a.entity_id=b.entity_id where b.date=(select max(date) from %s) and a.date='%s' and a.risk_level>%d and a.illegal_type=%d and a.entity_type=%d and a.operation_mode=%d and b.province='%s'"%(table, table2, table2, time, risk_level, illegal_type, entity_type, operation_mode, warn_distribute)
+		
+		if operation_mode == 0:
+			sql1 = sql1.replace(' and a.operation_mode=0','')
+		if illegal_type == 0:
+			sql1 = sql1.replace(' and a.illegal_type=0',' and a.illegal_type>0')
+		if entity_type == 0:
+			sql1 = sql1.replace(' and a.entity_type=0','')
+		if warn_distribute == 'all':
+			sql1 = sql1.replace(" and b.province='all'","")
+		
+		cur.execute(sql1)
+		result = cur.fetchall()[0][0]
+		dict = {'time':time,'count':result}
+		list.append(dict)
+
+	return list
+
 
 
 # 首页
