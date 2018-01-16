@@ -198,6 +198,7 @@ function monitorCount(data){
             ],
         });
         $('#contentTable p.load').hide();
+        $('.contentTable .fixed-table-toolbar .search input').attr('placeholder','请输入查询内容');
     };
 
     // ===时间选项===
@@ -234,7 +235,7 @@ function monitorCount(data){
     })
     // ===预警类型选项===
     $('#select-3').change(function(){
-        var selectTime = $(this).parents('.content').find('#select-1').val();
+        // var selectTime = $(this).parents('.content').find('#select-1').val();
         // 运营模式
         var select_operation_mode = $(this).parents('.content').find('#select-2').val();
         // 预警类型

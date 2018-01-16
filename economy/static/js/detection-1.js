@@ -21,6 +21,7 @@
             }
             $('#select-2').append(str);
             $('#second_select-2').append(str);
+            $('#second_select-2-2').append(str);
         }
     }
     var select_url_2 = '/detection/IllegalTypeBox/';    //预警类型
@@ -34,6 +35,7 @@
             }
             $('#select-3').append(str2);
             $('#second_select-3').append(str2);
+            $('#second_select-3-2').append(str2);
         }
     }
 
@@ -187,88 +189,87 @@
         $('.recordingTable .fixed-table-toolbar .search input').attr('placeholder','请输入查询内容');
     };
     // earlyWarning(earlyWarningdata);
-
-    // ===时间选项===
-    $('#select-1').change(function(){
-        var selectTime = $(this).children('option:selected').val();//这就是selected的值
-        // 运营模式
-        var select_operation_mode = $(this).parents('.content').find('#select-2').val();
-        // 预警类型
-        var select_illegal_type = $(this).parents('.content').find('#select-3').val();
-        // 实体类型
-        var select_entity_type = $(this).parents('.content').find('#select-4').val();
-        // 预警分布
-        var select_warn_distribute = $(this).parents('.content').find('#city34').val();
-        // earlyWarning_url = '/detection/detectData/?date='+selectTime;
-        earlyWarning_url = '/detection/detectData/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
-        console.log(earlyWarning_url);
-        public_ajax.call_request('get',earlyWarning_url,earlyWarning);
-    })
-    // ===运营模式选项===
-    $('#select-2').change(function(){
-        var selectTime = $(this).parents('.content').find('#select-1').val();
-        // 运营模式
-        var select_operation_mode = $(this).val();
-        // 预警类型
-        var select_illegal_type = $(this).parents('.content').find('#select-3').val();
-        // 实体类型
-        var select_entity_type = $(this).parents('.content').find('#select-4').val();
-        // 预警分布
-        var select_warn_distribute = $(this).parents('.content').find('#city34').val();
-        // earlyWarning_url = '/detection/detectData/?date='+selectTime;
-        earlyWarning_url = '/detection/detectData/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
-        console.log(earlyWarning_url);
-        public_ajax.call_request('get',earlyWarning_url,earlyWarning);
-    })
-    // ===预警类型选项===
-    $('#select-3').change(function(){
-        var selectTime = $(this).parents('.content').find('#select-1').val();
-        // 运营模式
-        var select_operation_mode = $(this).parents('.content').find('#select-2').val();
-        // 预警类型
-        var select_illegal_type = $(this).val();
-        // 实体类型
-        var select_entity_type = $(this).parents('.content').find('#select-4').val();
-        // 预警分布
-        var select_warn_distribute = $(this).parents('.content').find('#city34').val();
-        // earlyWarning_url = '/detection/detectData/?date='+selectTime;
-        earlyWarning_url = '/detection/detectData/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
-        console.log(earlyWarning_url);
-        public_ajax.call_request('get',earlyWarning_url,earlyWarning);
-    })
-    // ===实体类型选项===
-    $('#select-4').change(function(){
-        var selectTime = $(this).parents('.content').find('#select-1').val();
-        // 运营模式
-        var select_operation_mode = $(this).parents('.content').find('#select-2').val();
-        // 预警类型
-        var select_illegal_type = $(this).parents('.content').find('#select-3').val();
-        // 实体类型
-        var select_entity_type = $(this).val();
-        // 预警分布
-        var select_warn_distribute = $(this).parents('.content').find('#city34').val();
-        // earlyWarning_url = '/detection/detectData/?date='+selectTime;
-        earlyWarning_url = '/detection/detectData/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
-        console.log(earlyWarning_url);
-        public_ajax.call_request('get',earlyWarning_url,earlyWarning);
-    })
-    // ===预警分布选项===
-    $('#city34').change(function(){
-        var selectTime = $(this).parents('.content').find('#select-1').val();
-        // 运营模式
-        var select_operation_mode = $(this).parents('.content').find('#select-2').val();
-        // 预警类型
-        var select_illegal_type = $(this).parents('.content').find('#select-3').val();
-        // 实体类型
-        var select_entity_type = $(this).parents('.content').find('#select-4').val();
-        // 预警分布
-        var select_warn_distribute = $(this).val();
-        // earlyWarning_url = '/detection/detectData/?date='+selectTime;
-        earlyWarning_url = '/detection/detectData/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
-        console.log(earlyWarning_url);
-        public_ajax.call_request('get',earlyWarning_url,earlyWarning);
-    })
-
+    // 更新下拉框
+        // ===时间选项===
+        $('#select-1').change(function(){
+            var selectTime = $(this).children('option:selected').val();//这就是selected的值
+            // 运营模式
+            var select_operation_mode = $(this).parents('.content').find('#select-2').val();
+            // 预警类型
+            var select_illegal_type = $(this).parents('.content').find('#select-3').val();
+            // 实体类型
+            var select_entity_type = $(this).parents('.content').find('#select-4').val();
+            // 预警分布
+            var select_warn_distribute = $(this).parents('.content').find('#city34').val();
+            // earlyWarning_url = '/detection/detectData/?date='+selectTime;
+            earlyWarning_url = '/detection/detectData/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+            console.log(earlyWarning_url);
+            public_ajax.call_request('get',earlyWarning_url,earlyWarning);
+        })
+        // ===运营模式选项===
+        $('#select-2').change(function(){
+            var selectTime = $(this).parents('.content').find('#select-1').val();
+            // 运营模式
+            var select_operation_mode = $(this).val();
+            // 预警类型
+            var select_illegal_type = $(this).parents('.content').find('#select-3').val();
+            // 实体类型
+            var select_entity_type = $(this).parents('.content').find('#select-4').val();
+            // 预警分布
+            var select_warn_distribute = $(this).parents('.content').find('#city34').val();
+            // earlyWarning_url = '/detection/detectData/?date='+selectTime;
+            earlyWarning_url = '/detection/detectData/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+            console.log(earlyWarning_url);
+            public_ajax.call_request('get',earlyWarning_url,earlyWarning);
+        })
+        // ===预警类型选项===
+        $('#select-3').change(function(){
+            var selectTime = $(this).parents('.content').find('#select-1').val();
+            // 运营模式
+            var select_operation_mode = $(this).parents('.content').find('#select-2').val();
+            // 预警类型
+            var select_illegal_type = $(this).val();
+            // 实体类型
+            var select_entity_type = $(this).parents('.content').find('#select-4').val();
+            // 预警分布
+            var select_warn_distribute = $(this).parents('.content').find('#city34').val();
+            // earlyWarning_url = '/detection/detectData/?date='+selectTime;
+            earlyWarning_url = '/detection/detectData/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+            console.log(earlyWarning_url);
+            public_ajax.call_request('get',earlyWarning_url,earlyWarning);
+        })
+        // ===实体类型选项===
+        $('#select-4').change(function(){
+            var selectTime = $(this).parents('.content').find('#select-1').val();
+            // 运营模式
+            var select_operation_mode = $(this).parents('.content').find('#select-2').val();
+            // 预警类型
+            var select_illegal_type = $(this).parents('.content').find('#select-3').val();
+            // 实体类型
+            var select_entity_type = $(this).val();
+            // 预警分布
+            var select_warn_distribute = $(this).parents('.content').find('#city34').val();
+            // earlyWarning_url = '/detection/detectData/?date='+selectTime;
+            earlyWarning_url = '/detection/detectData/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+            console.log(earlyWarning_url);
+            public_ajax.call_request('get',earlyWarning_url,earlyWarning);
+        })
+        // ===预警分布选项===
+        $('#city34').change(function(){
+            var selectTime = $(this).parents('.content').find('#select-1').val();
+            // 运营模式
+            var select_operation_mode = $(this).parents('.content').find('#select-2').val();
+            // 预警类型
+            var select_illegal_type = $(this).parents('.content').find('#select-3').val();
+            // 实体类型
+            var select_entity_type = $(this).parents('.content').find('#select-4').val();
+            // 预警分布
+            var select_warn_distribute = $(this).val();
+            // earlyWarning_url = '/detection/detectData/?date='+selectTime;
+            earlyWarning_url = '/detection/detectData/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+            console.log(earlyWarning_url);
+            public_ajax.call_request('get',earlyWarning_url,earlyWarning);
+        })
 
     function jumpFrame_1(name,type,id) {
         var html='';
@@ -303,7 +304,8 @@
     }
 
 //====预警趋势====
-    var timeDistribute_url='/homepage/timeDistribute/';
+//  detection/TimeDistribute
+    var timeDistribute_url='/detection/TimeDistribute/';
     public_ajax.call_request('get',timeDistribute_url,line_1_new);
     var option_1 = {
         backgroundColor:'transparent',
@@ -418,105 +420,88 @@
             myChart.setOption(option_1);
         }
     }
+    // 更新下拉框
+        // ===时间选项===
+        $('#second_select-1').change(function(){
+            var selectTime = $(this).children('option:selected').val();//这就是selected的值
+            // 运营模式
+            var select_operation_mode = $(this).parents('.content').find('#second_select-2').val();
+            // 预警类型
+            var select_illegal_type = $(this).parents('.content').find('#second_select-3').val();
+            // 实体类型
+            var select_entity_type = $(this).parents('.content').find('#second_select-4').val();
+            // 预警分布
+            var select_warn_distribute = $(this).parents('.content').find('#second_city34').val();
+            // timeDistribute_url = '/detection/TimeDistribute/?date='+selectTime;
+            timeDistribute_url = '/detection/TimeDistribute/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+            console.log(timeDistribute_url);
+            public_ajax.call_request('get',timeDistribute_url,line_1_new);
+        })
+        // ===运营模式选项===
+        $('#second_select-2').change(function(){
+            var selectTime = $(this).parents('.content').find('#second_select-1').val();
+            // 运营模式
+            var select_operation_mode = $(this).val();
+            // 预警类型
+            var select_illegal_type = $(this).parents('.content').find('#second_select-3').val();
+            // 实体类型
+            var select_entity_type = $(this).parents('.content').find('#second_select-4').val();
+            // 预警分布
+            var select_warn_distribute = $(this).parents('.content').find('#second_city34').val();
+            // timeDistribute_url = '/detection/TimeDistribute/?date='+selectTime;
+            timeDistribute_url = '/detection/TimeDistribute/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+            console.log(timeDistribute_url);
+            public_ajax.call_request('get',timeDistribute_url,line_1_new);
+        })
+        // ===预警类型选项===
+        $('#second_select-3').change(function(){
+            var selectTime = $(this).parents('.content').find('#second_select-1').val();
+            // 运营模式
+            var select_operation_mode = $(this).parents('.content').find('#second_select-2').val();
+            // 预警类型
+            var select_illegal_type = $(this).val();
+            // 实体类型
+            var select_entity_type = $(this).parents('.content').find('#second_select-4').val();
+            // 预警分布
+            var select_warn_distribute = $(this).parents('.content').find('#second_city34').val();
+            // timeDistribute_url = '/detection/TimeDistribute/?date='+selectTime;
+            timeDistribute_url = '/detection/TimeDistribute/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+            console.log(timeDistribute_url);
+            public_ajax.call_request('get',timeDistribute_url,line_1_new);
+        })
+        // ===实体类型选项===
+        $('#second_select-4').change(function(){
+            var selectTime = $(this).parents('.content').find('#second_select-1').val();
+            // 运营模式
+            var select_operation_mode = $(this).parents('.content').find('#second_select-2').val();
+            // 预警类型
+            var select_illegal_type = $(this).parents('.content').find('#second_select-3').val();
+            // 实体类型
+            var select_entity_type = $(this).val();
+            // 预警分布
+            var select_warn_distribute = $(this).parents('.content').find('#second_city34').val();
+            // timeDistribute_url = '/detection/TimeDistribute/?date='+selectTime;
+            timeDistribute_url = '/detection/TimeDistribute/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+            console.log(timeDistribute_url);
+            public_ajax.call_request('get',timeDistribute_url,line_1_new);
+        })
+        // ===预警分布选项===
+        $('#second_city34').change(function(){
+            var selectTime = $(this).parents('.content').find('#second_select-1').val();
+            // 运营模式
+            var select_operation_mode = $(this).parents('.content').find('#second_select-2').val();
+            // 预警类型
+            var select_illegal_type = $(this).parents('.content').find('#second_select-3').val();
+            // 实体类型
+            var select_entity_type = $(this).parents('.content').find('#second_select-4').val();
+            // 预警分布
+            var select_warn_distribute = $(this).val();
+            // timeDistribute_url = '/detection/TimeDistribute/?date='+selectTime;
+            timeDistribute_url = '/detection/TimeDistribute/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+            console.log(timeDistribute_url);
+            public_ajax.call_request('get',timeDistribute_url,line_1_new);
+        })
 
-    function line_1() {
-        var myChart = echarts.init(document.getElementById('trendLine'),'chalk');
-        var option = {
-            backgroundColor:'transparent',
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                    lineStyle: {
-                        color: '#57617B'
-                    }
-                }
-            },
-            grid: {
-                left: '4%',
-                right: '7%',
-                bottom: '8%',
-                top:'4%',
-                containLabel: true
-            },
-            xAxis: [{
-                type: 'category',
-                boundaryGap: false,
-                axisLine: {
-                    lineStyle: {
-                        color: '#fff',
-                        width:'2'
-                    }
-                },
-                axisLabel: {
-                    textStyle: {
-                        color: '#fff',
-                        fontWeight:'700'
-                    }
-                },
-                data: ['周一','周二','周三','周四','周五','周六','周日'],
-            }],
-            yAxis: [
-                {
-                    type: 'value',
-                    axisTick: {
-                        show: false
-                    },
-                    axisLine: {
-                        lineStyle: {
-                            color: '#fff',
-                            width:'2'
-                        }
-                    },
-                    axisLabel: {
-                        margin: 10,
-                        textStyle: {
-                            fontSize: 14,
-                            fontWeight:'700',
-                            color:'white',
-                        }
-                    }
-                }
-            ],
-            series: [
-                {
-                    name: '预警次数',
-                    type: 'line',
-                    smooth: true,
-                    symbol: 'circle',
-                    symbolSize: 5,
-                    showSymbol: false,
-                    lineStyle: {
-                        normal: {
-                            width: 1,
-                        }
-                    },
-                    areaStyle: {
-                        normal: {
-                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                offset: 0,
-                                color: 'rgba(137, 189, 27, 0.8)'
-                            }, {
-                                offset: 1,
-                                color: 'rgba(137, 189, 27, 0)'
-                            }], false),
-                            shadowColor: 'rgba(0, 0, 0, 0.1)',
-                            shadowBlur: 10
-                        }
-                    },
-                    itemStyle: {
-                        normal: {
-                            color: 'rgb(137,189,27)',
-                            borderColor: 'rgba(137,189,2,0.27)',
-                            borderWidth: 12
-                        }
-                    },
-                    data: [11, 11, 15, 13, 12, 13, 10],
-                }
-            ]
-        };
-        myChart.setOption(option);
-    }
-    // line_1();
     //====预警类型====
     var warningType_url = '/detection/warnType/?date=7'
     public_ajax.call_request('get',warningType_url,pie_3);
@@ -582,6 +567,87 @@
         myChart.setOption(option);
     }
     // pie_3();
+    // 更新下拉框
+        // ===时间选项===
+        $('#second_select-1-2').change(function(){
+            var selectTime = $(this).children('option:selected').val();//这就是selected的值
+            // 运营模式
+            var select_operation_mode = $(this).parents('.content').find('#second_select-2-2').val();
+            // 预警类型
+            var select_illegal_type = $(this).parents('.content').find('#second_select-3-2').val();
+            // 实体类型
+            var select_entity_type = $(this).parents('.content').find('#second_select-4-2').val();
+            // 预警分布
+            var select_warn_distribute = $(this).parents('.content').find('#second_city34-2').val();
+            // warningType_url = '/detection/warnType/?date='+selectTime;
+            warningType_url = '/detection/warnType/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+            console.log(warningType_url);
+            public_ajax.call_request('get',warningType_url,pie_3);
+        })
+        // ===运营模式选项===
+        $('#second_select-2-2').change(function(){
+            var selectTime = $(this).parents('.content').find('#second_select-1-2').val();
+            // 运营模式
+            var select_operation_mode = $(this).val();
+            // 预警类型
+            var select_illegal_type = $(this).parents('.content').find('#second_select-3-2').val();
+            // 实体类型
+            var select_entity_type = $(this).parents('.content').find('#second_select-4-2').val();
+            // 预警分布
+            var select_warn_distribute = $(this).parents('.content').find('#second_city34-2').val();
+            // warningType_url = '/detection/warnType/?date='+selectTime;
+            warningType_url = '/detection/warnType/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+            console.log(warningType_url);
+            public_ajax.call_request('get',warningType_url,pie_3);
+        })
+        // ===预警类型选项===
+        $('#second_select-3-2').change(function(){
+            var selectTime = $(this).parents('.content').find('#second_select-1-2').val();
+            // 运营模式
+            var select_operation_mode = $(this).parents('.content').find('#second_select-2-2').val();
+            // 预警类型
+            var select_illegal_type = $(this).val();
+            // 实体类型
+            var select_entity_type = $(this).parents('.content').find('#second_select-4-2').val();
+            // 预警分布
+            var select_warn_distribute = $(this).parents('.content').find('#second_city34-2').val();
+            // warningType_url = '/detection/warnType/?date='+selectTime;
+            warningType_url = '/detection/warnType/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+            console.log(warningType_url);
+            public_ajax.call_request('get',warningType_url,pie_3);
+        })
+        // ===实体类型选项===
+        $('#second_select-4-2').change(function(){
+            var selectTime = $(this).parents('.content').find('#second_select-1-2').val();
+            // 运营模式
+            var select_operation_mode = $(this).parents('.content').find('#second_select-2-2').val();
+            // 预警类型
+            var select_illegal_type = $(this).parents('.content').find('#second_select-3-2').val();
+            // 实体类型
+            var select_entity_type = $(this).val();
+            // 预警分布
+            var select_warn_distribute = $(this).parents('.content').find('#second_city34-2').val();
+            // warningType_url = '/detection/warnType/?date='+selectTime;
+            warningType_url = '/detection/warnType/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+            console.log(warningType_url);
+            public_ajax.call_request('get',warningType_url,pie_3);
+        })
+        // ===预警分布选项===
+        $('#second_city34-2').change(function(){
+            var selectTime = $(this).parents('.content').find('#second_select-1-2').val();
+            // 运营模式
+            var select_operation_mode = $(this).parents('.content').find('#second_select-2-2').val();
+            // 预警类型
+            var select_illegal_type = $(this).parents('.content').find('#second_select-3-2').val();
+            // 实体类型
+            var select_entity_type = $(this).parents('.content').find('#second_select-4-2').val();
+            // 预警分布
+            var select_warn_distribute = $(this).val();
+            // warningType_url = '/detection/warnType/?date='+selectTime;
+            warningType_url = '/detection/warnType/?date='+selectTime+'&operation_mode='+select_operation_mode+'&illegal_type='+select_illegal_type+'&entity_type='+select_entity_type+'&warn_distribute='+select_warn_distribute;
+            console.log(warningType_url);
+            public_ajax.call_request('get',warningType_url,pie_3);
+        })
 
 //====预警分布====
     // ===表格
