@@ -84,16 +84,21 @@
 	.commentinforContent span {
 		font-weight:700;
 	}
+	.commentinforContent span.pagination-info {
+		font-weight:400;
+	}
     .commentinforContent .inforContent .main p.context {
         max-height:300px;
         overflow:auto;
+        word-wrap:break-word;
+        word-break:break-all;
     }
 	/* 加载提示信息 */
 	.load {
 		text-align:center;
 		margin-top:10px;
 	}
-
+	/* 去掉顶边框 */
 	#inforChange thead th,#lawsuit thead th {
 		border-top:none;
 	}
@@ -137,6 +142,7 @@
 	    padding: 5px 5px 5px 30px;
 	    background: rgba(88, 88, 88, 0.1);
 	    margin: 20px auto 0;
+	    width:96%;
     }
     #container .inforContent_2 .main .textFlag{
     	position: absolute;
@@ -233,7 +239,7 @@
 				<span>工商注册公司名称：</span>&nbsp;<b class="isPlatformName"></b>
 			</p>
 			<p class="infor-7 inforLine">
-				<span>旗下产品：</span>&nbsp;<b class="type">优易网、理财网</b>
+				<span>旗下产品：</span>&nbsp;<b class="type">无</b>
 			</p>
 
 		</div>
@@ -250,18 +256,21 @@
 		<div class="riskRight">
 			<span>时间：</span>
 			<select class="time">
+				<option value="全部">全部</option>
 				<option value="近一周">近一周</option>
 				<option value="近一个月">近一个月</option>
 				<option value="近三个月">近三个月</option>
 				<option value="近一年">近一年</option>
 			</select>
 			<div class="monitor">
-				<span>指标预警：<b class="mon-1">22</b></span>
-				<span>模型预警：<b class="mon-2">321</b></span>
+				<span>模型预警：<b class="mon-2">0</b></span>
+				<span>舆情预警：<b class="mon-1">0</b></span>
 				<!-- <span>舆情预警：<b class="mon-3">54</b></span> -->
 			</div>
 			<div class="riskValueTable" style="margin-top: 10px;">
-				<div id="riskValueTable"></div>
+				<div id="riskValueTable">
+					<!-- <p class="load">正在拼命加载中....</p> -->
+				</div>
 			</div>
 		</div>
 	</div>
@@ -607,21 +616,23 @@
 		<div class="pro related-1" style="float: left;">
 			<h4><i class="icon icon-link"></i>&nbsp;关联产品</h4>
 			<div id="product">
-				游戏大全
+				<!-- 游戏大全
 
 				理财网
 
-				理财网
+				理财网 -->
+				无
 			</div>
 		</div>
 		<div class="pro related-2" style="float: right">
 			<h4><i class="icon icon-link"></i>&nbsp;关联企业</h4>
 			<div id="company">
-				财付通
+				<!-- 财付通
 
 				支付宝
 
-				嘟嘟
+				嘟嘟 -->
+				无
 			</div>
 		</div>
 	</div>

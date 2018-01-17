@@ -13,14 +13,14 @@ Date.prototype.Format = function (fmt) { //author: meizz
     if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
-//时间戳转时间【年月】
+//时间戳转时间【年月日】
 function getLocalTime_1(nS) {
     // return new Date(parseInt(nS) * 1000).toLocaleDateString().replace(/年|月/g, "-");
     // return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
     return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd");//年月日
     // return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd HH:mm:ss");//年月日 时分秒
 }
-// 【年月日】
+// 【年月日时分秒】
 function getLocalTime_2(nS) {
     return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd HH:mm:ss");//年月日 时分秒
 }
@@ -32,17 +32,18 @@ var entity_name ,firm_name;
     // var basicInfor_url='/index/entityType/?id=5120&type=1';//测试股东信息
     public_ajax.call_request('get',basicInfor_url,basicInfor);
     function basicInfor(data){
-        // console.log(data);
+        console.log(data);
         var item=data[0];
 
-        var t1='',t2='',t3='否',t4='0级',t5='0级',t6='否',operationMode,legalPerson,capital;
+        var t1='',t2='',t3='否',t4='0',t5='0',t6='否',operationMode,legalPerson,capital;
         if (item.entity_type==1){t1='平台';}else if (item.entity_type==2){t1='公司';}else if (item.entity_type==1){t1='项目';}else {t1=''}
         if (item.set_time){t2=item.set_time;}//成立时间
         $('.location').text(item.regist_address||''); //注册地
         if (item.operation_mode==1){
             operationMode = '互联网金融';
         }else{
-            operationMode = item.operation_mode;
+            // operationMode = item.operation_mode;
+            operationMode = '互联网金融';
         }
         if(item.legal_person){legalPerson = item.legal_person};
         if(item.capital){capital = item.capital+'万元'}
@@ -66,10 +67,16 @@ var entity_name ,firm_name;
         }
         $('.val-1').text(t3);
 
-        if (item.risk_level){t4=item.risk_level+'级';}
-        $('.val-2').text(t4);
-        if (item.impact_level){t5=item.impact_level+'级';}
-        $('.val-3').text(t5);
+        if (item.risk_level!=''&&item.risk_level!='null'&&item.risk_level!='unknown'&&!item.risk_level&&item.risk_level!='None'){
+            t4=item.risk_level;
+        }
+        $('.val-2').text(item.risk_level);//风险等级
+
+        if (item.impact_level!=''&&item.impact_level!='null'&&item.impact_level!='unknown'&&!item.impact_level&&item.impact_level!='None'){
+            t5=item.impact_level;
+        }
+        $('.val-3').text(item.impact_level);//影响等级
+
         $('.val-4').text(item.operation_mode||'');
         if (item.penalty_status==1){t6='是';}
         $('.val-5').text(t6);
@@ -185,69 +192,93 @@ function get7DaysBefore(date,m){
 };
 
 // ====右顶侧小表格【未完成
-    // var risk_url='///';
-    // public_ajax.call_request('get',risk_url,riskValue);
+
+    var risk_url='/index/riskCommentTable/?entity_id='+pid+'&type='+type;
+    public_ajax.call_request('get',risk_url,riskValue);
     var objData=[{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},
         {'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},
         {'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''}]
     function riskValue(data) {
-        $('#riskValueTable').bootstrapTable('load', data);
-        $('#riskValueTable').bootstrapTable({
-            data:data,
-            search: false,//是否搜索
-            pagination: true,//是否分页
-            pageSize: 3,//单页记录数
-            pageList: [15,20,25],//分页步进值
-            sidePagination: "client",//服务端分页
-            searchAlign: "left",
-            searchOnEnterKey: false,//回车搜索
-            showRefresh: false,//刷新按钮
-            showColumns: false,//列选择按钮
-            buttonsAlign: "right",//按钮对齐方式
-            locale: "zh-CN",//中文支持
-            detailView: false,
-            showToggle:false,
-            sortName:'bci',
-            sortOrder:"desc",
-            columns: [
-                {
-                    title: "时间",//标题
-                    field: "a",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    // formatter: function (value, row, index) {
-                    //     if (row.user_name==''||row.user_name=='null'||row.user_name=='unknown'||!row.user_name){
-                    //         return '未知';
-                    //     }else {
-                    //         return row.user_name;
-                    //     };
-                    // }
-                },
-                {
-                    title: "预警内容",//标题
-                    field: "b",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                },
-                {
-                    title: "查看详情",//标题
-                    field: "",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        return '<span style="cursor:pointer;" onclick="" title="查看详情"><i class="icon icon-edit"></i></span>';
-                    }
-                },
-            ],
-        });
+        console.log(data);
+        for(var item in data){
+            console.log(item);
+            if(data[item].length == 0){
+                $('#riskValueTable p.load').text('暂无记录');
+            }else{
+                $('#riskValueTable').bootstrapTable('load', data[item]);
+                $('#riskValueTable').bootstrapTable({
+                    data:data[item],
+                    search: false,//是否搜索
+                    pagination: true,//是否分页
+                    pageSize: 3,//单页记录数
+                    pageList: [15,20,25],//分页步进值
+                    sidePagination: "client",//服务端分页
+                    searchAlign: "left",
+                    searchOnEnterKey: false,//回车搜索
+                    showRefresh: false,//刷新按钮
+                    showColumns: false,//列选择按钮
+                    buttonsAlign: "right",//按钮对齐方式
+                    locale: "zh-CN",//中文支持
+                    detailView: false,
+                    showToggle:false,
+                    sortName:'bci',
+                    sortOrder:"desc",
+                    columns: [
+                        {
+                            title: "时间",//标题
+                            field: "date",//键名
+                            sortable: true,//是否可排序
+                            order: "desc",//默认排序方式
+                            align: "center",//水平
+                            valign: "middle",//垂直
+                            formatter: function (value, row, index) {
+                                if (row.date==''||row.date=='null'||row.date=='unknown'||!row.date){
+                                    return '未知';
+                                }else {
+                                    return row.date;
+                                };
+                            }
+                        },
+                        {
+                            title: "预警内容",//标题
+                            field: "illegal_type",//键名
+                            sortable: true,//是否可排序
+                            order: "desc",//默认排序方式
+                            align: "center",//水平
+                            valign: "middle",//垂直
+                            formatter: function (value, row, index) {
+                                if (row.illegal_type==''||row.illegal_type=='null'||row.illegal_type=='unknown'||!row.illegal_type){
+                                    return '未知';
+                                }else if(row.illegal_type==1) {
+                                    return '模型预警';
+                                }else if(row.illegal_type==2) {
+                                    return '舆情预警';
+                                }else if(row.illegal_type==3) {
+                                    return '指标预警';
+                                };
+                            }
+                        },
+                        {
+                            title: "查看详情",//标题
+                            field: "",//键名
+                            sortable: true,//是否可排序
+                            order: "desc",//默认排序方式
+                            align: "center",//水平
+                            valign: "middle",//垂直
+                            formatter: function (value, row, index) {
+                                return '<span style="cursor:pointer;" onclick="" title="查看详情"><i class="icon icon-edit"></i></span>';
+                            }
+                        },
+                    ],
+                });
+                $('#riskValueTable p.load').hide();
+
+                $('.mon-2').text(item)
+            }
+        }
+
     };
-    riskValue(objData)
+    // riskValue(objData)
 
 // ====子公司分公司====
     // var table_1_url = '/index/sub_firm/?firm_name='+firm_name;
@@ -277,13 +308,15 @@ function get7DaysBefore(date,m){
                 }
             },
             calculable : false,
+            /*
+
 
             series : [
                 {
                     name:'',
                     type:'tree',
                     orient: 'horizontal',  // vertical horizontal
-                    rootLocation: {x: 'center', y: '60%'}, // 根节点位置  {x: 'center',y: 10}
+                    rootLocation: {x: 100, y: '60%'}, // 根节点位置  {x: 'center',y: 10}
                     nodePadding: 20,
                     left: '50%',
                     symbol: 'circle',
@@ -453,6 +486,176 @@ function get7DaysBefore(date,m){
                     ]
                 }
             ]
+             */
+
+            series : [
+                {
+                    name:'',
+                    type:'tree',
+                    orient: 'horizontal',  // vertical horizontal
+                    rootLocation: {x: 'center', y: '60%'}, // 根节点位置  {x: 'center',y: 10}
+                    left:'50%',
+                    nodePadding: 20,
+                    symbol: 'circle',
+                    symbolSize: 40,
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true,
+                                position: 'inside',
+                                textStyle: {
+                                    color: '#333',
+                                    fontSize: 15,
+                                    fontWeight:  'bolder'
+                                },
+                                // position:['left','bottom']
+                                position:'bottom'
+                            },
+                            lineStyle: {
+                                color: '#000',
+                                width: 1,
+                                type: 'broken' // 'curve'|'broken'|'solid'|'dotted'|'dashed'
+                            },
+                            borderColor:'#337ab7'
+                        },
+                        emphasis: {
+                            label: {
+                                show: true
+                            }
+                        }
+                    },
+                    data: [
+                        {
+                            name: data[0],
+                            // value: 6,
+                            symbolSize: [20, 20],
+                            // symbol: 'image://http://www.iconpng.com/png/ecommerce-business/iphone.png',
+                            // symbol: 'circle',
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: true
+                                    }
+                                }
+                            },
+                            children: [
+                                /*
+                                    {
+                                        name: 'B',
+                                        value: 4,
+                                        // symbol: 'image://http://pic.58pic.com/58pic/12/36/51/66d58PICMUV.jpg',
+                                        symbol: 'B',
+                                        itemStyle: {
+                                            normal: {
+                                                label: {
+                                                    show: false
+                                                }
+                                            }
+                                        },
+                                        symbolSize: [60, 60],
+                                        children: [
+                                            {
+                                                name: 'C',
+                                                symbol: 'circle',
+                                                symbolSize: 20,
+                                                value: 4,
+                                                itemStyle: {
+                                                    normal: {
+                                                        color: '#fa6900',
+                                                        label: {
+                                                            show: true,
+                                                            position: 'right'
+                                                        },
+
+                                                    },
+                                                    emphasis: {
+                                                        label: {
+                                                            show: false
+                                                        },
+                                                        borderWidth: 0
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                name: 'D',
+                                                value: 4,
+                                                symbol: 'circle',
+                                                symbolSize: 20,
+                                                itemStyle: {
+                                                    normal: {
+                                                        label: {
+                                                            show: true,
+                                                            position: 'right',
+                                                            formatter: "{b}"
+                                                        },
+                                                        color: '#fa6900',
+                                                        borderWidth: 2,
+                                                        borderColor: '#cc66ff'
+
+                                                    },
+                                                    emphasis: {
+                                                        borderWidth: 0
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                name: 'E',
+                                                value: 2,
+                                                symbol: 'circle',
+                                                symbolSize: 20,
+                                                itemStyle: {
+                                                    normal: {
+                                                        label: {
+                                                            position: 'right'
+                                                        },
+                                                        color: '#fa6900',
+                                                        brushType: 'stroke',
+                                                        borderWidth: 1,
+                                                        borderColor: '#999966',
+                                                    },
+                                                    emphasis: {
+                                                        borderWidth: 0
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        name: 'F',
+                                        // symbol: 'image://http://www.viastreaming.com/images/apple_logo2.png',
+                                        symbol: 'F',
+                                        symbolSize: [60, 60],
+                                        itemStyle: {
+                                            normal: {
+                                                label: {
+                                                    show: false
+                                                }
+
+                                            }
+                                        },
+                                        value: 4
+                                    },
+                                    {
+                                        name: 'G',
+                                        // symbol: 'image://http://market.huawei.com/hwgg/logo_cn/download/logo.jpg',
+                                        symbol: 'G',
+                                        symbolSize: [60, 60],
+                                        itemStyle: {
+                                            normal: {
+                                                label: {
+                                                    show: false
+                                                }
+
+                                            }
+                                        },
+                                        value: 2
+                                    },
+                                */
+                            ]
+                        }
+                    ]
+                }
+            ]
         };
 
 
@@ -549,7 +752,8 @@ function get7DaysBefore(date,m){
         $('#pubTable .inf3_zhihu').text(item.inf3_zhihu);
     }
      */
-    var data_billing_diagram ;
+
+    var data_billing_diagram ;//广告趋势图数据
     function publicityTable(data){
         data_billing_diagram = data;
         // console.log(data);
@@ -978,7 +1182,7 @@ function get7DaysBefore(date,m){
             // console.log(incomeTable_more_url);
             public_ajax.call_request('get',incomeTable_more_url,incomeTablemore);
         }else{
-            // console.log('====暂无更多内容====')
+            console.log('====暂无更多内容====')
         }
 
     }
@@ -1005,7 +1209,14 @@ function get7DaysBefore(date,m){
                 $('#moreInfo #usn').text('未知');//作者
             }
             $('#moreInfo #words').text(data.content);//内容
-            $('#moreInfo #url a').text('原网页链接').attr({'href':data.u,'target':'_blank','title':'原网页链接'});//原文链接
+            // 原网页链接
+            var url;
+            if(row.url){
+                url = row.url;
+            }else{
+                url = row.u;
+            }
+            $('#moreInfo #url a').text('原网页链接').attr({'href':url,'target':'_blank','title':'原网页链接'});//原文链接
 
             $('#moreInfo').modal('show');
         }
@@ -1106,7 +1317,14 @@ function get7DaysBefore(date,m){
                 $('#moreInfo #usn').text('暂无');//用户
             }
             $('#moreInfo #words').text(data.content);//内容
-            $('#moreInfo #url a').text('原网页链接').attr({'href':data.u,'target':'_blank','title':'原网页链接'});//原文链接
+            // 原网页链接
+            var url;
+            if(row.url){
+                url = row.url;
+            }else{
+                url = row.u;
+            }
+            $('#moreInfo #url a').text('原网页链接').attr({'href':url,'target':'_blank','title':'原网页链接'});//原文链接
 
             $('#moreInfo').modal('show');
         }
@@ -1211,7 +1429,7 @@ function get7DaysBefore(date,m){
     */
     function billing_1(data) {
         if(data.length == 0){
-            $('#billing_0').hide();
+            $('#billing p.load').text('暂无记录');
         }else {
             var tag='#billing'.toString().substring(1)
             $('#billing').bootstrapTable('load', data);
@@ -1260,6 +1478,8 @@ function get7DaysBefore(date,m){
                                 inflammatory = '一般';
                             }else if(row.ad123 ==3){
                                 inflammatory = '强';
+                            }else{
+                                inflammatory = '未知';
                             }
                             // 渠道
                             var source;
@@ -1276,6 +1496,15 @@ function get7DaysBefore(date,m){
                             }else{
                                 source = '未知';
                             }
+
+                            // 原网页链接
+                            var url;
+                            if(row.url){
+                                url = row.url;
+                            }else{
+                                url = row.u;
+                            }
+
                             return '<div class="inforContent">'+
                                 '            <div class="main">'+
                                 '                <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
@@ -1286,14 +1515,14 @@ function get7DaysBefore(date,m){
                                 '   <button onclick="getAllArtical(\''+tag+'_'+index+'\')" artical=\"'+tag+'_'+index+'\" class="original btn-primary btn-xs">查看全文</button>'+
                                 '                </p>'+
                                 '                <p class="context">'+contentClip+'</p>'+
-                                '                <a href="'+row.url+'" title="原网页链接" target="_blank">原网页链接</a>            '+
+                                '                <a href="'+url+'" title="原网页链接" target="_blank">原网页链接</a>            '+
                                 '            </div>'+
                                 '        </div>';
                         }
                     },
                 ],
             });
-            $('#billing'+' p.load').hide();
+            $('#billing p.load').hide();
         }
     };
 
@@ -1310,92 +1539,96 @@ function get7DaysBefore(date,m){
     }
     // billing(serds);
 
-    // 加一个折线图
+    // 加一个折线图  ===广告趋势图===
     function billing_diagram (data){
-        var item = data[0];
-        var ad1_data = [],inf1_data = [],inf2_data = [],inf3_data = [];
-        ad1_data.push(item.ad1_wechat+item.ad1_zhihu+item.ad1_bbs+item.ad1_webo+item.ad1_forum);
-        inf1_data.push(item.inf1_wechat+item.inf1_zhihu+item.inf1_bbs+item.inf1_webo+item.inf1_forum);
-        inf2_data.push(item.inf2_wechat+item.inf2_zhihu+item.inf2_bbs+item.inf2_webo+item.inf2_forum);
-        inf3_data.push(item.inf3_wechat+item.inf3_zhihu+item.inf3_bbs+item.inf3_webo+item.inf3_forum);
-        var date = [];
-        date.push(item.date);
+        // console.log(data)
+        if(data){
+            var ad1_data = [],inf1_data = [],inf2_data = [],inf3_data = [];
+            // 时间
+            var date = [];
+            for(var i=0;i < data.length;i++){
+                inf1_data.push(data[i].inf1_wechat+data[i].inf1_zhihu+data[i].inf1_bbs+data[i].inf1_webo+data[i].inf1_forum);
+                inf2_data.push(data[i].inf2_wechat+data[i].inf2_zhihu+data[i].inf2_bbs+data[i].inf2_webo+data[i].inf2_forum);
+                inf3_data.push(data[i].inf3_wechat+data[i].inf3_zhihu+data[i].inf3_bbs+data[i].inf3_webo+data[i].inf3_forum);
 
-        var myChart = echarts.init(document.getElementById('billing_diagram'));
-        var option = {
-            title: {
-                text: ''
-            },
-            tooltip : {
-                trigger: 'axis',
-                axisPointer: {
-                    type: 'cross',
-                    label: {
-                        backgroundColor: '#6a7985'
+                date.push(data[i].date);
+            }
+            var myChart = echarts.init(document.getElementById('billing_diagram'));
+            var option = {
+                title: {
+                    text: ''
+                },
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
                     }
-                }
-            },
-            legend: {
-                // data:['无煽动性广告数','一般煽动性广告数','强煽动性广告数','广告数']
-                data:['无煽动性广告数','一般煽动性广告数','强煽动性广告数']
-            },
-            toolbox: {
-                feature: {
-                    saveAsImage: {}
-                }
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis : [
-                {
-                    type : 'category',
-                    boundaryGap : false,
-                    // data:['微信','知乎','论坛','微博','贴吧']
-                    data:date
-                }
-            ],
-            yAxis : [
-                {
-                    type : 'value'
-                }
-            ],
-            series : [
+                },
+                legend: {
+                    // data:['无煽动性广告数','一般煽动性广告数','强煽动性广告数','广告数']
+                    data:['无煽动性广告数','一般煽动性广告数','强煽动性广告数']
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis : [
+                    {
+                        type : 'category',
+                        boundaryGap : false,
+                        // data:['微信','知乎','论坛','微博','贴吧']
+                        data:date
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value'
+                    }
+                ],
+                series : [
 
-                {
-                    name:'无煽动性广告数',
-                    type:'line',
-                    stack: '总量',
-                    areaStyle: {normal: {}},
-                    data:inf1_data
-                },
-                {
-                    name:'一般煽动性广告数',
-                    type:'line',
-                    stack: '总量',
-                    areaStyle: {normal: {}},
-                    data:inf2_data
-                },
-                {
-                    name:'强煽动性广告数',
-                    type:'line',
-                    stack: '总量',
-                    areaStyle: {normal: {}},
-                    data:inf3_data
-                },
-                // {
-                //     name:'广告数',
-                //     type:'line',
-                //     stack: '总量',
-                //     areaStyle: {normal: {}},
-                //     data:ad1_data
-                // },
-            ]
-        };
-        myChart.setOption(option);
+                    {
+                        name:'无煽动性广告数',
+                        type:'line',
+                        stack: '总量',
+                        areaStyle: {normal: {}},
+                        data:inf1_data
+                    },
+                    {
+                        name:'一般煽动性广告数',
+                        type:'line',
+                        stack: '总量',
+                        areaStyle: {normal: {}},
+                        data:inf2_data
+                    },
+                    {
+                        name:'强煽动性广告数',
+                        type:'line',
+                        stack: '总量',
+                        areaStyle: {normal: {}},
+                        data:inf3_data
+                    },
+                    // {
+                    //     name:'广告数',
+                    //     type:'line',
+                    //     stack: '总量',
+                    //     areaStyle: {normal: {}},
+                    //     data:ad1_data
+                    // },
+                ]
+            };
+            myChart.setOption(option);
+        }
     }
 
 //====舆情分析====
@@ -1506,7 +1739,7 @@ function get7DaysBefore(date,m){
     function commentinforContent_1(data,el,channel) {
         // console.log(data)
         if(data.length == 0){
-            $('#commentinforContent').hide();
+            $('#commentinforContent p.load').text('暂无记录');
         }else {
             var com ='#commentinforContent'.toString().substring(1);
             $('#commentinforContent').bootstrapTable('load', data);
@@ -1536,7 +1769,7 @@ function get7DaysBefore(date,m){
                         align: "center",//水平
                         valign: "middle",//垂直
                         formatter: function (value, row, index) {
-                            var publishTime = getLocalTime(row.publish_time);
+                            var publishTime = getLocalTime_2(row.publish_time);
                             var contentClip;
                             if(row.content.length >= 200){
                                 contentClip = row.content.slice(0,200)+'  ...';
@@ -1548,16 +1781,17 @@ function get7DaysBefore(date,m){
                             // 所有的数据
                             commentarticalList[com+'_'+index] = row.content;
                             // 评论倾向
-                            var sent;
-                            if(row.sent == 0){
-                                sent = '消极';
-                            }else if(row.sent == 1){
-                                sent = '中性';
-                            }else if(row.sent == 2){
-                                sent = '积极';
-                            }else{
-                                sent = '未知';
-                            }
+                            var sent = '负面';
+
+                            // if(row.sent == 0){
+                            //     sent = '消极';
+                            // }else if(row.sent == 1){
+                            //     sent = '中性';
+                            // }else if(row.sent == 2){
+                            //     sent = '积极';
+                            // }else{
+                            //     sent = '未知';
+                            // }
                             // 评论来源
                             var source;
                             if(row.source == 'wechat'){
@@ -1573,6 +1807,15 @@ function get7DaysBefore(date,m){
                             }else{
                                 source = '未知';
                             }
+
+                            // 原网页链接
+                            var url;
+                            if(row.url){
+                                url = row.url;
+                            }else{
+                                url = row.u;
+                            }
+
                             return '<div class="inforContent" id="commentinforContent">'+
                                 '                <div class="main">'+
                                 '                    <img src="/static/images/textIcon.png" class="textFlag" style="top:8px;">'+
@@ -1583,14 +1826,14 @@ function get7DaysBefore(date,m){
                                 '                        <button class="originalbtn btn-primary btn-xs" onclick="getAllcommtentartical(\''+com+'_'+index+'\')" artical=\"'+com+'_'+index+'\">查看全文</button>'+
                                 '                    </p>'+
                                 '                    <p class="context">'+contentClip+'</p>'+
-                                '                <a href="'+row.url+'" title="原网页链接" target="_blank">原网页链接</a>            '+
+                                '                <a href="'+url+'" title="原网页链接" target="_blank">原网页链接</a>            '+
                                 '                </div>'+
                                 '            </div>';
                         }
                     },
                 ],
             });
-            $('#commentinforContent'+' p.load').hide();
+            $('#commentinforContent p.load').hide();
         }
     };
 
@@ -1619,36 +1862,34 @@ var last_year_month = function() {
     return result;
 }
 
-// 趋势分析
+// 舆情趋势分析
     var trend_url='/index/comment/?id='+pid;
     public_ajax.call_request('get',trend_url,line_2);
     function line_2(data) {
-        var day30=[];
-        day30 = last_year_month().reverse();
-        // var day30Data=[];
-        // for (var b=0;b< 12;b++){
-        //     day30Data.push(Math.round(Math.random()*(20-5)+5));
-        // }
-
-        // var day30Data_2=[];
-        // for (var c=0;c< 12;c++){
-        //     day30Data_2.push(Math.round(Math.random()*(20-3)+5));
-        // }
-
-        // var day30Data_3=[];
-        // for (var d=0;d< 12;d++){
-        //     day30Data_3.push(Math.round(Math.random()*(20-8)+5));
-        // }
-
-        var item = data[0];
-        var day30Data_0 = [];
-        var day30Data_1 = [];
-        var day30Data_2 = [];
-        day30Data_0.push(item.sent0_webo+item.sent0_bbs+item.sent0_zhihu+item.sent0_forum+item.sent0_wechat);
-        day30Data_1.push(item.sent1_webo+item.sent1_bbs+item.sent1_zhihu+item.sent1_forum+item.sent1_wechat);
-        day30Data_2.push(item.sent2_webo+item.sent2_bbs+item.sent2_zhihu+item.sent2_forum+item.sent2_wechat);
-        var date = [];
-        date.push(item.date);
+        if(data){
+            var day30Data_0 = [],day30Data_1 = [],day30Data_2 = [];
+            // 时间
+            var date = [];
+            for(var i=0;i<data.length;i++){
+                // 一般负面评论
+                day30Data_0.push(data[i].em0_text_webo+data[i].em0_text_bbs+data[i].em0_text_zhihu+data[i].em0_text_forum+data[i].em0_text_wechat);
+                // 严重负面评论
+                day30Data_1.push(data[i].em1_text_webo+data[i].em1_text_bbs+data[i].em1_text_zhihu+data[i].em1_text_forum+data[i].em1_text_wechat);
+                // // 积极评论
+                // day30Data_2.push(data[i].sent2_webo+data[i].sent2_bbs+data[i].sent2_zhihu+data[i].sent2_forum+data[i].sent2_wechat);
+                // 时间
+                date.push(data[i].date);
+            }
+        }
+        // var item = data[0];
+        // var day30Data_0 = [];
+        // var day30Data_1 = [];
+        // var day30Data_2 = [];
+        // day30Data_0.push(item.sent0_webo+item.sent0_bbs+item.sent0_zhihu+item.sent0_forum+item.sent0_wechat);
+        // day30Data_1.push(item.sent1_webo+item.sent1_bbs+item.sent1_zhihu+item.sent1_forum+item.sent1_wechat);
+        // day30Data_2.push(item.sent2_webo+item.sent2_bbs+item.sent2_zhihu+item.sent2_forum+item.sent2_wechat);
+        // var date = [];
+        // date.push(item.date);
 
         var myChart = echarts.init(document.getElementById('opinion'));
         var option = {
@@ -1660,7 +1901,7 @@ var last_year_month = function() {
                 trigger: 'axis'
             },
             legend: {
-                data:['']
+                data:['一般负面评论','严重负面评论']
             },
             xAxis:  {
                 type: 'category',
@@ -1676,17 +1917,17 @@ var last_year_month = function() {
             },
             series: [
                 {
-                    name:'消极评论',
+                    name:'一般负面评论',
                     type:'line',
                     smooth:true,
                     data:day30Data_0,
                     itemStyle:{normal:{areaStyle:{type:'default'}}},
-                    markPoint: {
-                        data: [
-                            {type: 'max', name: '最大值'},
-                            {type: 'min', name: '最小值'}
-                        ]
-                    },
+                    // markPoint: {
+                    //     data: [
+                    //         {type: 'max', name: '最大值'},
+                    //         {type: 'min', name: '最小值'}
+                    //     ]
+                    // },
                     markLine: {
                         data: [
                             {type: 'average', name: '平均值'}
@@ -1694,41 +1935,41 @@ var last_year_month = function() {
                     }
                 },
                 {
-                    name:'中性评论',
+                    name:'严重负面评论',
                     type:'line',
                     smooth:true,
                     data:day30Data_1,
                     itemStyle:{normal:{areaStyle:{type:'default'}}},
-                    markPoint: {
-                        data: [
-                            {type: 'max', name: '最大值'},
-                            {type: 'min', name: '最小值'}
-                        ]
-                    },
+                    // markPoint: {
+                    //     data: [
+                    //         {type: 'max', name: '最大值'},
+                    //         {type: 'min', name: '最小值'}
+                    //     ]
+                    // },
                     markLine: {
                         data: [
                             {type: 'average', name: '平均值'}
                         ]
                     }
                 },
-                {
-                    name:'积极评论',
-                    type:'line',
-                    smooth:true,
-                    data:day30Data_2,
-                    itemStyle:{normal:{areaStyle:{type:'default'}}},
-                    markPoint: {
-                        data: [
-                            {type: 'max', name: '最大值'},
-                            {type: 'min', name: '最小值'}
-                        ]
-                    },
-                    markLine: {
-                        data: [
-                            {type: 'average', name: '平均值'}
-                        ]
-                    }
-                },
+                // {
+                //     name:'积极评论',
+                //     type:'line',
+                //     smooth:true,
+                //     data:day30Data_2,
+                //     itemStyle:{normal:{areaStyle:{type:'default'}}},
+                //     markPoint: {
+                //         data: [
+                //             {type: 'max', name: '最大值'},
+                //             {type: 'min', name: '最小值'}
+                //         ]
+                //     },
+                //     markLine: {
+                //         data: [
+                //             {type: 'average', name: '平均值'}
+                //         ]
+                //     }
+                // },
             ]
         };
         myChart.setOption(option);

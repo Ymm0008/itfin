@@ -16,21 +16,20 @@
 }
 #container .firstScreen .topTitle dl{
     display: inline-block;
-    margin: 10px 35px 0;
-    font-size: 22px;
+    margin: 0 10px;
+    font-size: 18px;
     color: white;
 }
-#container .firstScreen .topTitle dl dd{
-    font-size: 30px;
+#container .firstScreen .topTitle dl dt{
+    font-weight:700;
 }
-#container .firstScreen .topTitle dl dt {
-    font-size: 26px;
-    font-weight: 800;
+#container .firstScreen .topTitle dl dd {
+    font-size: 16px;
     color: #ff9645;
 }
 #container .felling {
     color: white;
-    font-weight: 600;
+    // font-weight: 600;
 }
 #container .secondScreen #addClub {
     color: white;

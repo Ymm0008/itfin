@@ -7,10 +7,10 @@ from . import entityPortrait
 from economy.config import *
 import json
 
-field = ['id','entity_name','entity_type','location','operation_mode','province','city','district','date']
-plat_field = ['id','entity_name']
-company_field = ['id','entity_name']
-project_field = ['id','entity_name']
+field = ['id','entity_name','entity_type','location','operation_mode','province','city','district','date','illegal_type']
+plat_field = ['id','entity_name','illegal_type','entity_type']
+company_field = ['id','entity_name','illegal_type','entity_type']
+project_field = ['id','entity_name','illegal_type','entity_type']
 
 @entityPortrait.route('/entityPortrait/')
 def entityportrait():
@@ -18,23 +18,27 @@ def entityportrait():
 
 @entityPortrait.route('/portrait/',methods=['POST','GET'])
 def portrait():
-	result = get(TABLE_ENTITY_LIST,TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,TABLE_GONGSHANG,field)
+	operation_mode = int(request.args.get('operation_mode',''))
+	illegal_type = int(request.args.get('illegal_type',''))
+	entity_type = int(request.args.get('entity_type',''))
+	warn_distribute = request.args.get('warn_distribute','')
+	result = get(TABLE_ENTITY_LIST,TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,TABLE_GONGSHANG,field,operation_mode,illegal_type,entity_type,warn_distribute)
 	if result['status'] == 1:
 		return json.dumps(result['data'],ensure_ascii=False)
 
 @entityPortrait.route('/platform/',methods=['POST','GET'])
 def platform():
-	result = get_platform(TABLE_ENTITY_LIST,plat_field)
+	result = get_platform(TABLE_ENTITY_LIST,TABLE_PLAT_DETAIL,plat_field)
 	return json.dumps(result,ensure_ascii=False)
 
 @entityPortrait.route('/company/',methods=['POST','GET'])
 def company():
-	result = get_company(TABLE_ENTITY_LIST,company_field)
+	result = get_company(TABLE_ENTITY_LIST,TABLE_COMPANY_DETAIL,company_field)
 	return json.dumps(result,ensure_ascii=False)
 
 @entityPortrait.route('/project/',methods=['POST','GET'])
 def project():
-	result = get_project(TABLE_ENTITY_LIST,project_field)
+	result = get_project(TABLE_ENTITY_LIST,TABLE_PROJECT_DETAIL,project_field)
 	return json.dumps(result,ensure_ascii=False)
 
 
@@ -43,6 +47,13 @@ def portraitLetter():
 	letter = request.args.get('letter','')
 	result = get_portrait(TABLE_ENTITY_LIST,TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,TABLE_GONGSHANG,field,letter)
 	return json.dumps(result,ensure_ascii=False)
+
+@entityPortrait.route('/monitorCount/')
+def m_count():
+	result = get_monitor_count(TABLE_ENTITY_LIST)
+	return json.dumps(result,ensure_ascii=False)
+
+
 
 
 

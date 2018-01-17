@@ -48,6 +48,19 @@
         width: 5%;
     }
 
+    /* ====lvlei===2018-1-2 */
+    /* 提示信息 */
+    .load {
+        text-align:center;
+        color:#fff;
+        font-size:18px;
+        margin-top:20px;
+    }
+    /* 画像搜索表格 */
+    #contentTable thead th{
+        border-top:none;
+    }
+
 </style>
 {% endblock %}
 {% block main %}
@@ -56,11 +69,11 @@
         <div class="topTitle" style="margin: 10px auto;">
             <dl>
                 <dd>当前监测实体</dd>
-                <dt class="com-1">213</dt>
+                <dt class="com-1">正在加载中...</dt>
             </dl>
             <dl>
                 <dd>今日新增实体</dd>
-                <dt class="com-2">22</dt>
+                <dt class="com-2">正在加载中...</dt>
             </dl>
         </div>
         <div style="color: white;font-weight:700;font-size: 24px;position: relative;">
@@ -85,6 +98,7 @@
             <div class="content-2 conLeft">
                 <span class="ct-tit">运营模式：</span>
                 <select id="select-2" class="selectLab">
+                    <option value="全部" selected>全部</option>
                     <option value="P2P理财">P2P理财</option>
                     <option value="投资项目">投资项目</option>
                     <option value="游戏">游戏</option>
@@ -95,6 +109,7 @@
             <div class="content-3 conLeft">
                 <span class="ct-tit">预警类型：</span>
                 <select id="select-3" class="selectLab">
+                    <option value="全部" selected>全部</option>
                     <!-- <option value="舆情预警">舆情预警</option> -->
                     <option value="模型预警">模型预警</option>
                     <option value="指标预警">指标预警</option>
@@ -103,6 +118,7 @@
             <div class="content-4 conLeft">
                 <span class="ct-tit">实体类型：</span>
                 <select id="select-4" class="selectLab">
+                    <option value="全部" selected>全部</option>
                     <option value="公司">公司</option>
                     <option value="平台">平台</option>
                     <option value="项目">项目</option>
@@ -111,6 +127,7 @@
             <div class="content-5 conLeft">
                 <span style="display: inline-block;" class="ct-tit">预警分布：</span>
                 <select id="city34" class="selectLab">
+                    <option value="全部" selected>全部</option>
                     <option value='北京'>北京</option>
                     <option value='天津'>天津</option>
                     <option value='安徽'>安徽</option>
@@ -158,8 +175,7 @@
         </div>
         <div class="contentTable">
             <div id="contentTable">
-                <br><br>
-                <center style="color:#fff;font-size: 18px;">正在加载，请稍后....</center>
+                <p class="load">正在努力加载中...</p>
             </div>
         </div>
     </div>
@@ -209,7 +225,7 @@
                     <p><span>优易网</span><span>模型预警</span></p>
                     <p><span>优易网</span><span>模型预警</span></p>
                     <p><span>优易网</span><span>模型预警</span></p> -->
-                    <center>正在加载，请稍后....</center>
+                    <p class="load">正在努力加载中...</p>
                 </div>
             </div>
         </div>

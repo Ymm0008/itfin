@@ -1,8 +1,7 @@
 {% extends "publicNav.html" %}
 {% block title %}<title>预警监测详情页</title>{% endblock %}
 {% block my_css %}
-
-    <link rel="stylesheet" href="../static/css/monitorDetails.css">
+    <link rel="stylesheet" href="/static/css/monitorDetails.css">
     <style>
         <!---->
         #nav {background: #fff;box-shadow: 0 2px 5px rgba(41,46,51,0.15);color: #0e0e0e;}
@@ -63,7 +62,7 @@
         <div class="warningContent">
             <div class="inforContent">
                 <div class="main">
-                    <img src="../static/images/textIcon.png" class="textFlag" style="top: 8px;">
+                    <img src="  /static/images/textIcon.png" class="textFlag" style="top: 8px;">
                     <p class="option">
                         <span>涉及产品：<b style="color: #ff6d70">优易网</b></span>
                         <span>相关企业：<b style="color: #ff6d70">湖北嘟嘟网络技术有限公司</b></span>
@@ -91,7 +90,7 @@
                 <div class="warningContent">
                     <div class="inforContent">
                         <div class="main">
-                            <img src="../static/images/textIcon.png" class="textFlag" style="top: 8px;">
+                            <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">
                             <p class="context">
                                 2015年7月13日，被武汉市江汉区工商列入异常经营1次。
                             </p>
@@ -106,7 +105,7 @@
                 <div class="warningContent">
                     <div class="inforContent">
                         <div class="main">
-                            <img src="../static/images/textIcon.png" class="textFlag" style="top: 8px;">
+                            <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">
                             <p class="context">
                                 注册资金200万，2005年追加投资100万元
                             </p>
@@ -119,17 +118,9 @@
 </div>
 {% endblock %}
 
-{% block my_js %}
-<script src="../static/js/jquery-3.1.1.min.js"></script>
-<script src="../static/js/bootstrap.min.js"></script>
-<script src="../static/js/bootstrap-table.min.js"></script>
-<script src="../static/js/bootstrap-table-zh-CN.min.js"></script>
-<script src="../static/js/bootstrap-datetimepicker.min.js"></script>
-<script src="../static/js/moment.min.js"></script>
-<script src="../static/echarts/echarts.min.js"></script>
-<script src="../static/echarts/china.js"></script>
-<script src="../static/js/echarts-2/build/dist/echarts.js"></script>
-<script src="../static/js/monitorDetails-1.js"></script>
+{% block my_js %}->
+<script src="/static/js/echarts-2/build/dist/echarts.js"></script>
+<script src="/static/js/monitorDetails-1.js"></script>
 <script>
     var monitorType=window.localStorage.getItem('monitorFlag');
     if (monitorType=='舆情预警'){
@@ -175,7 +166,7 @@
     window.onscroll=function () {
         $('#nav').css({backgroundColor:'#777'});
         $('#nav .nav_left h3').css({color:'white'});
-        $('#nav .nav_left img').attr('src','../static/images/logo.png');
+        $('#nav .nav_left img').attr('src','/static/images/logo.png');
         $('#nav .nav_middle .main_li .line').css({backgroundColor:'#ff9645'});
         $('#nav .nav_middle .main_li .li_a').css({color:'white'});
         $('#nav .nav_middle .main_li .li_a i').css({color:'white'});
@@ -183,7 +174,7 @@
         if ($(document).scrollTop()==0){
             $('#nav').css({backgroundColor:'#fff'});
             $('#nav .nav_left h3').css({color:'black'});
-            $('#nav .nav_left img').attr('src','../static/images/scroll_logo.png');
+            $('#nav .nav_left img').attr('src','/static/images/scroll_logo.png');
             $('#nav .nav_middle .main_li .line').css({backgroundColor:'#08F'});
             $('#nav .nav_middle .main_li .li_a').css({color:'black'});
             $('#nav .nav_middle .main_li .li_a i').css({color:'black'});
