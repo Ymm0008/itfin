@@ -173,7 +173,7 @@
             </div>
             <div class="modal-body">
                 <div class="user-1 example">
-                    <span>实体名称</span><input type="text" class="u1_Val">
+                    <span>实体名称</span><input type="text" class="u1_Val"><span class="prompt" style="width:25%;"></span>
                 </div>
                 <div class="user-2 example">
                     <span>推荐理由</span><input type="text" class="u2_Val">
@@ -181,28 +181,47 @@
                 <div class="user-3 example">
                     <span>实体类别</span>
                     <select class="u3_Val">
-                        <option value="普通用户">公司</option>
-                        <option value="高级用户">平台</option>
-                        <option value="管理员">项目</option>
+                        <option value="1">平台</option>
+                        <option value="2">公司</option>
+                        <option value="3">项目</option>
                     </select>
                 </div>
                 <div class="user-4 example">
-                    <span>注册公司</span><input type="text" class="u4_Val">
+                    <span>注册公司</span><input type="text" class="u4_Val"><span class="prompt" style="width:25%;"></span>
                 </div>
                 <div class="user-5 example">
-                    <span>相关人物</span><input type="text" class="u5_Val">
+                    <span>相关人物</span><input type="text" class="u5_Val"><span class="prompt" style="width:25%;">(请用英文逗号分隔)</span>
                 </div>
                 <div class="user-6 example">
-                    <span>其他关键词</span><input type="text" class="u6_Val">
+                    <span>其他关键词</span><input type="text" class="u6_Val"><span class="prompt" style="width:25%;">(请用英文逗号分隔)</span>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                <button type="button" id="Sure_1" class="btn btn-primary" data-dismiss="modal">确定</button>
             </div>
         </div>
     </div>
 </div>
+<!-- 二次确定 -->
+<div class="modal fade" id="Sure_2box" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width:30%;font-size:16px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" >确定修改吗？</h4>
+            </div>
+            <!-- <div class="modal-body" id="perceiveContent_in">
+            </div> -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="Sure_2">确定</button>
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 更多内容 -->
 <div class="modal fade" id="perceiveContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document" style="width:55%;font-size:16px;">
         <div class="modal-content">

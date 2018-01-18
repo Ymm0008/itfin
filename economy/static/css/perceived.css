@@ -81,7 +81,9 @@
 /**/
 #editRow .example {
     margin-top: 20px;
-    text-align: center;
+    // text-align: center;
+    text-align: left;
+    padding-left:20%;
 }
 #editRow .example span {
     display: inline-block;

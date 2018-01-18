@@ -140,7 +140,7 @@ function monitorCount(data){
                         }else if(row.illegal_type == 3){
                             return '指标预警';
                         }else if (row.illegal_type==''||row.illegal_type=='null'||row.illegal_type=='unknown'||!row.illegal_type){
-                            return '未知';
+                            return '暂无';
                         }
 
                     }
