@@ -10,9 +10,9 @@ import time
 from xpinyin import Pinyin
 
 #conn = mysql.connect(host="0.0.0.0",user="root",password="root",db="db",charset='utf8')
-conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
-conn.autocommit(True)
-cur = conn.cursor()
+# conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+# conn.autocommit(True)
+# cur = conn.cursor()
 p = Pinyin()
 
 #实体画像
@@ -403,8 +403,8 @@ def getWarnType(table, table2, risk_level, date, field, illegal_type, entity_typ
 	start_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=date)
 	start_time = start_time.strftime("%Y-%m-%d")
 	sql = 'select a.illegal_type,count(*) from %s as a inner join %s as b on a.entity_id=b.entity_id where b.date=(select max(date) from %s) and a.risk_level>%d and a.date>"%s" and a.date<="%s" and a.illegal_type=%d and a.entity_type=%d and a.operation_mode=%d and b.province="%s" group by a.illegal_type'%(table, table2, table2, risk_level, start_time, end_time, illegal_type, entity_type, operation_mode, warn_distribute)
-	
-		
+
+
 	if operation_mode == 0:
 		sql = sql.replace(' and a.operation_mode=0','')
 	if illegal_type == 0:
@@ -413,12 +413,12 @@ def getWarnType(table, table2, risk_level, date, field, illegal_type, entity_typ
 		sql = sql.replace(' and a.entity_type=0','')
 	if warn_distribute == 'all':
 		sql = sql.replace(' and b.province="all"','')
-	
+
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return data
-	
+
 
 def GetTimeDistribute(table, table2, risk_level, date, illegal_type, entity_type, operation_mode, warn_distribute):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
@@ -436,7 +436,7 @@ def GetTimeDistribute(table, table2, risk_level, date, illegal_type, entity_type
 		time_list.append(start_time)
 	for i,time in enumerate(time_list):
 		sql1 = "select count(*) from %s as a inner join %s as b on a.entity_id=b.entity_id where b.date=(select max(date) from %s) and a.date='%s' and a.risk_level>%d and a.illegal_type=%d and a.entity_type=%d and a.operation_mode=%d and b.province='%s'"%(table, table2, table2, time, risk_level, illegal_type, entity_type, operation_mode, warn_distribute)
-		
+
 		if operation_mode == 0:
 			sql1 = sql1.replace(' and a.operation_mode=0','')
 		if illegal_type == 0:
@@ -445,7 +445,7 @@ def GetTimeDistribute(table, table2, risk_level, date, illegal_type, entity_type
 			sql1 = sql1.replace(' and a.entity_type=0','')
 		if warn_distribute == 'all':
 			sql1 = sql1.replace(" and b.province='all'","")
-		
+
 		cur.execute(sql1)
 		result = cur.fetchall()[0][0]
 		dict = {'time':time,'count':result}
@@ -603,10 +603,10 @@ def getTimeDistribute(table,risk_level):
 
 #感知入库
 def get_perceive_data(table,field):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	#conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-
 	sql = 'select * from %s group by entity_name order by date desc'%table
 	cur.execute(sql)
 	res = cur.fetchall()
@@ -618,20 +618,6 @@ def p_getWarnCount(table,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-
-	#sql1 = "select count(*) from %s where entity_type=1 group by entity_name"%table
-	#sql2 = "select count(*) from %s where entity_type=2 group by entity_name"%table
-	#sql3 = "select count(*) from %s where entity_type=3 group by entity_name"%table
-
-	#cur.execute(sql1)
-	#res1 = cur.fetchall()[0][0]
-	#cur.execute(sql2)
-	#res2 = cur.fetchall()[0][0]
-	#cur.execute(sql3)
-	#res3 = cur.fetchall()[0][0]
-	#dict = {'platform':res1,'company':res2,'project':res3}
-	#return dict
-
 	sql = 'select entity_type,count(*) from %s where date=(select max(date) from sensor_daily as sd) group by entity_type'%table
 	cur.execute(sql)
 	res = cur.fetchall()
@@ -639,13 +625,47 @@ def p_getWarnCount(table,field):
 	return result
 
 
+def Edit(table,entity_id,entity_name,entity_type,company,related_person,keyword):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+	sql = 'update %s set entity_type=%d,entity_name="%s",company="%s",related_person="%s",key_words="%s" where id=%d'%(table,entity_type,entity_name,company,related_person,keyword,entity_id)
+	if company == 'null':
+		sql = sql.replace('company="null"','company=null')
+	if related_person == 'null':
+		sql = sql.replace('related_person="null"','related_person=null')
+	if keyword == 'null':
+		sql = sql.replace('key_words="null"','key_words=null')
+	cur.execute(sql)
+	dict = {'status':'ok'}
+	return dict
+
+
+def Add(table, entity_id):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+	sql = 'update %s set status=1 where id=%d'%(table, entity_id)
+	cur.execute(sql)
+	dict = {'status':'ok'}
+	return dict
+
+
+def Cancel(table, entity_id):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+	sql = 'update %s set status=0 where id=%d'%(table, entity_id)
+	cur.execute(sql)
+	dict = {'status':'ok'}
+	return dict
+
 
 #下拉框
 def operationModeBox(table, field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-
 	sql = 'select * from %s'%table
 	cur.execute(sql)
 	res = cur.fetchall()
@@ -656,7 +676,6 @@ def illegalTypeBox(table, field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-
 	sql = 'select * from %s'%table
 	cur.execute(sql)
 	res = cur.fetchall()

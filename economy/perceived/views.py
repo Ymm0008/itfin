@@ -32,3 +32,26 @@ def perceive_content():
 def warn_count():
 	result = p_getWarnCount(TABLE_SENSOR,warn_field)
 	return json.dumps(result,ensure_ascii=False)
+
+@perceived.route('/Edit/')
+def edit():
+	entity_id = int(request.args.get('entity_id'))
+	entity_name = request.args.get(u'entity_name')
+	entity_type = int(request.args.get('entity_type'))
+	company = request.args.get(u'company')
+	related_person = request.args.get(u'related_person')
+	keyword = request.args.get(u'keyword')
+	status = Edit(TABLE_SENSOR,entity_id,entity_name,entity_type,company,related_person,keyword)
+	return json.dumps(status,ensure_ascii=False)
+
+@perceived.route('/Add/')
+def add():
+	entity_id = int(request.args.get('entity_id'))
+	status = Add(TABLE_SENSOR,entity_id)
+	return json.dumps(status,ensure_ascii=False)
+
+@perceived.route('/Cancel/')
+def cancel():
+	entity_id = int(request.args.get('entity_id'))
+	status = Cancel(TABLE_SENSOR, entity_id)
+	return json.dumps(status,ensure_ascii=False)
