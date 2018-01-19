@@ -262,7 +262,7 @@ def edit_related_plat():
     entity_type = int(request.args.get('entity_type',''))
     entity_id = int(request.args.get('entity_id',''))
     related_plat = request.args.get('related_plat','')
-    date = requ
+    date = request.args.get('date','')
     if entity_type == 1:
         status = EditRelatedPlat(TABLE_PLAT_DETAIL,entity_id,related_plat,date)
     elif entity_type == 2:
