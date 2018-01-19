@@ -7,7 +7,7 @@ from . import entityPortrait
 from economy.config import *
 import json
 
-field = ['id','entity_name','entity_type','location','operation_mode','province','city','district','date','illegal_type']
+field = ['id','entity_name','entity_type','operation_mode','province','city','district','date','illegal_type']
 plat_field = ['id','entity_name','illegal_type','entity_type']
 company_field = ['id','entity_name','illegal_type','entity_type']
 project_field = ['id','entity_name','illegal_type','entity_type']
