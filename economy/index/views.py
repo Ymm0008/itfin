@@ -239,3 +239,33 @@ def risk_comment_table():
     return json.dumps(result,ensure_ascii=False)
 
 
+@index.route('/EditDetail/',methods=['POST'])
+def edit_detail():
+    dict = request.get_json()
+    if dict['type'] == 1:
+        status = EditDetail(TABLE_PLAT_DETAIL,TABLE_GONGSHANG,dict)
+    elif dict['type'] == 2:
+        status = EditDetail(TABLE_COMPANY_DETAIL,TABLE_GONGSHANG,dict)
+    elif dict['type'] == 3:
+        status = EditDetail(TABLE_PROJECT_DETAIL,TABLE_GONGSHANG,dict)
+    return json.dumps(status,ensure_ascii=False)
+
+@index.route('/EditReturnRate/',methods=['POST'])
+def edit_return_rate():
+    entity_id = int(request.args.get('entity_id',''))
+    return_rate = int(request.args.get('return_rate',''))
+    status = EditReturnRate(TABLE_RETURN_RATE,return_rate,entity_id)
+    return json.dumps(status,ensure_ascii=False)
+
+@index.route('/EditRelatedPlat/',methods=['POST'])
+def edit_related_plat():
+    entity_type = int(request.args.get('entity_type',''))
+    entity_id = int(request.args.get('entity_id',''))
+    related_plat = request.args.get('related_plat','')
+    if entity_type == 1:
+        status = EditRelatedPlat(TABLE_PLAT_DETAIL,entity_id,related_plat,date)
+    elif entity_type == 2:
+        status = EditRelatedPlat(TABLE_COMPANY_DETAIL,entity_id,related_plat,date)
+    elif entity_type == 3:
+        status = EditRelatedPlat(TABLE_PROJECT_DETAIL,entity_id,related_plat,date)
+    return json.dumps(status,ensure_ascii=False)

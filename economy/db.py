@@ -260,6 +260,36 @@ def get_risk_comment_table(table1,table2,table3,entity_id,type,field):
 	return dict
 
 
+def EditDetail(table1, table2, dict):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+	sql = 'update %s as a inner join %s as b on a.entity_id=b.entity_id set a.operation_mode=%d,b.regist_address="%s",b.set_time="%s",b.legal_person="%s",b.capital="%s",a.company="%s" where a.entity_id=%d and a.date="%s" and b.date="%s"'%(table1,table2,dict['operation_mode'],dict['regist_address'],dict['set_time'],dict['legal_person'],dict['capital'],dict['company'],dict['entity_id'],dict['date'],dict['gs_date'])
+	if "null" in [each for each in dict.values()]:
+		sql = sql.replace('"null"','null')
+	cur.execute(sql)
+	dict = {'status':'ok'}
+	return dict
+
+
+def EditReturnRate(table,return_rate,entity_id):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+	return_rate = return_rate/100
+	sql = 'update %s set return_rate=%.4f,status=1 where entity_id=%d'%(table,return_rate,entity_id)
+	cur.execute(sql)
+	dict = {'status':'ok'}
+	return dict
+
+
+def EditRelatedPlat(table,entity_id,related_plat,date):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+	sql = 'update %s set related_plat="%s" where entity_id=%d and date="%s"'%(table,related_plat,entity_id,date)
+
+
 
 #监测预警
 def getDetectData(date,table1,table2,table3,field,risk_level,operation_mode,illegal_type,entity_type,warn_distribute):
@@ -683,7 +713,6 @@ def InStorage(table, list):
 		sql = 'insert into %s(entity_type,entity_name,date,company,related_person,key_words,rec_type,status,in_type) values(%d,"%s","%s","%s","%s","%s",%d,%d,%d)'%(table,each["entity_type"],each["entity_name"],date,each["company"],each["related_person"],each["key_words"],each["rec_type"],1,1)
 		if "null" in [d for d in each.values()]:
 			sql = sql.replace('"null"','null')
-			print(sql)
 		cur.execute(sql)
 	dict = {'status':'ok'}
 	return dict

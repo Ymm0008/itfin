@@ -1,0 +1,77 @@
+#container {
+    position: relative;
+    z-index: 999;
+    width: 100%;
+    background: url("/static/images/bodyPic.png") no-repeat rgb(41, 31, 85);
+    background-size:100% 100%;
+}
+#container .section {
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+    padding-top:80px;
+    overflow: hidden;
+}
+#container .firstScreen .topTitle {
+    text-align: center;
+}
+#container .firstScreen .topTitle dl{
+    display: inline-block;
+    margin: 10px 35px 0;
+    font-size: 22px;
+    color: white;
+}
+#container .firstScreen .topTitle dl dt {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ff9645;
+}
+#container .firstScreen .search {
+    float: right;
+}
+#container .firstScreen .search .searchWord {
+    padding: 3px 6px;
+    background: transparent;
+    border: 1px solid silver;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 14px;
+    vertical-align: middle;
+}
+#container .firstScreen .search .searchWord:focus {
+    background: #f8f8f8;
+    color: #3c3c3c;
+}
+.fourScreen .four-1,.fiveScreen .five-1  {
+    float: left;
+    width: 49%;
+    height: 100%;
+}
+.fourScreen .four-2,.fiveScreen .five-2 {
+     float: right;
+     width: 49%;
+    height: 100%;
+}
+.fourScreen .time1,.fourScreen .time2 {
+    font-size: 12px;
+    position: relative;
+    top: -5px;
+    display: inline-block;
+    padding: 3px 7px;
+    border: 1px solid silver;
+    border-radius: 5px;
+    background: rgba(32, 32, 32, 0.6);
+    color: white;
+}
+.screen67 .st {width: 48%}
+.screen67 .sb {width: 33%}
+.screen67 .six-top,.screen67 .six-bottom,
+.screen67 .seven-top,.screen67 .seven-bottom {
+    width: 100%;
+    height: 48%;
+    text-align: center;
+}
+.screen67 .sixChart {
+    height: 87%;
+    display: inline-block;
+}
