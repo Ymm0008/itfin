@@ -219,7 +219,7 @@
                             }else if(row.status == 1){
                                 Storage = '<span style="cursor:pointer;color:white;display: inline-block;margin: 0 10px;" onclick="cancelThis(\''+row.id+'\')" title="取消入库"><i style="color:#ff9645;" class="icon icon-star"></i></span>';
                             }
-                            return '<span style="cursor:pointer;color:white;" onclick="editThis(\''+row.id+'\',\''+row.entity_name+'\',\''+row.rec_type+'\',\''+row.entity_type+'\',\''+row.company+'\',\''+row.related_person+'\',\''+row.key_words+'\')" title="编辑"><i class="icon icon-edit"></i></span>'+Storage+
+                            return Storage+'<span style="cursor:pointer;color:white;" onclick="editThis(\''+row.id+'\',\''+row.entity_name+'\',\''+row.rec_type+'\',\''+row.entity_type+'\',\''+row.company+'\',\''+row.related_person+'\',\''+row.key_words+'\')" title="编辑"><i class="icon icon-edit"></i></span>'+
                                 // '<span style="cursor:pointer;color:white;display: inline-block;margin: 0 10px;" onclick="addThis(\''+row.id+'\')" title="添加入库"><i class="icon icon-star-empty"></i></span>'+
                                 '<span style="cursor:pointer;color:white;" onclick="lookThis(\''+row.text_id+'\',\''+row.index_name+'\')" title="查看文本"><i class="icon icon-book"></i></span>';
                         }

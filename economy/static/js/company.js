@@ -998,6 +998,7 @@ function get7DaysBefore(date,m){
                 {
                     name:'一般煽动性广告',
                     type:'bar',
+                    barWidth : 55,
                     stack: '广告',
                     // data:[220, 182, 191, 234, 290,]
                     data:inf2_data
@@ -1005,6 +1006,7 @@ function get7DaysBefore(date,m){
                 {
                     name:'无煽动性广告',
                     type:'bar',
+                    barWidth : 55,
                     stack: '广告',
                     // data:[150, 232, 201, 154, 190,]
                     data:inf1_data

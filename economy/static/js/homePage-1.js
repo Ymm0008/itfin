@@ -2566,7 +2566,7 @@
         var fellData = data.slice(0,15);
         // var fellData_1 = [];
         for(var i=0;i<fellData.length;i++){
-            fellData_1.push({name:fellData[i].entity_name,value:9999,itemStyle:createRandomItemStyle()})
+            fellData_1.push({name:fellData[i].entity_name,value:16,itemStyle:createRandomItemStyle()})
         }
         keywords();
     }
@@ -2603,12 +2603,13 @@
                     series: [{
                         type: 'wordCloud',
                         // size: ['100%', '90%','100%','90%','100%','20%','10%','20%'],
-                        size: ['100%', '90%','100%','90%','100%','20%','10%','20%'],
+                        // size: ['100%', '90%','100%','90%','100%','20%','10%','20%'],
+                        size: ['100%','100%'],
                         textRotation : [0, 45, 90, -45],
                         textPadding: 0,
                         autoSize: {
-                            // enable: true,
-                            // minSize: 18
+                            enable: true,
+                            minSize: 18
                         },
                         /*
                             data: [
