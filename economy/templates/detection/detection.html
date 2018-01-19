@@ -66,6 +66,36 @@
         #recordingTable,#placeRank {
             border-bottom:none;
         }
+        /* 显示搜索框 */
+        .recordingTable .fixed-table-toolbar{
+            display:block;
+        }
+        .recordingTable .fixed-table-toolbar .search {
+            width:20%;
+            position:absolute;
+            top:4px;
+            right:100px;
+            margin:0;
+        }
+        .recordingTable .fixed-table-toolbar .search input{
+            height:30px;
+            padding: 3px 6px;
+            background: transparent;
+            border: 1px solid silver;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+        .recordingTable .fixed-table-toolbar .search input:focus{
+            background: #f8f8f8;
+            color: #3c3c3c;
+        }
+
+        /* 解决表格无数据时缩水 */
+        #recordingTable thead tr th {
+            width:5%;
+        }
     </style>
 {% endblock %}
 
@@ -86,97 +116,100 @@
                 <dd class="com-1">213</dd>
             </dl>
         </div>
-        <div style="color: white;font-weight:700;font-size: 24px;position: relative;">
-            <h3 style="color: white;display: inline-block;"><i class="icon icon-pencil"></i>&nbsp;预警记录</h3>
-            <div class="search">
-                <input size="30" type="text" placeholder="请输入查询内容" class="searchWord"/>
-                <button type="button" class="btn btn-primary btn-sm moreSitu" title="显示更多筛选条件"><i class="icon icon-plus"></i></button>
-                <button type="button" class="btn btn-primary btn-sm">确定</button>
+        <div style="position:relative;">
+            <div style="color: white;font-weight:700;font-size: 24px;position: relative;">
+                <h3 style="color: white;display: inline-block;"><i class="icon icon-pencil"></i>&nbsp;预警记录</h3>
+                <div class="search">
+                    <!-- <input size="30" type="text" placeholder="请输入查询内容" class="searchWord"/> -->
+                    <button type="button" class="btn btn-primary btn-sm moreSitu" title="显示更多筛选条件"><i class="icon icon-plus"></i></button>
+                    <button type="button" class="btn btn-primary btn-sm">确定</button>
+                </div>
             </div>
-        </div>
-        <div class="content" style="display: none;margin:5px 0 0 40px;">
-            <div class="content-1 conLeft" style="margin-top:20px;">
-                <span class="ct-tit">预警时间：</span>
-                <select id="select-1" class="selectLab">
-                    <option value="7">近一周</option>
-                    <option value="30">近一个月</option>
-                    <option value="90">近三个月</option>
-                    <option value="365">近一年</option>
-                </select>
+            <div class="content" style="display: none;margin:5px 0 0 40px;">
+                <div class="content-1 conLeft" style="margin-top:20px;">
+                    <span class="ct-tit">预警时间：</span>
+                    <select id="select-1" class="selectLab">
+                        <option value="7">近一周</option>
+                        <option value="30">近一个月</option>
+                        <option value="90">近三个月</option>
+                        <option value="365">近一年</option>
+                    </select>
+                </div>
+                <div class="content-2 conLeft">
+                    <span class="ct-tit">运营模式：</span>
+                    <select id="select-2" class="selectLab">
+                        <option value="0" >全部</option>
+                        <!-- <option value="P2P理财">P2P理财</option>
+                        <option value="投资项目">投资项目</option>
+                        <option value="游戏">游戏</option>
+                        <option value="任务奖励">任务奖励</option>
+                        <option value="股权私募基金">股权私募基金</option> -->
+                    </select>
+                </div>
+                <div class="content-3 conLeft">
+                    <span class="ct-tit">预警类型：</span>
+                    <select id="select-3" class="selectLab">
+                        <option value="0" selected>全部</option>
+                        <!-- <option value="舆情预警">舆情预警</option> -->
+                        <!-- 改为动态生成的 -->
+                        <!-- <option value="模型预警">模型预警</option>
+                        <option value="指标预警">指标预警</option> -->
+                    </select>
+                </div>
+                <div class="content-4 conLeft">
+                    <span class="ct-tit">实体类型：</span>
+                    <select id="select-4" class="selectLab">
+                        <option value="0" selected>全部</option>
+                        <option value="1">平台</option>
+                        <option value="2">公司</option>
+                        <option value="3">项目</option>
+                    </select>
+                </div>
+                <div class="content-5 conLeft">
+                    <span style="display: inline-block;" class="ct-tit">预警分布：</span>
+                    <select id="city34" class="selectLab">
+                        <option value="all" selected>全部</option>
+                        <option value='北京'>北京</option>
+                        <option value='天津'>天津</option>
+                        <option value='安徽'>安徽</option>
+                        <option value='澳门'>澳门</option>
+                        <option value='福建'>福建</option>
+                        <option value='甘肃'>甘肃</option>
+                        <option value='广东'>广东</option>
+                        <option value='广西'>广西</option>
+                        <option value='贵州'>贵州</option>
+                        <option value='海南'>海南</option>
+                        <option value='河北'>河北</option>
+                        <option value='河南'>河南</option>
+                        <option value='黑龙江'>黑龙江</option>
+                        <option value='湖北'>湖北</option>
+                        <option value='湖南'>湖南</option>
+                        <option value='吉林'>吉林</option>
+                        <option value='江苏'>江苏</option>
+                        <option value='江西'>江西</option>
+                        <option value='辽宁'>辽宁</option>
+                        <option value='内蒙古'>内蒙古</option>
+                        <option value='青海'>青海</option>
+                        <option value='山东'>山东</option>
+                        <option value='山西'>山西</option>
+                        <option value='陕西'>陕西</option>
+                        <option value='上海'>上海</option>
+                        <option value='四川'>四川</option>
+                        <option value='台湾'>台湾</option>
+                        <option value='西藏'>西藏</option>
+                        <option value='香港'>香港</option>
+                        <option value='新疆'>新疆</option>
+                        <option value='云南'>云南</option>
+                        <option value='浙江'>浙江</option>
+                        <option value='重庆'>重庆</option>
+                        <option value='宁夏'>宁夏</option>
+                    </select>
+                </div>
             </div>
-            <div class="content-2 conLeft">
-                <span class="ct-tit">运营模式：</span>
-                <select id="select-2" class="selectLab">
-                    <option value="全部" selected>全部</option>
-                    <option value="P2P理财">P2P理财</option>
-                    <option value="投资项目">投资项目</option>
-                    <option value="游戏">游戏</option>
-                    <option value="任务奖励">任务奖励</option>
-                    <option value="股权私募基金">股权私募基金</option>
-                </select>
-            </div>
-            <div class="content-3 conLeft">
-                <span class="ct-tit">预警类型：</span>
-                <select id="select-3" class="selectLab">
-                    <option value="全部" selected>全部</option>
-                    <!-- <option value="舆情预警">舆情预警</option> -->
-                    <option value="模型预警">模型预警</option>
-                    <option value="指标预警">指标预警</option>
-                </select>
-            </div>
-            <div class="content-4 conLeft">
-                <span class="ct-tit">实体类型：</span>
-                <select id="select-4" class="selectLab">
-                    <option value="全部" selected>全部</option>
-                    <option value="公司">公司</option>
-                    <option value="平台">平台</option>
-                    <option value="项目">项目</option>
-                </select>
-            </div>
-            <div class="content-5 conLeft">
-                <span style="display: inline-block;" class="ct-tit">预警分布：</span>
-                <select id="city34" class="selectLab">
-                    <option value="全部" selected>全部</option>
-                    <option value='北京'>北京</option>
-                    <option value='天津'>天津</option>
-                    <option value='安徽'>安徽</option>
-                    <option value='澳门'>澳门</option>
-                    <option value='福建'>福建</option>
-                    <option value='甘肃'>甘肃</option>
-                    <option value='广东'>广东</option>
-                    <option value='广西'>广西</option>
-                    <option value='贵州'>贵州</option>
-                    <option value='海南'>海南</option>
-                    <option value='河北'>河北</option>
-                    <option value='河南'>河南</option>
-                    <option value='黑龙江'>黑龙江</option>
-                    <option value='湖北'>湖北</option>
-                    <option value='湖南'>湖南</option>
-                    <option value='吉林'>吉林</option>
-                    <option value='江苏'>江苏</option>
-                    <option value='江西'>江西</option>
-                    <option value='辽宁'>辽宁</option>
-                    <option value='内蒙古'>内蒙古</option>
-                    <option value='青海'>青海</option>
-                    <option value='山东'>山东</option>
-                    <option value='山西'>山西</option>
-                    <option value='陕西'>陕西</option>
-                    <option value='上海'>上海</option>
-                    <option value='四川'>四川</option>
-                    <option value='台湾'>台湾</option>
-                    <option value='西藏'>西藏</option>
-                    <option value='香港'>香港</option>
-                    <option value='新疆'>新疆</option>
-                    <option value='云南'>云南</option>
-                    <option value='浙江'>浙江</option>
-                    <option value='重庆'>重庆</option>
-                    <option value='宁夏'>宁夏</option>
-                </select>
-            </div>
-        </div>
-        <div class="recordingTable" style="margin-top: 10px;">
-            <div id="recordingTable">
-                <p class="load">正在努力加载中...</p>
+            <div class="recordingTable" style="margin-top: 10px;">
+                <div id="recordingTable">
+                    <p class="load">正在努力加载中...</p>
+                </div>
             </div>
         </div>
     </div>
@@ -194,25 +227,25 @@
                 <div class="content-3 conLeft">
                     <span class="ct-tit">预警类型：</span>
                     <select id="second_select-3" class="selectLab">
-                        <option value="全部" selected>全部</option>
+                        <option value="0" selected>全部</option>
                         <!-- <option value="舆情预警">舆情预警</option> -->
-                        <option value="模型预警">模型预警</option>
-                        <option value="指标预警">指标预警</option>
+                        <!-- <option value="模型预警">模型预警</option>
+                        <option value="指标预警">指标预警</option> -->
                     </select>
                 </div>
                 <div class="content-4 conLeft">
                     <span class="ct-tit">实体类型：</span>
                     <select id="second_select-4" class="selectLab">
-                        <option value="全部" selected>全部</option>
-                        <option value="公司">公司</option>
-                        <option value="平台">平台</option>
-                        <option value="项目">项目</option>
+                        <option value="0" selected>全部</option>
+                        <option value="1">平台</option>
+                        <option value="2">公司</option>
+                        <option value="3">项目</option>
                     </select>
                 </div>
                 <div class="content-5 conLeft">
                     <span style="display: inline-block;" class="ct-tit">预警分布：</span>
                     <select id="second_city34" class="selectLab">
-                        <option value="全部" selected>全部</option>
+                        <option value="all" selected>全部</option>
                         <option value='北京'>北京</option>
                         <option value='天津'>天津</option>
                         <option value='安徽'>安徽</option>
@@ -252,21 +285,21 @@
                 <div class="content-1 conLeft" style="margin-top:20px;">
                     <span class="ct-tit">预警时间：</span>
                     <select id="second_select-1" class="selectLab">
-                        <option value="近一周">近一周</option>
-                        <option value="近一个月" selected>近一个月</option>
-                        <option value="近三个月">近三个月</option>
-                        <option value="近一年">近一年</option>
+                        <option value="7">近一周</option>
+                        <option value="30" selected>近一个月</option>
+                        <option value="90">近三个月</option>
+                        <option value="365">近一年</option>
                     </select>
                 </div>
                 <div class="content-2 conLeft">
                     <span class="ct-tit">运营模式：</span>
                     <select id="second_select-2" class="selectLab">
-                        <option value="全部" selected>全部</option>
-                        <option value="P2P理财">P2P理财</option>
+                        <option value="0" selected>全部</option>
+                        <!-- <option value="P2P理财">P2P理财</option>
                         <option value="投资项目">投资项目</option>
                         <option value="游戏">游戏</option>
                         <option value="任务奖励">任务奖励</option>
-                        <option value="股权私募基金">股权私募基金</option>
+                        <option value="股权私募基金">股权私募基金</option> -->
                     </select>
                 </div>
                 <button type="button" class="btn btn-primary btn-sm" style="margin-left: 10px;">确定</button>
@@ -276,7 +309,95 @@
             </div>
         </div>
         <div class="type" style="float:right;width:48%;">
-            <h3 style="color: white;text-align: left;"><i class="icon icon-stethoscope"></i>&nbsp;预警类型</h3>
+            <!-- <h3 style="color: white;text-align: left;"><i class="icon icon-stethoscope"></i>&nbsp;预警类型</h3> -->
+            <div style="color: white;font-weight:700;font-size: 24px;position: relative;">
+                <h3 style="color: white;display: inline-block;"><i class="icon icon-stethoscope"></i>&nbsp;预警类型</h3>
+                <div class="search-2-2">
+                    <!--<input size="30" type="text" placeholder="请输入查询内容" class="searchWord-2"/>-->
+                    <button type="button" class="btn btn-primary btn-sm moreSitu-2-2" title="显示更多筛选条件"><i class="icon icon-plus"></i></button>
+                </div>
+            </div>
+            <div class="content-2-2" style="display: none;margin:5px 0 0 40px;">
+                <div class="content-3 conLeft">
+                    <span class="ct-tit">预警类型：</span>
+                    <select id="second_select-3-2" class="selectLab">
+                        <option value="0" selected>全部</option>
+                        <!-- <option value="舆情预警">舆情预警</option> -->
+                        <!-- <option value="模型预警">模型预警</option>
+                        <option value="指标预警">指标预警</option> -->
+                    </select>
+                </div>
+                <div class="content-4 conLeft">
+                    <span class="ct-tit">实体类型：</span>
+                    <select id="second_select-4-2" class="selectLab">
+                        <option value="0" selected>全部</option>
+                        <option value="1">平台</option>
+                        <option value="2">公司</option>
+                        <option value="3">项目</option>
+                    </select>
+                </div>
+                <div class="content-5 conLeft">
+                    <span style="display: inline-block;" class="ct-tit">预警分布：</span>
+                    <select id="second_city34-2" class="selectLab">
+                        <option value="all" selected>全部</option>
+                        <option value='北京'>北京</option>
+                        <option value='天津'>天津</option>
+                        <option value='安徽'>安徽</option>
+                        <option value='澳门'>澳门</option>
+                        <option value='福建'>福建</option>
+                        <option value='甘肃'>甘肃</option>
+                        <option value='广东'>广东</option>
+                        <option value='广西'>广西</option>
+                        <option value='贵州'>贵州</option>
+                        <option value='海南'>海南</option>
+                        <option value='河北'>河北</option>
+                        <option value='河南'>河南</option>
+                        <option value='黑龙江'>黑龙江</option>
+                        <option value='湖北'>湖北</option>
+                        <option value='湖南'>湖南</option>
+                        <option value='吉林'>吉林</option>
+                        <option value='江苏'>江苏</option>
+                        <option value='江西'>江西</option>
+                        <option value='辽宁'>辽宁</option>
+                        <option value='内蒙古'>内蒙古</option>
+                        <option value='青海'>青海</option>
+                        <option value='山东'>山东</option>
+                        <option value='山西'>山西</option>
+                        <option value='陕西'>陕西</option>
+                        <option value='上海'>上海</option>
+                        <option value='四川'>四川</option>
+                        <option value='台湾'>台湾</option>
+                        <option value='西藏'>西藏</option>
+                        <option value='香港'>香港</option>
+                        <option value='新疆'>新疆</option>
+                        <option value='云南'>云南</option>
+                        <option value='浙江'>浙江</option>
+                        <option value='重庆'>重庆</option>
+                        <option value='宁夏'>宁夏</option>
+                    </select>
+                </div>
+                <div class="content-1 conLeft" style="margin-top:20px;">
+                    <span class="ct-tit">预警时间：</span>
+                    <select id="second_select-1-2" class="selectLab">
+                        <option value="7">近一周</option>
+                        <option value="30" selected>近一个月</option>
+                        <option value="90">近三个月</option>
+                        <option value="365">近一年</option>
+                    </select>
+                </div>
+                <div class="content-2 conLeft">
+                    <span class="ct-tit">运营模式：</span>
+                    <select id="second_select-2-2" class="selectLab">
+                        <option value="0" selected>全部</option>
+                        <!-- <option value="P2P理财">P2P理财</option>
+                        <option value="投资项目">投资项目</option>
+                        <option value="游戏">游戏</option>
+                        <option value="任务奖励">任务奖励</option>
+                        <option value="股权私募基金">股权私募基金</option> -->
+                    </select>
+                </div>
+                <button type="button" class="btn btn-primary btn-sm" style="margin-left: 10px;">确定</button>
+            </div>
             <div id="warningType" style="width: 100%;height: 450px;margin-top: 30px;"></div>
         </div>
     </div>
@@ -297,7 +418,7 @@
             </div>
         </div>
         <div class="rank" style="margin-top:30px;width:38%;height:450px;float: right;">
-            <h3 style="color: white;"><i class="icon icon-flag"></i>&nbsp;&nbsp;疑似非法集资省份排行</h3>
+            <h3 style="color: white;"><i class="icon icon-flag"></i>&nbsp;&nbsp;疑似非法集资城市排行</h3>
             <div class="placeRank" style="margin-top: 20px;">
                 <div id="placeRank">
                     <p class="load">正在努力加载中...</p>
@@ -309,20 +430,23 @@
     <div class="section fiveScreen" style="overflow: hidden;">
         <h3 style="color: white;text-align: left;"><i class="icon icon-dashboard"></i>&nbsp;运营模式</h3>
         <div class="pieContent" style="width:100%;margin-top:50px;">
+        <!-- <div class="pieContent" style="width:100%;margin-top:50px;height:80%;"> -->
             <div id="pie-1" style="width:45%;height:450px;display: inline-block;"></div>
+            <!-- <div id="pie-1" style="width:45%;height:100%;display: inline-block;"></div> -->
             <div id="pie-2" style="width:45%;height:450px;display: inline-block;margin-left:5%;"></div>
+            <!-- <div id="pie-2" style="width:45%;height:100%;display: inline-block;margin-left:5%;"></div> -->
         </div>
     </div>
 
     <div class="section sixScreen">
         <h3 style="color: white;text-align: left;display: inline-block;vertical-align:top;margin-right: 20px;">
-            <i class="icon icon-signal"></i>&nbsp;预警排名
+            <i class="icon icon-signal"></i>&nbsp;预警排名Top20
         </h3>
         <select class="_time1">
-            <option value="全部" selected>全部</option>
-            <option value="公司">公司</option>
-            <option value="平台">平台</option>
-            <option value="项目">项目</option>
+            <option value="0" selected>全部</option>
+            <option value="1">平台</option>
+            <option value="2">公司</option>
+            <option value="3">项目</option>
         </select>
         <select class="_time2">
             <option value="7">近一周</option>
@@ -330,7 +454,8 @@
             <option value="90" >近三个月</option>
             <option value="365">近一年</option>
         </select>
-        <div id="warningNum" style="width: 100%;height: 450px;margin-top: 30px;">
+        <!-- <div id="warningNum" style="width: 100%;height: 450px;margin-top: 30px;"> -->
+        <div id="warningNum" style="width: 100%;height: 80%;margin-top: 30px;">
             <p class="load">正在努力加载中...</p>
         </div>
     </div>
@@ -363,7 +488,7 @@
         'navigationTooltips': ['预警记录','预警态势及类型','预警分布','运营模式','预警排名'],
         'fixedElements':'#nav'
     });
-    var show=0,show_2=0;
+    var show=0,show_2=0,show_2_2=0;
     $('.firstScreen .search .moreSitu').on('click',function () {
         if (show==0){
             $('#container .content').slideDown(130);
@@ -380,6 +505,15 @@
         }else {
             $('#container .content-2').slideUp(60);
             show_2=0;
+        }
+    });
+    $('.secondScreen .search-2-2 .moreSitu-2-2').on('click',function () {
+        if (show_2_2==0){
+            $('#container .content-2-2').slideDown(130);
+            show_2_2=1;
+        }else {
+            $('#container .content-2-2').slideUp(60);
+            show_2_2=0;
         }
     });
 

@@ -71,24 +71,12 @@
     <div class="section firstScreen">
         <div class="topTitle" style="margin: 10px auto;">
             <dl>
-                <dd>当前检测实体</dd>
+                <dd>当前监测实体</dd>
                 <dt class="com-1">2645</dt>
             </dl>
             <dl>
                 <dd>煽动性广告条数</dd>
                 <dt class="com-2">6645</dt>
-            </dl>
-            <dl>
-                <dd>每季度广告数</dd>
-                <dt class="com-3">15342</dt>
-            </dl>
-            <dl>
-                <dd>每月广告数</dd>
-                <dt class="com-4">3456</dt>
-            </dl>
-            <dl>
-                <dd>每周广告数</dd>
-                <dt class="com-5">854</dt>
             </dl>
         </div>
         <div style="color: white;font-weight:700;font-size: 24px;position: relative;">
@@ -107,6 +95,11 @@
     <div class="section secondScreen" style="margin-top: 20px;">
         <div style="color: white;font-weight:700;font-size: 24px;margin: 10px 0;">
             <h3 style="color: white;display: inline-block;"><i class="icon icon-signal"></i>&nbsp;广告态势</h3>
+            <div class="sec2num" style="display: inline-block;margin-left: 3%;max-width: 80%;width: 80%;">
+                <span>每季度广告数&nbsp;<b class="com-3" style="color:#ff9645">15342</b></span>
+                <span>每月广告数&nbsp;<b class="com-4" style="color:#ff9645">3456</b></span>
+                <span>每周广告数&nbsp;<b class="com-5" style="color:#ff9645">854</b></span>
+            </div>
         </div>
         <div id="adTrend" style="width: 100%;height:80%;"></div>
     </div>
@@ -117,23 +110,64 @@
         <div id="adplace" style="width: 100%;height:80%;"></div>
     </div>
     <div class="section fourScreen" style="margin-top: 20px;">
-        <div class="four-1">
-            <div class="adNum-1" style="color: white;font-weight:700;font-size: 24px;margin: 10px 0;">
+        <div style="color: white;font-weight:700;font-size: 24px;margin: 10px 0;">
+            <h3 style="color: white;display: inline-block;margin-right: 20px;">
+                <i class="icon icon-bar-chart"></i>&nbsp;&nbsp;广告发布量TOP
+            </h3>
+            <select class="time1">
+                <option value="7">近一周</option>
+                <option value="30">近一个月</option>
+                <option value="90">近三个月</option>
+                <option value="365">近一年</option>
+            </select>
+        </div>
+        <div id="adTotal" style="width:100%;height:80%;">
+        </div>
+    </div>
+    <div class="section fiveScreen" style="margin-top: 20px;">
+        <div class="five-1">
+            <div style="color: white;font-weight:700;font-size: 24px;margin: 10px 0;">
                 <h3 style="color: white;display: inline-block;margin-right: 20px;">
-                    <i class="icon icon-bar-chart"></i>&nbsp;&nbsp;广告发布量TOP
+                    <i class="icon icon-credit-card"></i>&nbsp;&nbsp;宣传收益率 TOP20
                 </h3>
-                <select class="time1">
+                <select class="time">
                     <option value="7">近一周</option>
                     <option value="30">近一个月</option>
                     <option value="90">近三个月</option>
                     <option value="365">近一年</option>
                 </select>
             </div>
-            <div id="adTotal" style="width:100%;height:80%;">
+            <div id="publicity" style="width:100%;height:80%;">
             </div>
         </div>
-        <div class="four-2">
-            <div class="adNum-2" style="color: white;font-weight:700;font-size: 24px;margin: 10px 0;">
+        <div class="five-2">
+            <div style="color: white;font-weight:700;font-size: 24px;margin: 10px 0;">
+                <h3 style="color: white;display: inline-block;margin-right: 20px;">
+                    <i class="icon icon-check"></i>&nbsp;&nbsp;收益/保本/担保承诺 TOP20
+                </h3>
+                <select class="time">
+                    <option value="7">近一周</option>
+                    <option value="30">近一个月</option>
+                    <option value="90">近三个月</option>
+                    <option value="365">近一年</option>
+                </select>
+            </div>
+            <div id="income" style="width:100%;height:80%;">
+            </div>
+        </div>
+    </div>
+    <div class="section fiveScreen" style="margin-top: 20px;">
+        <div class="five-1">
+            <div style="color: white;font-weight:700;font-size: 24px;margin: 10px 0;">
+                <h3 style="color: white;display: inline-block;margin-right: 20px;">
+                    <i class="icon icon-bar-chart"></i>&nbsp;&nbsp;广告煽动性
+                </h3>
+            </div>
+            <div id="incitement" style="width:100%;height:80%;">
+            </div>
+        </div>
+        <div class="five-2">
+            <div style="color: white;font-weight:700;font-size: 24px;margin: 10px 0;">
                 <h3 style="color: white;display: inline-block;margin-right: 20px;">
                     <i class="icon icon-certificate"></i>&nbsp;&nbsp;煽动性强度TOP
                 </h3>
@@ -145,28 +179,6 @@
                 </select>
             </div>
             <div id="provocative" style="width:100%;height:80%;">
-            </div>
-        </div>
-
-    </div>
-
-    <div class="section fiveScreen" style="margin-top: 20px;">
-        <div class="five-1">
-            <div class="adNum-1" style="color: white;font-weight:700;font-size: 24px;margin: 10px 0;">
-                <h3 style="color: white;display: inline-block;margin-right: 20px;">
-                    <i class="icon icon-bar-chart"></i>&nbsp;&nbsp;广告煽动性
-                </h3>
-            </div>
-            <div id="incitement" style="width:100%;height:80%;">
-            </div>
-        </div>
-        <div class="five-2">
-            <div class="adNum-2" style="color: white;font-weight:700;font-size: 24px;margin: 10px 0;">
-                <h3 style="color: white;display: inline-block;margin-right: 20px;">
-                    <i class="icon icon-certificate"></i>&nbsp;&nbsp;广告渠道
-                </h3>
-            </div>
-            <div id="channel" style="width:100%;height:80%;">
             </div>
         </div>
     </div>
@@ -185,17 +197,27 @@
         </div>
     </div>
     <div class="section sevenScreen screen67" style="margin-top: 20px;">
-        <h3 style="color: #ffffff;font-weight:700;font-size:24px;margin: 10px 20px 10px 0;">
-            <i class="icon icon-th"></i>&nbsp;&nbsp;渠道详情
-        </h3>
-        <div class="seven-top">
-            <div id="top7-1" class="st sixChart"></div>
-            <div id="top7-2" class="st sixChart"></div>
+        <div class="eight-1">
+            <div style="color: white;font-weight:700;font-size: 24px;margin: 10px 0;">
+                <h3 style="color: white;display: inline-block;margin-right: 20px;">
+                    <i class="icon icon-certificate"></i>&nbsp;&nbsp;广告渠道
+                </h3>
+            </div>
+            <div id="channel" style="width:100%;height:100%;margin-top:20%;"></div>
         </div>
-        <div class="seven-bottom">
-            <div id="bot7-3" class="sb sixChart"></div>
-            <div id="bot7-4" class="sb sixChart"></div>
-            <div id="bot7-5" class="sb sixChart"></div>
+        <div class="eight-2">
+            <h3 style="color: #ffffff;font-weight:700;font-size:24px;margin: 10px 20px 10px 0;">
+                <i class="icon icon-th"></i>&nbsp;&nbsp;渠道详情
+            </h3>
+            <div class="seven-top" style="margin-top:10%;">
+                <div id="top7-1" class="st sixChart"></div>
+                <div id="top7-2" class="st sixChart"></div>
+            </div>
+            <div class="seven-bottom">
+                <div id="bot7-3" class="sb sixChart"></div>
+                <div id="bot7-4" class="sb sixChart"></div>
+                <div id="bot7-5" class="sb sixChart"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -223,11 +245,11 @@
     $('.fullpage').fullpage({
         'verticalCentered': false,
         'css3': true,
-        'anchors': ['page1', 'page2', 'page3', 'page4', 'page5', 'page6', 'page7'],
+        'anchors': ['page1', 'page2', 'page3', 'page4', 'page5', 'page6', 'page7', 'page8'],
         'navigation': 'true',
         'loopBottom':'true',
         'navigationPosition': 'right',
-        'navigationTooltips': ['广告记录','广告态势','广告分布','发布量和煽动性TOP','煽动性和渠道','煽动性排名','渠道详情'],
+        'navigationTooltips': ['广告记录','广告态势','广告分布','发布量TOP','收益与承诺','广告煽动性','煽动性排名','渠道详情'],
         'fixedElements':'#nav'
     });
 

@@ -1,0 +1,159 @@
+#container {
+    padding: 120px 0 50px;
+    position: relative;
+    z-index: 999;
+    overflow: hidden;
+    width: 80%;
+    margin: 0 auto;
+}
+#container .top-1,#container .top-2 {
+    display: inline-block;
+}
+#container #card {
+    padding: 20px;
+    font-size: 14px;
+    background: rgba(245, 243, 243, 0.71);
+}
+#container .infor h3 {
+    margin-bottom: 5px;
+    padding: 0 13px;
+}
+#container .infor h3 i,.icon.icon-edit {
+    font-size: 14px;
+}
+#container .infor .status {
+    display: inline-block;
+    font-size: 14px;
+    padding: 4px 7px;
+    margin: 20px 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#container .infor .inforLine {
+    display: inline-block;
+    max-width: 24%;
+    min-width: 24%;
+    margin-right: 0.5%;
+}
+#container .infor .inforLine b {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#container .infor p {
+    font-size: 14px;
+    margin: 8px 0;
+    text-align: left;
+}
+#container .infor p span {
+    display: inline-block;
+    width: 70px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: right;
+}
+#container .infor p b {
+    display: inline-block;
+    max-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+#container .infor .isPlatform span{
+    width: auto!important;
+}
+#container .infor .isPlatform,
+#container .infor .isPlatform b {
+    max-width: 100%!important;
+}
+#container .infor .comBisic,#container .icon-edit {
+    cursor: pointer;
+}
+/**/
+#container .advertising h4{
+    width: 94%;
+    margin: 0 auto;
+    font-size: 18px;
+}
+#container .advertising {
+    width: 100%;
+    padding: 20px;
+    margin: 2px auto 20px;
+    overflow: hidden;
+    background: rgba(245, 243, 243, 0.71);
+}
+#container .advertising .adCount .c-1{
+    display: inline-block;
+    max-width: 25%;
+    min-width: 25%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#container .advertising .adCount .c-1 .num {
+    color: sandybrown;
+}
+#container .inforContent .main {
+    width: 96%;
+    text-align: left;
+    position: relative;
+    padding: 5px 5px 5px 30px;
+    background: rgba(88, 88, 88, 0.1);
+    margin:10px auto 0;
+}
+#container .inforContent .main .textFlag {
+    position: absolute;
+    left:8px;
+}
+#container .inforContent .main .option span {
+    display: inline-block;
+    margin-right: 20px;
+}
+#container .inforContent .main .context {
+    margin:10px 0;
+}
+/**/
+#container .advertising .billing_road_incite,
+#container .advertising .roadDetails {
+    overflow: hidden;
+    width: 94%;
+    margin: 0 auto;
+}
+#container .advertising .billing_road_incite .road,
+#container .advertising .billing_road_incite .incite {
+    width: 49%;
+    height: 300px;
+}
+#container .advertising .billing_road_incite #road,
+#container .advertising .billing_road_incite #incite {
+    width: 100%;
+    height: 100%;
+    margin: 20px 0;
+}
+#container .advertising .billing_road_incite .road {float: left;}
+#container .advertising .billing_road_incite .incite {float: right;}
+/**/
+#container .advertising .roadDetails .st {
+    margin: 20px 0;
+}
+#container .advertising .roadDetails .roadDetails-top,
+#container .advertising .roadDetails .roadDetails-bottom{
+    width: 100%;
+    height: 300px;
+    text-align: center;
+}
+#container .advertising .roadDetails .pieChart {
+    height: 100%;
+}
+#container .advertising .roadDetails .roadDetails-top .st {
+    display: inline-block;
+    width: 49%;
+}
+#container .advertising .roadDetails .roadDetails-bottom .sb {
+    display: inline-block;
+    width: 33%;
+}

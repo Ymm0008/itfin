@@ -1,29 +1,31 @@
-Date.prototype.Format = function (fmt) { //author: meizz
-    var o = {
-        "M+": this.getMonth() + 1, //月份
-        "d+": this.getDate(), //日
-        "H+": this.getHours(), //小时
-        "m+": this.getMinutes(), //分
-        "s+": this.getSeconds(), //秒
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-        "S": this.getMilliseconds() //毫秒
-    };
-    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
-}
-//时间戳转时间【年月日】
-function getLocalTime_1(nS) {
-    // return new Date(parseInt(nS) * 1000).toLocaleDateString().replace(/年|月/g, "-");
-    // return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
-    return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd");//年月日
-    // return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd HH:mm:ss");//年月日 时分秒
-}
-// 【年月日时分秒】
-function getLocalTime_2(nS) {
-    return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd HH:mm:ss");//年月日 时分秒
-}
+/* 时间戳转换时间  放在publicNav 里去了
+    Date.prototype.Format = function (fmt) { //author: meizz
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "H+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+    //时间戳转时间【年月日】
+    function getLocalTime_1(nS) {
+        // return new Date(parseInt(nS) * 1000).toLocaleDateString().replace(/年|月/g, "-");
+        // return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
+        return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd");//年月日
+        // return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd HH:mm:ss");//年月日 时分秒
+    }
+    // 【年月日时分秒】
+    function getLocalTime_2(nS) {
+        return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd HH:mm:ss");//年月日 时分秒
+    }
+ */
 
 var entity_name ,firm_name;
 
@@ -32,7 +34,7 @@ var entity_name ,firm_name;
     // var basicInfor_url='/index/entityType/?id=5120&type=1';//测试股东信息
     public_ajax.call_request('get',basicInfor_url,basicInfor);
     function basicInfor(data){
-        console.log(data);
+        // console.log(data);
         var item=data[0];
 
         var t1='',t2='',t3='否',t4='0',t5='0',t6='否',operationMode,legalPerson,capital;
@@ -106,6 +108,11 @@ var entity_name ,firm_name;
         var table_1_url = '/index/sub_firm/?firm_name='+firm_name;
         // var table_1_url = '/index/sub_firm/?firm_name=广西联银投资有限公司';//测试子公司分公司情况
 
+        // // 股东情况
+        // var table_2_url = '/index/holder/?firm_name='+firm_name;
+        // // var table_2_url = '/index/holder/?firm_name=广西联银投资有限公司';//测试股东情况
+        // public_ajax.call_request('get',table_2_url,table_2);
+
         // 经营异常
         var comment_url = '/index/abnormal_info/?firm_name='+firm_name;
         // var comment_url = '/index/abnormal_info/?firm_name=信和财富投资管理（北京）有限公司绍兴分公司';//测试
@@ -161,6 +168,17 @@ var entity_name ,firm_name;
 
         public_ajax.call_request('get',commentinforContent_url,commentinforContent_1);
     }
+    // 编辑功能
+    $('#card-edit').on('click',function(){
+        if($('#card .infor .inforLine b').attr('contenteditable') == true){
+            $('#card .infor .inforLine b').attr('contenteditable','false');
+            console.log('已退出编辑模式=======');
+        }else if($('#card .infor .inforLine b').attr('contenteditable') == false){
+            $('#card .infor .inforLine b').attr('contenteditable','true');
+            console.log("=========编辑模式中");
+        }
+
+    })
 
 //====股东数量====
     var master_url='/index/gongshang/?id='+pid;
@@ -191,7 +209,7 @@ function get7DaysBefore(date,m){
     return [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()].join('-');
 };
 
-// ====右顶侧小表格【未完成
+// ====右顶侧小表格====
 
     var risk_url='/index/riskCommentTable/?entity_id='+pid+'&type='+type;
     public_ajax.call_request('get',risk_url,riskValue);
@@ -199,9 +217,9 @@ function get7DaysBefore(date,m){
         {'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},
         {'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''},{'a':'2017-09-11','b':'指标','c':''}]
     function riskValue(data) {
-        console.log(data);
+        // console.log(data);
         for(var item in data){
-            console.log(item);
+            // console.log(item);
             if(data[item].length == 0){
                 $('#riskValueTable p.load').text('暂无记录');
             }else{
@@ -266,7 +284,7 @@ function get7DaysBefore(date,m){
                             align: "center",//水平
                             valign: "middle",//垂直
                             formatter: function (value, row, index) {
-                                return '<span style="cursor:pointer;" onclick="" title="查看详情"><i class="icon icon-edit"></i></span>';
+                                return '<span style="cursor:pointer;" onclick="jumpFrame_2(\''+entity_name+'\',\''+type+'\',\''+pid+'\',\''+row.illegal_type+'\')" title="查看详情"><i class="icon icon-edit"></i></span>';
                             }
                         },
                     ],
@@ -279,6 +297,25 @@ function get7DaysBefore(date,m){
 
     };
     // riskValue(objData)
+    // =========监测详情===========
+    function jumpFrame_2(name,type,id,illegal_type) {
+        // window.localStorage.setItem('monitorFlag',monitorFlag);
+        // window.location.href='../templates/monitorDetails.html';
+        var html = '';
+        name=escape(name);
+        if(illegal_type == 1){//模型预警 ----> 进入画像页
+            html='/index/company/?name='+name+'&flag='+type+'&pid='+id;
+        }else if(illegal_type == 2){//舆情预警 ----> 进入监测详情页
+            html='/index/monitor/?name='+name+'&flag='+type+'&pid='+id;
+        }else {
+            html='/index/company/?name='+name+'&flag='+type+'&pid='+id;
+        }
+
+        // window.location.href='/index/monitor/';
+        window.location.href=html;
+    }
+
+// ====股东情况(在子公司分公司内部)====
 
 // ====子公司分公司====
     // var table_1_url = '/index/sub_firm/?firm_name='+firm_name;
@@ -289,6 +326,16 @@ function get7DaysBefore(date,m){
     function table_1(data){
         // console.log(data);
         var myChart = echarts.init(document.getElementById('table-1'));
+        myChart.showLoading(
+            {type:'default',
+            opts: {
+              text: '正在加载中...',
+              color: '#c23531',
+              textColor: '#000',
+              maskColor: 'rgba(255, 255, 255, 0.8)',
+              zlevel: 0
+            }
+            });//自定义设置未作用
         var option = {
             title : {
                 text: '',
@@ -309,212 +356,212 @@ function get7DaysBefore(date,m){
             },
             calculable : false,
             /*
-
-
-            series : [
-                {
-                    name:'',
-                    type:'tree',
-                    orient: 'horizontal',  // vertical horizontal
-                    rootLocation: {x: 100, y: '60%'}, // 根节点位置  {x: 'center',y: 10}
-                    nodePadding: 20,
-                    left: '50%',
-                    symbol: 'circle',
-                    symbolSize: 40,
-                    itemStyle: {
-                        normal: {
-                            label: {
-                                show: true,
-                                // position: 'inside',
-                                textStyle: {
-                                    color: '#333',
-                                    fontSize: 15,
-                                    fontWeight:  'bolder'
+                series : [
+                    {
+                        name:'',
+                        type:'tree',
+                        orient: 'horizontal',  // vertical horizontal
+                        rootLocation: {x: 100, y: '60%'}, // 根节点位置  {x: 'center',y: 10}
+                        nodePadding: 20,
+                        left: '50%',
+                        symbol: 'circle',
+                        symbolSize: 40,
+                        itemStyle: {
+                            normal: {
+                                label: {
+                                    show: true,
+                                    // position: 'inside',
+                                    textStyle: {
+                                        color: '#333',
+                                        fontSize: 15,
+                                        fontWeight:  'bolder'
+                                    },
+                                    position:'bottom',//位置
+                                    // offset:[50,0], //偏移
+                                    // 字符换行
+                                    formatter:function(val){
+                                        if(val.name.length>8){
+                                            return val.name.substring(0,8)+'\n'+val.name.substring(8)
+                                        }else {
+                                            return val.name
+                                        }
+                                    }
                                 },
-                                position:'bottom',//位置
-                                // offset:[50,0], //偏移
-                                // 字符换行
-                                formatter:function(val){
-                                    if(val.name.length>8){
-                                        return val.name.substring(0,8)+'\n'+val.name.substring(8)
-                                    }else {
-                                        return val.name
-                                    }
+                                lineStyle: {
+                                    color: '#000',
+                                    width: 1,
+                                    type: 'broken' // 'curve'|'broken'|'solid'|'dotted'|'dashed'
+                                },
+                                borderColor:'#337ab7'
+                            },
+                            emphasis: {
+                                label: {
+                                    show: true
                                 }
-                            },
-                            lineStyle: {
-                                color: '#000',
-                                width: 1,
-                                type: 'broken' // 'curve'|'broken'|'solid'|'dotted'|'dashed'
-                            },
-                            borderColor:'#337ab7'
-                        },
-                        emphasis: {
-                            label: {
-                                show: true
                             }
-                        }
-                    },
-                    data: [
-                        {
-                            name: data[0],
-                            // value: 6,
-                            symbolSize: [20, 20],
-                            // symbol: 'image://http://www.iconpng.com/png/ecommerce-business/iphone.png',
-                            // symbol: 'circle',
-                            itemStyle: {
-                                normal: {
-                                    label: {
-                                        show: true,
+                        },
+                        data: [
+                            {
+                                name: data[0],
+                                // value: 6,
+                                symbolSize: [20, 20],
+                                // symbol: 'image://http://www.iconpng.com/png/ecommerce-business/iphone.png',
+                                // symbol: 'circle',
+                                itemStyle: {
+                                    normal: {
+                                        label: {
+                                            show: true,
+                                        }
                                     }
-                                }
-                            },
-                            // children: [
-                            //         {
-                            //             name: 'B',
-                            //             value: 4,
-                            //             // symbol: 'image://http://pic.58pic.com/58pic/12/36/51/66d58PICMUV.jpg',
-                            //             symbol: 'B',
-                            //             itemStyle: {
-                            //                 normal: {
-                            //                     label: {
-                            //                         show: false
-                            //                     }
-                            //                 }
-                            //             },
-                            //             symbolSize: [60, 60],
-                            //             children: [
-                            //                 {
-                            //                     name: 'C',
-                            //                     symbol: 'circle',
-                            //                     symbolSize: 20,
-                            //                     value: 4,
-                            //                     itemStyle: {
-                            //                         normal: {
-                            //                             color: '#fa6900',
-                            //                             label: {
-                            //                                 show: true,
-                            //                                 position: 'right'
-                            //                             },
-                            //
-                            //                         },
-                            //                         emphasis: {
-                            //                             label: {
-                            //                                 show: false
-                            //                             },
-                            //                             borderWidth: 0
-                            //                         }
-                            //                     }
-                            //                 },
-                            //                 {
-                            //                     name: 'D',
-                            //                     value: 4,
-                            //                     symbol: 'circle',
-                            //                     symbolSize: 20,
-                            //                     itemStyle: {
-                            //                         normal: {
-                            //                             label: {
-                            //                                 show: true,
-                            //                                 position: 'right',
-                            //                                 formatter: "{b}"
-                            //                             },
-                            //                             color: '#fa6900',
-                            //                             borderWidth: 2,
-                            //                             borderColor: '#cc66ff'
-                            //
-                            //                         },
-                            //                         emphasis: {
-                            //                             borderWidth: 0
-                            //                         }
-                            //                     }
-                            //                 },
-                            //                 {
-                            //                     name: 'E',
-                            //                     value: 2,
-                            //                     symbol: 'circle',
-                            //                     symbolSize: 20,
-                            //                     itemStyle: {
-                            //                         normal: {
-                            //                             label: {
-                            //                                 position: 'right'
-                            //                             },
-                            //                             color: '#fa6900',
-                            //                             brushType: 'stroke',
-                            //                             borderWidth: 1,
-                            //                             borderColor: '#999966',
-                            //                         },
-                            //                         emphasis: {
-                            //                             borderWidth: 0
-                            //                         }
-                            //                     }
-                            //                 }
-                            //             ]
-                            //         },
-                            //         {
-                            //             name: 'F',
-                            //             // symbol: 'image://http://www.viastreaming.com/images/apple_logo2.png',
-                            //             symbol: 'F',
-                            //             symbolSize: [60, 60],
-                            //             itemStyle: {
-                            //                 normal: {
-                            //                     label: {
-                            //                         show: false
-                            //                     }
-                            //
-                            //                 }
-                            //             },
-                            //             value: 4
-                            //         },
-                            //         {
-                            //             name: 'G',
-                            //             // symbol: 'image://http://market.huawei.com/hwgg/logo_cn/download/logo.jpg',
-                            //             symbol: 'G',
-                            //             symbolSize: [60, 60],
-                            //             itemStyle: {
-                            //                 normal: {
-                            //                     label: {
-                            //                         show: false
-                            //                     }
-                            //
-                            //                 }
-                            //             },
-                            //             value: 2
-                            //         },
-                            //
-                            // ]
-                        }
-                    ]
-                }
-            ]
+                                },
+                                // children: [
+                                //         {
+                                //             name: 'B',
+                                //             value: 4,
+                                //             // symbol: 'image://http://pic.58pic.com/58pic/12/36/51/66d58PICMUV.jpg',
+                                //             symbol: 'B',
+                                //             itemStyle: {
+                                //                 normal: {
+                                //                     label: {
+                                //                         show: false
+                                //                     }
+                                //                 }
+                                //             },
+                                //             symbolSize: [60, 60],
+                                //             children: [
+                                //                 {
+                                //                     name: 'C',
+                                //                     symbol: 'circle',
+                                //                     symbolSize: 20,
+                                //                     value: 4,
+                                //                     itemStyle: {
+                                //                         normal: {
+                                //                             color: '#fa6900',
+                                //                             label: {
+                                //                                 show: true,
+                                //                                 position: 'right'
+                                //                             },
+                                //
+                                //                         },
+                                //                         emphasis: {
+                                //                             label: {
+                                //                                 show: false
+                                //                             },
+                                //                             borderWidth: 0
+                                //                         }
+                                //                     }
+                                //                 },
+                                //                 {
+                                //                     name: 'D',
+                                //                     value: 4,
+                                //                     symbol: 'circle',
+                                //                     symbolSize: 20,
+                                //                     itemStyle: {
+                                //                         normal: {
+                                //                             label: {
+                                //                                 show: true,
+                                //                                 position: 'right',
+                                //                                 formatter: "{b}"
+                                //                             },
+                                //                             color: '#fa6900',
+                                //                             borderWidth: 2,
+                                //                             borderColor: '#cc66ff'
+                                //
+                                //                         },
+                                //                         emphasis: {
+                                //                             borderWidth: 0
+                                //                         }
+                                //                     }
+                                //                 },
+                                //                 {
+                                //                     name: 'E',
+                                //                     value: 2,
+                                //                     symbol: 'circle',
+                                //                     symbolSize: 20,
+                                //                     itemStyle: {
+                                //                         normal: {
+                                //                             label: {
+                                //                                 position: 'right'
+                                //                             },
+                                //                             color: '#fa6900',
+                                //                             brushType: 'stroke',
+                                //                             borderWidth: 1,
+                                //                             borderColor: '#999966',
+                                //                         },
+                                //                         emphasis: {
+                                //                             borderWidth: 0
+                                //                         }
+                                //                     }
+                                //                 }
+                                //             ]
+                                //         },
+                                //         {
+                                //             name: 'F',
+                                //             // symbol: 'image://http://www.viastreaming.com/images/apple_logo2.png',
+                                //             symbol: 'F',
+                                //             symbolSize: [60, 60],
+                                //             itemStyle: {
+                                //                 normal: {
+                                //                     label: {
+                                //                         show: false
+                                //                     }
+                                //
+                                //                 }
+                                //             },
+                                //             value: 4
+                                //         },
+                                //         {
+                                //             name: 'G',
+                                //             // symbol: 'image://http://market.huawei.com/hwgg/logo_cn/download/logo.jpg',
+                                //             symbol: 'G',
+                                //             symbolSize: [60, 60],
+                                //             itemStyle: {
+                                //                 normal: {
+                                //                     label: {
+                                //                         show: false
+                                //                     }
+                                //
+                                //                 }
+                                //             },
+                                //             value: 2
+                                //         },
+                                //
+                                // ]
+                            }
+                        ]
+                    }
+                ]
              */
-
             series : [
                 {
                     name:'',
                     type:'tree',
                     orient: 'horizontal',  // vertical horizontal
                     rootLocation: {x: 'center', y: '60%'}, // 根节点位置  {x: 'center',y: 10}
-                    left:'50%',
+                    left:'30%',
                     nodePadding: 20,
-                    symbol: 'circle',
+                    symbol: 'emptyCircle',
                     symbolSize: 40,
                     itemStyle: {
                         normal: {
                             label: {
                                 show: true,
-                                position: 'inside',
                                 textStyle: {
                                     color: '#333',
                                     fontSize: 15,
                                     fontWeight:  'bolder'
                                 },
-                                // position:['left','bottom']
-                                position:'bottom'
+                                position:'bottom',
+                                formatter:function(params){
+                                    // console.log(params.data.name);
+                                    // return params.data.name.slice(0,10)+'\n'+params.data.name.slice(10)
+
+                                }
                             },
                             lineStyle: {
                                 color: '#000',
                                 width: 1,
-                                type: 'broken' // 'curve'|'broken'|'solid'|'dotted'|'dashed'
+                                type: 'broken' // 'curve'|'broken'|'solid'|'dotted'|'dashed'线的样式
                             },
                             borderColor:'#337ab7'
                         },
@@ -524,6 +571,18 @@ function get7DaysBefore(date,m){
                             }
                         }
                     },
+                    // initialTreeDepth:-1,//初始化展开的层级 -1为全部
+                    /*
+                        leaves: {//展开后的文字位置
+                            label: {
+                                normal: {
+                                    position: 'right',
+                                    verticalAlign: 'middle',
+                                    align: 'left'
+                                }
+                            }
+                        },
+                     */
                     data: [
                         {
                             name: data[0],
@@ -539,6 +598,34 @@ function get7DaysBefore(date,m){
                                 }
                             },
                             children: [
+                                {
+                                    name:'股东情况',
+                                    // value:6,
+                                    itemStyle: {
+                                        normal: {
+                                            label: {
+                                                show: true
+                                            },
+                                            // position:['60%','50%']
+                                        }
+                                    },
+                                    symbolSize: [20, 20],
+                                    children:[],
+                                },
+                                {
+                                    name:'分公司情况',
+                                    // value:6,
+                                    itemStyle: {
+                                        normal: {
+                                            label: {
+                                                show: true
+                                            },
+                                            // position:['60%','50%']
+                                        }
+                                    },
+                                    symbolSize: [20, 20],
+                                    children:[],
+                                },
                                 /*
                                     {
                                         name: 'B',
@@ -651,13 +738,13 @@ function get7DaysBefore(date,m){
                                         value: 2
                                     },
                                 */
+
                             ]
                         }
                     ]
                 }
             ]
         };
-
 
         option.series[0].data[0].name = data[0];//根公司
         // console.log(data[0]);
@@ -667,7 +754,7 @@ function get7DaysBefore(date,m){
         if(data[1][comp].length != 0){
             for(var i=0;i<data[1][comp].length;i++){
                 // option.series[0].data[0].children[i].name = data[1][comp][i];
-                option.series[0].data[0].children.push(
+                option.series[0].data[0].children[1].children.push(
                     {
                         name:data[1][comp][i],
                         // value:6,
@@ -687,7 +774,7 @@ function get7DaysBefore(date,m){
                 if(data[2][data[1][comp][i]].length != 0){
                     for(var j=0;j<data[2][data[1][comp][i]].length;j++){
                         // option.series[0].data[0].children[i].children[j].name = data[2][data[1][comp][i]][0];
-                        option.series[0].data[0].children[i].children.push(
+                        option.series[0].data[0].children[1].children[i].children.push(
                             {
                                 name:data[2][data[1][comp][i]][j],
                                 // value:6,
@@ -702,8 +789,30 @@ function get7DaysBefore(date,m){
                                 children:[],
                             },
                         )
+                        // 三级子公司（暂无数据）
+                        if(data[3][data[2][data[1][comp][i]][j]].length != 0){
+                            for(var n=0;n<datdata[3][data[2][data[1][comp][i]][j]].length;n++){
+                                // option.series[0].data[0].children[1].children[i].children[j].children[n].name = data[3][data[2][data[1][comp][i]][j]][0];
+                                option.series[0].data[0].children[1].children[i].children[j].children.push(
+                                    {
+                                        name:data[3][data[2][data[1][comp][i]][j]][n],
+                                        // value:6,
+                                        itemStyle: {
+                                            normal: {
+                                                label: {
+                                                    show: false
+                                                }
+                                            }
+                                        },
+                                        symbolSize: [20, 20],
+                                        children:[],
+                                    },
+                                )
+                            }
+                        }
                     }
                 }
+
             }
             // option.series[0].data[0].children[0].name = data[1].comp[0];
         };
@@ -715,10 +824,89 @@ function get7DaysBefore(date,m){
         // 二级子公司
         // option.series[0].data[0].children[0].children[0].name = data[2].广西金狐计算机科技有限公司[0]
 
-        myChart.setOption(option);
+        // ===========股东情况==========
+        var table_2_url = '/index/holder/?firm_name='+firm_name;
+        public_ajax.call_request('get',table_2_url,table_2);
+
+        function table_2(data){
+            // console.log(data);
+            var reg = new RegExp('"',"g");
+            var comp2 = data[0].replace(reg, "");
+            // 一级股东
+            if(data[1][comp2].length != 0){
+                for(var i=0;i<data[1][comp2].length;i++){
+                    // option.series[0].data[0].children[i].name = data[1][comp][i];
+                    option.series[0].data[0].children[0].children.push(
+                        {
+                            name:data[1][comp2][i],
+                            // value:6,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: true
+                                    },
+                                    // position:['60%','50%']
+                                }
+                            },
+                            symbolSize: [20, 20],
+                            children:[],
+                        },
+                    )
+                    // 二级股东
+                    if(data[2][data[1][comp2][i]].length != 0){
+                        for(var j=0;j<data[2][data[1][comp][i]].length;j++){
+                            // option.series[0].data[0].children[i].children[j].name = data[2][data[1][comp][i]][0];
+                            option.series[0].data[0].children[0].children[i].children.push(
+                                {
+                                    name:data[2][data[1][comp2][i]][j],
+                                    // value:6,
+                                    itemStyle: {
+                                        normal: {
+                                            label: {
+                                                show: false
+                                            }
+                                        }
+                                    },
+                                    symbolSize: [20, 20],
+                                    children:[],
+                                },
+                            )
+                            // // 三级股东（暂无数据）
+                            // console.log(data[3][data[2][data[1][comp2][i]][j]]);
+                            if(data[3][data[2][data[1][comp2][i]][j]].length != 0){
+                                for(var n=0;n<data[3][data[2][data[1][comp2][i]][j]].length;n++){
+                                    // console.log(data[3][data[2][data[1][comp2][i]][j]][n]);
+                                    // option.series[0].data[0].children[0].children[i].children[j].children[n].name = data[3][data[1][comp][i][j]][0];
+                                    option.series[0].data[0].children[0].children[i].children[j].children.push(
+                                        {
+                                            name:data[3][data[2][data[1][comp2][i]][j]][n],
+                                            // value:6,
+                                            itemStyle: {
+                                                normal: {
+                                                    label: {
+                                                        show: false
+                                                    }
+                                                }
+                                            },
+                                            symbolSize: [20, 20],
+                                            children:[],
+                                        },
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+                // option.series[0].data[0].children[0].name = data[1].comp[0];
+            };
+            myChart.hideLoading();
+            myChart.setOption(option);
+        }
+        // myChart.setOption(option);
         _myChart1 = myChart;
     }
     // table_1();
+
 
 //====宣传行为====
     var publicityTable_url='/index/ad/?id='+pid;
@@ -810,6 +998,7 @@ function get7DaysBefore(date,m){
                 {
                     name:'一般煽动性广告',
                     type:'bar',
+                    barWidth : 55,
                     stack: '广告',
                     // data:[220, 182, 191, 234, 290,]
                     data:inf2_data
@@ -817,6 +1006,7 @@ function get7DaysBefore(date,m){
                 {
                     name:'无煽动性广告',
                     type:'bar',
+                    barWidth : 55,
                     stack: '广告',
                     // data:[150, 232, 201, 154, 190,]
                     data:inf1_data
@@ -1143,6 +1333,12 @@ function get7DaysBefore(date,m){
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
                         var returnRate = row.return_rate*100;
+                        if(returnRate == 0){
+                            returnRate = '未知';
+                        }else {
+                            returnRate+= '%'
+                        }
+
                         var avg_return;//披露收益率
                         if(row.avg_return == '-'){
                             avg_return = '未知';
@@ -1153,7 +1349,7 @@ function get7DaysBefore(date,m){
                             '                <div class="main">'+
                             '                    <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
                             '                    <p class="option">'+
-                            '                        <span>宣传收益率：<b style="color: #ff6d70;font-size:16px">'+returnRate+'%</b></span>'+
+                            '                        <span>宣传收益率：<b style="color: #ff6d70;font-size:16px">'+returnRate+'</b></span>'+
                             '                        <button class="original btn-primary btn-xs" onclick="incomeTable_more(\''+row.index_name+'\',\''+row.text_id+'\')">查看全文</button>'+
                             '                    </p>'+
                             '                    <p class="context">'+row.related_text+'</p>'+
@@ -1211,10 +1407,10 @@ function get7DaysBefore(date,m){
             $('#moreInfo #words').text(data.content);//内容
             // 原网页链接
             var url;
-            if(row.url){
-                url = row.url;
+            if(data.url){
+                url = data.url;
             }else{
-                url = row.u;
+                url = data.u;
             }
             $('#moreInfo #url a').text('原网页链接').attr({'href':url,'target':'_blank','title':'原网页链接'});//原文链接
 
