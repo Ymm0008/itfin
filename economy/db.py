@@ -287,7 +287,22 @@ def EditRelatedPlat(table,entity_id,related_plat,date):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
+	related_plat = related_plat.replace('，','')
 	sql = 'update %s set related_plat="%s" where entity_id=%d and date="%s"'%(table,related_plat,entity_id,date)
+	cur.execute(sql)
+	dict = {'status':'ok'}
+	return dict
+
+
+def EditRelatedCompany(table,entity_id,related_company,date):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+	related_company = related_company.replace('，','')
+	sql = 'update %s set related_company="%s" where entity_id=%d and date="%s"'%(table,related_company,entity_id,date)
+	cur.execute(sql)
+	dict = {'status':'ok'}
+	return dict
 
 
 
@@ -637,7 +652,7 @@ def get_perceive_data(table,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = 'select * from %s group by entity_name order by date desc'%table
+	sql = 'select * from %s group by entity_name where status<2 order by date desc'%table
 	cur.execute(sql)
 	res = cur.fetchall()
 	result = [{k:row[i] for i,k in enumerate(field)} for row in res]
@@ -659,6 +674,8 @@ def Edit(table,entity_id,entity_name,entity_type,company,related_person,keyword)
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
+	related_person = related_person.replace('，','')
+	keyword = keyword.replace('，','')
 	sql = 'update %s set entity_type=%d,entity_name="%s",company="%s",related_person="%s",key_words="%s" where id=%d'%(table,entity_type,entity_name,company,related_person,keyword,entity_id)
 	if company == 'null':
 		sql = sql.replace('company="null"','company=null')
@@ -714,6 +731,15 @@ def InStorage(table, list):
 		if "null" in [d for d in each.values()]:
 			sql = sql.replace('"null"','null')
 		cur.execute(sql)
+	dict = {'status':'ok'}
+	return dict
+
+
+def OutStorage(table, entity_id):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+	sql = 'update %s set status=2 where entity_id=%d'%(table,entity_id)
 	dict = {'status':'ok'}
 	return dict
 

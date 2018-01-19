@@ -67,3 +67,9 @@ def in_storage():
 	list = request.get_json()
 	status = InStorage(TABLE_SENSOR, list)
 	return json.dumps(status,ensure_ascii=False)
+
+@perceived.route('/OutStorage/',methods=['POST'])
+def out_storage():
+	entity_id = int(request.args.get('entity_id',''))
+	status = OutStorage(TABLE_SENSOR,entity_id)
+	return json.dumps(status,ensure_ascii=False)
