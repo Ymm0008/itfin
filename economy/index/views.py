@@ -259,10 +259,25 @@ def edit_related_plat():
     entity_type = int(request.args.get('entity_type',''))
     entity_id = int(request.args.get('entity_id',''))
     related_plat = request.args.get('related_plat','')
+    date = requ
     if entity_type == 1:
         status = EditRelatedPlat(TABLE_PLAT_DETAIL,entity_id,related_plat,date)
     elif entity_type == 2:
         status = EditRelatedPlat(TABLE_COMPANY_DETAIL,entity_id,related_plat,date)
     elif entity_type == 3:
         status = EditRelatedPlat(TABLE_PROJECT_DETAIL,entity_id,related_plat,date)
+    return json.dumps(status,ensure_ascii=False)
+
+@index.route('/EditRelatedCompany/',methods=['POST'])
+def edit_related_company():
+    entity_type = int(request.args.get('entity_type',''))
+    entity_id = int(request.args.get('entity_id',''))
+    related_company = request.args.get('related_company','')
+    date = request.args.get('date','')
+    if entity_type == 1:
+        status = EditRelatedCompany(TABLE_PLAT_DETAIL,entity_id,related_company,date)
+    elif entity_type == 2:
+        status = EditRelatedCompany(TABLE_COMPANY_DETAIL,entity_id,related_company,date)
+    elif entity_type == 3:
+        status = EditRelatedCompany(TABLE_PROJECT_DETAIL,entity_id,related_company,date)
     return json.dumps(status,ensure_ascii=False)
