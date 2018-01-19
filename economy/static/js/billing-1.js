@@ -83,7 +83,7 @@ function adWarning(data) {
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-                    return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1()" title="查看详情"><i class="icon icon-file-alt"></i></span>';
+                    return '<span style="cursor:pointer;color:white;" onclick="jumpFrame(\''+row.a+'\',\''+row.a+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
                 }
             },
             {
@@ -102,6 +102,9 @@ function adWarning(data) {
     $('.contentTable p.load').hide();
 };
 adWarning(adWarningdata);
+function jumpFrame(name,pid) {
+    window.open('/advertising/adDetails/?name='+escape(name))//+'&pid='+pid);
+}
 //广告态势
 function line() {
     var myChart = echarts.init(document.getElementById('adTrend'),'chalk');

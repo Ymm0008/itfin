@@ -12,3 +12,9 @@ field = ['id','entity_type','entity_name','location','start_time']
 def billing():
     return render_template('advertising/billing.html')
 
+@advertising.route('/adDetails/')
+def adDetails():
+    name = request.args.get('name','')
+    pid = request.args.get('pid','')
+    return render_template('advertising/adDetails.html',name=name,pid=pid)
+
