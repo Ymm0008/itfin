@@ -45,7 +45,7 @@
 #container .firstScreen .search{
     float: right;
 }
-#container .secondScreen .search-2 {
+#container .secondScreen .search-2,#container .secondScreen .search-2-2 {
     display: inline-block;
     margin-left: 20px;
 }
@@ -54,14 +54,14 @@
     background: #f8f8f8;
     color: #3c3c3c;
 }
-#container .content,#container .content-2 {
+#container .content,#container .content-2,#container .content-2-2 {
     position: relative;
 }
-#container .content .conLeft,#container .content-2 .conLeft {
+#container .content .conLeft,#container .content-2 .conLeft,#container .content-2-2 .conLeft {
     display: inline-block;
     margin-right: 20px;
 }
-#container .content-2 .conLeft {
+#container .content-2 .conLeft, #container .content-2-2 .conLeft{
     margin:10px 0 0 0;
 }
 #container .content .ct-tit,#container .content-2 .ct-tit,#container .initials .ct-tit {
@@ -71,7 +71,8 @@
     color: white;
 }
 #container .content .selectLab,#container .content-2 .selectLab,
-#container .thirdScreen ._time,#container .sixScreen ._time1,#container .sixScreen ._time2{
+#container .thirdScreen ._time,#container .sixScreen ._time1,#container .sixScreen ._time2,
+#container .content-2-2 .selectLab{
     display: inline-block;
     padding: 3px 7px;
     border: 1px solid silver;
@@ -81,7 +82,7 @@
 }
 /**/
 /**/
-#container .trend .ct-tit {
+#container .trend .ct-tit, #container .type .ct-tit{
     display: inline-block;
     /*margin: 10px 0 0 40px;*/
     font-size: 16px;
