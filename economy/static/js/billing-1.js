@@ -345,6 +345,58 @@ adRank('adTotal');
 setTimeout(function () {
     adRank('provocative');
 },1000)
+//宣传收益率，成本收益率
+function publicity_proceeds(yname,classname) {
+    var myChart = echarts.init(document.getElementById(classname),'chalk');
+    var option = {
+        backgroundColor:'transparent',
+        title: {
+            text: '',
+            subtext: ''
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '13%',
+            containLabel: true
+        },
+        yAxis: {
+            name:yname,
+            type: 'value',
+            boundaryGap: [0, 0.01]
+        },
+        xAxis: {
+            name:'公司',
+            type: 'category',
+            axisLabel:{
+                interval:0,
+                rotate:90,//倾斜度 -90 至 90 默认为0
+                margin:2,
+                textStyle:{
+                    fontSize:8
+                }
+            },
+            data : ['优易网','湖北嘟嘟','有糖','品质金融','一元云购','上海中晋公司','风车点赞','玫瑰庄园','青云门','浙江本色控股'],
+        },
+        series: [
+            {
+                name: '预警数',
+                type: 'bar',
+                data:[11, 22, 34, 53, 65, 78, 89, 101, 122, 156].reverse(),
+            },
+        ]
+    };
+    myChart.setOption(option);
+}
+publicity_proceeds('收益率%','publicity');
+setTimeout(function () {
+    publicity_proceeds('数量','income');
+},1000)
 //广告渠道和广告煽动性
 function pieNum(classname,data) {
     var h=[];
