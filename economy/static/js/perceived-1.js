@@ -215,13 +215,14 @@
                         formatter: function (value, row, index) {
                             var Storage = '';
                             if(row.status == 0){
-                                Storage = '<span style="cursor:pointer;color:white;display: inline-block;margin: 0 10px;" onclick="addThis(\''+row.id+'\')" title="添加入库"><i class="icon icon-star-empty"></i></span>';
+                                Storage = '<span style="cursor:pointer;color:white;display: inline-block;" onclick="addThis(\''+row.id+'\')" title="添加入库"><i class="icon icon-star-empty"></i></span>';
                             }else if(row.status == 1){
-                                Storage = '<span style="cursor:pointer;color:white;display: inline-block;margin: 0 10px;" onclick="cancelThis(\''+row.id+'\')" title="取消入库"><i style="color:#ff9645;" class="icon icon-star"></i></span>';
+                                Storage = '<span style="cursor:pointer;color:white;display: inline-block;" onclick="cancelThis(\''+row.id+'\')" title="取消入库"><i style="color:#ff9645;" class="icon icon-star"></i></span>';
                             }
-                            return Storage+'<span style="cursor:pointer;color:white;" onclick="editThis(\''+row.id+'\',\''+row.entity_name+'\',\''+row.rec_type+'\',\''+row.entity_type+'\',\''+row.company+'\',\''+row.related_person+'\',\''+row.key_words+'\')" title="编辑"><i class="icon icon-edit"></i></span>'+
+                            return Storage+'<span style="cursor:pointer;color:white;margin:0 10px;" onclick="editThis(\''+row.id+'\',\''+row.entity_name+'\',\''+row.rec_type+'\',\''+row.entity_type+'\',\''+row.company+'\',\''+row.related_person+'\',\''+row.key_words+'\')" title="编辑"><i class="icon icon-edit"></i></span>'+
                                 // '<span style="cursor:pointer;color:white;display: inline-block;margin: 0 10px;" onclick="addThis(\''+row.id+'\')" title="添加入库"><i class="icon icon-star-empty"></i></span>'+
-                                '<span style="cursor:pointer;color:white;" onclick="lookThis(\''+row.text_id+'\',\''+row.index_name+'\')" title="查看文本"><i class="icon icon-book"></i></span>';
+                                '<span style="cursor:pointer;color:white;margin-right:10px;" onclick="lookThis(\''+row.text_id+'\',\''+row.index_name+'\')" title="查看文本"><i class="icon icon-book"></i></span>'+
+                                '<span style="cursor:pointer;color:white;" onclick="delThis(\''+row.id+'\')" title="删除"><i class="icon icon-trash"></i></span>';
                         }
                     },
                 ],
@@ -406,6 +407,20 @@
             // 重新渲染表格
             var fellTable_url='/perceived/perceiveData/';
             public_ajax.call_request('get',fellTable_url,fellTable);
+        }
+    }
+
+// ====删除
+    function delThis(id){
+        // var del_url = '/perceived/Add/?entity_id='+id;
+        // public_ajax.call_request('get',del_url,DelSuccess);
+    }
+    function DelSuccess(data){
+        if(data.status == 'ok'){
+            alert('删除成功')
+            // 重新渲染表格
+            // var fellTable_url='/perceived/perceiveData/';
+            // public_ajax.call_request('get',fellTable_url,fellTable);
         }
     }
 
@@ -727,20 +742,32 @@ $(function () {
     //增加一行
     $('#add').click(function () {
         var one=$('.add-1').val();
-        var two=parseInt($('.add-2').val());
-        var three=parseInt($('.add-3').val());
-        var four=$('.add-4').val();
-        var five=$('.add-5').val();
-        var six=$('.add-6').val();
-        var row = {'entity_name':one,'rec_type':two,'entity_type':three,'company':four,'related_person':five,'key_words':six,'g':'<input type="button" value="编辑" class="btn-info btn btn-sm" onclick="editThisRow(this)">'+
-                            '       <input type="button" value="确定" class="btn-info btn btn-sm" onclick="sureThisRow(this)">'+
-                            '       <input type="button" value="删除" class="btn-info btn btn-sm deleteone" onclick="delThisRow(\''+one+'\')">'}
-        $('#addClub').bootstrapTable('insertRow',{index: 0, row: row});//在最开始插入新行
-        // $("#addClub").prepend(str);
-        // $('#addClub tbody tr:last').remove();
-        $('#addClub tbody tr:first td').css({padding:'12px 8px'});
-        $('#container .secondScreen .newAdd input').val('');//清空输入框
-        $('#addClub').bootstrapTable('removeByUniqueId','');//删除行的方法
+        if(one == ''){
+            // alert('不能为空')
+            $('#Sure_2box .modal-header h4').text('提示信息:');
+            $('#Sure_2box #Sure_2box_body').css('display','block');
+            $('#Sure_2box #Sure_2box_body').empty().append('<center>实体名称不能为空！</center>');
+            $('#Sure_2box .modal-footer #cancle').css('display','none');
+            $('#Sure_2box').modal('show');
+            $('.modal-backdrop').css({'z-index':'static'});
+            return false;
+        }else{
+            var two=parseInt($('.add-2').val());
+            var three=parseInt($('.add-3').val());
+            var four=$('.add-4').val();
+            var five=$('.add-5').val();
+            var six=$('.add-6').val();
+            var row = {'entity_name':one,'rec_type':two,'entity_type':three,'company':four,'related_person':five,'key_words':six,'g':'<input type="button" value="编辑" class="btn-info btn btn-sm" onclick="editThisRow(this)">'+
+                                '       <input type="button" value="确定" class="btn-info btn btn-sm" onclick="sureThisRow(this)">'+
+                                '       <input type="button" value="删除" class="btn-info btn btn-sm deleteone" onclick="delThisRow(\''+one+'\')">'}
+            $('#addClub').bootstrapTable('insertRow',{index: 0, row: row});//在最开始插入新行
+            // $("#addClub").prepend(str);
+            // $('#addClub tbody tr:last').remove();
+            $('#addClub tbody tr:first td').css({padding:'12px 8px'});
+            $('#container .secondScreen .newAdd input').val('');//清空输入框
+            $('#addClub').bootstrapTable('removeByUniqueId','');//删除行的方法
+        }
+
     });
 
     //可以入库不！？
@@ -785,7 +812,7 @@ $(function () {
                         // 删除此行。。。
                         console.log(libaryList_2);
                         for(var i=0;i<libaryList_2.length;i++){
-                            console.log(libaryList_2[i].entity_name);
+                            // console.log(libaryList_2[i].entity_name);
                             delThisRow(libaryList_2[i].entity_name)
                         }
                         // delThisRow()
