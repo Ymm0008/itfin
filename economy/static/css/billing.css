@@ -42,17 +42,26 @@
     background: #f8f8f8;
     color: #3c3c3c;
 }
-.fourScreen .four-1,.fiveScreen .five-1  {
+.sec2num span {
+    display: inline-block;
+    font-size: 14px;
+    margin-right: 1%;
+    max-width: 33%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.fiveScreen .five-1  {
     float: left;
     width: 49%;
     height: 100%;
 }
-.fourScreen .four-2,.fiveScreen .five-2 {
+.fiveScreen .five-2 {
      float: right;
      width: 49%;
     height: 100%;
 }
-.fourScreen .time1,.fourScreen .time2 {
+.fourScreen .time1,.fiveScreen .time2,.fiveScreen .time {
     font-size: 12px;
     position: relative;
     top: -5px;
@@ -64,7 +73,7 @@
     color: white;
 }
 .screen67 .st {width: 48%}
-.screen67 .sb {width: 33%}
+.screen67 .sb {width: 30%}
 .screen67 .six-top,.screen67 .six-bottom,
 .screen67 .seven-top,.screen67 .seven-bottom {
     width: 100%;
@@ -74,4 +83,14 @@
 .screen67 .sixChart {
     height: 87%;
     display: inline-block;
+}
+.eight-1 {
+    width: 25%;
+    height: 80%;
+    float: left;
+}
+.eight-2 {
+    width: 73%;
+    height: 80%;
+    float: right;
 }
