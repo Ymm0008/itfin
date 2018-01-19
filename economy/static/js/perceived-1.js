@@ -412,15 +412,31 @@
 
 // ====删除
     function delThis(id){
-        // var del_url = '/perceived/Add/?entity_id='+id;
-        // public_ajax.call_request('get',del_url,DelSuccess);
+        // 弹出确认框
+        $('#Sure_2box .modal-header h4').text('确认删除吗？');
+        $('#Sure_2box #Sure_2box_body').css('display','none');
+        $('#Sure_2box .modal-footer #cancle').css('display','inline-block');
+        $('#Sure_2box .modal-footer #Sure_2').css('display','inline-block');
+        $('#Sure_2box').modal('show');
+        $('.modal-backdrop').css({position:'static'});
+        $('#Sure_2').click(function(){
+            var del_url = '/perceived/OutStorage/?entity_id='+id;
+            public_ajax.call_request('get',del_url,DelSuccess);
+        })
     }
     function DelSuccess(data){
         if(data.status == 'ok'){
-            alert('删除成功')
+            // alert('删除成功')
+            $('#Sure_2box .modal-header h4').text('提示信息:');
+            $('#Sure_2box #Sure_2box_body').css('display','block');
+            $('#Sure_2box #Sure_2box_body').css('display','block').empty().append('<center>删除成功</center>');
+            $('#Sure_2box .modal-footer #cancle').css('display','none');
+            $('#Sure_2box .modal-footer #Sure_2').css('display','none');
+            $('#Sure_2box').modal('show');
+            $('.modal-backdrop').css({position:'static'});
             // 重新渲染表格
-            // var fellTable_url='/perceived/perceiveData/';
-            // public_ajax.call_request('get',fellTable_url,fellTable);
+            var fellTable_url='/perceived/perceiveData/';
+            public_ajax.call_request('get',fellTable_url,fellTable);
         }
     }
 
@@ -546,9 +562,16 @@
 
 //添加入库
 //文档准备就绪
-$(function () {
+// $(function () {
     // 删除json数组元素的方法
-
+        Array.prototype.removeByValue_2 = function(val) {
+            for(var i=0; i<this.length; i++) {
+                if(this[i].entity_name == val) {
+                    this.splice(i, 1);
+                    break;
+                }
+            }
+        };
 
 
     // 展示空表格的数据
@@ -700,13 +723,13 @@ $(function () {
             ],
             onCheck:function (row) {
                 libaryList_2.push({entity_name:row.entity_name,rec_type:row.rec_type,entity_type:row.entity_type,company:row.company,related_person:row.related_person,key_words:row.key_words});
-                // console.log(libaryList_2);
+                console.log(libaryList_2);
                 testLib_2()
             },
             onUncheck:function (row) {
                 // libaryList_2.removeByValue_2({entity_name:row.entity_name,rec_type:row.rec_type,entity_type:row.entity_type,company:row.company,related_person:row.related_person,key_words:row.key_words});
                 libaryList_2.removeByValue_2(row.entity_name);
-                // console.log(libaryList_2);
+                console.log(libaryList_2);
                 testLib_2()
             },
             onCheckAll:function (row) {//有问题  //修改版//☆☆☆☆☆☆☆☆全选 方法 需遍历row取值☆☆☆☆☆☆☆☆
@@ -740,103 +763,125 @@ $(function () {
     // });
 
     //增加一行
-    $('#add').click(function () {
-        var one=$('.add-1').val();
-        if(one == ''){
-            // alert('不能为空')
-            $('#Sure_2box .modal-header h4').text('提示信息:');
-            $('#Sure_2box #Sure_2box_body').css('display','block');
-            $('#Sure_2box #Sure_2box_body').empty().append('<center>实体名称不能为空！</center>');
-            $('#Sure_2box .modal-footer #cancle').css('display','none');
-            $('#Sure_2box').modal('show');
-            $('.modal-backdrop').css({'z-index':'static'});
-            return false;
-        }else{
+        $('#add').click(function () {
+            var one=$('.add-1').val();
             var two=parseInt($('.add-2').val());
-            var three=parseInt($('.add-3').val());
-            var four=$('.add-4').val();
-            var five=$('.add-5').val();
-            var six=$('.add-6').val();
-            var row = {'entity_name':one,'rec_type':two,'entity_type':three,'company':four,'related_person':five,'key_words':six,'g':'<input type="button" value="编辑" class="btn-info btn btn-sm" onclick="editThisRow(this)">'+
-                                '       <input type="button" value="确定" class="btn-info btn btn-sm" onclick="sureThisRow(this)">'+
-                                '       <input type="button" value="删除" class="btn-info btn btn-sm deleteone" onclick="delThisRow(\''+one+'\')">'}
-            $('#addClub').bootstrapTable('insertRow',{index: 0, row: row});//在最开始插入新行
-            // $("#addClub").prepend(str);
-            // $('#addClub tbody tr:last').remove();
-            $('#addClub tbody tr:first td').css({padding:'12px 8px'});
-            $('#container .secondScreen .newAdd input').val('');//清空输入框
-            $('#addClub').bootstrapTable('removeByUniqueId','');//删除行的方法
-        }
+            if(one == '' || two == ''){
+                // alert('不能为空')
+                $('#Sure_2box .modal-header h4').text('提示信息:');
+                $('#Sure_2box #Sure_2box_body').css('display','block');
+                $('#Sure_2box #Sure_2box_body').empty().append('<center>实体名称不能为空！</center>');
+                $('#Sure_2box .modal-footer #cancle').css('display','none');
+                $('#Sure_2box').modal('show');
+                $('.modal-backdrop').css({'z-index':'static'});
+                return false;
+            }else{
 
-    });
+                var three=parseInt($('.add-3').val());
+                var four=$('.add-4').val();
+                var five=$('.add-5').val();
+                var six=$('.add-6').val();
+                if(three == ''){
+                    three = 'null';
+                }
+                if(four == ''){
+                    four = 'null';
+                }
+                if(five == ''){
+                    five = 'null';
+                }
+                if(six == ''){
+                    six = 'null';
+                }
+                // var row = {'entity_name':one,'rec_type':two,'entity_type':three,'company':four,'related_person':five,'key_words':six,'g':'<input type="button" value="编辑" class="btn-info btn btn-sm" onclick="editThisRow(this)">'+
+                //                     '       <input type="button" value="确定" class="btn-info btn btn-sm" onclick="sureThisRow(this)">'+
+                //                     '       <input type="button" value="删除" class="btn-info btn btn-sm deleteone" onclick="delThisRow(\''+one+'\')">'}
+                // 去掉编辑功能
+                var row = {'entity_name':one,'rec_type':two,'entity_type':three,'company':four,'related_person':five,'key_words':six,'g':'<input type="button" value="删除" class="btn-info btn btn-sm deleteone" onclick="delThisRow(\''+one+'\')">'}
+                $('#addClub').bootstrapTable('insertRow',{index: 0, row: row});//在最开始插入新行
+                // $("#addClub").prepend(str);
+                // $('#addClub tbody tr:last').remove();
+                $('#addClub tbody tr:first td').css({padding:'12px 8px'});
+                $('#container .secondScreen .newAdd input').val('');//清空输入框
+                $('#addClub').bootstrapTable('removeByUniqueId','');//删除行的方法
+            }
+
+        });
 
     //可以入库不！？
-    function testLib_2() {
-        // console.log(libaryList_2.length);
-        if (libaryList_2.length==0){
-            $('#oneLibrary_2').attr('disabled','disabled');
-        }else {
-            $('#oneLibrary_2').removeAttr('disabled');
+        function testLib_2() {
+            // console.log(libaryList_2.length);
+            if (libaryList_2.length==0){
+                $('#oneLibrary_2').attr('disabled','disabled');
+            }else {
+                $('#oneLibrary_2').removeAttr('disabled');
+            }
         }
-    }
 
     // 一键入库
-    $('#oneLibrary_2').click(function(){
-        if($('#oneLibrary_2').attr('disabled') == 'disabled'){
-            return false;
-        }else {
-            console.log(libaryList_2);
+        $('#oneLibrary_2').click(function(){
+            if($('#oneLibrary_2').attr('disabled') == 'disabled'){
+                return false;
+            }else {
+                console.log(libaryList_2);
 
-            var InStorage_url = '/perceived/InStorage/';
-            $.ajax({
-                url:InStorage_url,
-                type:'POST',
-                contentType:'application/json',
-                // data:JSON.stringify(LL_data),
-                data:JSON.stringify(libaryList_2),
-                dataType:'json',
-                success:function(data){
-                    // console.log(data);
-                    if(data.status == 'ok'){
-                        // 重新渲染 一屏 表格
-                        var fellTable_url='/perceived/perceiveData/';
-                        public_ajax.call_request('get',fellTable_url,fellTable);
-                        // alert('添加成功');
-                        $('#Sure_2box .modal-header h4').text('提示信息:');
-                        $('#Sure_2box #Sure_2box_body').css('display','block');
-                        $('#Sure_2box #Sure_2box_body').empty().append('<center>添加成功</center>');
-                        $('#Sure_2box .modal-footer #cancle').css('display','none');
-                        $('#Sure_2box').modal('show');
-                        // $.fn.fullpage.setAllowScrolling(false);
-                        $('.modal-backdrop').css({'z-index':'static'});
-                        // 删除此行。。。
-                        console.log(libaryList_2);
-                        for(var i=0;i<libaryList_2.length;i++){
-                            // console.log(libaryList_2[i].entity_name);
-                            delThisRow(libaryList_2[i].entity_name)
+                var InStorage_url = '/perceived/InStorage/';
+                $.ajax({
+                    url:InStorage_url,
+                    type:'POST',
+                    contentType:'application/json',
+                    // data:JSON.stringify(LL_data),
+                    data:JSON.stringify(libaryList_2),
+                    dataType:'json',
+                    success:function(data){
+                        // console.log(data);
+                        if(data.status == 'ok'){
+                            // 重新渲染 一屏 表格
+                            var fellTable_url='/perceived/perceiveData/';
+                            public_ajax.call_request('get',fellTable_url,fellTable);
+                            // alert('添加成功');
+                            $('#Sure_2box .modal-header h4').text('提示信息:');
+                            $('#Sure_2box #Sure_2box_body').css('display','block');
+                            $('#Sure_2box #Sure_2box_body').empty().append('<center>添加成功</center>');
+                            $('#Sure_2box .modal-footer #cancle').css('display','none');
+                            $('#Sure_2box').modal('show');
+                            // $.fn.fullpage.setAllowScrolling(false);
+                            $('.modal-backdrop').css({'z-index':'static'});
+                            // 删除此行。。。
+                            console.log(libaryList_2);
+                            for(var i=0;i<libaryList_2.length;i++){
+                                console.log(libaryList_2[i].entity_name);
+                                delThisRow(libaryList_2[i].entity_name)
+                            }
+                            // delThisRow()
+                            // 按钮变为不可用
+                            testLib_2();
+
                         }
-                        // delThisRow()
-
                     }
-                }
-            })
-        }
-    })
+                })
+            }
+        })
+// })
 
-
-})
 
 // 删除行
     function delThisRow(_thisOne) {
-        // console.log(_thisOne);
+        console.log(_thisOne);
         $('#addClub').bootstrapTable('removeByUniqueId',_thisOne);
         var currentTrlen=$('#addClub tbody tr').length;
         if (currentTrlen<6){
             var row = {'entity_name':'','rec_type':'','entity_type':'','company':'','related_person':'','key_words':'','g':''};
             $('#addClub').bootstrapTable('insertRow',{index: 5, row: row});
         }
+
+        // 删除libaryList_2 中的数据
+        libaryList_2.removeByValue_2(_thisOne);
+        console.log(libaryList_2);
+        testLib_2();
     }
-// 确定
+
+// 编辑确定
     function sureThisRow(_this) {
         var ttr=$(_this).parents("tr");
         $(ttr).find('input[type="text"]').each(function () {
@@ -848,7 +893,12 @@ $(function () {
             var selectVal = $(this).val();
             $(this).parents('td').html(selectVal);
         })
+
+        // 将值传给 libaryList_2
+        // libaryList_2
+
     }
+
 // 编辑行
     function editThisRow(_this) {
         // 保存实体类别的值
@@ -884,3 +934,5 @@ $(function () {
         // 赋值给下拉框
         selectObj.val(tdText_2)
     }
+
+

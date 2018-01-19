@@ -652,7 +652,7 @@ def get_perceive_data(table,field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = 'select * from %s group by entity_name where status<2 order by date desc'%table
+	sql = 'select * from %s where status<2 group by entity_name order by date desc'%table
 	cur.execute(sql)
 	res = cur.fetchall()
 	result = [{k:row[i] for i,k in enumerate(field)} for row in res]
@@ -739,7 +739,8 @@ def OutStorage(table, entity_id):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = 'update %s set status=2 where entity_id=%d'%(table,entity_id)
+	sql = 'update %s set status=2 where id=%d'%(table,entity_id)
+	cur.execute(sql)
 	dict = {'status':'ok'}
 	return dict
 
