@@ -20,6 +20,7 @@ TABLE_SENSOR = 'sensor_daily'
 TABLE_MONITOR = 'monitor_daily'
 TABLE_OPERATION_LIST = 'operation_list'
 TABLE_ILLEGAL_LIST = 'illegal_list'
+HOST = "219.224.134.214"
 
 
 RISK_LEVEL = 80
