@@ -8,9 +8,10 @@ import pymysql as mysql
 from pybloom import ScalableBloomFilter
 import time
 from xpinyin import Pinyin
+from economy.config import *
 
 #conn = mysql.connect(host="0.0.0.0",user="root",password="root",db="db",charset='utf8')
-# conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+# conn = mysql.connect(host=host,user="root",password="",db="itfin",charset='utf8')
 # conn.autocommit(True)
 # cur = conn.cursor()
 p = Pinyin()
@@ -18,7 +19,7 @@ p = Pinyin()
 #实体画像
 def get(table1,table2,table3,table4,table5,field,operation_mode,illegal_type,entity_type,warn_distribute):
 	#table1: entity_list	 table2: plat_detail 	table3: company_detail 		table4: project_detail
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql1 = "select el.id,el.entity_name,el.entity_type,pd.operation_mode,gs.province,gs.city,gs.district,pd.date,pd.illegal_type from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where gs.date=(select max(date) from %s) and el.monitor_status='1' and pd.date=(select max(date) from %s as a) and pd.operation_mode=%d and pd.illegal_type=%d and el.entity_type=%d and gs.province='%s'" % (table1,table2,table5,table5,table2,operation_mode,illegal_type,entity_type,warn_distribute)
@@ -55,7 +56,7 @@ def get(table1,table2,table3,table4,table5,field,operation_mode,illegal_type,ent
 	return result
 
 def get_platform(table0,table,field):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = "select pd.id,pd.entity_name,pd.illegal_type,el.entity_type from %s as el inner join %s as pd on el.id=pd.entity_id where pd.illegal_type>0" % (table0, table)
@@ -65,7 +66,7 @@ def get_platform(table0,table,field):
 	return data
 
 def get_company(table0,table,field):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = "select cd.id,cd.entity_name,cd.illegal_type,el.entity_type from %s as el inner join %s as cd on el.id=cd.entity_id where cd.illegal_type>0" % (table0, table)
@@ -75,7 +76,7 @@ def get_company(table0,table,field):
 	return data
 
 def get_project(table0,table,field):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = "select p.id,p.entity_name,p.illegal_type,el.entity_type from %s as el inner join %s as p on el.id=p.entity_id where p.illegal_type>0" % (table0, table)
@@ -85,7 +86,7 @@ def get_project(table0,table,field):
 	return data
 
 def get_monitor_count(table):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql1 = "select count(*) from %s where monitor_status=1"%table
@@ -106,7 +107,7 @@ def get_monitor_count(table):
 
 def get_portrait(table1,table2,table3,table4,table5,field,letter):
 	result = []
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql1 = "select el.id,el.entity_name,el.entity_type,el.location,pd.operation_mode,gs.province,gs.city,gs.district,pd.date,pd.illegal_type from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where pd.date=gs.date and pd.date=(select max(date) from %s as a)" % (table1,table2,table5,table2)
@@ -137,7 +138,7 @@ def get_portrait(table1,table2,table3,table4,table5,field,letter):
 
 #实体详情页
 def platform_detail(table1,table2,table3,id,field):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = "select * from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where el.id=%d and pd.date=(select max(date) from %s as a)" % (table1,table2,table3,id,table2)
@@ -147,7 +148,7 @@ def platform_detail(table1,table2,table3,id,field):
 	return data
 
 def company_detail(table1,table2,table3,id,field):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = "select * from %s as el inner join %s as cd on el.id=cd.entity_id inner join %s as gs on el.id=gs.entity_id where el.id=%d and cd.date=(select max(date) from %s as a)" % (table1,table2,table3,id,table2)
@@ -157,7 +158,7 @@ def company_detail(table1,table2,table3,id,field):
 	return data
 
 def project_detail(table1,table2,table3,id,field):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = "select * from %s as el inner join %s as p on el.id=p.entity_id inner join %s as gs on el.id=gs.entity_id where el.id=%d and p.date=(select max(date) from %s as a)" % (table1,table2,table3,id,table2)
@@ -168,7 +169,7 @@ def project_detail(table1,table2,table3,id,field):
 
 
 def get_ad(table,id,field):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = "select * from %s where entity_id=%d and date <= (select max(date) from %s as a)" % (table,id,table)
@@ -178,7 +179,7 @@ def get_ad(table,id,field):
 	return data
 
 def get_comment(table,id,field):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = "select * from %s where entity_id=%d and date <= (select max(date) from %s as a)" % (table,id,table)
@@ -188,7 +189,7 @@ def get_comment(table,id,field):
 	return data
 
 def get_gongshang(table,id,field):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = "select * from %s where entity_id=%d and date=(select max(date) from %s as a)" % (table,id,table)
@@ -198,7 +199,7 @@ def get_gongshang(table,id,field):
 	return data
 
 def get_guarantee(table,id,field):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = "select * from %s where entity_id=%d and date=(select max(date) from %s as a)" % (table,id,table)
@@ -209,7 +210,7 @@ def get_guarantee(table,id,field):
 
 def get_return_rate(table1,table2,id,field):
 	#table1: return_rate 	table2: plat/company/project_detail
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = "select a.id,a.entity_id,a.entity_name,a.date,a.return_type,a.return_rate,a.related_text,a.index_name,a.text_id,a.rule_id,b.avg_return from %s as a inner join %s as b on a.entity_id=b.entity_id where a.entity_id=%d and a.date=(select max(date) from %s as a)" % (table1,table2,id,table1)
@@ -222,7 +223,7 @@ def get_return_rate(table1,table2,id,field):
 def get_risk_comment_table(table1,table2,table3,entity_id,type,field):
 	result = []
 	dict = {}
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	if type == 1:
@@ -261,7 +262,7 @@ def get_risk_comment_table(table1,table2,table3,entity_id,type,field):
 
 
 def EditDetail(table1, table2, dict):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="zyz",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = 'update %s as a inner join %s as b on a.entity_id=b.entity_id set a.operation_mode=%d,b.regist_address="%s",b.set_time="%s",b.legal_person="%s",b.capital="%s",a.company="%s" where a.entity_id=%d and a.date="%s" and b.date="%s"'%(table1,table2,dict['operation_mode'],dict['regist_address'],dict['set_time'],dict['legal_person'],dict['capital'],dict['company'],dict['entity_id'],dict['date'],dict['gs_date'])
@@ -273,7 +274,7 @@ def EditDetail(table1, table2, dict):
 
 
 def EditReturnRate(table,return_rate,entity_id):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="zyz",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	return_rate = return_rate/100
@@ -284,7 +285,7 @@ def EditReturnRate(table,return_rate,entity_id):
 
 
 def EditRelatedPlat(table,entity_id,related_plat,date):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="zyz",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	related_plat = related_plat.replace('，','')
@@ -295,7 +296,7 @@ def EditRelatedPlat(table,entity_id,related_plat,date):
 
 
 def EditRelatedCompany(table,entity_id,related_company,date):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="zyz",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	related_company = related_company.replace('，','')
@@ -308,7 +309,7 @@ def EditRelatedCompany(table,entity_id,related_company,date):
 
 #监测预警
 def getDetectData(date,table1,table2,table3,field,risk_level,operation_mode,illegal_type,entity_type,warn_distribute):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = "select max(date) from %s"%table3
@@ -347,7 +348,7 @@ def getDetectData(date,table1,table2,table3,field,risk_level,operation_mode,ille
 '''
 
 def getDetectRank(table, date, field, risk_level, entity_type):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = "select max(date) from %s"%table
@@ -365,7 +366,7 @@ def getDetectRank(table, date, field, risk_level, entity_type):
 	return result
 
 def getDetectDistribute(date,table,table4,field,risk_level):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = "select max(date) from %s"%table
@@ -410,7 +411,7 @@ def getDetectDistribute(date,table,table4,field,risk_level):
 	return list
 
 def getWarnCount(table,risk_level):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = "select max(date) from %s"%table
@@ -439,7 +440,7 @@ def getWarnCount(table,risk_level):
 
 
 def getWarnType(table, table2, risk_level, date, field, illegal_type, entity_type, operation_mode, warn_distribute):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = 'select max(date) from %s'%table
@@ -466,7 +467,7 @@ def getWarnType(table, table2, risk_level, date, field, illegal_type, entity_typ
 
 
 def GetTimeDistribute(table, table2, risk_level, date, illegal_type, entity_type, operation_mode, warn_distribute):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	list = []
@@ -502,7 +503,7 @@ def GetTimeDistribute(table, table2, risk_level, date, illegal_type, entity_type
 
 # 首页
 def h_getWarnCount(table, field, risk_level):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = "select max(date) from %s"%table
@@ -522,7 +523,7 @@ def h_getWarnCount(table, field, risk_level):
 
 
 def get_city_rank(table,table4,field,province_name,risk_level):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	city_list = []
@@ -577,7 +578,7 @@ def get_city_rank(table,table4,field,province_name,risk_level):
 
 
 def get_province_rank(table,table4,field,risk_level):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	list = []
@@ -623,7 +624,7 @@ def get_province_rank(table,table4,field,risk_level):
 
 
 def getTimeDistribute(table,risk_level):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	list = []
@@ -648,11 +649,11 @@ def getTimeDistribute(table,risk_level):
 
 #感知入库
 def get_perceive_data(table,field):
-	#conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	#conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = 'select * from %s group by entity_name where status<2 order by date desc'%table
+	sql = 'select * from %s where status<2 group by entity_name order by date desc'%table
 	cur.execute(sql)
 	res = cur.fetchall()
 	result = [{k:row[i] for i,k in enumerate(field)} for row in res]
@@ -660,7 +661,7 @@ def get_perceive_data(table,field):
 
 
 def p_getWarnCount(table,field):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = 'select entity_type,count(*) from %s where date=(select max(date) from sensor_daily as sd) group by entity_type'%table
@@ -671,7 +672,7 @@ def p_getWarnCount(table,field):
 
 
 def Edit(table,entity_id,entity_name,entity_type,company,related_person,keyword):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	related_person = related_person.replace('，','')
@@ -689,7 +690,7 @@ def Edit(table,entity_id,entity_name,entity_type,company,related_person,keyword)
 
 
 def Add(table, entity_id):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = 'update %s set status=1 where id=%d'%(table, entity_id)
@@ -699,7 +700,7 @@ def Add(table, entity_id):
 
 
 def Cancel(table, entity_id):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = 'update %s set status=0 where id=%d'%(table, entity_id)
@@ -709,7 +710,7 @@ def Cancel(table, entity_id):
 
 
 def OnceInStorage(table, list):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = 'update %s set status=1 where id=%d'%(table,list[0])
@@ -721,7 +722,7 @@ def OnceInStorage(table, list):
 
 
 def InStorage(table, list):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	date = time.localtime(int(time.time()))
@@ -736,10 +737,11 @@ def InStorage(table, list):
 
 
 def OutStorage(table, entity_id):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = 'update %s set status=2 where entity_id=%d'%(table,entity_id)
+	sql = 'update %s set status=2 where id=%d'%(table,entity_id)
+	cur.execute(sql)
 	dict = {'status':'ok'}
 	return dict
 
@@ -747,7 +749,7 @@ def OutStorage(table, entity_id):
 
 #下拉框
 def operationModeBox(table, field):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = 'select * from %s'%table
@@ -757,7 +759,7 @@ def operationModeBox(table, field):
 	return data
 
 def illegalTypeBox(table, field):
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
+	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
 	sql = 'select * from %s'%table
