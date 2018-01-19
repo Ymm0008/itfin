@@ -159,6 +159,34 @@
     function getLocalTime(nS) {
         return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日|上午|下午/g, " ");
     }
+    // ====lvlei====时间戳转时间
+        Date.prototype.Format = function (fmt) { //author: meizz
+            var o = {
+                "M+": this.getMonth() + 1, //月份
+                "d+": this.getDate(), //日
+                "H+": this.getHours(), //小时
+                "m+": this.getMinutes(), //分
+                "s+": this.getSeconds(), //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+        //时间戳转时间【年月日】
+        function getLocalTime_1(nS) {
+            // return new Date(parseInt(nS) * 1000).toLocaleDateString().replace(/年|月/g, "-");
+            // return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
+            return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd");//年月日
+            // return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd HH:mm:ss");//年月日 时分秒
+        }
+        // 【年月日时分秒】
+        function getLocalTime_2(nS) {
+            return new Date(parseInt(nS) * 1000).Format("yyyy-MM-dd HH:mm:ss");//年月日 时分秒
+        }
+    // ====lvlei====
     //去除空格
     function delSpace(str){
         var str=str.replace(/<\/?[^>]*>/gim,"");//去掉所有的html标记
