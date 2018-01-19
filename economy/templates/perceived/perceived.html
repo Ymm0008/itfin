@@ -129,7 +129,7 @@
         <div class="felling">
             <h3 style="color: white;display: inline-block;">
                 <i class="icon icon-bar-chart"></i>&nbsp;感知推荐
-                <span class="oneLibrary btn btn-primary" disabled="disabled" title="请勾选后再添加入库"
+                <span id="oneLibrary_1" class="oneLibrary btn btn-primary" disabled="disabled" title="请勾选后再添加入库"
                       style="margin-left: 20px;vertical-align: middle;">一键入库</span>
             </h3>
             <div class="fellTable" style="margin-top: 20px;">
@@ -142,7 +142,7 @@
     <div class="section secondScreen">
         <h3 style="color: white;margin-top: 20px;">
             <i class="icon icon-cloud-upload"></i>&nbsp;添加入库
-            <span class="oneAdd btn btn-primary" disabled="disabled" title="请添加后再入库"
+            <span id="oneLibrary_2" class="oneAdd btn btn-primary" disabled="disabled" title="请添加后再入库"
                   style="margin-left:20px;vertical-align: middle;">一键入库</span>
             <span class="oneAdd btn btn-primary" title="导入文件"
                   style="margin-left:20px;vertical-align: middle;">批量添加</span>
@@ -150,7 +150,12 @@
         <div class="newAdd">
             <input type="text" class="add-1" placeholder="实体名称">
             <input type="text" class="add-2" placeholder="推荐理由">
-            <input type="text" class="add-3" placeholder="实体类型">
+            <!-- <input type="text" class="add-3" placeholder="实体类型"> -->
+            <select class="add-3">
+                <option value="1">平台</option>
+                <option value="2">公司</option>
+                <option value="3">项目</option>
+            </select>
             <input type="text" class="add-4" placeholder="注册公司">
             <input type="text" class="add-5" placeholder="相关人物">
             <input type="text" class="add-6" placeholder="其他关键词">
@@ -211,10 +216,10 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" >确定修改吗？</h4>
             </div>
-            <!-- <div class="modal-body" id="perceiveContent_in">
-            </div> -->
+            <div class="modal-body" id="Sure_2box_body" style="display:none;">
+            </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="cancle">取消</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal" id="Sure_2">确定</button>
                 <!-- <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> -->
             </div>
@@ -257,8 +262,8 @@
         'loopBottom':'true',
         'navigationPosition': 'right',
         'navigationTooltips': ['预警记录','预警态势'],
-        'fixedElements':'#nav',
-
+        'fixedElements':'#nav,#Sure_2box',// 不跟随滚动的元素
+                                        //鼠标在此元素 不滚屏
         'normalScrollElements':'#perceiveContent .modal-dialog'
     });
 

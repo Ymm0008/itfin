@@ -48,6 +48,7 @@
         $('#container .secondScreen .box').css({'max-height':'510px','min-height':'510px'})
         pageData=10;
     }
+
 // ====一屏表格====
     var fellTable_url='/perceived/perceiveData/';
     public_ajax.call_request('get',fellTable_url,fellTable);
@@ -60,6 +61,7 @@
             }
         }
     };
+
     var libaryList=[];
     function fellTable(data) {
         if(data){
@@ -224,380 +226,494 @@
                     },
                 ],
                 onCheck:function (row) {
-                    libaryList.push(row.a);testLib()
+                    libaryList.push(row.id);
+                    console.log(libaryList);
+                    testLib()
                 },
                 onUncheck:function (row) {
-                    libaryList.removeByValue(row.a);testLib()
+                    libaryList.removeByValue(row.id);
+                    console.log(libaryList);
+                    testLib()
                 },
-                onCheckAll:function (row) {
-                    libaryList.push(row.a);testLib()
+                onCheckAll:function (row) { //修改版 //☆☆☆☆☆☆☆☆全选 方法 需遍历row取值☆☆☆☆☆☆☆☆
+                    // console.log(row);
+                    // console.log(row.id);
+                    // libaryList.push(row.id);
+
+                    // 先清空再添加
+                    libaryList.length = 0;
+                    for(var i=0;i<row.length;i++){
+                        libaryList.push(row[i].id);
+                    }
+                    console.log(libaryList);
+                    testLib()
                 },
                 onUncheckAll:function (row) {
-                    libaryList.removeByValue(row.a);testLib()
+                    libaryList.length = 0;
+                    console.log(libaryList);
+                    testLib()
                 },
+                onPageChange:function(){
+                    //翻页之后
+                    // libaryList.removeByValue(row.id);testLib()
+                    // console.log(libaryList);
+                    libaryList.length = 0;
+                    console.log(libaryList);
+                    testLib()
+                    // console.log(libaryList);
+                }
             });
         }
     };
 
 //进入画像
-function jumpFrame_1(name,type,id) {
-    // var html='';
-    // name=escape(name);
-    // if (type=='1'||type=='2'){
-    //     html='/index/company/?name='+name+'&flag='+type+'&pid='+id;
-    // }else {
-    //     html='/index/project/?name='+name+'&flag='+type+'&pid='+id;
-    // }
-    // window.location.href=html;
-}
+    function jumpFrame_1(name,type,id) {
+        // var html='';
+        // name=escape(name);
+        // if (type=='1'||type=='2'){
+        //     html='/index/company/?name='+name+'&flag='+type+'&pid='+id;
+        // }else {
+        //     html='/index/project/?name='+name+'&flag='+type+'&pid='+id;
+        // }
+        // window.location.href=html;
+    }
+
 //可以入库不！？
-function testLib() {
-    if (libaryList.length==0){
-        $('.oneLibrary').attr('disabled','disabled');
-    }else {
-        $('.oneLibrary').removeAttr('disabled');
+    function testLib() {
+        if (libaryList.length==0){
+            $('#oneLibrary_1').attr('disabled','disabled');
+        }else {
+            $('#oneLibrary_1').removeAttr('disabled');
+        }
     }
-}
-//编辑
-function editThis(id,entity_name,rec_type,entity_type,company,related_person,key_words) {
-    $('#editRow').modal('show');
-    $('.modal-backdrop').css({position:'static'});
-
-    // 值 渲染到模态框
-    if(entity_name == 'null'){
-        entity_name = '未知'
-    }
-    if(company == 'null'){
-        company = '未知'
-    }
-    if(related_person == 'null'){
-        related_person = '未知'
-    }
-    if(key_words == 'null'){
-        key_words = '未知'
-    }
-    // $('#editRow .user-1 input').attr('placeholder',entity_name);
-    $('#editRow .user-1 input').attr('value',entity_name);
-
-    $("#editRow .user-3 select option[value='"+entity_type+"']").attr('selected',"selected");
-    // $("#select_id option[value='"+msg.data.categoryId+"']").attr("selected","selected");根据值让option选中
-    $('#editRow .user-4 input').attr('value',company);
-    $('#editRow .user-5 input').attr('value',related_person);
-    $('#editRow .user-6 input').attr('value',key_words);
-
-    //点击确定弹出二次确定
-    $('#Sure_1').click(function(){
-        // console.log($('#editRow .user-1 input').val());
-        var new_entity_name = $('#editRow .user-1 input').val();
-        var new_entity_type = $('#editRow .user-3 select').val();
-        var new_companye = $('#editRow .user-4 input').val();
-        var new_related_person = $('#editRow .user-5 input').val();
-        var new_key_words = $('#editRow .user-6 input').val();
-        if(new_entity_name == ''){
-            $('#editRow .user-1 .prompt').text('不得为空')
+    $('#oneLibrary_1').click(function(){
+        if($('#oneLibrary_1').attr('disabled') == 'disabled'){
             return false;
         }else {
-            if(new_companye == '未知' || new_companye === ''){
-                new_companye = 'null';
-            }
-            if(new_related_person == '未知' || new_related_person === ''){
-                new_related_person = 'null';
-            }
-            if(new_key_words == '未知' || new_key_words === ''){
-                new_key_words = 'null';
-            }
-            $('#Sure_2box').modal('show');
-            $('.modal-backdrop').css({position:'static'});
-            $('#Sure_2').click(function(){
-                // console.log(id);
-                var Edit_url = '/perceived/Edit/?entity_id='+id+'&entity_name='+new_entity_name+'&entity_type='+new_entity_type+'&company='+new_companye+'&related_person='+new_related_person+'&keyword='+new_key_words;
-                // console.log(Edit_url);
-                public_ajax.call_request('get',Edit_url,Edit);
+            var OnceInStorage_url = '/perceived/OnceInStorage/';
+            // var LL_data = [762,752,751,747,746];//测试
+            $.ajax({
+                url:OnceInStorage_url,
+                type:'POST',
+                contentType:'application/json',
+                // data:JSON.stringify(LL_data),
+                data:JSON.stringify(libaryList),
+                dataType:'json',
+                success:function(data){
+                    // console.log(data);
+                    if(data.status == 'ok'){
+                        // 重新渲染表格
+                        var fellTable_url='/perceived/perceiveData/';
+                        public_ajax.call_request('get',fellTable_url,fellTable);
+                    }
+                }
             })
-
         }
     })
-}
-function Edit(data){
-    // console.log(data);
-    if(data.status == 'ok'){
-        console.log('编辑成功');
-        // 重新渲染表格
-        var fellTable_url='/perceived/perceiveData/';
-        public_ajax.call_request('get',fellTable_url,fellTable);
-    }
-}
 
+// ====编辑
+    function editThis(id,entity_name,rec_type,entity_type,company,related_person,key_words) {
+        $('#editRow').modal('show');
+        $('.modal-backdrop').css({position:'static'});
 
-//添加入库
-function addThis(id) {
-    var add_url = '/perceived/Add/?entity_id='+id;
-    public_ajax.call_request('get',add_url,AddSuccess);
-}
-function AddSuccess(data){
-    if(data.status == 'ok'){
-        // alert('添加入库成功')
-        // 重新渲染表格
-        var fellTable_url='/perceived/perceiveData/';
-        public_ajax.call_request('get',fellTable_url,fellTable);
-    }
-}
+        // 值 渲染到模态框
+        if(entity_name == 'null'){
+            entity_name = '未知'
+        }
+        if(company == 'null'){
+            company = '未知'
+        }
+        if(related_person == 'null'){
+            related_person = '未知'
+        }
+        if(key_words == 'null'){
+            key_words = '未知'
+        }
+        // $('#editRow .user-1 input').attr('placeholder',entity_name);
+        $('#editRow .user-1 input').attr('value',entity_name);
 
-// 取消入库
-function cancelThis(id) {
-    var cancel_url = '/perceived/Cancel/?entity_id='+id;
-    public_ajax.call_request('get',cancel_url,CancelSuccess);
-}
-function CancelSuccess(data){
-    if(data.status == 'ok'){
-        // alert('添加入库成功')
-        // 重新渲染表格
-        var fellTable_url='/perceived/perceiveData/';
-        public_ajax.call_request('get',fellTable_url,fellTable);
+        $("#editRow .user-3 select option[value='"+entity_type+"']").attr('selected',"selected");
+        // $("#select_id option[value='"+msg.data.categoryId+"']").attr("selected","selected");根据值让option选中
+        $('#editRow .user-4 input').attr('value',company);
+        $('#editRow .user-5 input').attr('value',related_person);
+        $('#editRow .user-6 input').attr('value',key_words);
+
+        //点击确定弹出二次确定
+        $('#Sure_1').click(function(){
+            // console.log($('#editRow .user-1 input').val());
+            var new_entity_name = $('#editRow .user-1 input').val();
+            var new_entity_type = $('#editRow .user-3 select').val();
+            var new_companye = $('#editRow .user-4 input').val();
+            var new_related_person = $('#editRow .user-5 input').val();
+            var new_key_words = $('#editRow .user-6 input').val();
+            if(new_entity_name == ''){
+                $('#editRow .user-1 .prompt').text('不得为空')
+                return false;
+            }else {
+                if(new_companye == '未知' || new_companye === ''){
+                    new_companye = 'null';
+                }
+                if(new_related_person == '未知' || new_related_person === ''){
+                    new_related_person = 'null';
+                }
+                if(new_key_words == '未知' || new_key_words === ''){
+                    new_key_words = 'null';
+                }
+                $('#Sure_2box').modal('show');
+                $('.modal-backdrop').css({position:'static'});
+                $('#Sure_2').click(function(){
+                    // console.log(id);
+                    var Edit_url = '/perceived/Edit/?entity_id='+id+'&entity_name='+new_entity_name+'&entity_type='+new_entity_type+'&company='+new_companye+'&related_person='+new_related_person+'&keyword='+new_key_words;
+                    // console.log(Edit_url);
+                    public_ajax.call_request('get',Edit_url,Edit);
+                })
+
+            }
+        })
     }
-}
+    function Edit(data){
+        // console.log(data);
+        if(data.status == 'ok'){
+            // console.log('编辑成功');
+            // 重新渲染表格
+            var fellTable_url='/perceived/perceiveData/';
+            public_ajax.call_request('get',fellTable_url,fellTable);
+        }
+    }
+
+// ====添加入库
+    function addThis(id) {
+        var add_url = '/perceived/Add/?entity_id='+id;
+        public_ajax.call_request('get',add_url,AddSuccess);
+    }
+    function AddSuccess(data){
+        if(data.status == 'ok'){
+            // alert('添加入库成功')
+            // 重新渲染表格
+            var fellTable_url='/perceived/perceiveData/';
+            public_ajax.call_request('get',fellTable_url,fellTable);
+        }
+    }
+
+// ====取消入库
+    function cancelThis(id) {
+        var cancel_url = '/perceived/Cancel/?entity_id='+id;
+        public_ajax.call_request('get',cancel_url,CancelSuccess);
+    }
+    function CancelSuccess(data){
+        if(data.status == 'ok'){
+            // alert('添加入库成功')
+            // 重新渲染表格
+            var fellTable_url='/perceived/perceiveData/';
+            public_ajax.call_request('get',fellTable_url,fellTable);
+        }
+    }
 
 //====查看文本====
-function lookThis(text_id,index_name) {
-    if(text_id != '' && index_name != ''){
-        var perceiveContent_url = '/perceived/perceiveContent/?text_id='+text_id+'&index_name='+index_name;
-        public_ajax.call_request('get',perceiveContent_url,perceiveContent);
-    }else{
-        console.log('====暂无更多内容====')
+    function lookThis(text_id,index_name) {
+        if(text_id != '' && index_name != ''){
+            var perceiveContent_url = '/perceived/perceiveContent/?text_id='+text_id+'&index_name='+index_name;
+            public_ajax.call_request('get',perceiveContent_url,perceiveContent);
+        }else{
+            console.log('====暂无更多内容====')
+        }
     }
-}
-// 所有的数据
-var articalList={};
-// 部分数据
-var articalList_part={};
-function perceiveContent(data){
-    if(data){
-        var tag='#perceiveContent_in'.toString().substring(1)
-        $('#perceiveContent_in').empty();
-        $('#perceiveContent_in').bootstrapTable('load', data);
-        $('#perceiveContent_in').bootstrapTable({
-            data:data,
-            search: false,//是否搜索
-            pagination: false,//是否分页
-            pageSize: 5,//单页记录数
+    // 所有的数据
+    var articalList={};
+    // 部分数据
+    var articalList_part={};
+    function perceiveContent(data){
+        if(data){
+            var tag='#perceiveContent_in'.toString().substring(1)
+            $('#perceiveContent_in').empty();
+            $('#perceiveContent_in').bootstrapTable('load', data);
+            $('#perceiveContent_in').bootstrapTable({
+                data:data,
+                search: false,//是否搜索
+                pagination: false,//是否分页
+                pageSize: 5,//单页记录数
+                pageList: [15,20,25],//分页步进值
+                sidePagination: "client",//服务端分页
+                searchAlign: "left",
+                searchOnEnterKey: false,//回车搜索
+                showRefresh: false,//刷新按钮
+                showColumns: false,//列选择按钮
+                buttonsAlign: "right",//按钮对齐方式
+                locale: "zh-CN",//中文支持
+                detailView: false,
+                showToggle:false,
+                sortName:'bci',
+                sortOrder:"desc",
+                columns: [
+                    {
+                        title: "",//标题
+                        field: "",//键名
+                        sortable: true,//是否可排序
+                        order: "desc",//默认排序方式
+                        align: "center",//水平
+                        valign: "middle",//垂直
+                        formatter: function (value, row, index) {
+                            var publisTime = getLocalTime_2(row.publish_time);
+                            var contentClip, title, author, usn;
+                            if(row.content.length >= 100){
+                                contentClip = row.content.slice(0,100)+'  ...';
+                                articalList_part[tag+'_'+index] = contentClip;
+                            }else{
+                                contentClip = row.content;
+                                articalList_part[tag+'_'+index] = contentClip;
+                            }
+                            // 所有的数据
+                            articalList[tag+'_'+index] = row.content;
+
+                            if(row.title){//标题
+                                title = row.title;
+                            }else{
+                                title = '未知';
+                            }
+
+                            if(row.author){//作者
+                                author = row.author;
+                            }else{
+                                author = '未知';
+                            }
+
+                            if(row.usn){//用户
+                                usn = row.usn;
+                            }else{
+                                usn = '未知';
+                            }
+
+                            var url;//原文链接
+                            if(row.u){
+                                url = row.u;
+                            }else if(row.url){
+                                url = row.url;
+                            }
+
+                            return '<div class="inforContent">'+
+                                '            <div class="main">'+
+                                '                <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
+                                '                <p class="option clearfix">'+
+                                '                    <span style="display:inline-block;width:100%;">标题：<b style="vertical-align:middle;color: #ff6d70;display:inline-block;width:50%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" title="\''+title+'\'">'+title+'</b><button onclick="getAllArtical(\''+tag+'_'+index+'\')" artical=\"'+tag+'_'+index+'\" class="original btn-primary btn-xs" style="margin-left:10px;">查看全文</button>'+'</span>'+
+                                '                    <span>发布时间：<b style="color: #ff6d70;">'+publisTime+'</b></span><br />'+
+                                // '                    <span style="display:inline-block;width:49%;">作者：<b style="color: #ff6d70;">'+author+'</b></span>'+
+
+                                // '   <button onclick="getAllArtical(\''+tag+'_'+index+'\')" artical=\"'+tag+'_'+index+'\" class="original btn-primary btn-xs" style="float:right;">查看全文</button>'+
+                                '                    <span>用户：<b style="color: #ff6d70;">'+usn+'</b></span>'+
+                                '                </p>'+
+                                '                <p class="context" style="overflow:auto;max-height:200px;text-indent:2em;">'+contentClip+'</p>'+
+                                '                <a href="'+url+'" title="原网页链接" target="_blank">原网页链接</a>            '+
+                                '            </div>'+
+                                '        </div>';
+                        }
+                    },
+                ],
+            });
+
+            $('#perceiveContent').modal('show');
+            $('.modal-backdrop').css({position:'static'});
+        }
+    }
+    // 切换全文和部分数据
+    function getAllArtical (_id) {
+        var nowText = $("button[artical = "+ _id +"]").text();
+        // console.log(articalList[_id]);
+        $("button[artical = "+ _id +"]").parents('.main').find('.context').text(articalList[_id]);
+        $("button[artical = "+ _id +"]").text('收起');
+        if(nowText == '收起'){
+            $("button[artical = "+ _id +"]").parents('.main').find('.context').text(articalList_part[_id]);
+            $("button[artical = "+ _id +"]").text('查看全文');
+        }
+    }
+
+
+// ------二屏---------
+
+//添加入库
+//文档准备就绪
+$(function () {
+    // 删除json数组元素的方法
+
+
+
+    // 展示空表格的数据
+        var L_data = [
+                {'entity_name':'','rec_type':'','entity_type':'','company':'','related_person':'','key_words':''},
+                {'entity_name':'','rec_type':'','entity_type':'','company':'','related_person':'','key_words':''},
+                {'entity_name':'','rec_type':'','entity_type':'','company':'','related_person':'','key_words':''},
+                {'entity_name':'','rec_type':'','entity_type':'','company':'','related_person':'','key_words':''},
+                {'entity_name':'','rec_type':'','entity_type':'','company':'','related_person':'','key_words':''},
+                {'entity_name':'','rec_type':'','entity_type':'','company':'','related_person':'','key_words':''},
+            ];
+
+        var libaryList_2=[]; //用于传给后台的数据
+
+        $('#addClub').bootstrapTable({
+            data:L_data,
+            uniqueId:'entity_name', //☆☆☆☆☆☆☆☆根据 removeByuniqueId 方法删除行 需设置uniqueId☆☆☆☆☆☆☆☆
+            // search: true,//是否搜索
+            pagination: true,//是否分页
+            pageSize: 6,//单页记录数
             pageList: [15,20,25],//分页步进值
             sidePagination: "client",//服务端分页
             searchAlign: "left",
-            searchOnEnterKey: false,//回车搜索
-            showRefresh: false,//刷新按钮
-            showColumns: false,//列选择按钮
+            // searchOnEnterKey: false,//回车搜索
+            // showRefresh: false,//刷新按钮
+            // showColumns: false,//列选择按钮
             buttonsAlign: "right",//按钮对齐方式
             locale: "zh-CN",//中文支持
             detailView: false,
             showToggle:false,
-            sortName:'bci',
-            sortOrder:"desc",
+            sortable:false,
+            sortStable:false,
+            // sortName:'bci',
+            // sortOrder:"desc",
+            // uniqueid:'a',
             columns: [
                 {
-                    title: "",//标题
-                    field: "",//键名
+                    title: "入库",//标题
+                    field: "select",
+                    checkbox: true,
+                    align: "center",//水平
+                    valign: "middle"//垂直
+                },
+                {
+                    title: "实体名称",//标题
+                    field: "entity_name",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        var publisTime = getLocalTime_2(row.publish_time);
-                        var contentClip, title, author, usn;
-                        if(row.content.length >= 100){
-                            contentClip = row.content.slice(0,100)+'  ...';
-                            articalList_part[tag+'_'+index] = contentClip;
-                        }else{
-                            contentClip = row.content;
-                            articalList_part[tag+'_'+index] = contentClip;
-                        }
-                        // 所有的数据
-                        articalList[tag+'_'+index] = row.content;
-
-                        if(row.title){//标题
-                            title = row.title;
-                        }else{
-                            title = '未知';
-                        }
-
-                        if(row.author){//作者
-                            author = row.author;
-                        }else{
-                            author = '未知';
-                        }
-
-                        if(row.usn){//用户
-                            usn = row.usn;
-                        }else{
-                            usn = '未知';
-                        }
-
-                        var url;//原文链接
-                        if(row.u){
-                            url = row.u;
-                        }else if(row.url){
-                            url = row.url;
-                        }
-
-                        return '<div class="inforContent">'+
-                            '            <div class="main">'+
-                            '                <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
-                            '                <p class="option clearfix">'+
-                            '                    <span style="display:inline-block;width:100%;">标题：<b style="vertical-align:middle;color: #ff6d70;display:inline-block;width:50%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" title="\''+title+'\'">'+title+'</b><button onclick="getAllArtical(\''+tag+'_'+index+'\')" artical=\"'+tag+'_'+index+'\" class="original btn-primary btn-xs" style="margin-left:10px;">查看全文</button>'+'</span>'+
-                            '                    <span>发布时间：<b style="color: #ff6d70;">'+publisTime+'</b></span><br />'+
-                            // '                    <span style="display:inline-block;width:49%;">作者：<b style="color: #ff6d70;">'+author+'</b></span>'+
-
-                            // '   <button onclick="getAllArtical(\''+tag+'_'+index+'\')" artical=\"'+tag+'_'+index+'\" class="original btn-primary btn-xs" style="float:right;">查看全文</button>'+
-                            '                    <span>用户：<b style="color: #ff6d70;">'+usn+'</b></span>'+
-                            '                </p>'+
-                            '                <p class="context" style="overflow:auto;max-height:200px;text-indent:2em;">'+contentClip+'</p>'+
-                            '                <a href="'+url+'" title="原网页链接" target="_blank">原网页链接</a>            '+
-                            '            </div>'+
-                            '        </div>';
+                        if (row.entity_name==''||row.entity_name=='null'||row.entity_name=='unknown'||!row.entity_name){
+                            return '';
+                        }else {
+                            return row.entity_name;
+                        };
+                    }
+                },
+                {
+                    title: "推荐理由",//标题
+                    field: "rec_type",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.rec_type==''||row.rec_type=='null'||row.rec_type=='unknown'||!row.rec_type){
+                            return '';
+                        }else {
+                            return row.rec_type;
+                        };
+                    }
+                },
+                {
+                    title: "实体类别",//标题
+                    field: "entity_type",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.entity_type==''||row.entity_type=='null'||row.entity_type=='unknown'||!row.entity_type){
+                            return '';
+                        }else {
+                            return row.entity_type;
+                        };
+                    }
+                },
+                {
+                    title: "注册公司",//标题
+                    field: "company",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.company==''||row.company=='null'||row.company=='unknown'||!row.company){
+                            return '';
+                        }else {
+                            return row.company;
+                        };
+                    }
+                },
+                {
+                    title: "相关人物",//标题
+                    field: "related_person",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.related_person==''||row.related_person=='null'||row.related_person=='unknown'||!row.related_person){
+                            return '';
+                        }else {
+                            return row.related_person;
+                        };
+                    }
+                },
+                {
+                    title: "其他关键词",//标题
+                    field: "key_words",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.key_words==''||row.key_words=='null'||row.key_words=='unknown'||!row.key_words){
+                            return '';
+                        }else {
+                            return row.key_words;
+                        };
+                    }
+                },
+                {
+                    title: "操作",//标题
+                    field: "g",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.g==''||row.g=='null'||row.g=='unknown'||!row.g){
+                            return '';
+                        }else {
+                            return row.g;
+                        };
                     }
                 },
             ],
+            onCheck:function (row) {
+                libaryList_2.push({entity_name:row.entity_name,rec_type:row.rec_type,entity_type:row.entity_type,company:row.company,related_person:row.related_person,key_words:row.key_words});
+                // console.log(libaryList_2);
+                testLib_2()
+            },
+            onUncheck:function (row) {
+                // libaryList_2.removeByValue_2({entity_name:row.entity_name,rec_type:row.rec_type,entity_type:row.entity_type,company:row.company,related_person:row.related_person,key_words:row.key_words});
+                libaryList_2.removeByValue_2(row.entity_name);
+                // console.log(libaryList_2);
+                testLib_2()
+            },
+            onCheckAll:function (row) {//有问题  //修改版//☆☆☆☆☆☆☆☆全选 方法 需遍历row取值☆☆☆☆☆☆☆☆
+                // libaryList_2.push({entity_name:row.entity_name,rec_type:row.rec_type,entity_type:row.entity_type,company:row.company,related_person:row.related_person,key_words:row.key_words});
+                // libaryList_2.push(row.entity_name);
+
+                // 先清空 再添加
+                libaryList_2.length = 0;
+                for(var i=0;i<row.length;i++){
+                    libaryList_2.push({entity_name:row[i].entity_name,rec_type:row[i].rec_type,entity_type:row[i].entity_type,company:row[i].company,related_person:row[i].related_person,key_words:row[i].key_words});
+                }
+                // console.log(libaryList_2);
+                testLib_2()
+            },
+            onUncheckAll:function (row) {
+                // libaryList_2.removeByValue({entity_name:row.entity_name},{rec_type:row.rec_type},{entity_type:row.entity_type},{company:row.company},{related_person:row.related_person},{key_words:row.key_words});
+                libaryList_2.length = 0;
+                // console.log(libaryList_2);
+                testLib_2()
+            },
         });
 
-        $('#perceiveContent').modal('show');
-        $('.modal-backdrop').css({position:'static'});
-    }
-}
-// 切换全文和部分数据
-function getAllArtical (_id) {
-    var nowText = $("button[artical = "+ _id +"]").text();
-    // console.log(articalList[_id]);
-    $("button[artical = "+ _id +"]").parents('.main').find('.context').text(articalList[_id]);
-    $("button[artical = "+ _id +"]").text('收起');
-    if(nowText == '收起'){
-        $("button[artical = "+ _id +"]").parents('.main').find('.context').text(articalList_part[_id]);
-        $("button[artical = "+ _id +"]").text('查看全文');
-    }
-}
-
-//添加入库
-//文档准备就绪
-$(function () {
-    var L_data = [
-            {'a':'','b':'','c':'','d':'','e':'','f':'',},
-            {'a':'','b':'','c':'','d':'','e':'','f':''},
-            {'a':'','b':'','c':'','d':'','e':'','f':''},
-            {'a':'','b':'','c':'','d':'','e':'','f':''},
-            {'a':'','b':'','c':'','d':'','e':'','f':''},
-            {'a':'','b':'','c':'','d':'','e':'','f':''},
-        ];
-    $('#addClub').bootstrapTable({
-        data:L_data,
-        uniqueId:'a',
-        // search: true,//是否搜索
-        pagination: true,//是否分页
-        pageSize: 6,//单页记录数
-        pageList: [15,20,25],//分页步进值
-        sidePagination: "client",//服务端分页
-        searchAlign: "left",
-        // searchOnEnterKey: false,//回车搜索
-        // showRefresh: false,//刷新按钮
-        // showColumns: false,//列选择按钮
-        buttonsAlign: "right",//按钮对齐方式
-        locale: "zh-CN",//中文支持
-        detailView: false,
-        showToggle:false,
-        sortable:false,
-        sortStable:false,
-        // sortName:'bci',
-        // sortOrder:"desc",
-        // uniqueid:'a',
-        columns: [
-            {
-                title: "入库",//标题
-                field: "select",
-                checkbox: true,
-                align: "center",//水平
-                valign: "middle"//垂直
-            },
-            {
-                title: "实体名称",//标题
-                field: "a",//键名
-                sortable: true,//是否可排序
-                order: "desc",//默认排序方式
-                align: "center",//水平
-                valign: "middle",//垂直
-                formatter: function (value, row, index) {
-                    if (row.a==''||row.a=='null'||row.a=='unknown'||!row.a){
-                        return '';
-                    }else {
-                        return row.a;
-                    };
-                }
-            },
-            {
-                title: "推荐理由",//标题
-                field: "b",//键名
-                sortable: true,//是否可排序
-                order: "desc",//默认排序方式
-                align: "center",//水平
-                valign: "middle",//垂直
-            },
-            {
-                title: "实体类别",//标题
-                field: "c",//键名
-                sortable: true,//是否可排序
-                order: "desc",//默认排序方式
-                align: "center",//水平
-                valign: "middle",//垂直
-            },
-            {
-                title: "注册公司",//标题
-                field: "d",//键名
-                sortable: true,//是否可排序
-                order: "desc",//默认排序方式
-                align: "center",//水平
-                valign: "middle",//垂直
-            },
-            {
-                title: "相关人物",//标题
-                field: "e",//键名
-                sortable: true,//是否可排序
-                order: "desc",//默认排序方式
-                align: "center",//水平
-                valign: "middle",//垂直
-            },
-            {
-                title: "其他关键词",//标题
-                field: "f",//键名
-                sortable: true,//是否可排序
-                order: "desc",//默认排序方式
-                align: "center",//水平
-                valign: "middle",//垂直
-            },
-            {
-                title: "操作",//标题
-                field: "g",//键名
-                sortable: true,//是否可排序
-                order: "desc",//默认排序方式
-                align: "center",//水平
-                valign: "middle",//垂直
-                formatter: function (value, row, index) {
-                    if (row.g==''||row.g=='null'||row.g=='unknown'||!row.g){
-                        return '';
-                    }else {
-                        return row.g;
-                    };
-                }
-            },
-        ],
-        onCheck:function (row) {
-            libaryList.push(row.a);testLib()
-        },
-        onUncheck:function (row) {
-            libaryList.removeByValue(row.a);testLib()
-        },
-        onCheckAll:function (row) {
-            libaryList.push(row.a);testLib()
-        },
-        onUncheckAll:function (row) {
-            libaryList.removeByValue(row.a);testLib()
-        },
-    });
     //全选/反选
     // $('#cha').click(function () {
     //     //判断checkbox是否选中
@@ -607,15 +723,16 @@ $(function () {
     //         $('input[type="checkbox"]').removeAttr("checked");
     //     }
     // });
+
     //增加一行
     $('#add').click(function () {
         var one=$('.add-1').val();
-        var two=$('.add-2').val();
-        var three=$('.add-3').val();
+        var two=parseInt($('.add-2').val());
+        var three=parseInt($('.add-3').val());
         var four=$('.add-4').val();
         var five=$('.add-5').val();
         var six=$('.add-6').val();
-        var row = {'a':one,'b':two,'c':three,'d':four,'e':five,'f':six,'g':'<input type="button" value="编辑" class="btn-info btn btn-sm" onclick="editThisRow(this)">'+
+        var row = {'entity_name':one,'rec_type':two,'entity_type':three,'company':four,'related_person':five,'key_words':six,'g':'<input type="button" value="编辑" class="btn-info btn btn-sm" onclick="editThisRow(this)">'+
                             '       <input type="button" value="确定" class="btn-info btn btn-sm" onclick="sureThisRow(this)">'+
                             '       <input type="button" value="删除" class="btn-info btn btn-sm deleteone" onclick="delThisRow(\''+one+'\')">'}
         $('#addClub').bootstrapTable('insertRow',{index: 0, row: row});//在最开始插入新行
@@ -623,42 +740,120 @@ $(function () {
         // $('#addClub tbody tr:last').remove();
         $('#addClub tbody tr:first td').css({padding:'12px 8px'});
         $('#container .secondScreen .newAdd input').val('');//清空输入框
-        $('#addClub').bootstrapTable('removeByUniqueId','');
+        $('#addClub').bootstrapTable('removeByUniqueId','');//删除行的方法
     });
-})
-// 删除行
-function delThisRow(_thisOne) {
-    $('#addClub').bootstrapTable('removeByUniqueId',_thisOne);
-    var currentTrlen=$('#addClub tbody tr').length;
-    if (currentTrlen<6){
-        var row = {'a':'','b':'','c':'','d':'','e':'','f':'','g':''};
-        $('#addClub').bootstrapTable('insertRow',{index: 5, row: row});
+
+    //可以入库不！？
+    function testLib_2() {
+        // console.log(libaryList_2.length);
+        if (libaryList_2.length==0){
+            $('#oneLibrary_2').attr('disabled','disabled');
+        }else {
+            $('#oneLibrary_2').removeAttr('disabled');
+        }
     }
-}
-function sureThisRow(_this) {
-    var ttr=$(_this).parents("tr");
-    $(ttr).find('input[type="text"]').each(function () {
-        var inputVal = $(this).val();
-        $(this).parents('td').html(inputVal);
+
+    // 一键入库
+    $('#oneLibrary_2').click(function(){
+        if($('#oneLibrary_2').attr('disabled') == 'disabled'){
+            return false;
+        }else {
+            console.log(libaryList_2);
+
+            var InStorage_url = '/perceived/InStorage/';
+            $.ajax({
+                url:InStorage_url,
+                type:'POST',
+                contentType:'application/json',
+                // data:JSON.stringify(LL_data),
+                data:JSON.stringify(libaryList_2),
+                dataType:'json',
+                success:function(data){
+                    // console.log(data);
+                    if(data.status == 'ok'){
+                        // 重新渲染 一屏 表格
+                        var fellTable_url='/perceived/perceiveData/';
+                        public_ajax.call_request('get',fellTable_url,fellTable);
+                        // alert('添加成功');
+                        $('#Sure_2box .modal-header h4').text('提示信息:');
+                        $('#Sure_2box #Sure_2box_body').css('display','block');
+                        $('#Sure_2box #Sure_2box_body').empty().append('<center>添加成功</center>');
+                        $('#Sure_2box .modal-footer #cancle').css('display','none');
+                        $('#Sure_2box').modal('show');
+                        // $.fn.fullpage.setAllowScrolling(false);
+                        $('.modal-backdrop').css({'z-index':'static'});
+                        // 删除此行。。。
+                        console.log(libaryList_2);
+                        for(var i=0;i<libaryList_2.length;i++){
+                            console.log(libaryList_2[i].entity_name);
+                            delThisRow(libaryList_2[i].entity_name)
+                        }
+                        // delThisRow()
+
+                    }
+                }
+            })
+        }
     })
-}
-function editThisRow(_this) {
-    var ttr =$(_this).parents('tr');
-    ttr.find("td").each(function () {
-        if($(this).children("input[type='checkbox']").length>0){
-            return ;
+
+
+})
+
+// 删除行
+    function delThisRow(_thisOne) {
+        // console.log(_thisOne);
+        $('#addClub').bootstrapTable('removeByUniqueId',_thisOne);
+        var currentTrlen=$('#addClub tbody tr').length;
+        if (currentTrlen<6){
+            var row = {'entity_name':'','rec_type':'','entity_type':'','company':'','related_person':'','key_words':'','g':''};
+            $('#addClub').bootstrapTable('insertRow',{index: 5, row: row});
         }
-        if($(this).children("input[type='button']").length>0){
-            return ;
-        }
-        if($(this).children("input[type='text']").length>0){
-            return ;
-        }
-        var tdText = $(this).html();
-        $(this).html("");
-        var inputObj = $("<input type='text' class='editing'>");
-        inputObj.appendTo($(this));
-        inputObj.css("width","95%");
-        inputObj.val(tdText);
-    });
-}
+    }
+// 确定
+    function sureThisRow(_this) {
+        var ttr=$(_this).parents("tr");
+        $(ttr).find('input[type="text"]').each(function () {
+            var inputVal = $(this).val();
+            $(this).parents('td').html(inputVal);
+        })
+        // 存储下拉框的值
+        $(ttr).find('select').each(function () {
+            var selectVal = $(this).val();
+            $(this).parents('td').html(selectVal);
+        })
+    }
+// 编辑行
+    function editThisRow(_this) {
+        // 保存实体类别的值
+        var tdText_2 = $(_this).parents('tr').children('td').eq(3).html();
+
+        var ttr =$(_this).parents('tr');
+        ttr.find("td").each(function () {
+            if($(this).children("input[type='checkbox']").length>0){
+                return ;
+            }
+            if($(this).children("input[type='button']").length>0){
+                return ;
+            }
+            if($(this).children("input[type='text']").length>0){
+                return ;
+            }
+            var tdText = $(this).html();
+            $(this).html("");
+            var inputObj = $("<input type='text' class='editing'>");
+            inputObj.appendTo($(this));
+            inputObj.css("width","95%");
+            inputObj.val(tdText);
+        });
+        // 实体类型为下拉框
+        // var tdText_2 = $(_this).parents('tr').children('td').eq(3).html();
+        console.log(tdText_2);
+        var selectObj = $('<select class="add-3-2 editing">'+
+                    '<option value="1">平台</option>'+
+                    '<option value="2">公司</option>'+
+                    '<option value="3">项目</option>'+
+                '</select>')
+        $(_this).parents('tr').children('td').eq(3).html(selectObj);
+        // 赋值给下拉框
+        selectObj.val(tdText_2)
+    }

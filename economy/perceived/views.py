@@ -55,3 +55,15 @@ def cancel():
 	entity_id = int(request.args.get('entity_id'))
 	status = Cancel(TABLE_SENSOR, entity_id)
 	return json.dumps(status,ensure_ascii=False)
+
+@perceived.route('/OnceInStorage/',methods=['POST'])
+def once_in_storage():
+	list = request.get_json()
+	status = OnceInStorage(TABLE_SENSOR, list)
+	return json.dumps(status,ensure_ascii=False)
+
+@perceived.route('/InStorage/',methods=['POST'])
+def in_storage():
+	list = request.get_json()
+	status = InStorage(TABLE_SENSOR, list)
+	return json.dumps(status,ensure_ascii=False)

@@ -21,9 +21,9 @@ def get(table1,table2,table3,table4,table5,field,operation_mode,illegal_type,ent
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql1 = "select el.id,el.entity_name,el.entity_type,el.location,pd.operation_mode,gs.province,gs.city,gs.district,pd.date,pd.illegal_type from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where gs.date=(select max(date) from %s) and el.monitor_status='1' and pd.date=(select max(date) from %s as a) and pd.operation_mode=%d and pd.illegal_type=%d and el.entity_type=%d and gs.province='%s'" % (table1,table2,table5,table5,table2,operation_mode,illegal_type,entity_type,warn_distribute)
-	sql2 = "select el.id,el.entity_name,el.entity_type,el.location,cd.operation_mode,gs.province,gs.city,gs.district,cd.date,cd.illegal_type from %s as el inner join %s as cd on el.id=cd.entity_id inner join %s as gs on el.id=gs.entity_id where gs.date=(select max(date) from %s) and el.monitor_status='1' and cd.date=(select max(date) from %s as a) and cd.operation_mode=%d and cd.illegal_type=%d and el.entity_type=%d and gs.province='%s'" % (table1,table3,table5,table5,table3,operation_mode,illegal_type,entity_type,warn_distribute)
-	sql3 = "select el.id,el.entity_name,el.entity_type,el.location,p.operation_mode,gs.province,gs.city,gs.district,p.date,p.illegal_type from %s as el inner join %s as p on el.id=p.entity_id inner join %s as gs on el.id=gs.entity_id where gs.date=(select max(date) from %s) and el.monitor_status='1' and p.date=(select max(date) from %s as a) and p.operation_mode=%d and p.illegal_type=%d and el.entity_type=%d and gs.province='%s'" % (table1,table4,table5,table5,table4,operation_mode,illegal_type,entity_type,warn_distribute)
+	sql1 = "select el.id,el.entity_name,el.entity_type,pd.operation_mode,gs.province,gs.city,gs.district,pd.date,pd.illegal_type from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where gs.date=(select max(date) from %s) and el.monitor_status='1' and pd.date=(select max(date) from %s as a) and pd.operation_mode=%d and pd.illegal_type=%d and el.entity_type=%d and gs.province='%s'" % (table1,table2,table5,table5,table2,operation_mode,illegal_type,entity_type,warn_distribute)
+	sql2 = "select el.id,el.entity_name,el.entity_type,cd.operation_mode,gs.province,gs.city,gs.district,cd.date,cd.illegal_type from %s as el inner join %s as cd on el.id=cd.entity_id inner join %s as gs on el.id=gs.entity_id where gs.date=(select max(date) from %s) and el.monitor_status='1' and cd.date=(select max(date) from %s as a) and cd.operation_mode=%d and cd.illegal_type=%d and el.entity_type=%d and gs.province='%s'" % (table1,table3,table5,table5,table3,operation_mode,illegal_type,entity_type,warn_distribute)
+	sql3 = "select el.id,el.entity_name,el.entity_type,p.operation_mode,gs.province,gs.city,gs.district,p.date,p.illegal_type from %s as el inner join %s as p on el.id=p.entity_id inner join %s as gs on el.id=gs.entity_id where gs.date=(select max(date) from %s) and el.monitor_status='1' and p.date=(select max(date) from %s as a) and p.operation_mode=%d and p.illegal_type=%d and el.entity_type=%d and gs.province='%s'" % (table1,table4,table5,table5,table4,operation_mode,illegal_type,entity_type,warn_distribute)
 	if operation_mode == 0:
 		sql1 = sql1.replace(' and pd.operation_mode=0','')
 		sql2 = sql2.replace(' and cd.operation_mode=0','')
@@ -661,6 +661,35 @@ def Cancel(table, entity_id):
 	return dict
 
 
+def OnceInStorage(table, list):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+	sql = 'update %s set status=1 where id=%d'%(table,list[0])
+	for id in list[1:]:
+		sql += ' or id=%d'%id
+	cur.execute(sql)
+	dict = {'status':'ok'}
+	return dict
+
+
+def InStorage(table, list):
+	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+	date = time.localtime(int(time.time()))
+	date = time.strftime("%Y-%m-%d",date)
+	for each in list:
+		sql = 'insert into %s(entity_type,entity_name,date,company,related_person,key_words,rec_type,status,in_type) values(%d,"%s","%s","%s","%s","%s",%d,%d,%d)'%(table,each["entity_type"],each["entity_name"],date,each["company"],each["related_person"],each["key_words"],each["rec_type"],1,1)
+		if "null" in [d for d in each.values()]:
+			sql = sql.replace('"null"','null')
+			print(sql)
+		cur.execute(sql)
+	dict = {'status':'ok'}
+	return dict
+
+
+
 #下拉框
 def operationModeBox(table, field):
 	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset='utf8')
@@ -681,6 +710,4 @@ def illegalTypeBox(table, field):
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
 	return data
-
-
 
