@@ -50,10 +50,17 @@
 
 	/* ====lvlei====*/
 	/* 模态框 */
-	#moreInfo {
+	#moreInfo, #editCard, #editIncome,
+	#EditRelatedPlat-box ,#EditRelatedCompany-box,
+	#saveSuccess{
 		top:100px;
 	}
-	#moreInfo .modal-title{
+	/* #moreInfo .modal-title, #editCard .modal-title ,#editIncome .modal-title,
+	#EditRelatedPlat-box .modal-title ,#EditRelatedCompany-box .modal-title,
+	#saveSuccess .modal-title {
+		text-align: center;
+	} */
+	#moreInfo .modal-title {
 		text-align: center;
 	}
 	#moreInfo .modal-body{
@@ -198,6 +205,34 @@
 	.edit {
 		contenteditable:true;
 	}
+	#editCard .example ,#editIncome .example,
+	#EditRelatedPlat-box .example,#EditRelatedCompany-box .example {
+	    margin-top: 20px;
+	    /* text-align: center; */
+	    text-align: left;
+	    padding-left:5%;
+	}
+	#editCard .example span, #editIncome .example span,
+	#EditRelatedPlat-box .example span,
+	#EditRelatedCompany-box .example span{
+	    display: inline-block;
+	    /* width: 100px; */
+	    width: 25%;
+	    text-align: center;
+	}
+	#editCard .example input, #editCard .example select ,#editIncome .example input,
+	#EditRelatedPlat-box .example input,
+	#EditRelatedCompany-box .example input {
+	    /* width: 250px; */
+	    width: 50%;
+	    background: transparent;
+	    border: 1px solid silver;
+	    border-radius: 5px;
+	    padding: 3px 7px;
+	    /* color: white; */
+	    text-align: center;
+	}
+
 </style>
 {% endblock %}
 {% block main %}
@@ -249,7 +284,8 @@
 		</div>
 	</div>
 	<div class="riskValue">
-		<h3><i class="icon icon-exclamation-sign"></i>&nbsp;风险评价&nbsp;&nbsp;<i class="icon icon-edit comRisk" title="编辑"></i></h3>
+		<!-- <h3><i class="icon icon-exclamation-sign"></i>&nbsp;风险评价&nbsp;&nbsp;<i class="icon icon-edit comRisk" title="编辑"></i></h3> -->
+		<h3><i class="icon icon-exclamation-sign"></i>&nbsp;风险评价&nbsp;&nbsp;</h3>
 		<div class="riskLeft">
 			<p><span>是否疑似非法集资：</span>&nbsp;<b class="val-1" style="color: #ff9645;"></b></p>
 			<p><span>风险等级：</span>&nbsp;<b class="val-2" style="color: #ff9645;"></b></p>
@@ -365,7 +401,8 @@
 		</div>
 	</div>
 	<div class="operating">
-		<h3><i class="icon icon-warning-sign"></i>&nbsp;经营异常&nbsp;&nbsp;<i class="icon icon-edit operating-1" title="编辑"></i></h3>
+		<!-- <h3><i class="icon icon-warning-sign"></i>&nbsp;经营异常&nbsp;&nbsp;<i class="icon icon-edit operating-1" title="编辑"></i></h3> -->
+		<h3><i class="icon icon-warning-sign"></i>&nbsp;经营异常&nbsp;&nbsp;</h3>
 		<div class="business">
 			<p class="business_title">
 				<span>无法联系类异常数量：<b class="business_1"></b></span>
@@ -387,7 +424,8 @@
 		<!--</div>-->
 	</div>
 	<div class="register">
-		<h3><i class="icon icon-retweet"></i>&nbsp;信息变更&nbsp;&nbsp;<i class="icon icon-edit register-1" title="编辑"></i></h3>
+		<!-- <h3><i class="icon icon-retweet"></i>&nbsp;信息变更&nbsp;&nbsp;<i class="icon icon-edit register-1" title="编辑"></i></h3> -->
+		<h3><i class="icon icon-retweet"></i>&nbsp;信息变更&nbsp;&nbsp;</h3>
 		<!--<div class="inforContent">-->
 		<!--<div class="main">-->
 		<!--<img src="/static/images/textIcon.png" class="textFlag">-->
@@ -409,7 +447,8 @@
 		</div>
 	</div>
 	<div class="litigation">
-		<h3><i class="icon icon-file-alt"></i>&nbsp;诉讼记录&nbsp;&nbsp;<i class="icon icon-edit inter-1" title="编辑"></i></h3>
+		<!-- <h3><i class="icon icon-file-alt"></i>&nbsp;诉讼记录&nbsp;&nbsp;<i class="icon icon-edit inter-1" title="编辑"></i></h3> -->
+		<h3><i class="icon icon-file-alt"></i>&nbsp;诉讼记录&nbsp;&nbsp;</h3>
 		<!--<div class="inforContent">-->
 		<!--<div class="main">-->
 		<!--<img src="/static/images/textIcon.png" class="textFlag">-->
@@ -432,7 +471,7 @@
 	</div>
 
 	<div class="income">
-		<h3><i class="icon icon-credit-card"></i>&nbsp;收益率及其分布</h3>
+		<h3><i class="icon icon-credit-card"></i>&nbsp;收益率及其分布&nbsp;&nbsp;<i class="icon icon-edit inter-1" title="编辑" id="income-edit"></i></h3>
 		<!--<div id="incomeTable" style="width: 100%;height: 450px;"></div>-->
 		<div class="incomeTable">
 			<div id="incomeTable">
@@ -441,7 +480,8 @@
 		</div>
 	</div>
 	<div class="promise">
-		<h3><i class="icon icon-check"></i>&nbsp;收益/保本/担保承诺&nbsp;&nbsp;<i class="icon icon-edit comPro-1" title="编辑"></i></h3>
+		<!-- <h3><i class="icon icon-check"></i>&nbsp;收益/保本/担保承诺&nbsp;&nbsp;<i class="icon icon-edit comPro-1" title="编辑"></i></h3> -->
+		<h3><i class="icon icon-check"></i>&nbsp;收益/保本/担保承诺&nbsp;&nbsp;</h3>
 		<div class="guarantee">
 			<div id="guarantee">
 				<p class="load">正在拼命加载中....</p>
@@ -463,7 +503,8 @@
 		<!--</div>-->
 	</div>
 	<div class="advertising">
-		<h3><i class="icon icon-envelope-alt"></i>&nbsp;广告信息&nbsp;&nbsp;<i class="icon icon-edit advert-1" title="编辑"></i></h3>
+		<!-- <h3><i class="icon icon-envelope-alt"></i>&nbsp;广告信息&nbsp;&nbsp;<i class="icon icon-edit advert-1" title="编辑"></i></h3> -->
+		<h3><i class="icon icon-envelope-alt"></i>&nbsp;广告信息&nbsp;&nbsp;</h3>
 		<div class="billing" style="margin-top:20px;">
             <h5 class="twoLevel_headlines"><i class="icon icon-bookmark"></i>&nbsp;广告发布趋势</h5>
 			<div id="billing_diagram">
@@ -512,7 +553,8 @@
 
 	<div class="publicity">
 		<h3 style="margin-bottom: 15px;">
-			<span style="display: inline-block;"><i class="icon icon-bullhorn"></i>&nbsp;宣传行为&nbsp;&nbsp;<i class="icon icon-edit publicity-1" title="编辑"></i></span>
+			<!-- <span style="display: inline-block;"><i class="icon icon-bullhorn"></i>&nbsp;宣传行为&nbsp;&nbsp;<i class="icon icon-edit publicity-1" title="编辑"></i></span> -->
+			<span style="display: inline-block;"><i class="icon icon-bullhorn"></i>&nbsp;宣传行为&nbsp;&nbsp;</span>
 			<button type="button" class="btn btn-info" style="position: relative;top: -3px;left: 20px;">存档取证</button>
 		</h3>
 		<div class="publicityTable">
@@ -565,7 +607,8 @@
 	</div>
 	<div class="commentInfor">
 		<h3 style="margin-bottom: 15px;">
-			<span style="display: inline-block;"><i class="icon icon-bar-chart"></i>&nbsp;舆情分析&nbsp;&nbsp;<i class="icon icon-edit comment-1" title="编辑"></i></span>
+			<!-- <span style="display: inline-block;"><i class="icon icon-bar-chart"></i>&nbsp;舆情分析&nbsp;&nbsp;<i class="icon icon-edit comment-1" title="编辑"></i></span> -->
+			<span style="display: inline-block;"><i class="icon icon-bar-chart"></i>&nbsp;舆情分析&nbsp;&nbsp;</span>
 			<button type="button" class="btn btn-info" style="position: relative;top: -3px;left: 20px;">存档取证</button>
 		</h3>
 		<div style="margin-top: 20px;">
@@ -620,31 +663,17 @@
 	</div>
 	<div class="related">
 		<div class="pro related-1" style="float: left;">
-			<h4><i class="icon icon-link"></i>&nbsp;关联产品</h4>
-			<div id="product">
-				<!-- 游戏大全
-
-				理财网
-
-				理财网 -->
-				无
-			</div>
+			<h4><i class="icon icon-link"></i>&nbsp;关联产品&nbsp;&nbsp;<i id="EditRelatedPlat" class="icon icon-edit comment-1" title="编辑"></i></h4>
+			<div id="product">无</div>
 		</div>
 		<div class="pro related-2" style="float: right">
-			<h4><i class="icon icon-link"></i>&nbsp;关联企业</h4>
-			<div id="company">
-				<!-- 财付通
-
-				支付宝
-
-				嘟嘟 -->
-				无
-			</div>
+			<h4><i class="icon icon-link"></i>&nbsp;关联企业&nbsp;&nbsp;<i id="EditRelatedCompany" class="icon icon-edit comment-1" title="编辑"></i></h4>
+			<div id="company">无</div>
 		</div>
 	</div>
 
 </div>
-<!-- 模态框 -->
+<!-- 模态框  收益率机器分布 查看全文-->
 <div class="modal fade " id="moreInfo" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -669,6 +698,147 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<!-- 模态框  编辑基本信息 -->
+<div class="modal fade " id="editCard" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">编辑</h4>
+			</div>
+			<div class="modal-body">
+				<div class="user-1 example">
+                    <span>运营模式:</span>
+                    <select class="u1_Val">
+                    	<option value="0" selected>全部</option>
+                        <!-- <option value="P2P理财">P2P理财</option>
+                        <option value="投资项目">投资项目</option>
+                        <option value="游戏">游戏</option>
+                        <option value="任务奖励">任务奖励</option>
+                        <option value="股权私募基金">股权私募基金</option> -->
+                    </select>
+                </div>
+                <div class="user-2 example">
+                    <span>注册地:</span><input type="text" class="u2_Val">
+                </div>
+                <div class="user-3 example">
+                    <span>成立时间:</span><input type="text" class="u3_Val">
+                </div>
+                <div class="user-4 example">
+                    <span>法人代表:</span><input type="text" class="u4_Val">
+                </div>
+                <div class="user-5 example">
+                    <span>注册资本:</span><input type="text" class="u5_Val"> 万元
+                </div>
+                <div class="user-6 example">
+                    <span>工商注册公司名称:</span><input type="text" class="u6_Val">
+                </div>
+                <!-- <div class="user-3 example">
+                    <span>实体类别</span>
+                    <select class="u3_Val">
+                        <option value="1">平台</option>
+                        <option value="2">公司</option>
+                        <option value="3">项目</option>
+                    </select>
+                </div>
+                <div class="user-4 example">
+                    <span>注册公司</span><input type="text" class="u4_Val"><span class="prompt" style="width:25%;"></span>
+                </div>
+                <div class="user-5 example">
+                    <span>相关人物</span><input type="text" class="u5_Val"><span class="prompt" style="width:25%;">(请用英文逗号分隔)</span>
+                </div>
+                <div class="user-6 example">
+                    <span>其他关键词</span><input type="text" class="u6_Val"><span class="prompt" style="width:25%;">(请用英文逗号分隔)</span>
+                </div> -->
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary" id="sure">保存</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- 模态框  收益率分布 -->
+<div class="modal fade " id="editIncome" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">编辑</h4>
+			</div>
+			<div class="modal-body">
+				<div class="user-1 example">
+                    <span>宣传收益率:</span><input type="text" class="u1_Val"> %
+                </div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary" id="sure_1">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 关联产品 -->
+<div class="modal fade " id="EditRelatedPlat-box" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">编辑</h4>
+			</div>
+			<div class="modal-body">
+				<div class="user-1 example">
+                    <span>关联产品:</span><input type="text" class="u1_Val" placeholder="多项用英文逗号分隔">
+                </div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary" id="sure_2">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 关联企业 -->
+<div class="modal fade " id="EditRelatedCompany-box" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">编辑</h4>
+			</div>
+			<div class="modal-body">
+				<div class="user-1 example">
+                    <span>关联企业:</span><input type="text" class="u1_Val" placeholder="多项用英文逗号分隔">
+                </div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary" id="sure_3">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 保存成功提示 -->
+<div class="modal fade " id="saveSuccess" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">提示信息</h4>
+			</div>
+			<div class="modal-body">
+				<center>保存成功</center>
+			</div>
+			<div class="modal-footer">
+				<!-- <button type="button" class="btn btn-default" data-dismiss="modal">取消</button> -->
+				<button type="button" class="btn btn-primary" data-dismiss="modal" id="closeThis">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
 {% endblock %}
 
 <!-- 自己的JS -->
