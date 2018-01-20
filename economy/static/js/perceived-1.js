@@ -331,13 +331,14 @@
             key_words = '未知'
         }
         // $('#editRow .user-1 input').attr('placeholder',entity_name);
-        $('#editRow .user-1 input').attr('value',entity_name);
+        $('#editRow .user-1 input').val(entity_name);
 
-        $("#editRow .user-3 select option[value='"+entity_type+"']").attr('selected',"selected");
+        // $("#editRow .user-3 select option[value='"+entity_type+"']").attr('selected',"selected");
+        $("#editRow .user-3 select ").val(entity_type);
         // $("#select_id option[value='"+msg.data.categoryId+"']").attr("selected","selected");根据值让option选中
-        $('#editRow .user-4 input').attr('value',company);
-        $('#editRow .user-5 input').attr('value',related_person);
-        $('#editRow .user-6 input').attr('value',key_words);
+        $('#editRow .user-4 input').val(company);
+        $('#editRow .user-5 input').val(related_person);
+        $('#editRow .user-6 input').val(key_words);
 
         //点击确定弹出二次确定
         $('#Sure_1').click(function(){
@@ -376,6 +377,9 @@
         // console.log(data);
         if(data.status == 'ok'){
             // console.log('编辑成功');
+            $('#delSuccess .modal-body').empty().append('<center>保存成功</center>');
+            $('#delSuccess').modal('show');
+            $('.modal-backdrop').css({position:'static'});
             // 重新渲染表格
             var fellTable_url='/perceived/perceiveData/';
             public_ajax.call_request('get',fellTable_url,fellTable);
@@ -413,13 +417,13 @@
 // ====删除
     function delThis(id){
         // 弹出确认框
-        $('#Sure_2box .modal-header h4').text('确认删除吗？');
-        $('#Sure_2box #Sure_2box_body').css('display','none');
-        $('#Sure_2box .modal-footer #cancle').css('display','inline-block');
-        $('#Sure_2box .modal-footer #Sure_2').css('display','inline-block');
-        $('#Sure_2box').modal('show');
+        // $('#Sure_2box .modal-header h4').text('确认删除吗？');
+        // $('#Sure_2box #Sure_2box_body').css('display','none');
+        // $('#Sure_2box .modal-footer #cancle').css('display','inline-block');
+        // $('#Sure_2box .modal-footer #Sure_2').css('display','inline-block');
+        $('#Sure_3box').modal('show');
         $('.modal-backdrop').css({position:'static'});
-        $('#Sure_2').click(function(){
+        $('#Sure_3').one('click',function(){
             var del_url = '/perceived/OutStorage/?entity_id='+id;
             public_ajax.call_request('get',del_url,DelSuccess);
         })
@@ -427,12 +431,12 @@
     function DelSuccess(data){
         if(data.status == 'ok'){
             // alert('删除成功')
-            $('#Sure_2box .modal-header h4').text('提示信息:');
-            $('#Sure_2box #Sure_2box_body').css('display','block');
-            $('#Sure_2box #Sure_2box_body').css('display','block').empty().append('<center>删除成功</center>');
-            $('#Sure_2box .modal-footer #cancle').css('display','none');
-            $('#Sure_2box .modal-footer #Sure_2').css('display','none');
-            $('#Sure_2box').modal('show');
+            // $('#Sure_2box .modal-header h4').text('提示信息:');
+            // $('#Sure_2box #Sure_2box_body').css('display','block');
+            $('#delSuccess .modal-body').empty().append('<center>删除成功</center>');
+            // $('#Sure_2box .modal-footer #cancle').css('display','none');
+            // $('#Sure_2box .modal-footer #Sure_2').css('display','inline-block');
+            $('#delSuccess').modal('show');
             $('.modal-backdrop').css({position:'static'});
             // 重新渲染表格
             var fellTable_url='/perceived/perceiveData/';
@@ -572,7 +576,6 @@
                 }
             }
         };
-
 
     // 展示空表格的数据
         var L_data = [
@@ -722,6 +725,15 @@
                 },
             ],
             onCheck:function (row) {
+                if(row.entity_type == ''){
+                    row.entity_type = 'null';
+                }else if(row.entity_type == '平台'){
+                    row.entity_type = 1;
+                }else if(row.entity_type == '公司'){
+                    row.entity_type = 2;
+                }else if(row.entity_type == '项目'){
+                    row.entity_type = 3;
+                }
                 libaryList_2.push({entity_name:row.entity_name,rec_type:row.rec_type,entity_type:row.entity_type,company:row.company,related_person:row.related_person,key_words:row.key_words});
                 console.log(libaryList_2);
                 testLib_2()
@@ -736,6 +748,15 @@
                 // libaryList_2.push({entity_name:row.entity_name,rec_type:row.rec_type,entity_type:row.entity_type,company:row.company,related_person:row.related_person,key_words:row.key_words});
                 // libaryList_2.push(row.entity_name);
 
+                if(row.entity_type == ''){
+                    row.entity_type = 'null';
+                }else if(row.entity_type == '平台'){
+                    row.entity_type = 1;
+                }else if(row.entity_type == '公司'){
+                    row.entity_type = 2;
+                }else if(row.entity_type == '项目'){
+                    row.entity_type = 3;
+                }
                 // 先清空 再添加
                 libaryList_2.length = 0;
                 for(var i=0;i<row.length;i++){
@@ -765,15 +786,12 @@
     //增加一行
         $('#add').click(function () {
             var one=$('.add-1').val();
-            var two=parseInt($('.add-2').val());
+            var two=parseInt($('.add-2').val());//推荐理由 暂为数字类型
             if(one == '' || two == ''){
                 // alert('不能为空')
-                $('#Sure_2box .modal-header h4').text('提示信息:');
-                $('#Sure_2box #Sure_2box_body').css('display','block');
-                $('#Sure_2box #Sure_2box_body').empty().append('<center>实体名称不能为空！</center>');
-                $('#Sure_2box .modal-footer #cancle').css('display','none');
-                $('#Sure_2box').modal('show');
-                $('.modal-backdrop').css({'z-index':'static'});
+                $('#delSuccess .modal-body').empty().append('<center>实体名称不能为空！</center>');
+                $('#delSuccess').modal('show');
+                $('.modal-backdrop').css({position:'static'});
                 return false;
             }else{
 
@@ -783,6 +801,12 @@
                 var six=$('.add-6').val();
                 if(three == ''){
                     three = 'null';
+                }else if(three == 1){
+                    three = '平台';
+                }else if(three == 2){
+                    three = '公司';
+                }else if(three == 3){
+                    three = '项目';
                 }
                 if(four == ''){
                     four = 'null';
@@ -824,7 +848,14 @@
                 return false;
             }else {
                 console.log(libaryList_2);
-
+                // 如果选中空行 则删除空值
+                for(var i=0;i<libaryList_2.length;i++){
+                    if(libaryList_2[i].entity_name == ''){
+                        // libaryList_2.removeByValue_2('');
+                        libaryList_2.splice(i,1);
+                    }
+                }
+                console.log(libaryList_2);
                 var InStorage_url = '/perceived/InStorage/';
                 $.ajax({
                     url:InStorage_url,
@@ -840,22 +871,25 @@
                             var fellTable_url='/perceived/perceiveData/';
                             public_ajax.call_request('get',fellTable_url,fellTable);
                             // alert('添加成功');
-                            $('#Sure_2box .modal-header h4').text('提示信息:');
-                            $('#Sure_2box #Sure_2box_body').css('display','block');
-                            $('#Sure_2box #Sure_2box_body').empty().append('<center>添加成功</center>');
-                            $('#Sure_2box .modal-footer #cancle').css('display','none');
-                            $('#Sure_2box').modal('show');
+                            // $('#Sure_2box .modal-header h4').text('提示信息:');
+                            // $('#Sure_2box #Sure_2box_body').css('display','block');
+                            $('#delSuccess .modal-body').empty().append('<center>添加成功</center>');
+                            // $('#Sure_2box .modal-footer #cancle').css('display','none');
+                            $('#delSuccess').modal('show');
                             // $.fn.fullpage.setAllowScrolling(false);
-                            $('.modal-backdrop').css({'z-index':'static'});
-                            // 删除此行。。。
+                            $('.modal-backdrop').css({position:'static'});
+                            // 删除此行。。。(选中多行时有问题)
                             console.log(libaryList_2);
                             for(var i=0;i<libaryList_2.length;i++){
                                 console.log(libaryList_2[i].entity_name);
-                                delThisRow(libaryList_2[i].entity_name)
+                                console.log(i);
+                                // 有问题
+                                delThisRow(libaryList_2[i].entity_name);
                             }
+                            console.log(libaryList_2);
                             // delThisRow()
                             // 按钮变为不可用
-                            testLib_2();
+                            // testLib_2();
 
                         }
                     }
@@ -899,7 +933,7 @@
 
     }
 
-// 编辑行
+// 编辑行  感觉 如果全修改的话 无法给libaryList_2赋值（修改值）
     function editThisRow(_this) {
         // 保存实体类别的值
         var tdText_2 = $(_this).parents('tr').children('td').eq(3).html();
