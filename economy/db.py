@@ -141,7 +141,7 @@ def platform_detail(table1,table2,table3,id,field):
 	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select * from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where el.id=%d and pd.date=(select max(date) from %s as a)" % (table1,table2,table3,id,table2)
+	sql = "select * from %s as el inner join %s as pd on el.id=pd.entity_id inner join %s as gs on el.id=gs.entity_id where el.id=%d and pd.date=(select max(date) from %s as a) and gs.date=(select max(date) from %s)" % (table1,table2,table3,id,table2,table3)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:str(row[i]).replace('(','').replace(')','').replace('人民币','').replace('万','').replace('元','') for i,k in enumerate(field)} for row in res]
@@ -151,7 +151,7 @@ def company_detail(table1,table2,table3,id,field):
 	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select * from %s as el inner join %s as cd on el.id=cd.entity_id inner join %s as gs on el.id=gs.entity_id where el.id=%d and cd.date=(select max(date) from %s as a)" % (table1,table2,table3,id,table2)
+	sql = "select * from %s as el inner join %s as cd on el.id=cd.entity_id inner join %s as gs on el.id=gs.entity_id where el.id=%d and cd.date=(select max(date) from %s as a) and gs.date=(select max(date) from %s)" % (table1,table2,table3,id,table2,table3)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:str(row[i]).replace('(','').replace(')','').replace('人民币','').replace('万','').replace('元','') for i,k in enumerate(field)} for row in res]
@@ -161,7 +161,7 @@ def project_detail(table1,table2,table3,id,field):
 	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select * from %s as el inner join %s as p on el.id=p.entity_id inner join %s as gs on el.id=gs.entity_id where el.id=%d and p.date=(select max(date) from %s as a)" % (table1,table2,table3,id,table2)
+	sql = "select * from %s as el inner join %s as p on el.id=p.entity_id inner join %s as gs on el.id=gs.entity_id where el.id=%d and p.date=(select max(date) from %s as a) and gs.date=(select max(date) from %s)" % (table1,table2,table3,id,table2,table3)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:str(row[i]).replace('(','').replace(')','').replace('人民币','').replace('万','').replace('元','') for i,k in enumerate(field)} for row in res]
