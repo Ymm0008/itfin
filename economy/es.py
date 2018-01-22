@@ -215,8 +215,43 @@ def get_perceive_content(index_name,type,text_id):
     return list
 
 
-
-
-
+#首页
+def getHotSpot(entity_list):
+    type = 'type1'
+    results = []
+    number = 0
+    while number < 30:
+        for dict in entity_list:
+            for index_name in ['bbs','forum','webo']:
+				query_body = {
+						"sort":{"publish_time":{"order":"desc"}},
+						"query": {
+							"bool": {
+								"must": [
+									{
+									"term": {
+										"content": dict['name']
+										}
+									},
+										{
+									"match": {
+										"em1": 1
+										}
+									}
+								]
+							}
+						}
+					}
+				res = es.search(index=index_name, doc_type=type, body=query_body, request_timeout=100)
+				hits = res['hits']['hits']
+				if(len(hits)):
+					for item in hits:
+						if dict['name'] in item['_source']['content']:
+							id = dict['id']
+							entity_name = dict['name']
+							content = item['_source']['content']
+							results.append({'id':id,'name':entity_name,'content':content})
+							number += 1
+    return results
 
 
