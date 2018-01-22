@@ -241,7 +241,7 @@ def risk_comment_table():
 
 @index.route('/EditDetail/',methods=['POST'])
 def edit_detail():
-    dict = request.get_json()
+    dict = request.get_json()[0]
     if dict['type'] == 1:
         status = EditDetail(TABLE_PLAT_DETAIL,TABLE_GONGSHANG,dict)
     elif dict['type'] == 2:

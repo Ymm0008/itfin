@@ -29,6 +29,10 @@
 
 var entity_name ,firm_name;
 
+// 备 编辑基本信息用
+var operation_mode_1 = 0;
+var date_1,entity_id_1,gs_date_1,entity_type_1;
+
 //====基本信息====
     var basicInfor_url='/index/entityType/?id='+pid+'&type='+type;
     // var basicInfor_url='/index/entityType/?id=5120&type=1';//测试股东信息
@@ -104,6 +108,12 @@ var entity_name ,firm_name;
         // 取出公司名称
         firm_name = item.firm_name;
 
+        operation_mode_1 = item.operation_mode;
+        date_1 = item.date;
+        entity_id_1 = parseInt(item.entity_id);
+        gs_date_1 = item.gs_date;
+        entity_type_1 = parseInt(item.entity_type);
+
         // 子公司分公司情况
         var table_1_url = '/index/sub_firm/?firm_name='+firm_name;
         // var table_1_url = '/index/sub_firm/?firm_name=广西联银投资有限公司';//测试子公司分公司情况
@@ -168,15 +178,110 @@ var entity_name ,firm_name;
 
         public_ajax.call_request('get',commentinforContent_url,commentinforContent_1);
     }
-    // 编辑功能
+    // // 编辑功能
+    // $('#card-edit').on('click',function(){
+    //     if($('#card .infor .inforLine b').attr('contenteditable') == true){
+    //         $('#card .infor .inforLine b').attr('contenteditable','false');
+    //         console.log('已退出编辑模式=======');
+    //     }else if($('#card .infor .inforLine b').attr('contenteditable') == false){
+    //         $('#card .infor .inforLine b').attr('contenteditable','true');
+    //         console.log("=========编辑模式中");
+    //     }
+
+    // })
+
+// 编辑基本信息
     $('#card-edit').on('click',function(){
-        if($('#card .infor .inforLine b').attr('contenteditable') == true){
-            $('#card .infor .inforLine b').attr('contenteditable','false');
-            console.log('已退出编辑模式=======');
-        }else if($('#card .infor .inforLine b').attr('contenteditable') == false){
-            $('#card .infor .inforLine b').attr('contenteditable','true');
-            console.log("=========编辑模式中");
+        $('#editCard').modal('show');
+
+        // 值 渲染到input
+        var select_url = '/detection/OperationModeBox/';    //运营模式
+        public_ajax.call_request('get',select_url,slectUrl);
+        function slectUrl(data){
+            if(data){
+                var str = '';
+                for(var i=0;i<data.length;i++){
+                    str += '<option value="'+data[i].id+'">'+data[i].operation+'</option>'
+                }
+                $('#editCard .user-1 .u1_Val').append(str);
+
+                // console.log(operation_mode_1);
+                // $("#editCard .user-1 select option[value='"+operation_mode_1+"']").attr('selected',"selected");
+                $("#editCard .user-1 select").val(operation_mode_1);
+            }
         }
+        // console.log(operation_mode_1);
+        // $("#editCard .user-1 select option[value='"+operation_mode_1+"']").attr('selected',"selected");
+        // 注册地
+        $('#editCard .user-2 input').val($('.location').text());
+        // 成立时间
+        $('#editCard .user-3 input').val($('.type-3').text());
+        // 法人代表
+        $('#editCard .user-4 input').val($('.type-4').text());
+        // 注册资本
+        var show_capital_val = $('.type-5').text();
+        show_capital_val = show_capital_val.substr(0, show_capital_val.length - 2);
+        $('#editCard .user-5 input').val(show_capital_val);
+        // 工商注册公司名称
+        $('#editCard .user-6 input').val($('.isPlatformName').text());
+        // 旗下产品
+        // $('#editCard .user-4 input').attr('value',$('.type-4').text());
+
+        // 确定提交修改的信息
+        $('#sure').on('click',function(){
+            var libaryList=[]; //用于传给后台的数据
+
+            // 注册资本  去掉万元
+            var capital_val = $('#editCard .user-5 input').val();
+            // capital_val = capital_val.substr(0, capital_val.length - 2);
+
+            var company_val;
+            if($('#editCard .user-6 input').val() == ''){
+                company_val = 'null';
+            }else{
+                company_val = $('#editCard .user-6 input').val();//工商注册公司名称
+            }
+            var set_time_val = $('#editCard .user-3 input').val();//成立时间
+            var legal_person_val = $('#editCard .user-4 input').val();//法人代表
+            var regist_address_val = $('#editCard .user-2 input').val();//注册地
+            var operation_mode_val = parseInt($('#editCard .user-1 select').val());//运营模式
+
+            libaryList.push({
+                capital:capital_val,
+                company:company_val,
+
+                date:date_1,
+                entity_id:entity_id_1,
+                gs_date:gs_date_1,
+                type:entity_type_1,
+
+                legal_person:legal_person_val,
+                operation_mode:operation_mode_val,
+                regist_address:regist_address_val,
+                set_time:set_time_val
+            });
+            console.log(libaryList);
+            var EditDetail_url = '/index/EditDetail/';
+            $.ajax({
+                url:EditDetail_url,
+                type:'POST',
+                contentType:'application/json',
+                // data:JSON.stringify(LL_data),
+                data:JSON.stringify(libaryList),
+                dataType:'json',
+                success:function(data){
+                    // console.log(data);
+                    if(data.status == 'ok'){
+                        $('#editCard').modal('hide');
+                        $('#saveSuccess').modal('show');
+                        // 重新渲染 基本信息
+                        var basicInfor_url='/index/entityType/?id='+pid+'&type='+type;
+                        public_ajax.call_request('get',basicInfor_url,basicInfor);
+
+                    }
+                }
+            })
+        })
 
     })
 
@@ -198,16 +303,16 @@ var entity_name ,firm_name;
     }
 
 //一个月时间
-function get7DaysBefore(date,m){
-    var date = date || new Date(),
-        timestamp, newDate;
-    if(!(date instanceof Date)){
-        date = new Date(date);
-    }
-    timestamp = date.getTime();
-    newDate = new Date(timestamp - m * 24 * 3600 * 1000);
-    return [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()].join('-');
-};
+    function get7DaysBefore(date,m){
+        var date = date || new Date(),
+            timestamp, newDate;
+        if(!(date instanceof Date)){
+            date = new Date(date);
+        }
+        timestamp = date.getTime();
+        newDate = new Date(timestamp - m * 24 * 3600 * 1000);
+        return [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()].join('-');
+    };
 
 // ====右顶侧小表格====
 
@@ -1349,7 +1454,7 @@ function get7DaysBefore(date,m){
                             '                <div class="main">'+
                             '                    <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
                             '                    <p class="option">'+
-                            '                        <span>宣传收益率：<b style="color: #ff6d70;font-size:16px">'+returnRate+'</b></span>'+
+                            '                        <span>宣传收益率：<b id="show_return_rate" style="color: #ff6d70;font-size:16px">'+returnRate+'</b></span>'+
                             '                        <button class="original btn-primary btn-xs" onclick="incomeTable_more(\''+row.index_name+'\',\''+row.text_id+'\')">查看全文</button>'+
                             '                    </p>'+
                             '                    <p class="context">'+row.related_text+'</p>'+
@@ -1415,6 +1520,34 @@ function get7DaysBefore(date,m){
             $('#moreInfo #url a').text('原网页链接').attr({'href':url,'target':'_blank','title':'原网页链接'});//原文链接
 
             $('#moreInfo').modal('show');
+        }
+    }
+
+// 收益率 编辑
+    $('#income-edit').on('click',function(){
+        $('#editIncome').modal('show');
+        // 宣传收益率
+        var show_return_rate = $('#show_return_rate').text();
+        show_return_rate = show_return_rate.substr(0, show_return_rate.length - 1);
+        $('#editIncome .user-1 input').val(show_return_rate);
+
+        $('#sure_1').on('click',function(){
+            var return_rate_val = $('#editIncome .user-1 input').val();
+
+            var EditReturnRate_url='/index/EditReturnRate/?entity_id='+pid+'&return_rate='+return_rate_val;
+            public_ajax.call_request('post',EditReturnRate_url,EditReturnRate);
+        })
+
+    })
+    function EditReturnRate(data){
+        if(data.status == 'ok'){
+            // alert('修改成功');
+            $('#editIncome').modal('hide');
+            $('#saveSuccess').modal('show');
+            // 重新渲染页面
+            var incomeTable_url='/index/returnRate/?id='+pid+'&type='+type;
+            public_ajax.call_request('get',incomeTable_url,incomeTable);
+
         }
     }
 
@@ -2045,18 +2178,18 @@ function get7DaysBefore(date,m){
     }
 
 // 12个月
-var last_year_month = function() {
-    var d = new Date();
-    var result = [];
-    for(var i = 0; i < 12; i++) {
-        d.setMonth(d.getMonth() - 1);
-        var m = d.getMonth() + 1;
-        m = m < 10 ? "0" + m : m;
-        //在这里可以自定义输出的日期格式
-        result.push(d.getFullYear() + "年" + m + '月');
+    var last_year_month = function() {
+        var d = new Date();
+        var result = [];
+        for(var i = 0; i < 12; i++) {
+            d.setMonth(d.getMonth() - 1);
+            var m = d.getMonth() + 1;
+            m = m < 10 ? "0" + m : m;
+            //在这里可以自定义输出的日期格式
+            result.push(d.getFullYear() + "年" + m + '月');
+        }
+        return result;
     }
-    return result;
-}
 
 // 舆情趋势分析
     var trend_url='/index/comment/?id='+pid;
@@ -2172,6 +2305,79 @@ var last_year_month = function() {
         _myChart2 = myChart;
     }
     // line_2();
+
+
+// 关联产品 编辑
+    var show_product;
+    $('#EditRelatedPlat').on('click',function(){
+        $('#EditRelatedPlat-box').modal('show');
+        // 关联产品 原值
+        show_product = $('#product').text();
+        // if(show_product == '无'){
+        //     show_product = '';
+        // }
+        // $('#EditRelatedPlat-box .user-1 input').val('');
+        // $('#EditRelatedPlat-box .user-1 input').attr('value',show_product);
+        $('#EditRelatedPlat-box .user-1 input').val(show_product);
+        $('#EditRelatedPlat-box .user-1 span').text('关联产品:');
+
+        $('#sure_2').on('click',function(){
+            var EditRelatedPlat_val = $('#EditRelatedPlat-box .user-1 input').val();
+
+            var EditRelatedPlat_url='/index/EditRelatedPlat/?entity_id='+pid+'&entity_type='+type+'&date='+date_1+'&related_plat='+EditRelatedPlat_val;
+            public_ajax.call_request('post',EditRelatedPlat_url,EditRelatedPlat);
+        })
+
+    })
+    function EditRelatedPlat(data){
+        if(data.status == 'ok'){
+            // alert('修改成功');
+            $('#EditRelatedPlat-box .user-1 input').val('');
+            $('#EditRelatedPlat-box').modal('hide');
+            $('#saveSuccess').modal('show');
+
+            // 重新渲染页面
+            // var incomeTable_url='/index/returnRate/?id='+pid+'&type='+type;
+            // public_ajax.call_request('get',incomeTable_url,incomeTable);
+        }
+    }
+
+// 关联企业 编辑
+    var show_company;
+    $('#EditRelatedCompany').click(function(){
+        $('#EditRelatedCompany-box').modal('show');
+        show_company = $('#company').text();
+        // if(show_company == '无'){
+        //     show_company = '';
+        // }
+        // console.log(show_company);
+        // $('#EditRelatedCompany-box .user-1 input').val('');
+        // $('#EditRelatedCompany-box .user-1 input').attr('value',show_company);//这样只能设置一次。。。。。
+        $('#EditRelatedCompany-box .user-1 input').val(show_company);
+        // $('#EditRelatedCompany-box .user-1 span').text('关联企业:');
+
+
+    })
+
+    $('#sure_3').on('click',function(){
+        var EditRelatedCompany_val = $('#EditRelatedCompany-box .user-1 input').val();
+
+        var EditRelatedCompany_url='/index/EditRelatedCompany/?entity_id='+pid+'&entity_type='+type+'&date='+date_1+'&related_company='+EditRelatedCompany_val;
+        public_ajax.call_request('post',EditRelatedCompany_url,EditRelatedCompany);
+    })
+
+    function EditRelatedCompany(data){
+        if(data.status == 'ok'){
+            // alert('修改成功');
+            $('#EditRelatedCompany-box .user-1 input').val('');
+            $('#EditRelatedCompany-box').modal('hide');
+            $('#saveSuccess').modal('show');
+            // 重新渲染页面
+            // var incomeTable_url='/index/returnRate/?id='+pid+'&type='+type;
+            // public_ajax.call_request('get',incomeTable_url,incomeTable);
+        }
+    }
+
 
 
 // 使用jsFiddle生成Word

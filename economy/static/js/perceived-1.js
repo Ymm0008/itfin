@@ -215,13 +215,14 @@
                         formatter: function (value, row, index) {
                             var Storage = '';
                             if(row.status == 0){
-                                Storage = '<span style="cursor:pointer;color:white;display: inline-block;margin: 0 10px;" onclick="addThis(\''+row.id+'\')" title="添加入库"><i class="icon icon-star-empty"></i></span>';
+                                Storage = '<span style="cursor:pointer;color:white;display: inline-block;" onclick="addThis(\''+row.id+'\')" title="添加入库"><i class="icon icon-star-empty"></i></span>';
                             }else if(row.status == 1){
-                                Storage = '<span style="cursor:pointer;color:white;display: inline-block;margin: 0 10px;" onclick="cancelThis(\''+row.id+'\')" title="取消入库"><i style="color:#ff9645;" class="icon icon-star"></i></span>';
+                                Storage = '<span style="cursor:pointer;color:white;display: inline-block;" onclick="cancelThis(\''+row.id+'\')" title="取消入库"><i style="color:#ff9645;" class="icon icon-star"></i></span>';
                             }
-                            return Storage+'<span style="cursor:pointer;color:white;" onclick="editThis(\''+row.id+'\',\''+row.entity_name+'\',\''+row.rec_type+'\',\''+row.entity_type+'\',\''+row.company+'\',\''+row.related_person+'\',\''+row.key_words+'\')" title="编辑"><i class="icon icon-edit"></i></span>'+
+                            return Storage+'<span style="cursor:pointer;color:white;margin:0 10px;" onclick="editThis(\''+row.id+'\',\''+row.entity_name+'\',\''+row.rec_type+'\',\''+row.entity_type+'\',\''+row.company+'\',\''+row.related_person+'\',\''+row.key_words+'\')" title="编辑"><i class="icon icon-edit"></i></span>'+
                                 // '<span style="cursor:pointer;color:white;display: inline-block;margin: 0 10px;" onclick="addThis(\''+row.id+'\')" title="添加入库"><i class="icon icon-star-empty"></i></span>'+
-                                '<span style="cursor:pointer;color:white;" onclick="lookThis(\''+row.text_id+'\',\''+row.index_name+'\')" title="查看文本"><i class="icon icon-book"></i></span>';
+                                '<span style="cursor:pointer;color:white;margin-right:10px;" onclick="lookThis(\''+row.text_id+'\',\''+row.index_name+'\')" title="查看文本"><i class="icon icon-book"></i></span>'+
+                                '<span style="cursor:pointer;color:white;" onclick="delThis(\''+row.id+'\')" title="删除"><i class="icon icon-trash"></i></span>';
                         }
                     },
                 ],
@@ -330,13 +331,14 @@
             key_words = '未知'
         }
         // $('#editRow .user-1 input').attr('placeholder',entity_name);
-        $('#editRow .user-1 input').attr('value',entity_name);
+        $('#editRow .user-1 input').val(entity_name);
 
-        $("#editRow .user-3 select option[value='"+entity_type+"']").attr('selected',"selected");
+        // $("#editRow .user-3 select option[value='"+entity_type+"']").attr('selected',"selected");
+        $("#editRow .user-3 select ").val(entity_type);
         // $("#select_id option[value='"+msg.data.categoryId+"']").attr("selected","selected");根据值让option选中
-        $('#editRow .user-4 input').attr('value',company);
-        $('#editRow .user-5 input').attr('value',related_person);
-        $('#editRow .user-6 input').attr('value',key_words);
+        $('#editRow .user-4 input').val(company);
+        $('#editRow .user-5 input').val(related_person);
+        $('#editRow .user-6 input').val(key_words);
 
         //点击确定弹出二次确定
         $('#Sure_1').click(function(){
@@ -375,6 +377,9 @@
         // console.log(data);
         if(data.status == 'ok'){
             // console.log('编辑成功');
+            $('#delSuccess .modal-body').empty().append('<center>保存成功</center>');
+            $('#delSuccess').modal('show');
+            $('.modal-backdrop').css({position:'static'});
             // 重新渲染表格
             var fellTable_url='/perceived/perceiveData/';
             public_ajax.call_request('get',fellTable_url,fellTable);
@@ -403,6 +408,36 @@
     function CancelSuccess(data){
         if(data.status == 'ok'){
             // alert('添加入库成功')
+            // 重新渲染表格
+            var fellTable_url='/perceived/perceiveData/';
+            public_ajax.call_request('get',fellTable_url,fellTable);
+        }
+    }
+
+// ====删除
+    function delThis(id){
+        // 弹出确认框
+        // $('#Sure_2box .modal-header h4').text('确认删除吗？');
+        // $('#Sure_2box #Sure_2box_body').css('display','none');
+        // $('#Sure_2box .modal-footer #cancle').css('display','inline-block');
+        // $('#Sure_2box .modal-footer #Sure_2').css('display','inline-block');
+        $('#Sure_3box').modal('show');
+        $('.modal-backdrop').css({position:'static'});
+        $('#Sure_3').one('click',function(){
+            var del_url = '/perceived/OutStorage/?entity_id='+id;
+            public_ajax.call_request('get',del_url,DelSuccess);
+        })
+    }
+    function DelSuccess(data){
+        if(data.status == 'ok'){
+            // alert('删除成功')
+            // $('#Sure_2box .modal-header h4').text('提示信息:');
+            // $('#Sure_2box #Sure_2box_body').css('display','block');
+            $('#delSuccess .modal-body').empty().append('<center>删除成功</center>');
+            // $('#Sure_2box .modal-footer #cancle').css('display','none');
+            // $('#Sure_2box .modal-footer #Sure_2').css('display','inline-block');
+            $('#delSuccess').modal('show');
+            $('.modal-backdrop').css({position:'static'});
             // 重新渲染表格
             var fellTable_url='/perceived/perceiveData/';
             public_ajax.call_request('get',fellTable_url,fellTable);
@@ -531,10 +566,16 @@
 
 //添加入库
 //文档准备就绪
-$(function () {
+// $(function () {
     // 删除json数组元素的方法
-
-
+        Array.prototype.removeByValue_2 = function(val) {
+            for(var i=0; i<this.length; i++) {
+                if(this[i].entity_name == val) {
+                    this.splice(i, 1);
+                    break;
+                }
+            }
+        };
 
     // 展示空表格的数据
         var L_data = [
@@ -684,20 +725,38 @@ $(function () {
                 },
             ],
             onCheck:function (row) {
+                if(row.entity_type == ''){
+                    row.entity_type = 'null';
+                }else if(row.entity_type == '平台'){
+                    row.entity_type = 1;
+                }else if(row.entity_type == '公司'){
+                    row.entity_type = 2;
+                }else if(row.entity_type == '项目'){
+                    row.entity_type = 3;
+                }
                 libaryList_2.push({entity_name:row.entity_name,rec_type:row.rec_type,entity_type:row.entity_type,company:row.company,related_person:row.related_person,key_words:row.key_words});
-                // console.log(libaryList_2);
+                console.log(libaryList_2);
                 testLib_2()
             },
             onUncheck:function (row) {
                 // libaryList_2.removeByValue_2({entity_name:row.entity_name,rec_type:row.rec_type,entity_type:row.entity_type,company:row.company,related_person:row.related_person,key_words:row.key_words});
                 libaryList_2.removeByValue_2(row.entity_name);
-                // console.log(libaryList_2);
+                console.log(libaryList_2);
                 testLib_2()
             },
             onCheckAll:function (row) {//有问题  //修改版//☆☆☆☆☆☆☆☆全选 方法 需遍历row取值☆☆☆☆☆☆☆☆
                 // libaryList_2.push({entity_name:row.entity_name,rec_type:row.rec_type,entity_type:row.entity_type,company:row.company,related_person:row.related_person,key_words:row.key_words});
                 // libaryList_2.push(row.entity_name);
 
+                if(row.entity_type == ''){
+                    row.entity_type = 'null';
+                }else if(row.entity_type == '平台'){
+                    row.entity_type = 1;
+                }else if(row.entity_type == '公司'){
+                    row.entity_type = 2;
+                }else if(row.entity_type == '项目'){
+                    row.entity_type = 3;
+                }
                 // 先清空 再添加
                 libaryList_2.length = 0;
                 for(var i=0;i<row.length;i++){
@@ -725,91 +784,138 @@ $(function () {
     // });
 
     //增加一行
-    $('#add').click(function () {
-        var one=$('.add-1').val();
-        var two=parseInt($('.add-2').val());
-        var three=parseInt($('.add-3').val());
-        var four=$('.add-4').val();
-        var five=$('.add-5').val();
-        var six=$('.add-6').val();
-        var row = {'entity_name':one,'rec_type':two,'entity_type':three,'company':four,'related_person':five,'key_words':six,'g':'<input type="button" value="编辑" class="btn-info btn btn-sm" onclick="editThisRow(this)">'+
-                            '       <input type="button" value="确定" class="btn-info btn btn-sm" onclick="sureThisRow(this)">'+
-                            '       <input type="button" value="删除" class="btn-info btn btn-sm deleteone" onclick="delThisRow(\''+one+'\')">'}
-        $('#addClub').bootstrapTable('insertRow',{index: 0, row: row});//在最开始插入新行
-        // $("#addClub").prepend(str);
-        // $('#addClub tbody tr:last').remove();
-        $('#addClub tbody tr:first td').css({padding:'12px 8px'});
-        $('#container .secondScreen .newAdd input').val('');//清空输入框
-        $('#addClub').bootstrapTable('removeByUniqueId','');//删除行的方法
-    });
+        $('#add').click(function () {
+            var one=$('.add-1').val();
+            var two=parseInt($('.add-2').val());//推荐理由 暂为数字类型
+            if(one == '' || two == ''){
+                // alert('不能为空')
+                $('#delSuccess .modal-body').empty().append('<center>实体名称不能为空！</center>');
+                $('#delSuccess').modal('show');
+                $('.modal-backdrop').css({position:'static'});
+                return false;
+            }else{
+
+                var three=parseInt($('.add-3').val());
+                var four=$('.add-4').val();
+                var five=$('.add-5').val();
+                var six=$('.add-6').val();
+                if(three == ''){
+                    three = 'null';
+                }else if(three == 1){
+                    three = '平台';
+                }else if(three == 2){
+                    three = '公司';
+                }else if(three == 3){
+                    three = '项目';
+                }
+                if(four == ''){
+                    four = 'null';
+                }
+                if(five == ''){
+                    five = 'null';
+                }
+                if(six == ''){
+                    six = 'null';
+                }
+                // var row = {'entity_name':one,'rec_type':two,'entity_type':three,'company':four,'related_person':five,'key_words':six,'g':'<input type="button" value="编辑" class="btn-info btn btn-sm" onclick="editThisRow(this)">'+
+                //                     '       <input type="button" value="确定" class="btn-info btn btn-sm" onclick="sureThisRow(this)">'+
+                //                     '       <input type="button" value="删除" class="btn-info btn btn-sm deleteone" onclick="delThisRow(\''+one+'\')">'}
+                // 去掉编辑功能
+                var row = {'entity_name':one,'rec_type':two,'entity_type':three,'company':four,'related_person':five,'key_words':six,'g':'<input type="button" value="删除" class="btn-info btn btn-sm deleteone" onclick="delThisRow(\''+one+'\')">'}
+                $('#addClub').bootstrapTable('insertRow',{index: 0, row: row});//在最开始插入新行
+                // $("#addClub").prepend(str);
+                // $('#addClub tbody tr:last').remove();
+                $('#addClub tbody tr:first td').css({padding:'12px 8px'});
+                $('#container .secondScreen .newAdd input').val('');//清空输入框
+                $('#addClub').bootstrapTable('removeByUniqueId','');//删除行的方法
+            }
+
+        });
 
     //可以入库不！？
-    function testLib_2() {
-        // console.log(libaryList_2.length);
-        if (libaryList_2.length==0){
-            $('#oneLibrary_2').attr('disabled','disabled');
-        }else {
-            $('#oneLibrary_2').removeAttr('disabled');
+        function testLib_2() {
+            // console.log(libaryList_2.length);
+            if (libaryList_2.length==0){
+                $('#oneLibrary_2').attr('disabled','disabled');
+            }else {
+                $('#oneLibrary_2').removeAttr('disabled');
+            }
         }
-    }
 
     // 一键入库
-    $('#oneLibrary_2').click(function(){
-        if($('#oneLibrary_2').attr('disabled') == 'disabled'){
-            return false;
-        }else {
-            console.log(libaryList_2);
-
-            var InStorage_url = '/perceived/InStorage/';
-            $.ajax({
-                url:InStorage_url,
-                type:'POST',
-                contentType:'application/json',
-                // data:JSON.stringify(LL_data),
-                data:JSON.stringify(libaryList_2),
-                dataType:'json',
-                success:function(data){
-                    // console.log(data);
-                    if(data.status == 'ok'){
-                        // 重新渲染 一屏 表格
-                        var fellTable_url='/perceived/perceiveData/';
-                        public_ajax.call_request('get',fellTable_url,fellTable);
-                        // alert('添加成功');
-                        $('#Sure_2box .modal-header h4').text('提示信息:');
-                        $('#Sure_2box #Sure_2box_body').css('display','block');
-                        $('#Sure_2box #Sure_2box_body').empty().append('<center>添加成功</center>');
-                        $('#Sure_2box .modal-footer #cancle').css('display','none');
-                        $('#Sure_2box').modal('show');
-                        // $.fn.fullpage.setAllowScrolling(false);
-                        $('.modal-backdrop').css({'z-index':'static'});
-                        // 删除此行。。。
-                        console.log(libaryList_2);
-                        for(var i=0;i<libaryList_2.length;i++){
-                            console.log(libaryList_2[i].entity_name);
-                            delThisRow(libaryList_2[i].entity_name)
-                        }
-                        // delThisRow()
-
+        $('#oneLibrary_2').click(function(){
+            if($('#oneLibrary_2').attr('disabled') == 'disabled'){
+                return false;
+            }else {
+                console.log(libaryList_2);
+                // 如果选中空行 则删除空值
+                for(var i=0;i<libaryList_2.length;i++){
+                    if(libaryList_2[i].entity_name == ''){
+                        // libaryList_2.removeByValue_2('');
+                        libaryList_2.splice(i,1);
                     }
                 }
-            })
-        }
-    })
+                console.log(libaryList_2);
+                var InStorage_url = '/perceived/InStorage/';
+                $.ajax({
+                    url:InStorage_url,
+                    type:'POST',
+                    contentType:'application/json',
+                    // data:JSON.stringify(LL_data),
+                    data:JSON.stringify(libaryList_2),
+                    dataType:'json',
+                    success:function(data){
+                        // console.log(data);
+                        if(data.status == 'ok'){
+                            // 重新渲染 一屏 表格
+                            var fellTable_url='/perceived/perceiveData/';
+                            public_ajax.call_request('get',fellTable_url,fellTable);
+                            // alert('添加成功');
+                            // $('#Sure_2box .modal-header h4').text('提示信息:');
+                            // $('#Sure_2box #Sure_2box_body').css('display','block');
+                            $('#delSuccess .modal-body').empty().append('<center>添加成功</center>');
+                            // $('#Sure_2box .modal-footer #cancle').css('display','none');
+                            $('#delSuccess').modal('show');
+                            // $.fn.fullpage.setAllowScrolling(false);
+                            $('.modal-backdrop').css({position:'static'});
+                            // 删除此行。。。(选中多行时有问题)
+                            console.log(libaryList_2);
+                            for(var i=0;i<libaryList_2.length;i++){
+                                console.log(libaryList_2[i].entity_name);
+                                console.log(i);
+                                // 有问题
+                                delThisRow(libaryList_2[i].entity_name);
+                            }
+                            console.log(libaryList_2);
+                            // delThisRow()
+                            // 按钮变为不可用
+                            // testLib_2();
 
+                        }
+                    }
+                })
+            }
+        })
+// })
 
-})
 
 // 删除行
     function delThisRow(_thisOne) {
-        // console.log(_thisOne);
+        console.log(_thisOne);
         $('#addClub').bootstrapTable('removeByUniqueId',_thisOne);
         var currentTrlen=$('#addClub tbody tr').length;
         if (currentTrlen<6){
             var row = {'entity_name':'','rec_type':'','entity_type':'','company':'','related_person':'','key_words':'','g':''};
             $('#addClub').bootstrapTable('insertRow',{index: 5, row: row});
         }
+
+        // 删除libaryList_2 中的数据
+        libaryList_2.removeByValue_2(_thisOne);
+        console.log(libaryList_2);
+        testLib_2();
     }
-// 确定
+
+// 编辑确定
     function sureThisRow(_this) {
         var ttr=$(_this).parents("tr");
         $(ttr).find('input[type="text"]').each(function () {
@@ -821,8 +927,13 @@ $(function () {
             var selectVal = $(this).val();
             $(this).parents('td').html(selectVal);
         })
+
+        // 将值传给 libaryList_2
+        // libaryList_2
+
     }
-// 编辑行
+
+// 编辑行  感觉 如果全修改的话 无法给libaryList_2赋值（修改值）
     function editThisRow(_this) {
         // 保存实体类别的值
         var tdText_2 = $(_this).parents('tr').children('td').eq(3).html();
@@ -857,3 +968,5 @@ $(function () {
         // 赋值给下拉框
         selectObj.val(tdText_2)
     }
+
+

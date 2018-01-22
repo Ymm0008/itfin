@@ -277,8 +277,8 @@ def EditReturnRate(table,return_rate,entity_id):
 	conn = mysql.connect(host=HOST,user="root",password="",db="zyz",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	return_rate = return_rate/100
-	sql = 'update %s set return_rate=%.4f,status=1 where entity_id=%d'%(table,return_rate,entity_id)
+	rate = float(return_rate/100.0)
+	sql = 'update %s set return_rate=%.4f,status=1 where entity_id=%d'%(table,rate,entity_id)
 	cur.execute(sql)
 	dict = {'status':'ok'}
 	return dict

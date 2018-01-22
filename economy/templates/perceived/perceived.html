@@ -148,7 +148,7 @@
                   style="margin-left:20px;vertical-align: middle;">批量添加</span>
         </h3>
         <div class="newAdd">
-            <input type="text" class="add-1" placeholder="实体名称">
+            <input type="text" class="add-1" placeholder="实体名称(必填)">
             <input type="text" class="add-2" placeholder="推荐理由">
             <!-- <input type="text" class="add-3" placeholder="实体类型"> -->
             <select class="add-3">
@@ -169,6 +169,7 @@
         </div>
     </div>
 </div>
+<!-- 编辑 -->
 <div class="modal fade" id="editRow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -178,7 +179,7 @@
             </div>
             <div class="modal-body">
                 <div class="user-1 example">
-                    <span>实体名称</span><input type="text" class="u1_Val"><span class="prompt" style="width:25%;"></span>
+                    <span>实体名称</span><input type="text" class="u1_Val" placeholder="实体名称(必填)"><span class="prompt" style="width:25%;"></span>
                 </div>
                 <div class="user-2 example">
                     <span>推荐理由</span><input type="text" class="u2_Val">
@@ -208,7 +209,7 @@
         </div>
     </div>
 </div>
-<!-- 二次确定 -->
+<!-- 编辑 二次确定 -->
 <div class="modal fade" id="Sure_2box" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document" style="width:30%;font-size:16px;">
         <div class="modal-content">
@@ -244,6 +245,44 @@
         </div>
     </div>
 </div>
+<!-- 删除 二次确定 -->
+<div class="modal fade" id="Sure_3box" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width:30%;font-size:16px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" >确认删除吗？</h4>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="Sure_3">确定</button>
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 删除 成功、 提示信息 -->
+<div class="modal fade" id="delSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width:30%;font-size:16px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" >提示信息：</h4>
+            </div>
+            <div class="modal-body">
+                <center>删除成功</center>
+            </div>
+
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal" id="">取消</button> -->
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="">确定</button>
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block my_js %}
@@ -262,7 +301,7 @@
         'loopBottom':'true',
         'navigationPosition': 'right',
         'navigationTooltips': ['预警记录','预警态势'],
-        'fixedElements':'#nav,#Sure_2box',// 不跟随滚动的元素
+        'fixedElements':'#nav,#Sure_2box,#delSuccess',// 不跟随滚动的元素
                                         //鼠标在此元素 不滚屏
         'normalScrollElements':'#perceiveContent .modal-dialog'
     });
