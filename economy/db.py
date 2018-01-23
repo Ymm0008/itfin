@@ -306,6 +306,27 @@ def EditRelatedCompany(table,entity_id,related_company,date):
 	return dict
 
 
+def MonitorStatus(table1, table, entity_name, log_type, remark):
+	conn = mysql.connect(host=HOST,user="root",password="",db="zyz",charset='utf8')
+	conn.autocommit(True)
+	cur = conn.cursor()
+	datetime = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(int(time.time())))
+	if log_type == 1:
+		log_detail = "停止检测：" + entity_name
+		monitor_status = 2
+		sql0 = 'update %s set monitor_status=%d where entity_name="%s"'%(table1, monitor_status, entity_name)
+		cur.execute(sql0)
+	elif log_type == 2:
+		log_detail = "恢复监测：" + entity_name
+		monitor_status = 1
+		sql0 = 'update %s set monitor_status=%d where entity_name="%s"'%(table1, monitor_status, entity_name)
+		cur.execute(sql0)
+	sql = 'insert into %s(datetime,user_id,log_type,log_detail,remark) values("%s",%d,%d,"%s","%s")'%(table,datetime,1,log_type,log_detail,remark)
+	cur.execute(sql)
+	dict = {'status':'ok'}
+	return dict
+
+
 
 #监测预警
 def getDetectData(date,table1,table2,table3,field,risk_level,operation_mode,illegal_type,entity_type,warn_distribute):
