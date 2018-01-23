@@ -229,7 +229,7 @@ def getHotSpot(entity_list):
 							"bool": {
 								"must": [
 									{
-									"term": {
+									"match": {
 										"content": dict['name']
 										}
 									},

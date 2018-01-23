@@ -2710,9 +2710,6 @@
     keywords();
 
 // ====右下角热点舆情====
-    var hotSpot_url = '/homepage/hotSpot/';
-    public_ajax.call_request('get',hotSpot_url,comment);
-
     /*
 
         var commentData = ['银承派','中储贷','财富观','鼎信贷','派财网','汇金益','易保利','橙旗贷'];
@@ -2725,20 +2722,24 @@
             '自2016年8月24日多部委联合发布《网络借贷信息中介机构业务活动管理暂行办法》(以下简称《暂行办法》)至今已一年，一年以来，',
             '也许每个人都经历过肆意挥霍的时光吧。刚毕业那一年，整整一年，发财树小编是月光族的一员。现在回想过去，心中满是后悔。',
             '​​​​#跟钱做朋友#上周六日，上了本田健老师的财富课程，明天来给大家分享复盘，颠覆你之前的财富观，跟钱做朋友。做一个快乐的富翁。'];
-        function comment(data,data2){
+        function comment_test(data,data2){
             $('#container .bottom_right #picChart-6 #comment').empty();
             for(var i=0;i<data.length;i++){
                 var str = '<p><span class="comment_lef">'+data[i]+'</span><span class="comment_rig" title=\"'+data2[i]+'\">'+data2[i]+'</span>';
                 $('#container .bottom_right #picChart-6 #comment').append(str)
             }
         }
-        comment(commentData,commentData_2);
+        comment_test(commentData,commentData_2);
      */
+
+    var hotSpot_url = '/homepage/hotSpot/';
+    public_ajax.call_request('get',hotSpot_url,comment);
+
     function comment(data){
         if(data){
             $('#container .bottom_right #picChart-6 #comment').empty();
             for(var i=0;i<data.length;i++){
-                var str = '<p><span class="comment_lef">'+data[i].name+'</span><span class="comment_rig" title=\"'+data[i].content+'\">'+data[i].content+'</span>';
+                var str = '<p><span class="comment_lef">'+data[i].name+'</span><span class="comment_rig" title=\"'+data[i].content+'\">'+$.trim(data[i].content)+'</span>';
                 $('#container .bottom_right #picChart-6 #comment').append(str)
             }
         }
