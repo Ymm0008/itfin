@@ -284,3 +284,11 @@ def edit_related_company():
     elif entity_type == 3:
         status = EditRelatedCompany(TABLE_PROJECT_DETAIL,entity_id,related_company,date)
     return json.dumps(status,ensure_ascii=False)
+
+@index.route('/MonitorStatus/')
+def monitor_status():
+    entity_name = request.args.get('entity_name','')
+    log_type = int(request.args.get('log_type',''))
+    remark = request.args.get('remark','')
+    status = MonitorStatus(TABLE_ENTITY_LIST, TABLE_LOG, entity_name, log_type, remark)
+    return json.dumps(status,ensure_ascii=False)

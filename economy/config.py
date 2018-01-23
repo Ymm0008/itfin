@@ -20,6 +20,10 @@ TABLE_SENSOR = 'sensor_daily'
 TABLE_MONITOR = 'monitor_daily'
 TABLE_OPERATION_LIST = 'operation_list'
 TABLE_ILLEGAL_LIST = 'illegal_list'
+TABLE_LOG = 'logs'
+
+
+
 HOST = "219.224.134.214"
 
 
