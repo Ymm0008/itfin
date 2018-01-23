@@ -2710,42 +2710,43 @@
     keywords();
 
 // ====右下角热点舆情====
-    var commentData = ['银承派','中储贷','财富观','鼎信贷','派财网','汇金益','易保利','橙旗贷'];
-    var commentData_2 = [
-        '如此任性的银承派 银承派薅羊毛预警-平台曝光台-网贷经典http://t.cn/R0cSO63 ​​​​​',
-        '点银网世联集金种子拼图亚租所红金宝堆金网东方车贷C金所沃要投古德金融超市银承派摇财树微镇精融汇合伙人金融融裕贷  兆金所掌中财富绿化贷升值贷固金所佰亿猫前海广深发万盈金融阿凡达e贷考拉理财好好理财优投金服 ',
-        ' 利典金融钱兜金融米缸金融小袋理财  中航生意贷上雨创投财来网全通贷群盈财富隆筹金融互融CLUB广群金融全民财富玺鉴',
-        '飞鸟金融前海领投便利贷创富部落财火火融金桥石榴壳钱眼金融车富88产融贷华人金融汉沃财富易享贷富门理财e路同心锐盈财富利往行中业兴融前海红筹派派猪理财共赢时贷钱罐子有米贷司库金服妈妈资本华众时贷新常态金服倍多金理财农场小树时代理财 ',
-        '派财网的资产端对接的是保理公司，和一般做个贷的平台并不同。 保理资产的特点是基于核心企业应收账款or仓单质押的借款，并予央行备案登记，',
-        '自2016年8月24日多部委联合发布《网络借贷信息中介机构业务活动管理暂行办法》(以下简称《暂行办法》)至今已一年，一年以来，',
-        '也许每个人都经历过肆意挥霍的时光吧。刚毕业那一年，整整一年，发财树小编是月光族的一员。现在回想过去，心中满是后悔。',
-        '​​​​#跟钱做朋友#上周六日，上了本田健老师的财富课程，明天来给大家分享复盘，颠覆你之前的财富观，跟钱做朋友。做一个快乐的富翁。'];
-    function comment(data,data2){
-        $('#container .bottom_right #picChart-6 #comment').empty();
-        for(var i=0;i<data.length;i++){
-            var str = '<p><span class="comment_lef">'+data[i]+'</span><span class="comment_rig" title=\"'+data2[i]+'\">'+data2[i]+'</span>';
-            $('#container .bottom_right #picChart-6 #comment').append(str)
+    var hotSpot_url = '/homepage/hotSpot/';
+    public_ajax.call_request('get',hotSpot_url,comment);
+
+    /*
+
+        var commentData = ['银承派','中储贷','财富观','鼎信贷','派财网','汇金益','易保利','橙旗贷'];
+        var commentData_2 = [
+            '如此任性的银承派 银承派薅羊毛预警-平台曝光台-网贷经典http://t.cn/R0cSO63 ​​​​​',
+            '点银网世联集金种子拼图亚租所红金宝堆金网东方车贷C金所沃要投古德金融超市银承派摇财树微镇精融汇合伙人金融融裕贷  兆金所掌中财富绿化贷升值贷固金所佰亿猫前海广深发万盈金融阿凡达e贷考拉理财好好理财优投金服 ',
+            ' 利典金融钱兜金融米缸金融小袋理财  中航生意贷上雨创投财来网全通贷群盈财富隆筹金融互融CLUB广群金融全民财富玺鉴',
+            '飞鸟金融前海领投便利贷创富部落财火火融金桥石榴壳钱眼金融车富88产融贷华人金融汉沃财富易享贷富门理财e路同心锐盈财富利往行中业兴融前海红筹派派猪理财共赢时贷钱罐子有米贷司库金服妈妈资本华众时贷新常态金服倍多金理财农场小树时代理财 ',
+            '派财网的资产端对接的是保理公司，和一般做个贷的平台并不同。 保理资产的特点是基于核心企业应收账款or仓单质押的借款，并予央行备案登记，',
+            '自2016年8月24日多部委联合发布《网络借贷信息中介机构业务活动管理暂行办法》(以下简称《暂行办法》)至今已一年，一年以来，',
+            '也许每个人都经历过肆意挥霍的时光吧。刚毕业那一年，整整一年，发财树小编是月光族的一员。现在回想过去，心中满是后悔。',
+            '​​​​#跟钱做朋友#上周六日，上了本田健老师的财富课程，明天来给大家分享复盘，颠覆你之前的财富观，跟钱做朋友。做一个快乐的富翁。'];
+        function comment(data,data2){
+            $('#container .bottom_right #picChart-6 #comment').empty();
+            for(var i=0;i<data.length;i++){
+                var str = '<p><span class="comment_lef">'+data[i]+'</span><span class="comment_rig" title=\"'+data2[i]+'\">'+data2[i]+'</span>';
+                $('#container .bottom_right #picChart-6 #comment').append(str)
+            }
         }
+        comment(commentData,commentData_2);
+     */
+    function comment(data){
+        if(data){
+            $('#container .bottom_right #picChart-6 #comment').empty();
+            for(var i=0;i<data.length;i++){
+                var str = '<p><span class="comment_lef">'+data[i].name+'</span><span class="comment_rig" title=\"'+data[i].content+'\">'+data[i].content+'</span>';
+                $('#container .bottom_right #picChart-6 #comment').append(str)
+            }
+        }
+
     }
-    comment(commentData,commentData_2);
 
 //滚动
-var allMonitor_url='/system_manage/show_users_account/';
-// public_ajax.call_request('get',allMonitor_url,allMonitor);
-var phonehtml=[];
-function allMonitor(data) {
-    var line=data.airlines;
-    for (var i=0;i<line.length;i++){
-        phonehtml.push(
-            '<p class="phone" type="button" data-toggle="modal" ' +
-            'onclick="show(this)" onmousemove="chgecol(this)" onmouseout="back(this)">'+
-            '<span class="iphone zjnum">'+line[i]+'</span>'+
-            '<span class="iphone bjnum">'+line[i]+'</span>'+
-            '</p>'
-        );
-    };
-    $('.scroll-box').append(phonehtml.splice(0,5));
-}
+
 var $uList = $("#container #proRank");
 var $uList2 = $("#container #comment");
 var timer = null,timer2=null;
