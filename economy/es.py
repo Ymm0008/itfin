@@ -221,41 +221,43 @@ def getHotSpot(entity_list):
 	type = 'type1'
 	results = []
 	number = 0
-	while number < 30:
-		for dict in entity_list:
-			for index_name in ['bbs','forum','webo']:
-				indexB = ScalableBloomFilter(1000,0.001)
-				query_body = {
-						"sort":{"publish_time":{"order":"desc"}},
-						"query": {
-							"bool": {
-								"must": [
-									{
-									"match": {
-										"content": dict['name']
-										}
-									},
-										{
-									"match": {
-										"em1": 1
-										}
+	for dict in entity_list:
+		indexB = ScalableBloomFilter(1000,0.001)
+		for index_name in ['bbs','forum','webo']:
+			query_body = {
+					"sort":{"publish_time":{"order":"desc"}},
+					"query": {
+						"bool": {
+							"must": [
+								{
+								"match": {
+									"content": dict['name']
 									}
-								]
-							}
+								},
+									{
+								"match": {
+									"em1": 1
+									}
+								}
+							]
 						}
 					}
-				res = es.search(index=index_name, doc_type=type, body=query_body, request_timeout=100)
-				hits = res['hits']['hits']
-				if(len(hits)):
-					for item in hits:
-						if dict['name'] in item['_source']['content']:
-							if not index_name in indexB:
+				}
+			res = es.search(index=index_name, doc_type=type, body=query_body, request_timeout=100)
+			hits = res['hits']['hits']
+			if(len(hits)):
+				for item in hits:
+					if dict['name'] in item['_source']['content']:
+						if not index_name in indexB:
+							if number < 10:
 								id = dict['id']
 								entity_name = dict['name']
+								entity_type = dict['entity_type']
 								content = item['_source']['content']
-								results.append({'id':id,'name':entity_name,'content':content})
+								results.append({'id':id,'name':entity_name,'content':content,'entity_type':entity_type})
 								[indexB.add(index_name)]
 								number += 1
+		if not number < 10:
+			break
 	return results
-
 
