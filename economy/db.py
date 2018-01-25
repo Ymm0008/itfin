@@ -172,7 +172,7 @@ def get_ad(table,id,field):
 	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select * from %s where entity_id=%d and date <= (select max(date) from %s as a)" % (table,id,table)
+	sql = "select * from %s where entity_id=%d and date <= (select max(date) from %s as a) order by date asc" % (table,id,table)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
@@ -182,7 +182,7 @@ def get_comment(table,id,field):
 	conn = mysql.connect(host=HOST,user="root",password="",db="itfin",charset='utf8')
 	conn.autocommit(True)
 	cur = conn.cursor()
-	sql = "select * from %s where entity_id=%d and date <= (select max(date) from %s as a)" % (table,id,table)
+	sql = "select * from %s where entity_id=%d and date <= (select max(date) from %s as a) order by date asc" % (table,id,table)
 	cur.execute(sql)
 	res = cur.fetchall()
 	data = [{k:row[i] for i,k in enumerate(field)} for row in res]
@@ -417,6 +417,7 @@ def getDetectDistribute(date,table,table4,field,risk_level):
 				[b.add(p['city'])]
 				province_list.append({'province':p['province'],'city':p['city']})
 	for d in province_list:
+		#print(d['city'])
 		pro_dict = {"province":d['province'],"city":d['city']}
 		for dict in result:
 			if dict['city'] == d['city']:
@@ -426,8 +427,21 @@ def getDetectDistribute(date,table,table4,field,risk_level):
 					pro_dict.update({'count2':dict['count']})
 				elif dict['illegal_type'] == 3:
 					pro_dict.update({'count3':dict['count']})
-		pro_dict.update({'count1':0,'count3':0}) # 空数据报错。记得删掉
-		pro_dict.update({'sum':pro_dict['count1']+pro_dict['count2']+pro_dict['count3']})
+		print(pro_dict)
+		try:
+			count1 = pro_dict['count1']
+		except:
+			count1 = 0
+		try:
+			count2 = pro_dict['count2']
+		except:
+			count2 = 0
+		try:
+			count3 = pro_dict['count3']
+		except:
+			count3 = 0
+		sum = count1 + count2 + count3
+		pro_dict.update({'sum':sum})
 		list.append(pro_dict)
 	return list
 
