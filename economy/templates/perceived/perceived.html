@@ -100,6 +100,25 @@
         #perceiveContent .table-hover>tbody>tr:hover {
             background-color: transparent!important;
         }
+
+        /* 批量添加 按钮 */
+        #someAdd {
+            margin-left:20px;
+            vertical-align: middle;
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+        }
+        #someAdd input {
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            opacity: 0;
+            -ms-filter: alpha(opacity=0);
+            font-size: 20px;
+            cursor:pointer;
+        }
+
     </style>
 {% endblock %}
 
@@ -144,12 +163,16 @@
             <i class="icon icon-cloud-upload"></i>&nbsp;添加入库
             <span id="oneLibrary_2" class="oneAdd btn btn-primary" disabled="disabled" title="请添加后再入库"
                   style="margin-left:20px;vertical-align: middle;">一键入库</span>
-            <span class="oneAdd btn btn-primary" title="导入文件"
-                  style="margin-left:20px;vertical-align: middle;">批量添加</span>
+            <!-- <span class="oneAdd btn btn-primary" title="导入文件"
+                  style="margin-left:20px;vertical-align: middle;">批量添加</span> -->
+            <span id="someAdd">
+                <span class="oneAdd btn btn-primary" title="导入文件">批量添加</span>
+                <input type="file" title="导入文件" onchange="importf(this)">
+            </span>
         </h3>
         <div class="newAdd">
             <input type="text" class="add-1" placeholder="实体名称(必填)">
-            <input type="text" class="add-2" placeholder="推荐理由">
+
             <!-- <input type="text" class="add-3" placeholder="实体类型"> -->
             <select class="add-3">
                 <option value="1">平台</option>
@@ -159,6 +182,7 @@
             <input type="text" class="add-4" placeholder="注册公司">
             <input type="text" class="add-5" placeholder="相关人物">
             <input type="text" class="add-6" placeholder="其他关键词">
+            <input type="text" class="add-2" placeholder="推荐理由">
             <span id="add" class="newRow btn btn-primary" title="请输入内容在添加"
                   style="vertical-align: bottom;">新增一行</span>
         </div>
@@ -290,6 +314,8 @@
 <script src="/static/js/echarts-2/build/dist/echarts.js"></script>
 <script src="/static/js/chalk.js"></script>
 <script src="/static/js/jquery.fullPage.min.js"></script>
+<!-- 批量添加 读取excel -->
+<script src="/static/js/xlsx.full.min.js"></script>
 <script src="/static/js/perceived-1.js"></script>
 <script>
     <!---->

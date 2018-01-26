@@ -52,7 +52,7 @@
 	/* 模态框 */
 	#moreInfo, #editCard, #editIncome,
 	#EditRelatedPlat-box ,#EditRelatedCompany-box,
-	#saveSuccess{
+	#saveSuccess ,#MonitorStatus_off{
 		top:100px;
 	}
 	/* #moreInfo .modal-title, #editCard .modal-title ,#editIncome .modal-title,
@@ -231,6 +231,18 @@
 	    padding: 3px 7px;
 	    /* color: white; */
 	    text-align: center;
+	}
+	/* 停止恢复监测 */
+	#MonitorStatus_off .modal-body textarea{
+	    max-width: 100%;
+	    min-width:100%;
+	    background: transparent;
+	    border: 1px solid silver;
+	    border-radius: 5px;
+	    padding: 3px 7px;
+	    /* color: white; */
+	    text-align: left;
+	    min-height:80px;
 	}
 
 </style>
@@ -673,6 +685,7 @@
 	</div>
 
 </div>
+
 <!-- 模态框  收益率机器分布 查看全文-->
 <div class="modal fade " id="moreInfo" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
@@ -698,6 +711,7 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
 <!-- 模态框  编辑基本信息 -->
 <div class="modal fade " id="editCard" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
@@ -758,6 +772,7 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
 <!-- 模态框  收益率分布 -->
 <div class="modal fade " id="editIncome" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
@@ -778,6 +793,7 @@
 		</div>
 	</div>
 </div>
+
 <!-- 关联产品 -->
 <div class="modal fade " id="EditRelatedPlat-box" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
@@ -798,6 +814,7 @@
 		</div>
 	</div>
 </div>
+
 <!-- 关联企业 -->
 <div class="modal fade " id="EditRelatedCompany-box" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
@@ -818,6 +835,7 @@
 		</div>
 	</div>
 </div>
+
 <!-- 保存成功提示 -->
 <div class="modal fade " id="saveSuccess" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
@@ -837,6 +855,26 @@
 	</div>
 </div>
 
+<!-- 停止/恢复监测 模态框 -->
+<div class="modal fade " id="MonitorStatus_off" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">停止监测</h4>
+			</div>
+			<div class="modal-body">
+				<!-- <input type="text" name="" placeholder="请输入修改理由"> -->
+				<textarea id="reason_text" placeholder="请输入修改理由" autofocus required></textarea>
+				<span style="color:red;">请输入修改理由</span>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" id="sure_4">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 
 {% endblock %}

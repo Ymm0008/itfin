@@ -1,10 +1,28 @@
 var entity_name ,firm_name;
+
+// 备 编辑基本信息用
+var operation_mode_1 = 0;
+var date_1,entity_id_1,gs_date_1,entity_type_1;
+
+// 备 恢复/停止监测用
+var monitor_status_1;
+
 //====基本信息====
     var basicInfor_url='/index/entityType/?id='+pid+'&type='+type;
     public_ajax.call_request('get',basicInfor_url,basicInfor);
     function basicInfor(data){
-        console.log(data);
+        // console.log(data);
         var item=data[0];
+
+        // 判断监测状态
+        monitor_status_1 = item.monitor_status;//保存当前状态
+        if(item.monitor_status == 1){//正在监测状态
+            $('.nameStatus').text('正在监测');
+            $('.status-1').html('<i class="icon icon-retweet"></i>&nbsp;停止监测');
+        }else if(item.monitor_status == 2){//（状态）已停止监测
+            $('.nameStatus').text('已停止监测');
+            $('.status-1').html('<i class="icon icon-retweet"></i>&nbsp;恢复监测');
+        }
 
         var t1='',t2='',t3='否',t4='0',t5='0',t6='否',operationMode,legalPerson,capital;
         if (item.entity_type==1){t1='平台';}else if (item.entity_type==2){t1='公司';}else if (item.entity_type==1){t1='项目';}else {t1=''}
@@ -73,6 +91,12 @@ var entity_name ,firm_name;
         // 取出公司名称
         firm_name = item.firm_name;
 
+        operation_mode_1 = item.operation_mode;
+        date_1 = item.date;
+        entity_id_1 = parseInt(item.entity_id);
+        gs_date_1 = item.gs_date;
+        entity_type_1 = parseInt(item.entity_type);
+
         // // 子公司分公司情况
         // var table_1_url = '/index/sub_firm/?firm_name='+firm_name;
         // // var table_1_url = '/index/sub_firm/?firm_name=广西联银投资有限公司';//测试子公司分公司情况
@@ -136,6 +160,145 @@ var entity_name ,firm_name;
         // public_ajax.call_request('get',billing_url,billing_1);
 
         public_ajax.call_request('get',commentinforContent_url,commentinforContent_1);
+    }
+
+// 基本信息编辑
+    $('#card-edit').on('click',function(){
+        $('#editCard').modal('show');
+
+        // 值 渲染到input
+        var select_url = '/detection/OperationModeBox/';    //运营模式
+        public_ajax.call_request('get',select_url,slectUrl);
+        function slectUrl(data){
+            if(data){
+                var str = '';
+                for(var i=0;i<data.length;i++){
+                    str += '<option value="'+data[i].id+'">'+data[i].operation+'</option>'
+                }
+                $('#editCard .user-1 .u1_Val').append(str);
+
+                // console.log(operation_mode_1);
+                // $("#editCard .user-1 select option[value='"+operation_mode_1+"']").attr('selected',"selected");
+                $("#editCard .user-1 select").val(operation_mode_1);
+            }
+        }
+        // console.log(operation_mode_1);
+        // $("#editCard .user-1 select option[value='"+operation_mode_1+"']").attr('selected',"selected");
+        // 注册地
+        $('#editCard .user-2 input').val($('.location').text());
+        // 成立时间
+        $('#editCard .user-3 input').val($('.type-3').text());
+        // 法人代表
+        $('#editCard .user-4 input').val($('.type-4').text());
+        // 注册资本
+        var show_capital_val = $('.type-5').text();
+        show_capital_val = show_capital_val.substr(0, show_capital_val.length - 2);
+        $('#editCard .user-5 input').val(show_capital_val);
+        // 工商注册公司名称
+        $('#editCard .user-6 input').val($('.isPlatformName').text());
+        // 旗下产品
+        // $('#editCard .user-4 input').attr('value',$('.type-4').text());
+
+        // 确定提交修改的信息
+        $('#sure').on('click',function(){
+            var libaryList=[]; //用于传给后台的数据
+
+            // 注册资本  去掉万元
+            var capital_val = $('#editCard .user-5 input').val();
+            // capital_val = capital_val.substr(0, capital_val.length - 2);
+
+            var company_val;
+            if($('#editCard .user-6 input').val() == ''){
+                company_val = 'null';
+            }else{
+                company_val = $('#editCard .user-6 input').val();//工商注册公司名称
+            }
+            var set_time_val = $('#editCard .user-3 input').val();//成立时间
+            var legal_person_val = $('#editCard .user-4 input').val();//法人代表
+            var regist_address_val = $('#editCard .user-2 input').val();//注册地
+            var operation_mode_val = parseInt($('#editCard .user-1 select').val());//运营模式
+
+            libaryList.push({
+                capital:capital_val,
+                company:company_val,
+
+                date:date_1,
+                entity_id:entity_id_1,
+                gs_date:gs_date_1,
+                type:entity_type_1,
+
+                legal_person:legal_person_val,
+                operation_mode:operation_mode_val,
+                regist_address:regist_address_val,
+                set_time:set_time_val
+            });
+            console.log(libaryList);
+            var EditDetail_url = '/index/EditDetail/';
+            $.ajax({
+                url:EditDetail_url,
+                type:'POST',
+                contentType:'application/json',
+                // data:JSON.stringify(LL_data),
+                data:JSON.stringify(libaryList),
+                dataType:'json',
+                success:function(data){
+                    // console.log(data);
+                    if(data.status == 'ok'){
+                        $('#editCard').modal('hide');
+                        $('#saveSuccess').modal('show');
+                        // 重新渲染 基本信息
+                        var basicInfor_url='/index/entityType/?id='+pid+'&type='+type;
+                        public_ajax.call_request('get',basicInfor_url,basicInfor);
+
+                    }
+                }
+            })
+        })
+
+    })
+
+// 停止/恢复监测
+    $('.status-1').on('click',function(){
+        $('#MonitorStatus_off .modal-body span').hide();
+        // console.log(monitor_status_1);
+        if(monitor_status_1 == 1){//正在监测状态 点击停止监测
+            $('#MonitorStatus_off .modal-header h4').text('停止监测');
+            $('#MonitorStatus_off #reason_text').val('');
+            $('#MonitorStatus_off').modal('show');
+        }else if(monitor_status_1 == 2){//(状态)已停止监测 点击恢复监测
+            $('#MonitorStatus_off .modal-header h4').text('恢复监测');
+            $('#MonitorStatus_off #reason_text').val('');
+            $('#MonitorStatus_off').modal('show');
+        }
+    })
+    $('#sure_4').on('click',function(){
+        var remark_text = $('#reason_text').val();
+        if(remark_text == ''){
+            $('#MonitorStatus_off .modal-body span').show();
+            $('#MonitorStatus_off #reason_text').focus(function(){
+                $('#MonitorStatus_off .modal-body span').hide();
+            })
+            return false;
+        }else {
+            var MonitorStatus_off_url;
+            $('#MonitorStatus_off .modal-body span').hide();
+            if(monitor_status_1 == 1){//正在监测状态 点击停止监测
+                MonitorStatus_off_url = '/index/MonitorStatus/?entity_name='+entity_name+'&log_type=1&remark='+remark_text;
+                public_ajax.call_request('get',MonitorStatus_off_url,MonitorStatusOff);
+            }else if(monitor_status_1 == 2){//(状态)已停止监测 点击恢复监测
+                MonitorStatus_off_url = '/index/MonitorStatus/?entity_name='+entity_name+'&log_type=2&remark='+remark_text;
+                public_ajax.call_request('get',MonitorStatus_off_url,MonitorStatusOff);
+            }
+        }
+    })
+    function MonitorStatusOff(data){
+        if(data.status == 'ok'){
+            // console.log("修改成功");
+            $('#saveSuccess').modal('show');
+            // 重新渲染基本信息
+            var basicInfor_url='/index/entityType/?id='+pid+'&type='+type;
+            public_ajax.call_request('get',basicInfor_url,basicInfor);
+        }
     }
 
 // 舆情趋势分析

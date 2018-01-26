@@ -1,3 +1,4 @@
+
 /* 时间戳转换时间  放在publicNav 里去了
     Date.prototype.Format = function (fmt) { //author: meizz
         var o = {
@@ -33,6 +34,9 @@ var entity_name ,firm_name;
 var operation_mode_1 = 0;
 var date_1,entity_id_1,gs_date_1,entity_type_1;
 
+// 备 恢复/停止监测用
+var monitor_status_1;
+
 //====基本信息====
     var basicInfor_url='/index/entityType/?id='+pid+'&type='+type;
     // var basicInfor_url='/index/entityType/?id=5120&type=1';//测试股东信息
@@ -40,6 +44,16 @@ var date_1,entity_id_1,gs_date_1,entity_type_1;
     function basicInfor(data){
         // console.log(data);
         var item=data[0];
+
+        // 判断监测状态
+        monitor_status_1 = item.monitor_status;//保存当前状态
+        if(item.monitor_status == 1){//正在监测状态
+            $('.nameStatus').text('正在监测');
+            $('.status-1').html('<i class="icon icon-retweet"></i>&nbsp;停止监测');
+        }else if(item.monitor_status == 2){//（状态）已停止监测
+            $('.nameStatus').text('已停止监测');
+            $('.status-1').html('<i class="icon icon-retweet"></i>&nbsp;恢复监测');
+        }
 
         var t1='',t2='',t3='否',t4='0',t5='0',t6='否',operationMode,legalPerson,capital;
         if (item.entity_type==1){t1='平台';}else if (item.entity_type==2){t1='公司';}else if (item.entity_type==1){t1='项目';}else {t1=''}
@@ -284,6 +298,50 @@ var date_1,entity_id_1,gs_date_1,entity_type_1;
         })
 
     })
+
+// 停止/恢复监测
+    $('.status-1').on('click',function(){
+        $('#MonitorStatus_off .modal-body span').hide();
+        // console.log(monitor_status_1);
+        if(monitor_status_1 == 1){//正在监测状态 点击停止监测
+            $('#MonitorStatus_off .modal-header h4').text('停止监测');
+            $('#MonitorStatus_off #reason_text').val('');
+            $('#MonitorStatus_off').modal('show');
+        }else if(monitor_status_1 == 2){//(状态)已停止监测 点击恢复监测
+            $('#MonitorStatus_off .modal-header h4').text('恢复监测');
+            $('#MonitorStatus_off #reason_text').val('');
+            $('#MonitorStatus_off').modal('show');
+        }
+    })
+    $('#sure_4').on('click',function(){
+        var remark_text = $('#reason_text').val();
+        if(remark_text == ''){
+            $('#MonitorStatus_off .modal-body span').show();
+            $('#MonitorStatus_off #reason_text').focus(function(){
+                $('#MonitorStatus_off .modal-body span').hide();
+            })
+            return false;
+        }else {
+            var MonitorStatus_off_url;
+            $('#MonitorStatus_off .modal-body span').hide();
+            if(monitor_status_1 == 1){//正在监测状态 点击停止监测
+                MonitorStatus_off_url = '/index/MonitorStatus/?entity_name='+entity_name+'&log_type=1&remark='+remark_text;
+                public_ajax.call_request('get',MonitorStatus_off_url,MonitorStatusOff);
+            }else if(monitor_status_1 == 2){//(状态)已停止监测 点击恢复监测
+                MonitorStatus_off_url = '/index/MonitorStatus/?entity_name='+entity_name+'&log_type=2&remark='+remark_text;
+                public_ajax.call_request('get',MonitorStatus_off_url,MonitorStatusOff);
+            }
+        }
+    })
+    function MonitorStatusOff(data){
+        if(data.status == 'ok'){
+            // console.log("修改成功");
+            $('#saveSuccess').modal('show');
+            // 重新渲染基本信息
+            var basicInfor_url='/index/entityType/?id='+pid+'&type='+type;
+            public_ajax.call_request('get',basicInfor_url,basicInfor);
+        }
+    }
 
 //====股东数量====
     var master_url='/index/gongshang/?id='+pid;
@@ -718,7 +776,8 @@ var date_1,entity_id_1,gs_date_1,entity_type_1;
                                     children:[],
                                 },
                                 {
-                                    name:'分公司情况',
+                                    // name:'分公司情况',
+                                    name:'对外投资情况',
                                     // value:6,
                                     itemStyle: {
                                         normal: {
@@ -2379,131 +2438,132 @@ var date_1,entity_id_1,gs_date_1,entity_type_1;
     }
 
 
+/*
+    // 使用jsFiddle生成Word
+    var result = document.getElementById('LL');
+    result.addEventListener('click', function(){
 
-// 使用jsFiddle生成Word
-//     var result = document.getElementById('LL');
-//     result.addEventListener('click', function(){
-//
-//         //img类推
-//         var imgs = [],canvasArr = [_myChart1, _myChart2];
-//         // need dataurl
-//         for(var i = 0; i < canvasArr.length; i++){
-//             var canvasIndex = canvasArr[i].getRenderedCanvas({
-//                 pixelRatio: 1,
-//                 backgroundColor: '#FFFFFF'
-//             });
-//             imgs.push(canvasIndex.toDataURL('image/jpeg'));
-//         }
-//
-//         //虚拟创建各种需要的DOM内容，不加入文档流，但使用, style需要在节点中添加
-//         var $div = $('<div id="myDoc"></div>');
-//         var $homeTitle = $('<p class="homeTitle" style="font-size: 30px; font-weight: 600; text-align: center; ">' + '画像' +'</p>');
-//         // var $homeInfo = $(
-//         //     '<p class="homeInfo" style="font-size: 23px; margin: 50px 0 0 30px; font-weight: 600;">' + 'exportConfig.homePage.programInfo1' + '</p>' +
-//         //     '<p class="homeInfo" style="font-size: 23px; margin: 50px 0 0 30px; font-weight: 600;">' + 'exportConfig.homePage.programInfo2' + '</p>' +
-//         //     '<p class="homeInfo" style="font-size: 23px; margin: 50px 0 0 30px; font-weight: 600;">' + 'exportConfig.homePage.programInfo3' + '</p>' +
-//         //     '<p class="homeInfo" style="font-size: 23px; margin: 50px 0 0 30px; font-weight: 600;">' + 'exportConfig.homePage.programInfo4' + '</p>'
-//         // );
-//         var $homeFooter = $('<p class="homeFooter" style="text-align: center; font-size: 13px; page-break-after: always; margin-top: 40px;">' + 'exportConfig.homePage.footer' + '</p>');
-//         var $firstPointTitle = $('<p class="pointTitle" style="page-break-before: always; font-weight: 600; font-size: 25px; margin-bottom: 25px;">' + 'exportConfig.theFirst.title'+ '</p>');
-//         var $firstPointFirPara = $('<p class="pointParagraph">' + '&nbsp;&nbsp;&nbsp;' + 'requestData.LevelSummary' + 'exportConfig.theFirst.paragraph1p7' + '</p>');
-//         var $firstPointFirImg = $('<div style="text-align: center;">' + '<img class="pointImg" style="width: 350px; margin-top: 20px; margin-bottom: 10px;" />'+ '\n' + '<img class="pointImg" style="width: 350px; margin-top: 20px; margin-bottom: 10px;"/>' + '<p style="font-size: 20px; font-weight: 600;">图 1 危害等级分布柱状图、饼图</p>' + '</div>');
-//         var $firstPointSecPara = $('<p class="pointParagraph">' + '&nbsp;&nbsp;&nbsp;' + 'requestData.TypeSummary' + 'exportConfig.theFirst.paragraph2p11'+ '</p>');
-//         var $firstPointSecImg = $('<div style="text-align: center;">' + '<img class="pointImg" style="width: 350px; margin-top: 20px; margin-bottom: 10px;"/>' + '\n' + '<img class="pointImg" style="width: 350px; margin-top: 20px; margin-bottom: 10px;"/>' + '<p style="font-size: 20px; font-weight: 600;">图 1 问题类型分布柱状图、饼图</p>' + '</div>');
-//         var $secondPointTitle = $('<p class="pointTitle" style="font-size: 25px; font-weight: 600; margin-bottom: 25px;">' + 'exportConfig.theSecond.title' + '</p>' + '<p class="tableTitle" style="text-align: center;">' + 'exportConfig.theSecond.tableTitle' +'</p>');
-//
-//          var $resultTable = structureTable();
-//         // 构造表格，structure table ,这里的data.length 需改为项目的表格内容，如requestData.ProblemList.length
-//         function structureTable() {
-//             var $table = $('<table style="border-collapse: collapse; text-align: left; word-wrap: break-word; word-break: break-all;"></table>');
-//             var $thead = $('<thead style="text-align: center;"><tr><td style="width: 10%; border: 1px solid black;">时间</td><td style="width: 10%; border: 1px solid black;">预警内容</td><td style="width: 10%; border: 1px solid black;">查看详情</td><td style="border: 1px solid black; width: auto;">建议方案</td></tr></thead>');
-//             var tbody = '<tbody>';
-//             for(var i = 0; i < objData.length; i++){
-//                 tbody +='<tr>' + '<td style="border: 1px solid black;">' + objData[i]['a'] + '</td>' + '<td style="border: 1px solid black;">' + objData[i]['b'] + '</td>' + '<td style="border: 1px solid black;">' + objData[i]['c'] + '</td>' + '<td style="border: 1px solid black;">' + objData[i][3] + '</td>' + '</tr>';
-//             }
-//             tbody += '</tbody>';
-//             var $tbody = $(tbody);
-//             $table.append($thead, $tbody);
-//             return $table;
-//         }
-//         // $div.append($homeTitle, $homeInfo, $homeFooter, $firstPointTitle, $firstPointFirPara, $firstPointFirImg, $firstPointSecPara, $firstPointSecImg, $secondPointTitle, $resultTable);
-//         // $div.append($homeTitle, $homeFooter, $firstPointTitle, $firstPointFirPara, $firstPointFirImg, $firstPointSecPara, $firstPointSecImg, $secondPointTitle,$resultTable);
-//         $('#container').append($resultTable);
-//
-//         //主体函数，即将内容加入到word中
-//         $.fn.wordExport = function(fileName) {
-//             fileName = typeof fileName !== 'undefined' ? fileName : "导出";
-//             var static = {
-//                 mhtml: {
-//                     top: "Mime-Version: 1.0\nContent-Base: " + location.href + "\nContent-Type: Multipart/related; boundary=\"NEXT.ITEM-BOUNDARY\";type=\"text/html\"\n\n--NEXT.ITEM-BOUNDARY\nContent-Type: text/html; charset=\"utf-8\"\nContent-Location: " + location.href + "\n\n<!DOCTYPE html>\n<html>\n_html_</html>",
-//                     head: "<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<style>\n+ '_styles_' + \n</style>\n</head>\n",
-//                     body: "<body>_body_</body>"
-//                 }
-//             };
-//             var options = {
-//                 maxWidth: 624
-//             };
-//             // Clone selected element before manipulating it
-//             var markup = $(this).clone();
-//
-//             // Remove hidden elements from the output
-//             markup.each(function() {
-//                 var self = $(this);
-//                 if (self.is(':hidden'))
-//                     self.remove();
-//             });
-//
-//             // Embed all images using Data URLs
-//             // img如果再文档流中，上面可以不用处理，使用这儿的内容先去创建canvas 然后toDataURL获取uri再进行使用，这里注释是因为上面我们已经将内容转为uri，故不需要做无用功
-//             var images = Array();
-//             var img = markup.find('img');
-//             for (var i = 0; i < imgs.length; i++) {
-//                 // Calculate dimensions of output image
-//                 //var w = Math.min(img[i].width, options.maxWidth);
-//                 //var h = img[i].height * (w / img[i].width);
-//                     // Create canvas for converting image to data URL
-//                 //var canvas = document.createElement("CANVAS");
-//                 //canvas.width = w;
-//                 //canvas.height = h;
-//                     // Draw image to canvas
-//                 //var context = canvas.getContext('2d');
-//                 //context.drawImage(img[i], 0, 0, w, h);
-//                 // Get data URL encoding of image
-//                 var uri = imgs[i];
-//                 $(img[i]).attr("src", imgs[i]);
-//                 //img[i].width = w;
-//                 //img[i].height = h;
-//                 // Save encoded image to array
-//                 images[i] = {
-//                     type: uri.substring(uri.indexOf(":") + 1, uri.indexOf(";")),
-//                     encoding: uri.substring(uri.indexOf(";") + 1, uri.indexOf(",")),
-//                     location: $(img[i]).attr("src"),
-//                     data: uri.substring(uri.indexOf(",") + 1)
-//                 };
-//             }
-//             // Prepare bottom of mhtml file with image data
-//             var mhtmlBottom = "\n";
-//             for (var i = 0; i < images.length; i++) {
-//                 mhtmlBottom += "--NEXT.ITEM-BOUNDARY\n";
-//                 mhtmlBottom += "Content-Location: " + images[i].location + "\n";
-//                 mhtmlBottom += "Content-Type: " + images[i].type + "\n";
-//                 mhtmlBottom += "Content-Transfer-Encoding: " + images[i].encoding + "\n\n";
-//                 mhtmlBottom += images[i].data + "\n\n";
-//             }
-//             mhtmlBottom += "--NEXT.ITEM-BOUNDARY--";
-//
-//             //TODO: load css from included stylesheet
-//             //styles如果再文档流中可用，否则通过这种方式，无法查找到元素，无法添加样式，故上面将样式内联在dom结构中
-//             var styles = 'table {border-collapse:collapse; border: 1px solid #000;} td { border: 1px solid #000;} h1 { font-size: 30px; color: red; }'
-//             // Aggregate parts of the file together
-//             var fileContent = static.mhtml.top.replace("_html_", static.mhtml.head.replace("_styles_", styles) + static.mhtml.body.replace("_body_", markup.html())) + mhtmlBottom;
-//
-//             // Create a Blob with the file contents
-//             var blob = new Blob([fileContent], {
-//                 type: "application/msword;charset=utf-8"
-//             });
-//             saveAs(blob, fileName + ".doc");
-//         }
-//         // $div.wordExport('docName');
-//         $("#container").wordExport('docName');
-//     },false);
+        //img类推
+        var imgs = [],canvasArr = [_myChart1, _myChart2];
+        // need dataurl
+        for(var i = 0; i < canvasArr.length; i++){
+            var canvasIndex = canvasArr[i].getRenderedCanvas({
+                pixelRatio: 1,
+                backgroundColor: '#FFFFFF'
+            });
+            imgs.push(canvasIndex.toDataURL('image/jpeg'));
+        }
+
+        //虚拟创建各种需要的DOM内容，不加入文档流，但使用, style需要在节点中添加
+        var $div = $('<div id="myDoc"></div>');
+        var $homeTitle = $('<p class="homeTitle" style="font-size: 30px; font-weight: 600; text-align: center; ">' + '画像' +'</p>');
+        // var $homeInfo = $(
+        //     '<p class="homeInfo" style="font-size: 23px; margin: 50px 0 0 30px; font-weight: 600;">' + 'exportConfig.homePage.programInfo1' + '</p>' +
+        //     '<p class="homeInfo" style="font-size: 23px; margin: 50px 0 0 30px; font-weight: 600;">' + 'exportConfig.homePage.programInfo2' + '</p>' +
+        //     '<p class="homeInfo" style="font-size: 23px; margin: 50px 0 0 30px; font-weight: 600;">' + 'exportConfig.homePage.programInfo3' + '</p>' +
+        //     '<p class="homeInfo" style="font-size: 23px; margin: 50px 0 0 30px; font-weight: 600;">' + 'exportConfig.homePage.programInfo4' + '</p>'
+        // );
+        var $homeFooter = $('<p class="homeFooter" style="text-align: center; font-size: 13px; page-break-after: always; margin-top: 40px;">' + 'exportConfig.homePage.footer' + '</p>');
+        var $firstPointTitle = $('<p class="pointTitle" style="page-break-before: always; font-weight: 600; font-size: 25px; margin-bottom: 25px;">' + 'exportConfig.theFirst.title'+ '</p>');
+        var $firstPointFirPara = $('<p class="pointParagraph">' + '&nbsp;&nbsp;&nbsp;' + 'requestData.LevelSummary' + 'exportConfig.theFirst.paragraph1p7' + '</p>');
+        var $firstPointFirImg = $('<div style="text-align: center;">' + '<img class="pointImg" style="width: 350px; margin-top: 20px; margin-bottom: 10px;" />'+ '\n' + '<img class="pointImg" style="width: 350px; margin-top: 20px; margin-bottom: 10px;"/>' + '<p style="font-size: 20px; font-weight: 600;">图 1 危害等级分布柱状图、饼图</p>' + '</div>');
+        var $firstPointSecPara = $('<p class="pointParagraph">' + '&nbsp;&nbsp;&nbsp;' + 'requestData.TypeSummary' + 'exportConfig.theFirst.paragraph2p11'+ '</p>');
+        var $firstPointSecImg = $('<div style="text-align: center;">' + '<img class="pointImg" style="width: 350px; margin-top: 20px; margin-bottom: 10px;"/>' + '\n' + '<img class="pointImg" style="width: 350px; margin-top: 20px; margin-bottom: 10px;"/>' + '<p style="font-size: 20px; font-weight: 600;">图 1 问题类型分布柱状图、饼图</p>' + '</div>');
+        var $secondPointTitle = $('<p class="pointTitle" style="font-size: 25px; font-weight: 600; margin-bottom: 25px;">' + 'exportConfig.theSecond.title' + '</p>' + '<p class="tableTitle" style="text-align: center;">' + 'exportConfig.theSecond.tableTitle' +'</p>');
+
+         var $resultTable = structureTable();
+        // 构造表格，structure table ,这里的data.length 需改为项目的表格内容，如requestData.ProblemList.length
+        function structureTable() {
+            var $table = $('<table style="border-collapse: collapse; text-align: left; word-wrap: break-word; word-break: break-all;"></table>');
+            var $thead = $('<thead style="text-align: center;"><tr><td style="width: 10%; border: 1px solid black;">时间</td><td style="width: 10%; border: 1px solid black;">预警内容</td><td style="width: 10%; border: 1px solid black;">查看详情</td><td style="border: 1px solid black; width: auto;">建议方案</td></tr></thead>');
+            var tbody = '<tbody>';
+            for(var i = 0; i < objData.length; i++){
+                tbody +='<tr>' + '<td style="border: 1px solid black;">' + objData[i]['a'] + '</td>' + '<td style="border: 1px solid black;">' + objData[i]['b'] + '</td>' + '<td style="border: 1px solid black;">' + objData[i]['c'] + '</td>' + '<td style="border: 1px solid black;">' + objData[i][3] + '</td>' + '</tr>';
+            }
+            tbody += '</tbody>';
+            var $tbody = $(tbody);
+            $table.append($thead, $tbody);
+            return $table;
+        }
+        // $div.append($homeTitle, $homeInfo, $homeFooter, $firstPointTitle, $firstPointFirPara, $firstPointFirImg, $firstPointSecPara, $firstPointSecImg, $secondPointTitle, $resultTable);
+        // $div.append($homeTitle, $homeFooter, $firstPointTitle, $firstPointFirPara, $firstPointFirImg, $firstPointSecPara, $firstPointSecImg, $secondPointTitle,$resultTable);
+        $('#container').append($resultTable);
+
+        //主体函数，即将内容加入到word中
+        $.fn.wordExport = function(fileName) {
+            fileName = typeof fileName !== 'undefined' ? fileName : "导出";
+            var static = {
+                mhtml: {
+                    top: "Mime-Version: 1.0\nContent-Base: " + location.href + "\nContent-Type: Multipart/related; boundary=\"NEXT.ITEM-BOUNDARY\";type=\"text/html\"\n\n--NEXT.ITEM-BOUNDARY\nContent-Type: text/html; charset=\"utf-8\"\nContent-Location: " + location.href + "\n\n<!DOCTYPE html>\n<html>\n_html_</html>",
+                    head: "<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<style>\n+ '_styles_' + \n</style>\n</head>\n",
+                    body: "<body>_body_</body>"
+                }
+            };
+            var options = {
+                maxWidth: 624
+            };
+            // Clone selected element before manipulating it
+            var markup = $(this).clone();
+
+            // Remove hidden elements from the output
+            markup.each(function() {
+                var self = $(this);
+                if (self.is(':hidden'))
+                    self.remove();
+            });
+
+            // Embed all images using Data URLs
+            // img如果再文档流中，上面可以不用处理，使用这儿的内容先去创建canvas 然后toDataURL获取uri再进行使用，这里注释是因为上面我们已经将内容转为uri，故不需要做无用功
+            var images = Array();
+            var img = markup.find('img');
+            for (var i = 0; i < imgs.length; i++) {
+                // Calculate dimensions of output image
+                //var w = Math.min(img[i].width, options.maxWidth);
+                //var h = img[i].height * (w / img[i].width);
+                    // Create canvas for converting image to data URL
+                //var canvas = document.createElement("CANVAS");
+                //canvas.width = w;
+                //canvas.height = h;
+                    // Draw image to canvas
+                //var context = canvas.getContext('2d');
+                //context.drawImage(img[i], 0, 0, w, h);
+                // Get data URL encoding of image
+                var uri = imgs[i];
+                $(img[i]).attr("src", imgs[i]);
+                //img[i].width = w;
+                //img[i].height = h;
+                // Save encoded image to array
+                images[i] = {
+                    type: uri.substring(uri.indexOf(":") + 1, uri.indexOf(";")),
+                    encoding: uri.substring(uri.indexOf(";") + 1, uri.indexOf(",")),
+                    location: $(img[i]).attr("src"),
+                    data: uri.substring(uri.indexOf(",") + 1)
+                };
+            }
+            // Prepare bottom of mhtml file with image data
+            var mhtmlBottom = "\n";
+            for (var i = 0; i < images.length; i++) {
+                mhtmlBottom += "--NEXT.ITEM-BOUNDARY\n";
+                mhtmlBottom += "Content-Location: " + images[i].location + "\n";
+                mhtmlBottom += "Content-Type: " + images[i].type + "\n";
+                mhtmlBottom += "Content-Transfer-Encoding: " + images[i].encoding + "\n\n";
+                mhtmlBottom += images[i].data + "\n\n";
+            }
+            mhtmlBottom += "--NEXT.ITEM-BOUNDARY--";
+
+            //TODO: load css from included stylesheet
+            //styles如果再文档流中可用，否则通过这种方式，无法查找到元素，无法添加样式，故上面将样式内联在dom结构中
+            var styles = 'table {border-collapse:collapse; border: 1px solid #000;} td { border: 1px solid #000;} h1 { font-size: 30px; color: red; }'
+            // Aggregate parts of the file together
+            var fileContent = static.mhtml.top.replace("_html_", static.mhtml.head.replace("_styles_", styles) + static.mhtml.body.replace("_body_", markup.html())) + mhtmlBottom;
+
+            // Create a Blob with the file contents
+            var blob = new Blob([fileContent], {
+                type: "application/msword;charset=utf-8"
+            });
+            saveAs(blob, fileName + ".doc");
+        }
+        // $div.wordExport('docName');
+        $("#container").wordExport('docName');
+    },false);
+*/

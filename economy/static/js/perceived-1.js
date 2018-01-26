@@ -633,21 +633,7 @@
                         };
                     }
                 },
-                {
-                    title: "推荐理由",//标题
-                    field: "rec_type",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        if (row.rec_type==''||row.rec_type=='null'||row.rec_type=='unknown'||!row.rec_type){
-                            return '';
-                        }else {
-                            return row.rec_type;
-                        };
-                    }
-                },
+
                 {
                     title: "实体类别",//标题
                     field: "entity_type",//键名
@@ -705,6 +691,21 @@
                             return '';
                         }else {
                             return row.key_words;
+                        };
+                    }
+                },
+                {
+                    title: "推荐理由",//标题
+                    field: "rec_type",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.rec_type==''||row.rec_type=='null'||row.rec_type=='unknown'||!row.rec_type){
+                            return '';
+                        }else {
+                            return row.rec_type;
                         };
                     }
                 },
@@ -968,5 +969,84 @@
         // 赋值给下拉框
         selectObj.val(tdText_2)
     }
+
+// 批量添加 读取excel
+    /*
+    FileReader共有4种读取方法：
+    1.readAsArrayBuffer(file)：将文件读取为ArrayBuffer。
+    2.readAsBinaryString(file)：将文件读取为二进制字符串
+    3.readAsDataURL(file)：将文件读取为Data URL
+    4.readAsText(file, [encoding])：将文件读取为文本，encoding缺省值为'UTF-8'
+                 */
+    var wb;//读取完成的数据
+    var rABS = false; //是否将文件读取为二进制字符串
+    var somAddData = [];
+
+    function importf(obj) {//导入
+        if(!obj.files) {
+            return;
+        }
+        var f = obj.files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var data = e.target.result;
+            if(rABS) {
+                wb = XLSX.read(btoa(fixdata(data)), {//手动转化
+                    type: 'base64'
+                });
+            } else {
+                wb = XLSX.read(data, {
+                    type: 'binary'
+                });
+            }
+            //wb.SheetNames[0]是获取Sheets中第一个Sheet的名字
+            //wb.Sheets[Sheet名]获取第一个Sheet的数据
+            // document.getElementById("demo").innerHTML= JSON.stringify( XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]) );
+            var str = JSON.stringify( XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]) );
+            // console.log(str);
+            // somAddData.push(JSON.parse(str));
+            somAddData = (JSON.parse(str));
+            console.log(somAddData);
+            if(somAddData.length > 0){
+                // console.log("添加到表格");
+                for(var i=0;i<somAddData.length;i++){
+                    var one = somAddData[i]['实体名称'];
+                    var three = somAddData[i]['实体类别'];
+                    // if(three == ''){
+                    //     three = 'null';
+                    // }else if(three == '平台'){
+                    //     three = 1;
+                    // }else if(three == '公司'){
+                    //     three = 2;
+                    // }else if(three == '项目'){
+                    //     three = 3;
+                    // }
+                    var four = somAddData[i]['注册公司'];
+                    var five = somAddData[i]['相关人物'];
+                    var six = somAddData[i]['其他关键词'];
+                    var two = parseInt(somAddData[i]['推荐理由']);//暂 转为数字
+                    var row = {'entity_name':one,'rec_type':two,'entity_type':three,'company':four,'related_person':five,'key_words':six,'g':'<input type="button" value="删除" class="btn-info btn btn-sm deleteone" onclick="delThisRow(\''+one+'\')">'}
+                    $('#addClub').bootstrapTable('insertRow',{index: 0, row: row});//在最开始插入新行
+                    $('#addClub').bootstrapTable('removeByUniqueId','');//删除行的方法
+                }
+            }
+        };
+        if(rABS) {
+            reader.readAsArrayBuffer(f);
+        } else {
+            reader.readAsBinaryString(f);
+        }
+    }
+
+    function fixdata(data) { //文件流转BinaryString
+        var o = "",
+            l = 0,
+            w = 10240;
+        for(; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)));
+        o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
+        return o;
+    }
+
+
 
 
