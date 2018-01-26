@@ -13,13 +13,13 @@ from economy.config import *
 p = Pinyin()
 
 def defaultDatabase():
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset="utf8")
+	conn = mysql.connect(host=HOST,user=USER,password=PASSWORD,db=DEFAULT_DB,charset=CHARSET)
 	conn.autocommit(True)
 	cur = conn.cursor()
 	return cur
 
 def testDatabase():
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset="utf8")
+	conn = mysql.connect(host=HOST,user=USER,password=PASSWORD,db=TEST_DB,charset=CHARSET)
 	conn.autocommit(True)
 	cur = conn.cursor()
 	return cur
