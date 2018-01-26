@@ -4,12 +4,9 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 from elasticsearch import Elasticsearch
-import config
 from duplicate import duplicate
 from pybloom import ScalableBloomFilter
-
-ES_HOST = '219.224.134.214'
-ES_PORT = 9202
+from economy.config import *
 
 es = Elasticsearch([{'host':ES_HOST,'port':ES_PORT}])
 

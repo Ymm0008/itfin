@@ -13,13 +13,13 @@ from economy.config import *
 p = Pinyin()
 
 def defaultDatabase():
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="itfin",charset="utf8")
+	conn = mysql.connect(host=HOST,user=USER,password=PASSWORD,db=DEFAULT_DB,charset=CHARSET)
 	conn.autocommit(True)
 	cur = conn.cursor()
 	return cur
 
 def testDatabase():
-	conn = mysql.connect(host="219.224.134.214",user="root",password="",db="zyz",charset="utf8")
+	conn = mysql.connect(host=HOST,user=USER,password=PASSWORD,db=TEST_DB,charset=CHARSET)
 	conn.autocommit(True)
 	cur = conn.cursor()
 	return cur
@@ -642,7 +642,9 @@ def get_perceive_data(table,field):
 
 def p_getWarnCount(table,field):
 	cur = defaultDatabase()
-	sql = 'select entity_type,count(*) from %s where date=(select max(date) from sensor_daily as sd) group by entity_type'%table
+	to = int(time.time())
+	today = time.strftime("%Y-%m-%d",time.localtime(to))
+	sql = 'select entity_type,count(*) from %s where date="%s" group by entity_type'%(table, today)
 	cur.execute(sql)
 	res = cur.fetchall()
 	result = [{k:row[i] for i,k in enumerate(field)} for row in res]
