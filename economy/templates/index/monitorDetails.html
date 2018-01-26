@@ -83,7 +83,56 @@
         .commentinforContent .fixed-table-container thead th .th-inner,
         .commentinforContent .table>tbody>tr>td,.commentinforContent .bootstrap-table .table:not(.table-condensed)>tbody>tr>td
         {padding: 0;}
+
+        /* 模态框 */
+        #moreInfo, #editCard, #editIncome,
+        #EditRelatedPlat-box ,#EditRelatedCompany-box,
+        #saveSuccess ,#MonitorStatus_off{
+            top:100px;
+        }
+        /* 编辑功能 */
+        #editCard .example ,#editIncome .example,
+        #EditRelatedPlat-box .example,#EditRelatedCompany-box .example {
+            margin-top: 20px;
+            /* text-align: center; */
+            text-align: left;
+            padding-left:5%;
+        }
+        #editCard .example span, #editIncome .example span,
+        #EditRelatedPlat-box .example span,
+        #EditRelatedCompany-box .example span{
+            display: inline-block;
+            /* width: 100px; */
+            width: 25%;
+            text-align: center;
+        }
+        #editCard .example input, #editCard .example select ,#editIncome .example input,
+        #EditRelatedPlat-box .example input,
+        #EditRelatedCompany-box .example input {
+            /* width: 250px; */
+            width: 50%;
+            background: transparent;
+            border: 1px solid silver;
+            border-radius: 5px;
+            padding: 3px 7px;
+            /* color: white; */
+            text-align: center;
+        }
+        /* 停止恢复监测 */
+        #MonitorStatus_off .modal-body textarea{
+            max-width: 100%;
+            min-width:100%;
+            background: transparent;
+            border: 1px solid silver;
+            border-radius: 5px;
+            padding: 3px 7px;
+            /* color: white; */
+            text-align: left;
+            min-height:80px;
+        }
+
         /* ====lvlei==== */
+
     </style>
 {% endblock %}
 
@@ -102,8 +151,8 @@
     <div id="card">
         <div class="infor">
             <h3>
-                <b class="name"></b>&nbsp;<i class="icon icon-edit comBisic" title="编辑"></i>
-                <span class="nameStatus" style="font-size: 12px;color: #ff761f;">已停止监测</span>
+                <b class="name"></b>&nbsp;<i class="icon icon-edit comBisic" title="编辑" id="card-edit"></i>
+                <span class="nameStatus" style="font-size: 12px;color: #ff761f;">正在监测</span>
                 <span class="status-1 status btn-primary"><i class="icon icon-retweet"></i>&nbsp;恢复监测</span>
                 <span class="status-2 status btn-primary"><i class="icon icon-sitemap"></i>&nbsp;查看网络图</span>
             </h3>
@@ -229,6 +278,108 @@
         </div>
     </div> -->
 </div>
+
+<!-- 模态框  编辑基本信息 -->
+<div class="modal fade " id="editCard" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">编辑</h4>
+            </div>
+            <div class="modal-body">
+                <div class="user-1 example">
+                    <span>运营模式:</span>
+                    <select class="u1_Val">
+                        <option value="0" selected>全部</option>
+                        <!-- <option value="P2P理财">P2P理财</option>
+                        <option value="投资项目">投资项目</option>
+                        <option value="游戏">游戏</option>
+                        <option value="任务奖励">任务奖励</option>
+                        <option value="股权私募基金">股权私募基金</option> -->
+                    </select>
+                </div>
+                <div class="user-2 example">
+                    <span>注册地:</span><input type="text" class="u2_Val">
+                </div>
+                <div class="user-3 example">
+                    <span>成立时间:</span><input type="text" class="u3_Val">
+                </div>
+                <div class="user-4 example">
+                    <span>法人代表:</span><input type="text" class="u4_Val">
+                </div>
+                <div class="user-5 example">
+                    <span>注册资本:</span><input type="text" class="u5_Val"> 万元
+                </div>
+                <div class="user-6 example">
+                    <span>工商注册公司名称:</span><input type="text" class="u6_Val">
+                </div>
+                <!-- <div class="user-3 example">
+                    <span>实体类别</span>
+                    <select class="u3_Val">
+                        <option value="1">平台</option>
+                        <option value="2">公司</option>
+                        <option value="3">项目</option>
+                    </select>
+                </div>
+                <div class="user-4 example">
+                    <span>注册公司</span><input type="text" class="u4_Val"><span class="prompt" style="width:25%;"></span>
+                </div>
+                <div class="user-5 example">
+                    <span>相关人物</span><input type="text" class="u5_Val"><span class="prompt" style="width:25%;">(请用英文逗号分隔)</span>
+                </div>
+                <div class="user-6 example">
+                    <span>其他关键词</span><input type="text" class="u6_Val"><span class="prompt" style="width:25%;">(请用英文逗号分隔)</span>
+                </div> -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="sure">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 保存成功提示 -->
+<div class="modal fade " id="saveSuccess" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">提示信息</h4>
+            </div>
+            <div class="modal-body">
+                <center>保存成功</center>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">取消</button> -->
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="closeThis">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 停止/恢复监测 模态框 -->
+<div class="modal fade " id="MonitorStatus_off" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">停止监测</h4>
+            </div>
+            <div class="modal-body">
+                <!-- <input type="text" name="" placeholder="请输入修改理由"> -->
+                <textarea id="reason_text" placeholder="请输入修改理由" autofocus required></textarea>
+                <span style="color:red;">请输入修改理由</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="sure_4">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block my_js %}->

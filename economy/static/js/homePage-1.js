@@ -2739,11 +2739,24 @@
         if(data){
             $('#container .bottom_right #picChart-6 #comment').empty();
             for(var i=0;i<data.length;i++){
-                var str = '<p><span class="comment_lef">'+data[i].name+'</span><span class="comment_rig" title=\"'+data[i].content+'\">'+$.trim(data[i].content)+'</span>';
+                var str = '<p><span class="comment_lef" onclick="jumpFrame_1(\''+data[i].name+
+                                '\',\''+data[i].entity_type+'\',\''+data[i].id+'\')" title="进入画像">'+data[i].name+'</span><span class="comment_rig" title=\"'+data[i].content+'\">'+$.trim(data[i].content)+'</span>';
                 $('#container .bottom_right #picChart-6 #comment').append(str)
             }
         }
 
+    }
+
+// 点击进入公司详情页
+    function jumpFrame_1(name,type,id) {
+        var html='';
+        name=escape(name);
+        if (type=='1'||type=='2'){
+            html='/index/company/?name='+name+'&flag='+type+'&pid='+id;
+        }else {
+            html='/index/project/?name='+name+'&flag='+type+'&pid='+id;
+        }
+        window.location.href=html;
     }
 
 //滚动

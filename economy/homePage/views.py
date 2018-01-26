@@ -45,6 +45,6 @@ def hot_spot():
 	list = get(TABLE_ENTITY_LIST,TABLE_PLAT_DETAIL,TABLE_COMPANY_DETAIL,TABLE_PROJECT_DETAIL,TABLE_GONGSHANG,portrait_field,0,10000,0,'all')['data'][0:1000]
 	entity_list = []
 	for dict in list:
-		entity_list.append({'id':dict['id'],'name':dict['entity_name']})
+		entity_list.append({'id':dict['id'],'name':dict['entity_name'],'entity_type':dict['entity_type']})
 	result = getHotSpot(entity_list)
 	return json.dumps(result,ensure_ascii=False)
