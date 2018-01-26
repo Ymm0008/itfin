@@ -25,6 +25,10 @@ TABLE_LOG = 'logs'
 
 
 HOST = "219.224.134.214"
-
+USER = "root"
+PASSWORD = ""
+DEFAULT_DB = "itfin"
+CHARSET = "utf8"
+TEST_DB = "zyz"
 
 RISK_LEVEL = 80
