@@ -58,8 +58,9 @@ body {
 }
 /*---------*/
 #nav .nav_middle {
-    width:51%;
-    margin:15px 0 0 0;
+    // width:51%;
+    // margin:15px 0 0 0;
+    margin:15px 50px 0 0;
 }
 #nav .nav_middle,#nav .nav_right {
     display: none;
@@ -68,13 +69,15 @@ body {
     float: left;
     text-align: center;
     font-size: 16px;
-    margin-left:4%;
+    // margin-left:4%;
     overflow: hidden;
     padding-bottom: 10px;
+    margin: 0 10px 0 20px;
 }
 #nav .nav_middle .main_li .li_a {
     color: white;
     cursor: pointer;
+    // margin-left:20%;
 }
 #nav .nav_middle .main_li:hover a,
 #nav .nav_middle .main_li:hover i {

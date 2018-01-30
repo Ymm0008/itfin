@@ -55,7 +55,10 @@ var monitor_status_1;
             $('.status-1').html('<i class="icon icon-retweet"></i>&nbsp;恢复监测');
         }
 
-        var t1='',t2='',t3='否',t4='0',t5='0',t6='否',operationMode,legalPerson,capital;
+        var t1='',t2='',t3='否',t4='0',t5='0',t6='否';
+        var operationMode = '互联网金融';
+        var legalPerson = '未知';
+        var capital = '未知';
         if (item.entity_type==1){t1='平台';}else if (item.entity_type==2){t1='公司';}else if (item.entity_type==1){t1='项目';}else {t1=''}
         if (item.set_time){t2=item.set_time;}//成立时间
         $('.location').text(item.regist_address||''); //注册地
@@ -68,7 +71,7 @@ var monitor_status_1;
         if(item.legal_person){legalPerson = item.legal_person};
         if(item.capital){capital = item.capital+'万元'}
         $('.type-1').text(operationMode);//运营模式
-        $('.type-2').text(t1);
+        $('.type-2').text(t1);//实体类型
         $('.type-3').text(t2);//成立时间
         $('.type-4').text(legalPerson);//法人代表
         $('.type-5').text(capital);//注册资本
@@ -87,18 +90,22 @@ var monitor_status_1;
         }
         $('.val-1').text(t3);
 
-        if (item.risk_level!=''&&item.risk_level!='null'&&item.risk_level!='unknown'&&!item.risk_level&&item.risk_level!='None'){
+        if (item.risk_level!=''&&item.risk_level!='null'&&item.risk_level!='unknown'&&!!item.risk_level&&item.risk_level!='None'){
             t4=item.risk_level;
         }
         $('.val-2').text(item.risk_level);//风险等级
+        // $('.val-2').text(t4);//风险等级
 
-        if (item.impact_level!=''&&item.impact_level!='null'&&item.impact_level!='unknown'&&!item.impact_level&&item.impact_level!='None'){
-            t5=item.impact_level;
-        }
+        // if (item.impact_level!=''&&item.impact_level!='null'&&item.impact_level!='unknown'&&!!item.impact_level){
+        //     t5=item.impact_level;
+        // }
         $('.val-3').text(item.impact_level);//影响等级
+        // $('.val-3').text(t5);//影响等级
 
-        $('.val-4').text(item.operation_mode||'');
-        if (item.penalty_status==1){t6='是';}
+        $('.val-4').text(item.operation_mode||''); //集资模式
+        // $('.val-4').text(operationMode); //集资模式
+
+        if (item.penalty_status==1){t6='是';} //是否已判罚
         $('.val-5').text(t6);
 
         // 股东信息
@@ -1504,7 +1511,7 @@ var monitor_status_1;
                         }
 
                         var avg_return;//披露收益率
-                        if(row.avg_return == '-'){
+                        if(row.avg_return == '-' || row.avg_return == 'null'){
                             avg_return = '未知';
                         }else{
                             avg_return = row.avg_return;
@@ -1615,65 +1622,68 @@ var monitor_status_1;
     // var guarantee_url='/index/guarantee/?id=4291';
     public_ajax.call_request('get',guarantee_url,guarantee);
     function guarantee(data) {
-        // console.log(data)
-        var item = data[0];
-        if(item.related_text == ''){
+        console.log(data)
+        if(data.length == 0){
             $('#guarantee p.load').text('暂无记录');
         }else {
-            $('#guarantee').bootstrapTable('load', data);
-            $('#guarantee').bootstrapTable({
-                data:data,
-                search: false,//是否搜索
-                pagination: true,//是否分页
-                pageSize: 5,//单页记录数
-                pageList: [15,20,25],//分页步进值
-                sidePagination: "client",//服务端分页
-                searchAlign: "left",
-                searchOnEnterKey: false,//回车搜索
-                showRefresh: false,//刷新按钮
-                showColumns: false,//列选择按钮
-                buttonsAlign: "right",//按钮对齐方式
-                locale: "zh-CN",//中文支持
-                detailView: false,
-                showToggle:false,
-                sortName:'bci',
-                sortOrder:"desc",
-                columns: [
-                    {
-                        title: "",//标题
-                        field: "",//键名
-                        sortable: true,//是否可排序
-                        order: "desc",//默认排序方式
-                        align: "center",//水平
-                        valign: "middle",//垂直
-                        formatter: function (value, row, index) {
-                            var promiseType;
-                            if(row.promise_type == 1){
-                                promiseType = '本息类担保'
-                            }else if(row.promise_type == 2){
-                                promiseType = '非本息类担保'
-                            }else {
-                                promiseType = '无匹配结果'
+            var item = data[0];
+            if(item.related_text == ''){
+                $('#guarantee p.load').text('暂无记录');
+            }else {
+                $('#guarantee').bootstrapTable('load', data);
+                $('#guarantee').bootstrapTable({
+                    data:data,
+                    search: false,//是否搜索
+                    pagination: true,//是否分页
+                    pageSize: 5,//单页记录数
+                    pageList: [15,20,25],//分页步进值
+                    sidePagination: "client",//服务端分页
+                    searchAlign: "left",
+                    searchOnEnterKey: false,//回车搜索
+                    showRefresh: false,//刷新按钮
+                    showColumns: false,//列选择按钮
+                    buttonsAlign: "right",//按钮对齐方式
+                    locale: "zh-CN",//中文支持
+                    detailView: false,
+                    showToggle:false,
+                    sortName:'bci',
+                    sortOrder:"desc",
+                    columns: [
+                        {
+                            title: "",//标题
+                            field: "",//键名
+                            sortable: true,//是否可排序
+                            order: "desc",//默认排序方式
+                            align: "center",//水平
+                            valign: "middle",//垂直
+                            formatter: function (value, row, index) {
+                                var promiseType;
+                                if(row.promise_type == 1){
+                                    promiseType = '本息类担保'
+                                }else if(row.promise_type == 2){
+                                    promiseType = '非本息类担保'
+                                }else {
+                                    promiseType = '无匹配结果'
+                                }
+                                return '<div class="promiseCon">'+
+                                    '            <div class="inforContent">'+
+                                    '                <div class="main">'+
+                                    '                    <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
+                                    '                    <p class="option">'+
+                                    '                        <span>承诺类型：<b style="color: #ff6d70;font-size:16px;">'+promiseType+'</b></span>'+
+                                    '                        <button class="original btn-primary btn-xs" onclick="guarantee_more(\''+row.index_name+'\',\''+row.text_id+'\')">查看全文</button>'+
+                                    '                    </p>'+
+                                    '                    <p class="context">'+row.related_text+'</p>'+
+                                    '                </div>'+
+                                    '            </div>'+
+                                    '        </div>';
                             }
-                            return '<div class="promiseCon">'+
-                                '            <div class="inforContent">'+
-                                '                <div class="main">'+
-                                '                    <img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;">'+
-                                '                    <p class="option">'+
-                                '                        <span>承诺类型：<b style="color: #ff6d70;font-size:16px;">'+promiseType+'</b></span>'+
-                                '                        <button class="original btn-primary btn-xs" onclick="guarantee_more(\''+row.index_name+'\',\''+row.text_id+'\')">查看全文</button>'+
-                                '                    </p>'+
-                                '                    <p class="context">'+row.related_text+'</p>'+
-                                '                </div>'+
-                                '            </div>'+
-                                '        </div>';
-                        }
-                    },
-                ],
-            });
-            $('#guarantee p.load').hide();
+                        },
+                    ],
+                });
+                $('#guarantee p.load').hide();
+            }
         }
-
     };
 
 // ====收益担保点击查看全文====
