@@ -34,9 +34,4 @@ DEFAULT_DB = "itfin"
 CHARSET = "utf8"
 TEST_DB = "zyz"
 
-<<<<<<< HEAD
 RISK_LEVEL = 0
-=======
-#para
-RISK_LEVEL = 80
->>>>>>> 6a6a3cfa755252c7c07ca937ab83132a9c53c44f
