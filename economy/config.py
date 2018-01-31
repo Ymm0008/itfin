@@ -35,4 +35,4 @@ CHARSET = "utf8"
 TEST_DB = "zyz"
 
 #para
-RISK_LEVEL = 80
+RISK_LEVEL = 0
