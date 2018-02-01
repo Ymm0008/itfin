@@ -141,16 +141,12 @@ def get_subfirmContent(firm,index_name):
 	type_name = 'invest_info'
 	query_body = {	"size":500,
 					"query": {
-						"filtered": {
-							"filter": {
-								"bool": {
-									"must": [{"term": {"firm_name": firm}},
-											 # {"term": {"holder_type": u'公司'}}
-											 ]
-								}
-
-							}
+						"bool": {
+							"must": [{"term": {"firm_name": firm}}
+									 # {"term": {"holder_type": u'公司'}}
+									 ]
 						}
+
 					}
 
 				}
@@ -171,16 +167,12 @@ def get_holderContent(firm,index_name):
 	type_name = 'holder_info'
 	query_body = {"size": 500,
 				  "query": {
-					  "filtered": {
-						  "filter": {
-							  "bool": {
-								  "must": [{"term": {"firm_name": firm}},
-										   # {"term": {"holder_type": u'公司'}}
-										   ]
-							  }
-
-						  }
+					  "bool": {
+						  "must": [{"term": {"firm_name": firm}}
+								   # {"term": {"holder_type": u'公司'}}
+								   ]
 					  }
+
 				  }
 
 				  }
