@@ -228,12 +228,10 @@
                 ],
                 onCheck:function (row) {
                     libaryList.push(row.id);
-                    console.log(libaryList);
                     testLib()
                 },
                 onUncheck:function (row) {
                     libaryList.removeByValue(row.id);
-                    console.log(libaryList);
                     testLib()
                 },
                 onCheckAll:function (row) { //修改版 //☆☆☆☆☆☆☆☆全选 方法 需遍历row取值☆☆☆☆☆☆☆☆
@@ -246,12 +244,10 @@
                     for(var i=0;i<row.length;i++){
                         libaryList.push(row[i].id);
                     }
-                    console.log(libaryList);
                     testLib()
                 },
                 onUncheckAll:function (row) {
                     libaryList.length = 0;
-                    console.log(libaryList);
                     testLib()
                 },
                 onPageChange:function(){
@@ -259,7 +255,6 @@
                     // libaryList.removeByValue(row.id);testLib()
                     // console.log(libaryList);
                     libaryList.length = 0;
-                    console.log(libaryList);
                     testLib()
                     // console.log(libaryList);
                 }
@@ -736,13 +731,11 @@
                     row.entity_type = 3;
                 }
                 libaryList_2.push({entity_name:row.entity_name,rec_type:row.rec_type,entity_type:row.entity_type,company:row.company,related_person:row.related_person,key_words:row.key_words});
-                console.log(libaryList_2);
                 testLib_2()
             },
             onUncheck:function (row) {
                 // libaryList_2.removeByValue_2({entity_name:row.entity_name,rec_type:row.rec_type,entity_type:row.entity_type,company:row.company,related_person:row.related_person,key_words:row.key_words});
                 libaryList_2.removeByValue_2(row.entity_name);
-                console.log(libaryList_2);
                 testLib_2()
             },
             onCheckAll:function (row) {//有问题  //修改版//☆☆☆☆☆☆☆☆全选 方法 需遍历row取值☆☆☆☆☆☆☆☆
@@ -773,16 +766,6 @@
                 testLib_2()
             },
         });
-
-    //全选/反选
-    // $('#cha').click(function () {
-    //     //判断checkbox是否选中
-    //     if($(this).is(':checked')){
-    //         $('input[type="checkbox"]').attr("checked","true");
-    //     }else{
-    //         $('input[type="checkbox"]').removeAttr("checked");
-    //     }
-    // });
 
     //增加一行
         $('#add').click(function () {
@@ -848,7 +831,6 @@
             if($('#oneLibrary_2').attr('disabled') == 'disabled'){
                 return false;
             }else {
-                console.log(libaryList_2);
                 // 如果选中空行 则删除空值
                 for(var i=0;i<libaryList_2.length;i++){
                     if(libaryList_2[i].entity_name == ''){
@@ -856,7 +838,6 @@
                         libaryList_2.splice(i,1);
                     }
                 }
-                console.log(libaryList_2);
                 var InStorage_url = '/perceived/InStorage/';
                 $.ajax({
                     url:InStorage_url,
@@ -872,26 +853,16 @@
                             var fellTable_url='/perceived/perceiveData/';
                             public_ajax.call_request('get',fellTable_url,fellTable);
                             // alert('添加成功');
-                            // $('#Sure_2box .modal-header h4').text('提示信息:');
-                            // $('#Sure_2box #Sure_2box_body').css('display','block');
                             $('#delSuccess .modal-body').empty().append('<center>添加成功</center>');
-                            // $('#Sure_2box .modal-footer #cancle').css('display','none');
                             $('#delSuccess').modal('show');
-                            // $.fn.fullpage.setAllowScrolling(false);
                             $('.modal-backdrop').css({position:'static'});
-                            // 删除此行。。。(选中多行时有问题)
-                            console.log(libaryList_2);
-                            for(var i=0;i<libaryList_2.length;i++){
-                                console.log(libaryList_2[i].entity_name);
-                                console.log(i);
-                                // 有问题
-                                delThisRow(libaryList_2[i].entity_name);
+                            joinLab=1;
+                            for(var j=0;j<libaryList_2.length;j++){
+                                delThisRow(libaryList_2[j].entity_name);//删除行
                             }
-                            console.log(libaryList_2);
-                            // delThisRow()
                             // 按钮变为不可用
-                            // testLib_2();
-
+                            libaryList_2.length = 0;
+                            testLib_2();
                         }
                     }
                 })
@@ -901,8 +872,8 @@
 
 
 // 删除行
+    var joinLab=0;
     function delThisRow(_thisOne) {
-        console.log(_thisOne);
         $('#addClub').bootstrapTable('removeByUniqueId',_thisOne);
         var currentTrlen=$('#addClub tbody tr').length;
         if (currentTrlen<6){
@@ -911,8 +882,12 @@
         }
 
         // 删除libaryList_2 中的数据
-        libaryList_2.removeByValue_2(_thisOne);
-        console.log(libaryList_2);
+        if (joinLab==0) {
+            libaryList_2.removeByValue_2(_thisOne);
+        }else {
+            joinLab=0;
+        };
+
         testLib_2();
     }
 
@@ -959,7 +934,6 @@
         });
         // 实体类型为下拉框
         // var tdText_2 = $(_this).parents('tr').children('td').eq(3).html();
-        console.log(tdText_2);
         var selectObj = $('<select class="add-3-2 editing">'+
                     '<option value="1">平台</option>'+
                     '<option value="2">公司</option>'+
@@ -986,55 +960,66 @@
         if(!obj.files) {
             return;
         }
-        var f = obj.files[0];
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            var data = e.target.result;
-            if(rABS) {
-                wb = XLSX.read(btoa(fixdata(data)), {//手动转化
-                    type: 'base64'
-                });
-            } else {
-                wb = XLSX.read(data, {
-                    type: 'binary'
-                });
-            }
-            //wb.SheetNames[0]是获取Sheets中第一个Sheet的名字
-            //wb.Sheets[Sheet名]获取第一个Sheet的数据
-            // document.getElementById("demo").innerHTML= JSON.stringify( XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]) );
-            var str = JSON.stringify( XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]) );
-            // console.log(str);
-            // somAddData.push(JSON.parse(str));
-            somAddData = (JSON.parse(str));
-            console.log(somAddData);
-            if(somAddData.length > 0){
-                // console.log("添加到表格");
-                for(var i=0;i<somAddData.length;i++){
-                    var one = somAddData[i]['实体名称'];
-                    var three = somAddData[i]['实体类别'];
-                    // if(three == ''){
-                    //     three = 'null';
-                    // }else if(three == '平台'){
-                    //     three = 1;
-                    // }else if(three == '公司'){
-                    //     three = 2;
-                    // }else if(three == '项目'){
-                    //     three = 3;
-                    // }
-                    var four = somAddData[i]['注册公司'];
-                    var five = somAddData[i]['相关人物'];
-                    var six = somAddData[i]['其他关键词'];
-                    var two = parseInt(somAddData[i]['推荐理由']);//暂 转为数字
-                    var row = {'entity_name':one,'rec_type':two,'entity_type':three,'company':four,'related_person':five,'key_words':six,'g':'<input type="button" value="删除" class="btn-info btn btn-sm deleteone" onclick="delThisRow(\''+one+'\')">'}
-                    $('#addClub').bootstrapTable('insertRow',{index: 0, row: row});//在最开始插入新行
-                    $('#addClub').bootstrapTable('removeByUniqueId','');//删除行的方法
+        //验证文件类型
+        var file = $(obj).val();
+        var ext = file.slice(file.lastIndexOf(".")+1).toLowerCase();
+        console.log(ext);
+        if(ext == 'xlsx' || ext == 'xls' || ext == 'et'){
+            var f = obj.files[0];
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var data = e.target.result;
+                if(rABS) {
+                    wb = XLSX.read(btoa(fixdata(data)), {//手动转化
+                        type: 'base64'
+                    });
+                } else {
+                    wb = XLSX.read(data, {
+                        type: 'binary'
+                    });
                 }
+                //wb.SheetNames[0]是获取Sheets中第一个Sheet的名字
+                //wb.Sheets[Sheet名]获取第一个Sheet的数据
+                // document.getElementById("demo").innerHTML= JSON.stringify( XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]) );
+                var str = JSON.stringify( XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]) );
+                // console.log(str);
+                // somAddData.push(JSON.parse(str));
+                somAddData = (JSON.parse(str));
+                if(somAddData.length > 0){
+                    // console.log("添加到表格");
+                    for(var i=0;i<somAddData.length;i++){
+                        var one = somAddData[i]['实体名称'];
+                        var three = somAddData[i]['实体类别'];
+                        // if(three == ''){
+                        //     three = 'null';
+                        // }else if(three == '平台'){
+                        //     three = 1;
+                        // }else if(three == '公司'){
+                        //     three = 2;
+                        // }else if(three == '项目'){
+                        //     three = 3;
+                        // }
+                        var four = somAddData[i]['注册公司'];
+                        var five = somAddData[i]['相关人物'];
+                        var six = somAddData[i]['其他关键词'];
+                        var two = parseInt(somAddData[i]['推荐理由']);//暂 转为数字
+                        var row = {'entity_name':one,'rec_type':two,'entity_type':three,'company':four,'related_person':five,'key_words':six,'g':'<input type="button" value="删除" class="btn-info btn btn-sm deleteone" onclick="delThisRow(\''+one+'\')">'}
+                        $('#addClub').bootstrapTable('insertRow',{index: 0, row: row});//在最开始插入新行
+                        $('#addClub').bootstrapTable('removeByUniqueId','');//删除行的方法
+                    }
+                }
+            };
+            if(rABS) {
+                reader.readAsArrayBuffer(f);
+            } else {
+                reader.readAsBinaryString(f);
             }
-        };
-        if(rABS) {
-            reader.readAsArrayBuffer(f);
-        } else {
-            reader.readAsBinaryString(f);
+        }else {
+            // alert('请上传excel或者WPS表格文件')
+            $('#delSuccess .modal-body').empty().append('<center>请上传excel或者WPS表格文件</center>');
+            $('#delSuccess').modal('show');
+            $('.modal-backdrop').css({position:'static'});
+            return false;
         }
     }
 

@@ -89,11 +89,11 @@ def returnRateData():
     type = int(request.args.get('type',''))
     id = int(request.args.get('id',''))
     if type == 1:
-        result = get_return_rate(TABLE_RETURN_RATE,'plat_detail',id,return_rate_field)
+        result = get_return_rate(TABLE_RETURN_RATE,TABLE_PLAT_DETAIL,id,return_rate_field)
     elif type == 2:
-        result = get_return_rate(TABLE_RETURN_RATE,'company_detail',id,return_rate_field)
+        result = get_return_rate(TABLE_RETURN_RATE,TABLE_COMPANY_DETAIL,id,return_rate_field)
     elif type == 3:
-        result = get_return_rate(TABLE_RETURN_RATE,'project_detail',id,return_rate_field)
+        result = get_return_rate(TABLE_RETURN_RATE,TABLE_PROJECT_DETAIL,id,return_rate_field)
     #result = get_return_rate('return_rate',id,return_rate_field)
     return json.dumps(result,ensure_ascii=False)
 
