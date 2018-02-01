@@ -495,6 +495,7 @@ var monitor_status_1;
     var _myChart1,_myChart2;
     function table_1(data){
         // console.log(data);
+        /*
         var myChart = echarts.init(document.getElementById('table-1'));
         myChart.showLoading(
             {type:'default',
@@ -506,6 +507,7 @@ var monitor_status_1;
               zlevel: 0
             }
             });//自定义设置未作用
+         */
         var option = {
             title : {
                 text: '',
@@ -706,10 +708,15 @@ var monitor_status_1;
                 {
                     name:'',
                     type:'tree',
-                    orient: 'horizontal',  // vertical horizontal
-                    rootLocation: {x: 'center', y: '60%'}, // 根节点位置  {x: 'center',y: 10}
-                    left:'30%',
-                    nodePadding: 20,
+                    // left:'30%', //tree组件离容器左侧的距离。
+                    layout:'orthogonal',//树图的布局，有 正交 orthogonal 和 径向 radial 两种。
+                    orient: 'horizontal',  // 树图中 正交布局 的方向 ，对应有 水平 和 垂直 两个方向，取值分别为 horizontal , vertical.
+                    expandAndCollapse:true, //子树折叠和展开的交互，
+                    initialTreeDepth:2, //树图初始展开的层级（深度）。
+
+                    // rootLocation: {x: 'center', y: '60%'}, // 根节点位置  {x: 'center',y: 10}
+                    // nodePadding: 20,
+
                     symbol: 'emptyCircle',
                     symbolSize: 40,
                     itemStyle: {
@@ -719,19 +726,25 @@ var monitor_status_1;
                                 textStyle: {
                                     color: '#333',
                                     fontSize: 15,
-                                    fontWeight:  'bolder'
+                                    fontWeight:  'bolder'//加粗
                                 },
-                                position:'bottom',
+                                position:'left', //文字的位置
                                 formatter:function(params){
                                     // console.log(params.data.name);
                                     // return params.data.name.slice(0,10)+'\n'+params.data.name.slice(10)
+                                    if(params.data.name.length >10){
+                                        return params.data.name.slice(0,10)+'...'
+                                    }else {
+                                        return params.data.name
+                                    }
 
                                 }
                             },
                             lineStyle: {
                                 color: '#000',
                                 width: 1,
-                                type: 'broken' // 'curve'|'broken'|'solid'|'dotted'|'dashed'线的样式
+                                type: 'dashed', // 'curve'|'broken'|'solid'|'dotted'|'dashed' 线的样式
+                                curveness:1  //线的曲度
                             },
                             borderColor:'#337ab7'
                         },
@@ -741,18 +754,15 @@ var monitor_status_1;
                             }
                         }
                     },
-                    // initialTreeDepth:-1,//初始化展开的层级 -1为全部
-                    /*
-                        leaves: {//展开后的文字位置
-                            label: {
-                                normal: {
-                                    position: 'right',
-                                    verticalAlign: 'middle',
-                                    align: 'left'
-                                }
+                    leaves: {//展开后的文字位置
+                        label: {
+                            normal: {
+                                position: 'right',
+                                verticalAlign: 'middle',
+                                align: 'left'
                             }
-                        },
-                     */
+                        }
+                    },
                     data: [
                         {
                             name: data[0],
@@ -1005,6 +1015,26 @@ var monitor_status_1;
             var comp2 = data[0].replace(reg, "");
             // 一级股东
             if(data[1][comp2].length != 0){
+                if(data[1][comp2].length >6){
+                    $('#table-1').css('height','900px');
+                    var myChart = echarts.init(document.getElementById('table-1'));
+                    myChart.showLoading(
+                        {
+                            type:'default',
+                            opts: {
+                              text: '正在加载中...',
+                              color: '#c23531',
+                              textColor: '#000',
+                              maskColor: 'rgba(255, 255, 255, 0.8)',
+                              zlevel: 0
+                            }
+                        }
+                    );//自定义设置未作用
+                }else{
+                    var myChart = echarts.init(document.getElementById('table-1'));
+                    myChart.showLoading();
+                }
+
                 for(var i=0;i<data[1][comp2].length;i++){
                     // option.series[0].data[0].children[i].name = data[1][comp][i];
                     option.series[0].data[0].children[0].children.push(
@@ -1069,12 +1099,27 @@ var monitor_status_1;
                     }
                 }
                 // option.series[0].data[0].children[0].name = data[1].comp[0];
+            }else {
+                var myChart = echarts.init(document.getElementById('table-1'));
+                myChart.showLoading(
+                    {
+                        type:'default',
+                        opts: {
+                          text: '正在加载中...',
+                          color: '#c23531',
+                          textColor: '#000',
+                          maskColor: 'rgba(255, 255, 255, 0.8)',
+                          zlevel: 0
+                        }
+                    }
+                );//自定义设置未作用
             };
             myChart.hideLoading();
             myChart.setOption(option);
+            _myChart1 = myChart;
         }
         // myChart.setOption(option);
-        _myChart1 = myChart;
+        // _myChart1 = myChart;
     }
     // table_1();
 
@@ -1622,7 +1667,7 @@ var monitor_status_1;
     // var guarantee_url='/index/guarantee/?id=4291';
     public_ajax.call_request('get',guarantee_url,guarantee);
     function guarantee(data) {
-        console.log(data)
+        // console.log(data)
         if(data.length == 0){
             $('#guarantee p.load').text('暂无记录');
         }else {
