@@ -2553,7 +2553,9 @@
     var warnCount_url='/perceived/warnCount/';
     public_ajax.call_request('get',warnCount_url,warnCount);
     function warnCount (data){
-        if(data){
+        if(data.length == 0){
+            $('#container .todayIn').text(0);
+        }else {
             $('#container .todayIn').text(data[0].count);
         }
     }
