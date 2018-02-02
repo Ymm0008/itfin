@@ -9,6 +9,16 @@
             $('.topTitle .com-1').text(data.ninty);
         }
     }
+    // 预警平台数
+    var warnCount_url_1 = '/detection/WarnEntityCount/';
+    public_ajax.call_request('get',warnCount_url_1,warnCount_1);
+    function warnCount_1(data){
+        if(data){
+            $('.topTitle .com-4').text(data.seven);
+            $('.topTitle .com-5').text(data.thirty);
+            $('.topTitle .com-6').text(data.ninty);
+        }
+    }
 
 // 渲染下拉框
     var select_url = '/detection/OperationModeBox/';    //运营模式

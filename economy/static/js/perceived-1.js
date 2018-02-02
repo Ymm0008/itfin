@@ -32,7 +32,11 @@
     var warnCount_url='/perceived/warnCount/';
     public_ajax.call_request('get',warnCount_url,warnCount);
     function warnCount (data){
-        if(data){
+        if(data.length == 0){
+            $('#container .topTitle .com-1').text(0);
+            $('#container .topTitle .com-2').text(0);
+            $('#container .topTitle .com-3').text(0);
+        }else {
             $('#container .topTitle .com-1').text(0);
             $('#container .topTitle .com-2').text(0);
             $('#container .topTitle .com-3').text(data[0].count);
