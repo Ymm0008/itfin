@@ -434,6 +434,33 @@ def getWarnCount(table,risk_level):
 	return dict
 
 
+def getWarnEntityCount(table, risk_level):
+	cur = defaultDatabase()
+	sql = "select max(date) from %s"%table
+	cur.execute(sql)
+	end_time = cur.fetchall()[0][0]
+	start0_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=7)
+	start1_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=30)
+	start2_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=90)
+	start_time0 = start0_time.strftime("%Y-%m-%d")
+	start_time1 = start1_time.strftime("%Y-%m-%d")
+	start_time2 = start2_time.strftime("%Y-%m-%d")
+	sql01 = "select count(*) from %s where illegal_type>0 and risk_level>%d and date>'%s' and date<='%s' group by entity_id"%(table,risk_level,start_time0,end_time)
+	sql02 = "select count(*) from %s where illegal_type>0 and risk_level>%d and date>'%s' and date<='%s' group by entity_id"%(table,risk_level,start_time1,end_time)
+	sql03 = "select count(*) from %s where illegal_type>0 and risk_level>%d and date>'%s' and date<='%s' group by entity_id"%(table,risk_level,start_time2,end_time)
+	cur.execute(sql01)
+	c01 = len(cur.fetchall())
+	cur.execute(sql02)
+	c02 = len(cur.fetchall())
+	cur.execute(sql03)
+	c03 = len(cur.fetchall())
+	count_7 = int(c01)
+	count_30 = int(c02)
+	count_90 = int(c03)
+	dict = {'seven':count_7,'thirty':count_30,'ninty':count_90}
+	return dict
+
+
 def getWarnType(table, table2, risk_level, date, field, illegal_type, entity_type, operation_mode, warn_distribute):
 	cur = defaultDatabase()
 	sql = 'select max(date) from %s'%table

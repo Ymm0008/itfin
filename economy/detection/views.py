@@ -46,7 +46,7 @@ def detect_distribute():
 
 @detection.route('/warnCount/')
 def warn_count():
-	result = getWarnCount(TABLE_MONITOR,RISK_LEVEL)
+	result = getWarnCount(TABLE_MONITOR, RISK_LEVEL)
 	return json.dumps(result,ensure_ascii=False)
 
 @detection.route('/warnType/')
@@ -80,7 +80,10 @@ def time_Distribute():
 	result = GetTimeDistribute(TABLE_MONITOR, TABLE_GONGSHANG, RISK_LEVEL, date, illegal_type, entity_type, operation_mode, warn_distribute)
 	return json.dumps(result,ensure_ascii=False)
 
-
+@detection.route('/WarnEntityCount/')
+def warn_entity_count():
+	result = getWarnEntityCount(TABLE_MONITOR, RISK_LEVEL)
+	return json.dumps(result,ensure_ascii=False)
 
 
 
