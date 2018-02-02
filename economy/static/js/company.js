@@ -725,7 +725,7 @@ var monitor_status_1;
                                 show: true,
                                 textStyle: {
                                     color: '#333',
-                                    fontSize: 15,
+                                    fontSize: 12,
                                     fontWeight:  'bolder'//加粗
                                 },
                                 position:'left', //文字的位置
