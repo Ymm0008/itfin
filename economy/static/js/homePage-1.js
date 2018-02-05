@@ -2223,32 +2223,6 @@
                     height:'85%%'
                 }
             }
-            /*
-                if ((screen.width == 1920) && (screen.height == 1080)){
-                    option.series[0].mapLocation = {
-                        x:'center',
-                        y:'100px',
-                        width:'85%',
-                        height:'85%'
-                    }
-                }
-                if ((screen.width == 1440) && (screen.height == 900)){
-                    option.series[0].mapLocation = {
-                        x:'center',
-                        y:'100px',
-                        width:'90%',
-                        height:'80%'
-                    }
-                }
-                if ((screen.width == 1366) && (screen.height == 768)){
-                    option.series[0].mapLocation = {
-                        x:'center',
-                        y:'100px',
-                        width:'100%',
-                        height:'80%'
-                    }
-                }
-             */
             //====请求全国数据====
             var cityRank_url='/homepage/cityRank/';
             public_ajax.call_request('get',cityRank_url,cityRank);
@@ -2274,14 +2248,10 @@
                         cityRankData.push({name:an,value:0});
                     }
                 }
-                // console.log(cityRankData);
-
-                // cityRankData.push({name:'青海',value:0});
-                // cityRankData.push({name:'甘肃',value:0});
-
-                // console.log(cityRankData);
                 option.series[0].data = cityRankData;
                 myChart.setOption(option);
+                // 右下角热点舆情
+                public_ajax.call_request('get',hotSpot_url,comment);
             }
             myChart.setOption(option);
         }
@@ -2734,9 +2704,8 @@
         comment_test(commentData,commentData_2);
      */
 
-    var hotSpot_url = '/homepage/hotSpot/';
-    public_ajax.call_request('get',hotSpot_url,comment);
 
+    var hotSpot_url = '/homepage/hotSpot/';
     function comment(data){
         if(data){
             $('#container .bottom_right #picChart-6 #comment').empty();

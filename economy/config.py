@@ -30,7 +30,7 @@ TYPE = {"bbs":"type1","webo":"type1","zhihu":"type2","forum":"type1","wechat":"t
 HOST = "219.224.134.214"
 USER = "root"
 PASSWORD = ""
-DEFAULT_DB = "itfin"
+DEFAULT_DB = "itfin-20180124"
 CHARSET = "utf8"
 TEST_DB = "zyz"
 
