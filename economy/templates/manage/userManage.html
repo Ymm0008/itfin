@@ -4,14 +4,14 @@
     <link rel="stylesheet" href="/static/css/modalANDtable.css">
     <link rel="stylesheet" href="/static/css/userManage.css">
     <style>
-        #nav .nav_middle .main_li:nth-of-type(5) {
+        #nav .nav_middle .main_li:nth-of-type(6) {
             -webkit-transform: scale(1.3);
             -moz-transform: scale(1.3);
             -ms-transform: scale(1.3);
             -o-transform: scale(1.3);
             transform: scale(1.3);
         }
-        #nav .nav_middle .main_li:nth-of-type(5) a {
+        #nav .nav_middle .main_li:nth-of-type(6) a {
             color:#ff9645;
         }
         #fullPage-nav li .active span, .fullPage-slidesNav .active span {background: transparent;}
@@ -81,20 +81,18 @@
 {% endblock %}
 
 {% block my_js %}
-<script src="/static/js/echarts-2/build/dist/echarts.js"></script>
 <script src="/static/js/userManage-1.js"></script>
 <script>
     $(document).ready(function() {
         // 通过该方法来为每次弹出的模态框设置最新的zIndex值，从而使最新的modal显示在最前面
         $(document).on('show.bs.modal', '.modal', function() {
-        var zIndex = 1040 + (10 * $('.modal:visible').length);
-        $(this).css('z-index', zIndex);
-        setTimeout(function() {
-            $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
-        }, 0);
+            var zIndex = 1040 + (10 * $('.modal:visible').length);
+            $(this).css('z-index', zIndex);
+            setTimeout(function() {
+                $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+            }, 0);
+        });
     });
-    });
-    $('#container').height($(window).height());
-
+    $('#container').height($(window).height()+100);
 </script>
 {% endblock %}

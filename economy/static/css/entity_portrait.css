@@ -2,8 +2,7 @@
     position: relative;
     z-index: 999;
     width: 100%;
-    background: url("/static/images/bodyPic.png") no-repeat rgb(41, 31, 85);
-    background-size:100% 100%;
+    background:rgb(4, 19, 38);
 }
 #container .section {
     position: relative;

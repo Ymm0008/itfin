@@ -3,8 +3,8 @@
     position: relative;
     z-index: 999;
     width: 100%;
-    background: url("../images/bodyPic.png") no-repeat rgba(19, 18, 18, 0.67);
-    background-size:100% 100%;
+    /*background: url("../images/bodyPic.png") no-repeat rgba(19, 18, 18, 0.67);*/
+    background:rgb(4, 19, 38);
 }
 #container #picChart-1 {
     width: 100%;
@@ -39,7 +39,7 @@
 #container .picChart-5,#container .picChart-6 {
     width: 400px;
     height: 200px;
-    background: url("../images/chartBG.png") no-repeat rgba(9, 36, 49, 0.65);
+    background: url("../images/chartBG.png") no-repeat ;
     background-size: 100% 100%;
 }
 #container #picChart-2, #container #picChart-5,
@@ -49,7 +49,7 @@
     padding: 10px;
 }
 #container #picChart-4,#container #picChart-6 {
-    background: url("../images/chartBG_2.png") no-repeat rgba(9, 36, 49, 0.65);
+    background: url("../images/chartBG_2.png") no-repeat ;
     background-size: 100% 100%;
 }
 #container .picChart-4 img {
