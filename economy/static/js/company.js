@@ -725,15 +725,15 @@ var monitor_status_1;
                                 show: true,
                                 textStyle: {
                                     color: '#333',
-                                    fontSize: 15,
+                                    fontSize: 12,
                                     fontWeight:  'bolder'//加粗
                                 },
                                 position:'left', //文字的位置
                                 formatter:function(params){
                                     // console.log(params.data.name);
                                     // return params.data.name.slice(0,10)+'\n'+params.data.name.slice(10)
-                                    if(params.data.name.length >10){
-                                        return params.data.name.slice(0,10)+'...'
+                                    if(params.data.name.length >5){
+                                        return params.data.name.slice(0,5)+'...'
                                     }else {
                                         return params.data.name
                                     }

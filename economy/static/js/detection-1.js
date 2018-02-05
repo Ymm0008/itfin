@@ -4,9 +4,19 @@
     public_ajax.call_request('get',warnCount_url,warnCount);
     function warnCount(data){
         if(data){
-            $('.topTitle .com-3').text(data.seven);
-            $('.topTitle .com-2').text(data.thirty);
-            $('.topTitle .com-1').text(data.ninty);
+            $('.topTitle .com-3').text(data.seven + '次');
+            $('.topTitle .com-2').text(data.thirty + '次');
+            $('.topTitle .com-1').text(data.ninty + '次');
+        }
+    }
+    // 预警平台数
+    var warnCount_url_1 = '/detection/WarnEntityCount/';
+    public_ajax.call_request('get',warnCount_url_1,warnCount_1);
+    function warnCount_1(data){
+        if(data){
+            $('.topTitle .com-4').text(data.seven + '家');
+            $('.topTitle .com-5').text(data.thirty + '家');
+            $('.topTitle .com-6').text(data.ninty + '家');
         }
     }
 
