@@ -299,7 +299,7 @@ def MonitorStatus(table1, table, entity_name, log_type, remark):
 #监测预警
 def getDetectData(date,table1,table2,table3,field,risk_level,operation_mode,illegal_type,entity_type,warn_distribute):
 	cur = defaultDatabase()
-	sql = "select max(date) from %s"%table3
+	sql = "select max(date) from %s"%table2
 	cur.execute(sql)
 	end_time = cur.fetchall()[0][0]
 	start_time = datetime.strptime(end_time,"%Y-%m-%d") - timedelta(days=int(date))
