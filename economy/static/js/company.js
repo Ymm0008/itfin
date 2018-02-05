@@ -495,7 +495,7 @@ var monitor_status_1;
     var _myChart1,_myChart2;
     function table_1(data){
         // console.log(data);
-        /*
+
         var myChart = echarts.init(document.getElementById('table-1'));
         myChart.showLoading(
             {type:'default',
@@ -507,7 +507,7 @@ var monitor_status_1;
               zlevel: 0
             }
             });//自定义设置未作用
-         */
+
         var option = {
             title : {
                 text: '',
